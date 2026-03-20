@@ -35,16 +35,19 @@ Simulating HTAP workload using a single PostgreSQL instance with schema isolatio
 <br>
 
 ### *C. OLTP VS OLAP VS HTAP*
-|**Type**|**Description**|**Feature**|**Query Type**|**Latency**|**Schema Mode**|**Index**|**Data Layout**|
-|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|
-| OLTP | Online Transaction Processing | 高併發、低延遲、寫多、正規化 | point query (by id) | ms | 專注於寫入與一致性 | 精準 index | row-based |
-| OLAP | Analytical Processing | 大量掃描、聚合、讀多、反正規化 | scan + aggregation | ms ~ s | 專注於查詢效率 | 少 index / columnar | column-based |
-| HTAP | Hybrid Transactional | 同時支援兩者 | - | - | - | - | - |
+| **Type** | **Core Objectives** | **Design Philosophy** | **Data Model** | **Query Features** |
+|:--:|:--:|:--:|:--:|:--:|
+| OLTP | 快速且正確地處理`交易` | 一致性優先 | 3NF 正規化 | 單筆查詢、低延遲 |
+| OLAP | 高效`分析`大量資料 | 查詢效率優先 | Star Schema / Wide Table | 聚合分析、大量掃描 |
+| HTAP | 同時支援`交易`與`分析` | 負載平衡 | 混合模型 | 即時分析 + 交易 |
 
 <br>
 
-### *D. Define Table DDL*
-- #### *1. OLTP of DDL ( 3NF )*
+### *D.1. Define Table DDL*
+- #### *1. OLTP of DDL*
+  - #### *1.1. 1NF*
+  - #### *1.2. 2NF*
+  - #### *1.3. 3NF*
 - #### *2. OLAP of DDL*
   - #### *2.1. Star Schema*
     - #### *Fact Table*
@@ -53,6 +56,22 @@ Simulating HTAP workload using a single PostgreSQL instance with schema isolatio
     - #### *Fact Table*
     - #### *Dimension Table*
     - #### *Sub-Dimension Table ... etc.*
+  - #### *2.3. Wide Table*
+
+### *D.2. Check List*
+- #### *1. OLTP of DDL ( 3NF )*
+  - #### 是否有主鍵 ? ( PK )
+  - #### 是否有外鍵 ? ( FK )
+  - #### 是否有 index ? ( PK / FK / 常用查詢條件 )
+  - #### 是否有 transaction ? ( ACID )
+  - #### 是否有適當的 normal form ? ( 1NF / 2NF / 3NF )
+  - #### 是否避免資料冗餘 ?
+- #### *2. OLAP of DDL*
+  - #### 是否有 fact table ?
+  - #### 是否有 dimension ?
+  - #### 是否避免複雜 join ?
+  - #### 是否支援時間分析 ?
+  - #### 是否能快速做 aggregation ?
 
 <br>
 
