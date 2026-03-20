@@ -40,7 +40,7 @@ Schema 設計只是為了服務該負載的結果。
 
 <br>
 
-### *C. Diagram*
+### *C.　Diagram*
 ```
 1. [Schema Design]
     ↓
@@ -59,7 +59,7 @@ Schema 設計只是為了服務該負載的結果。
 
 <br>
 
-### *D.　OLTP VS OLAP VS HTAP*
+### *D.　OLTP　VS.　OLAP　VS.　HTAP*
 | **Type** | **Core Objectives** | **Design Philosophy** | **Data Model** | **Query Features** |
 |:--:|:--:|:--:|:--:|:--:|
 | OLTP | 快速且正確地處理`交易` | 一致性優先 | 3NF 正規化 | 單筆查詢、低延遲 |
@@ -93,15 +93,15 @@ Schema 設計只是為了服務該負載的結果。
     - #### *2.3. Wide Table*
 - #### *d. Check Define Table List*
   - #### *1. OLTP of DDL ( 3NF )*
-    - #### 是否有主鍵 ? ( PK )
-    - #### 是否有外鍵 ? ( FK )
-    - #### 是否有 index ? ( PK / FK / 常用查詢條件 )
-    - #### 是否有 transaction ? ( ACID )
-    - #### 是否有適當的 normal form ? ( 1NF / 2NF / 3NF )
-    - #### 是否避免資料冗餘 ?
+    - #### *是否有主鍵 ? ( PK )*
+    - #### *是否有外鍵 ? ( FK )*
+    - #### *是否有 index ? ( PK / FK / 常用查詢條件 )*
+    - #### *是否有 transaction ? ( ACID )*
+    - #### *是否有適當的 normal form ? ( 1NF / 2NF / 3NF )*
+    - #### *是否避免資料冗餘 ?*
   - #### *2. OLAP of DDL*
-    - #### 是否有 fact table ?
-    - #### 是否有 dimension ?
-    - #### 是否避免複雜 join ?
-    - #### 是否支援時間分析 ?
-    - #### 是否能快速做 aggregation ?
+    - #### *是否有 fact table ?*
+    - #### *是否有 dimension ?*
+    - #### *是否避免複雜 join ?*
+    - #### *是否支援時間分析 ?*
+    - #### *是否能快速做 aggregation ?*
