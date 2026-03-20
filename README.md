@@ -12,7 +12,12 @@
 ## *⭐ OLTP-OLAP-UNIFIED-DB ⭐*
 
 Simulating HTAP workload using a single PostgreSQL instance with schema isolation, analyzing contention between transactional and analytical queries.
+```
+OLTP 與 OLAP 的本質差異不在資料結構，而在工作負載 ( Workload )；
+Schema 設計只是為了服務該負載的結果。
+```
 
+<br>
 
 ### *A.　Current Progress*
 |**Item**|**Description**|**Finish Time**|
