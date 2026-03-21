@@ -1,10 +1,13 @@
-CREATE TABLE dim_time (
-    time_key SERIAL PRIMARY KEY,
-    timestamp TIMESTAMP,
-    date DATE,
-    hour INT,
-    day INT,
-    month INT,
+CREATE TABLE olap.dim_time (
+    time_key DATE PRIMARY KEY,
     year INT,
-    weekday INT
+    month INT,
+    day INT,
+    hour INT,
+    weekday INT,
+    week INT
 );
+
+
+CREATE INDEX idx_dim_time_year_month
+ON olap.dim_time(year, month);

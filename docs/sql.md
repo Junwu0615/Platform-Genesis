@@ -17,6 +17,32 @@
   | fact_machine_status | 機台狀態事實表，記錄機台在各時間點的運行狀態統計資料，例如運行時間、停機時間等。 | Fact Table |
   | fact_production | 生產事實表，記錄機台生產產品的統計資料，例如產量、生產時間等。 | Fact Table |
 
+  ```
+  olap
+   │
+   ├── dim_machine
+   ├── dim_product
+   ├── dim_time
+   │
+   ├── fact_machine_status
+   └── fact_production
+
+  # ---------- Star Schema ---------- #
+  
+               dim_machine
+                   │
+                   │
+  dim_time ── fact_machine_status
+                   │
+                   │
+               dim_product
+                   │
+                   │
+              fact_production
+  ```
+
+<br>
+
 ### *A.2.　Table Description*
 - #### *a.　Define Table DDL*
   - #### *1.　OLTP*
@@ -51,8 +77,8 @@
 
 ### *B.　Settings Schema Mode*
 ```
-CREATE SCHEMA oltp;
-CREATE SCHEMA olap;
+CREATE SCHEMA IF NOT EXISTS oltp;
+CREATE SCHEMA IF NOT EXISTS olap;
 ```
 ![PNG](../assets/create_schema.png)
 
@@ -60,12 +86,12 @@ CREATE SCHEMA olap;
 
 ### *C.　Create Table*
 ```
-oltp.products
+oltp.machine_events
+oltp.machine_status_logs
 oltp.machines
 oltp.production_orders
 oltp.production_records
-oltp.machine_events
-oltp.machine_status_logs
+oltp.products
 
 olap.dim_machine
 olap.dim_product
@@ -73,6 +99,7 @@ olap.dim_time
 olap.fact_machine_status
 olap.fact_production
 ```
+![PNG](../assets/all_table.png)
 
 <br>
 
@@ -103,3 +130,32 @@ idx_production_machine_time -> oltp.production_records
 idx_events_machine_time -> oltp.machine_events
 idx_status_machine_time -> oltp.machine_status_logs
 ```
+
+<br>
+
+### *E.　常見查詢*
+- ### *OLAP : 每台機器運行時間*
+  ```
+  SELECT
+      m.machine_name,
+      t.year,
+      t.month,
+      COUNT(*)
+  FROM olap.fact_machine_status f
+  JOIN olap.dim_machine m
+  ON f.machine_key = m.machine_key
+  JOIN olap.dim_time t
+  ON f.time_key = t.time_key
+  WHERE f.status = 'RUNNING'
+  GROUP BY m.machine_name, t.year, t.month;
+  ```
+- ### *OLAP : 每個產品產量*
+  ```
+  SELECT
+      p.product_name,
+      SUM(quantity)
+  FROM olap.fact_production f
+  JOIN olap.dim_product p
+  ON f.product_key = p.product_key
+  GROUP BY p.product_name;
+  ```
