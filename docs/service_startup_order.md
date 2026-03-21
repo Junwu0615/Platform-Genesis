@@ -6,7 +6,7 @@
 
 <br>
 
-### *2.　Setting Account to Airflow in PostgreSQl*
+### *2.　[ Please Skip ] Setting Account to Airflow in PostgreSQl*
 - #### *a.　進入 PostgreSQL container*
   ```
   # -U : 使用已存在的使用者
