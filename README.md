@@ -9,7 +9,7 @@
 
 <br>
 
-## *⭐ OLTP-OLAP-UNIFIED-DB ⭐*
+## *⭐ OLTP-OLAP-Unified-DB ⭐*
 
 Simulating HTAP workload using a single PostgreSQL instance with schema isolation, analyzing contention between transactional and analytical queries.
 ```
@@ -24,11 +24,15 @@ Schema 設計只是為了服務該負載的結果。
 |:--:|:--:|:--:|
 | Create Project | - | 2026-03-20 |
 | Add PostgreSQL | By Docker | 2026-03-20 |
-| 定義實驗流程 | - | 2026-03-20 |
+| Define Process | - | 2026-03-20 |
+| Define Event Story | - | 2026-03-21 |
 | Create OLTP DDL | 3NF | - |
 | Create OLAP DDL | Star Schema ... etc. | - |
-| 模擬即時數據腳本 | - | - |
-| 壓力測試 | - | - |
+| Simulate Real-Time Data Script | - | - |
+| Single Insert | - | - |
+| Batch Insert | - | - |
+| Multi-Instance Simulate | - | - |
+| Stress Test | - | - |
 
 <br>
 
@@ -40,7 +44,7 @@ Schema 設計只是為了服務該負載的結果。
 
 <br>
 
-### *C.　Diagram*
+### *C.1.　Event Diagram*
 ```
 1. [Schema Design]
     ↓
@@ -55,6 +59,17 @@ Schema 設計只是為了服務該負載的結果。
 6. [Analytical Queries]
     ↓
 7. [Benchmark & Metrics]
+```
+
+<br>
+
+### *C.2.　Event Description*
+```
+工廠情境：
+  - 多台機台
+  - 生產訂單
+  - 機台狀態 ( 運轉 / 停機 / 故障 )
+  - 生產產出 ( 良品 / 不良品 )
 ```
 
 <br>
@@ -92,14 +107,14 @@ Schema 設計只是為了服務該負載的結果。
       - #### *Sub-Dimension Table ... etc.*
     - #### *2.3. Wide Table*
 - #### *d. Check Define Table List*
-  - #### *1. OLTP of DDL ( 3NF )*
+  - #### *1. OLTP*
     - #### *是否有主鍵 ? ( PK )*
     - #### *是否有外鍵 ? ( FK )*
     - #### *是否有 index ? ( PK / FK / 常用查詢條件 )*
     - #### *是否有 transaction ? ( ACID )*
     - #### *是否有適當的 normal form ? ( 1NF / 2NF / 3NF )*
     - #### *是否避免資料冗餘 ?*
-  - #### *2. OLAP of DDL*
+  - #### *2. OLAP*
     - #### *是否有 fact table ?*
     - #### *是否有 dimension ?*
     - #### *是否避免複雜 join ?*
