@@ -101,7 +101,7 @@ Schema 設計只是為了服務該負載的結果。
 <br>
 
 ### *E.　Notice*
-- #### *⭐ 欲真正解決 OLTP/OLAP 衝突，詳見[企業級解法](https://github.com/Junwu0615/OLTP-To-OLAP-Pipeline)*
+- #### *⭐ 欲真正解決 OLTP/OLAP 衝突，詳見[另一解法](https://github.com/Junwu0615/OLTP-To-OLAP-Pipeline)*
 - #### *a. 若 OLTP/OLAP 都在同一 DB Instance 裡，Schema 分離優劣 ?*
   - #### *優 : `限制權限`, `分開 Connection Pool`, `分開 Query Routing`*
   - #### *劣 : `CPU / IO 共用`，它們還是彼此搶資源*
