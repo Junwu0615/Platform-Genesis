@@ -113,14 +113,14 @@ CREATE SCHEMA IF NOT EXISTS olap;
 ### *C.　權限設置*
 | 角色層級 | 帳號 | 核心能力 | 風險程度 |
 | :--: | :--: | :--: | :--: |
-| super user | `postgres` | 修改系統配置、建立資料庫 | 🔴 極高 ( 僅限維護 ) |
+| super user | `postgres / pguser` | 修改系統配置、建立資料庫 | 🔴 極高 ( 僅限維護 ) |
 | owner | `oltp_owner` / `olap_owner` | 建立/刪除表格、修改欄位 | 🟡 中 ( 僅限部署 ) |
 | user | `oltp_user` / `olap_user` | 讀取/寫入/修改資料內容 | 🟢 低 ( 日常運行 ) |
 
 - ### *C.1.　Create Role*
   - #### *C.1.1.　OLTP Role*
     ```
-    # oltp_owner: 擁有者權限
+    # oltp_owner: 擁有者權限 + 不允許登入
     CREATE ROLE oltp_owner NOLOGIN;
     
     # oltp_user: 讀/寫權限
@@ -128,7 +128,7 @@ CREATE SCHEMA IF NOT EXISTS olap;
     ```
   - #### *C.1.2.　OLTP Role*
     ```
-    # olap_owner: 擁有者權限
+    # olap_owner: 擁有者權限 + 不允許登入
     CREATE ROLE olap_owner NOLOGIN;
     
     # olap_user: 只讀權限
