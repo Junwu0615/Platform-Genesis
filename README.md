@@ -101,8 +101,8 @@ Schema 設計只是為了服務該負載的結果。
 ### *D.　OLTP　VS.　OLAP　VS.　HTAP*
 | **Type** | **Core Objectives** | **Design Philosophy** | **Data Model** | **Query Features** |
 |:--:|:--:|:--:|:--:|:--:|
-| OLTP | 快速且正確地處理`交易` | 一致性優先 | [ 正規化 ] 3NF | 單筆查詢、低延遲 |
-| OLAP | 高效`分析`大量資料 | 查詢效率優先 | [ 非正規化 ] Star Schema / Wide Table | 聚合分析、大量掃描 |
+| OLTP | 快速且正確地處理`交易` | 一致性優先 | [ 正規化 ]<br>3NF | 單筆查詢、低延遲 |
+| OLAP | 高效`分析`大量資料 | 查詢效率優先 | [ 非正規化 ]<br>Star Schema / Wide Table | 聚合分析、大量掃描 |
 | HTAP | 同時支援`交易`與`分析` | 負載平衡 | 混合模型 | 即時分析 + 交易 |
 
 <br>
