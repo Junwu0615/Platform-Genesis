@@ -36,7 +36,8 @@ Schema 設計只是為了服務該負載的結果。
 | DB Settings | 權限切割設置 | 2026-03-23 |
 | Add PoWA | By Docker | 2026-03-23 |
 | PoWA Web 登入失敗 | 暫找無原因 | - |
-| Simulate Test Run | - | - |
+| Add New Role | Migration User | 2026-03-24 |
+| Simulate Test Run | - | 2026-03-24 |
 | Create OLAP DDL ( 5 ) | Star Schema | - |
 | OLTP to OLAP By ETL | - | - |
 | Analytical Queries | - | - |

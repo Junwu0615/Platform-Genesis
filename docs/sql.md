@@ -111,11 +111,12 @@ CREATE SCHEMA IF NOT EXISTS olap;
 <br>
 
 ### *C.　權限設置*
-| 角色層級 | 帳號 | 核心能力 | 風險程度 |
-| :--: | :--: | :--: | :--: |
-| super user | `postgres / pguser` | 修改系統配置、建立資料庫 | 🔴 極高 ( 僅限維護 ) |
-| owner | `oltp_owner` / `olap_owner` | 建立/刪除表格、修改欄位 | 🟡 中 ( 僅限部署 ) |
-| user | `oltp_user` / `olap_user` | 讀取/寫入/修改資料內容 | 🟢 低 ( 日常運行 ) |
+| 角色層級 | 帳號 | LOGIN | 核心能力 | 風險程度 |
+| :--: | :--: | :--: | :--: | :--: |
+| superuser | `postgres / pguser` | ✔ | 系統維護、DB 配置、建立資料庫 | 🔴 極高 |
+| deployment | `migration_user` | ✔ | schema migration、DDL 部署 | 🟡 中 |
+| owner | `oltp_owner` / `olap_owner` | ❌ | 擁有 schema / table / view | 🟡 中 |
+| user | `oltp_user` / `olap_user` | ✔ | CRUD 資料操作 | 🟢 低 |
 
 - ### *C.1.　Create Role*
   - #### *C.1.1.　OLTP Role*
@@ -128,11 +129,17 @@ CREATE SCHEMA IF NOT EXISTS olap;
     ```
   - #### *C.1.2.　OLTP Role*
     ```
+    CREATE ROLE migration_user LOGIN PASSWORD 'xxx';
     -- olap_owner: 擁有者權限 + 不允許登入
     CREATE ROLE olap_owner NOLOGIN;
     
     -- olap_user: 只讀權限
     CREATE ROLE olap_user LOGIN PASSWORD 'olap_pwd';
+    ```
+  - #### *C.1.3.　Migration Role*
+    ```
+    -- migration_user: 允許使用 owner 權限
+    CREATE ROLE migration_user LOGIN PASSWORD 'migration_pwd';
     ```
 - ### *C.2.　Schema 權限隔離*
   - #### *C.2.1.　OLTP Role*
@@ -182,6 +189,11 @@ CREATE SCHEMA IF NOT EXISTS olap;
     GRANT SELECT ON ALL TABLES IN SCHEMA oltp TO olap_user;
     ```
   - #### *C.2.3.　Remove Public Role 預設權限*
+    ```
+    GRANT oltp_owner TO migration_user;
+    GRANT olap_owner TO migration_user;
+    ```
+  - #### *C.2.4.　Remove Public Role 預設權限*
     ```
     REVOKE ALL ON SCHEMA oltp FROM PUBLIC;
     REVOKE ALL ON SCHEMA olap FROM PUBLIC;
@@ -338,6 +350,12 @@ CREATE SCHEMA IF NOT EXISTS olap;
 <br>
 
 ### *F.　常見查詢*
+- ### *Migration User : 建表時要切換角色*
+  ```
+  SET ROLE oltp_owner;
+  
+  CREATE TABLE oltp.products (...);
+  ```
 - ### *OLAP : 每台機器運行時間*
   ```
   SELECT
