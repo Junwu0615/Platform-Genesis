@@ -120,18 +120,18 @@ CREATE SCHEMA IF NOT EXISTS olap;
 - ### *C.1.　Create Role*
   - #### *C.1.1.　OLTP Role*
     ```
-    # oltp_owner: 擁有者權限 + 不允許登入
+    -- oltp_owner: 擁有者權限 + 不允許登入
     CREATE ROLE oltp_owner NOLOGIN;
     
-    # oltp_user: 讀/寫權限
+    -- oltp_user: 讀/寫權限
     CREATE ROLE oltp_user LOGIN PASSWORD 'oltp_pwd';
     ```
   - #### *C.1.2.　OLTP Role*
     ```
-    # olap_owner: 擁有者權限 + 不允許登入
+    -- olap_owner: 擁有者權限 + 不允許登入
     CREATE ROLE olap_owner NOLOGIN;
     
-    # olap_user: 只讀權限
+    -- olap_user: 只讀權限
     CREATE ROLE olap_user LOGIN PASSWORD 'olap_pwd';
     ```
 - ### *C.2.　Schema 權限隔離*
@@ -199,8 +199,8 @@ CREATE SCHEMA IF NOT EXISTS olap;
 - ### *C.4.　設定使用者資源使用上限 ( 避免屎 SQL 拖垮整個實例 )*
   - #### *⭐ C.4.1.　Query 執行時間限制*
     ```
-    # 避免使用者寫出無限迴圈的 SQL，或是拖垮整個實例的 SQL
-    # statement_timeout: query 最長執行時間 → 自動 kill query
+    -- 避免使用者寫出無限迴圈的 SQL，或是拖垮整個實例的 SQL
+    -- statement_timeout: query 最長執行時間 → 自動 kill query
   
     ALTER ROLE oltp_user
     SET statement_timeout = '10s';
@@ -211,7 +211,7 @@ CREATE SCHEMA IF NOT EXISTS olap;
 
   - #### *C.4.2.　Query planning 限制*
     ```
-    # lock_timeout: 等鎖最長時間 → 直接失敗
+    -- lock_timeout: 等鎖最長時間 → 直接失敗
   
     ALTER ROLE oltp_user
     SET lock_timeout = '3s';
@@ -222,7 +222,7 @@ CREATE SCHEMA IF NOT EXISTS olap;
 
   - #### *C.4.3.　idle 連線限制*
     ```
-    idle_in_transaction_session_timeout: 忘記 commit 的 session → kill session
+    -- idle_in_transaction_session_timeout: 忘記 commit 的 session → kill session
   
     ALTER ROLE oltp_user
     SET idle_in_transaction_session_timeout = '30s';
@@ -233,8 +233,8 @@ CREATE SCHEMA IF NOT EXISTS olap;
 
   - #### *⭐ C.4.4.　Memory 限制*
     ```
-    # 避免一個 query 吃爆 RAM 
-    # 最常拖垮系統的原因就是 work_mem 設定過大 → 大量資料排序/聚合 → 吃爆記憶體 → 整個實例當掉
+    -- 避免一個 query 吃爆 RAM 
+    -- 最常拖垮系統的原因就是 work_mem 設定過大 → 大量資料排序/聚合 → 吃爆記憶體 → 整個實例當掉
   
     ALTER ROLE oltp_user
     SET work_mem = '8MB';
@@ -245,7 +245,7 @@ CREATE SCHEMA IF NOT EXISTS olap;
 
   - #### *C.4.5.　Parallel query 限制*
     ```
-    # Parallel 只有在 large scan / aggregation 才有用
+    -- Parallel 只有在 large scan / aggregation 才有用
   
     ALTER ROLE oltp_user
     SET max_parallel_workers_per_gather = 0;
@@ -256,7 +256,7 @@ CREATE SCHEMA IF NOT EXISTS olap;
 
   - #### *⭐ C.4.6.　連線數限制*
     ```
-    # 直接限制 user 連線數
+    -- 直接限制 user 連線數
   
     ALTER ROLE oltp_user
     CONNECTION LIMIT 50;
@@ -267,8 +267,8 @@ CREATE SCHEMA IF NOT EXISTS olap;
 
   - #### *⭐ C.4.7.　temp file 限制*
     ```
-    # temp_file_limit: query 可用 disk 上限
-    # 避免 query 做大量 sort / hash 吃爆磁碟空間, 導致整個實例當掉 
+    -- temp_file_limit: query 可用 disk 上限
+    -- 避免 query 做大量 sort / hash 吃爆磁碟空間, 導致整個實例當掉 
   
     ALTER ROLE oltp_user
     SET temp_file_limit = '0.5GB';
