@@ -35,6 +35,7 @@ Schema 設計只是為了服務該負載的結果。
 | SQL Script | this_month_partition.sql | 2026-03-22 |
 | DB Settings | 權限切割設置 | 2026-03-23 |
 | Add PoWA | By Docker | 2026-03-23 |
+| PoWA Web 登入失敗 | 暫找無原因 | - |
 | Simulate Test Run | - | - |
 | Create OLAP DDL ( 5 ) | Star Schema | - |
 | OLTP to OLAP By ETL | - | - |

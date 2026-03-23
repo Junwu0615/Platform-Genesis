@@ -62,3 +62,26 @@
   ```
   docker-compose up --build -d
   ```
+- #### *b.　確認擁有角色權限*
+  ```
+  # 進入容器
+  docker exec -it powa-repository psql -U postgres -d powa
+  
+  # 確認角色權限
+  \du
+  ```
+- #### *c.　檢查 Extensions*
+  ```
+  \dx
+  # 若只有 (1 rows) # 則需要繼續執行 d. 步驟
+  ```
+- #### *d.　安裝 Extensions*
+  ```
+  CREATE EXTENSION IF NOT EXISTS btree_gist;
+  CREATE EXTENSION IF NOT EXISTS pg_stat_statements;
+  CREATE EXTENSION IF NOT EXISTS pg_qualstats;
+  CREATE EXTENSION IF NOT EXISTS pg_stat_kcache;
+  CREATE EXTENSION IF NOT EXISTS powa;
+  
+  # 再次確認 \dx, 總共會有 (6 rows)
+  ```

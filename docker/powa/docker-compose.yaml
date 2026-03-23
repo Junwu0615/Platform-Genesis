@@ -1,48 +1,40 @@
 version: '3.8'
 
 services:
-#  powa-db: # 核心資料庫：預載了所有監控插件的 PostgreSQL
-#    image: dalibo/powa-archivist:15
-#    container_name: powa_db
-#    environment:
-#      - POSTGRES_USER=${POSTGRES_USER}
-#      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-#      - POSTGRES_DB=powa
-#    ports:
-#      - "5431:5432"
-#    volumes:
-#      - powa_data:/var/lib/postgresql/data
-#    networks:
-#      - powa-network
-
-  powa-db:
+  powa-repository:
     build: .
-    container_name: powa_db
+    container_name: powa-repository
     environment:
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_DB=powa
-    ports:
-      - "5431:5432"
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
     volumes:
       - powa_data:/var/lib/postgresql/data
+    ports:
+      - "5431:5432"
     networks:
       - powa-network
 
-  powa-web: # Web介面：視覺化查看最慢的 SQL
+  powa-web:
     image: powateam/powa-web
     container_name: powa_web
+    depends_on:
+      - powa-repository
     environment:
-      - POWA_SERVERS_PRIMARY_HOST=powa-db
-      - POWA_SERVERS_PRIMARY_PORT=5432
-      - POWA_SERVERS_PRIMARY_USER=${POWA_SERVERS_PRIMARY_USER}
-      - POWA_SERVERS_PRIMARY_PASS=${POWA_SERVERS_PRIMARY_PASS}
-      - POWA_SERVERS_PRIMARY_DB=powa
-      - COOKIE_SECRET=${COOKIE_SECRET}
+      COOKIE_SECRET: ${COOKIE_SECRET}
+      POWA_SERVER_1_LABEL: local-powa
+      POWA_SERVER_1_HOST: powa-repository
+      POWA_SERVER_1_PORT: "5432"
+      POWA_SERVER_1_DB: ${POSTGRES_DB}
+      POWA_SERVER_1_USER: ${POWA_SERVERS_PRIMARY_USER}
+      POWA_SERVER_1_PASS: ${POWA_SERVERS_PRIMARY_PASS}
+      POWA_SERVERS_PRIMARY_HOST: powa-repository
+      POWA_SERVERS_PRIMARY_PORT: "5432"
+      POWA_SERVERS_PRIMARY_DB: ${POSTGRES_DB}
+      POWA_SERVERS_PRIMARY_USER: ${POWA_SERVERS_PRIMARY_USER}
+      POWA_SERVERS_PRIMARY_PASS: ${POWA_SERVERS_PRIMARY_PASS}
     ports:
       - "8888:8888"
-    depends_on:
-      - powa-db
     networks:
       - powa-network
 
