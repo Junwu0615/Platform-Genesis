@@ -20,7 +20,7 @@ Schema 設計只是為了服務該負載的結果。
 <br>
 
 ### *A.　Current Progress*
-|**Item**|**Description**|**Finish Time**|
+|**Item**|**Description**|**Time**|
 |:--:|:--:|:--:|
 | Create Project | - | 2026-03-20 |
 | Add PostgreSQL | By Docker | 2026-03-20 |
@@ -35,9 +35,10 @@ Schema 設計只是為了服務該負載的結果。
 | SQL Script | this_month_partition.sql | 2026-03-22 |
 | DB Settings | 權限切割設置 | 2026-03-23 |
 | Add PoWA | By Docker | 2026-03-23 |
-| PoWA Web 登入失敗 | 暫找無原因 | - |
+| PoWA Web 登入失敗 | 暫找無原因 | 2026-03-23 |
 | Add New Role | Migration User | 2026-03-24 |
 | Simulate Test Run | - | 2026-03-24 |
+| SQL Script | delete_table_data.py | 2026-03-24 |
 | Create OLAP DDL ( 5 ) | Star Schema | - |
 | OLTP to OLAP By ETL | - | - |
 | Analytical Queries | - | - |

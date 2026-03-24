@@ -113,10 +113,10 @@ CREATE SCHEMA IF NOT EXISTS olap;
 ### *C.　權限設置*
 | 角色層級 | 帳號 | LOGIN | 核心能力 | 風險程度 |
 | :--: | :--: | :--: | :--: | :--: |
-| superuser | `postgres / pguser` | ✔ | 系統維護、DB 配置、建立資料庫 | 🔴 極高 |
-| deployment | `migration_user` | ✔ | schema migration、DDL 部署 | 🟡 中 |
-| owner | `oltp_owner` / `olap_owner` | ❌ | 擁有 schema / table / view | 🟡 中 |
-| user | `oltp_user` / `olap_user` | ✔ | CRUD 資料操作 | 🟢 低 |
+| superuser | `postgres / pguser` | ✔ | 系統維護、DB 配置、建立資料庫 | 🔴 |
+| deployment | `migration_user` | ✔ | schema migration、DDL 部署 | 🟡 |
+| owner | `oltp_owner` / `olap_owner` | ❌ | 擁有 schema / table / view | 🟡 |
+| user | `oltp_user` / `olap_user` | ✔ | CRUD 資料操作 | 🟢 |
 
 - ### *C.1.　Create Role*
   - #### *C.1.1.　OLTP Role*
@@ -158,7 +158,6 @@ CREATE SCHEMA IF NOT EXISTS olap;
     -- 針對表格： 確保以後新創的表, oltp_user 都能讀寫
     ALTER DEFAULT PRIVILEGES FOR ROLE oltp_owner IN SCHEMA oltp
     GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO oltp_user;
-  
     -- 針對序號： 確保以後新創的自增 ID, oltp_user 都能使用
     ALTER DEFAULT PRIVILEGES FOR ROLE oltp_owner IN SCHEMA oltp
     GRANT USAGE, SELECT ON SEQUENCES TO oltp_user;
@@ -179,7 +178,6 @@ CREATE SCHEMA IF NOT EXISTS olap;
     -- 針對表格： 確保以後新創的表, olap_user 都能讀寫
     ALTER DEFAULT PRIVILEGES FOR ROLE olap_owner IN SCHEMA olap
     GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO olap_user;
-  
     -- 針對序號： 確保以後新創的自增 ID, olap_user 都能使用
     ALTER DEFAULT PRIVILEGES FOR ROLE olap_owner IN SCHEMA olap
     GRANT USAGE, SELECT ON SEQUENCES TO olap_user;
@@ -188,10 +186,25 @@ CREATE SCHEMA IF NOT EXISTS olap;
     GRANT USAGE ON SCHEMA oltp TO olap_user;
     GRANT SELECT ON ALL TABLES IN SCHEMA oltp TO olap_user;
     ```
-  - #### *C.2.3.　Remove Public Role 預設權限*
+  - #### *C.2.3.　Migration Role*
     ```
+    -- 1. 角色關係與繼承
     GRANT oltp_owner TO migration_user;
     GRANT olap_owner TO migration_user;
+    
+    -- 2. Schema 權限
+    GRANT USAGE, CREATE ON SCHEMA oltp TO oltp_owner;
+    GRANT USAGE, CREATE ON SCHEMA olap TO olap_owner;
+    
+    -- 3. 修正「舊表」的所有權 ( 若原本是 superuser 建的 ) 把整個 Schema 的擁有者直接改掉
+    ALTER SCHEMA oltp OWNER TO oltp_owner;
+    ALTER SCHEMA olap OWNER TO olap_owner;
+    
+    -- 4. 設定預設權限 : 確保 migration_user 進去建立的表，自動讓 owner 擁有完整權限
+    ALTER DEFAULT PRIVILEGES FOR ROLE migration_user IN SCHEMA oltp
+    GRANT ALL ON TABLES TO oltp_owner;
+    ALTER DEFAULT PRIVILEGES FOR ROLE migration_user IN SCHEMA olap
+    GRANT ALL ON TABLES TO olap_owner;
     ```
   - #### *C.2.4.　Remove Public Role 預設權限*
     ```
@@ -350,11 +363,38 @@ CREATE SCHEMA IF NOT EXISTS olap;
 <br>
 
 ### *F.　常見查詢*
+- ### *Notice : 檢查表格擁有者*
+  ```
+  SELECT
+    schemaname,
+    tablename, 
+    tableowner
+  FROM pg_tables 
+  WHERE 1=1
+  -- AND schemaname = 'oltp' 
+  AND schemaname = 'olap'
+  ```
+- ### *Notice : 轉移表格擁有權限*
+  ```
+  -- 轉移 oltp.products 擁有權給 oltp_owner
+  ALTER TABLE oltp.products OWNER TO oltp_owner;
+  
+  -- 轉移 olap.dim_product 擁有權給 olap_owner
+  ALTER TABLE olap.dim_product OWNER TO olap_owner;
+  ```
 - ### *Migration User : 建表時要切換角色*
   ```
+  -- 1. 切換身分
   SET ROLE oltp_owner;
   
+  -- 2. 確認目前身分 ( 確保已經切換成功 )
+  SELECT current_user, session_user;
+  
+  -- 3. 操作指令
   CREATE TABLE oltp.products (...);
+  
+  -- 4. [ 可選 ] 操作完畢後切回原始身分
+  RESET ROLE;
   ```
 - ### *OLAP : 每台機器運行時間*
   ```
