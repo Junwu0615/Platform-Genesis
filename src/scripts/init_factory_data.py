@@ -18,11 +18,19 @@ with open(YAML_CONFIG_PATH) as f:
 db = config["database"]
 factory = config["factory"]
 
-conn = psycopg2.connect(**db)
-cursor = conn.cursor()
+
+def get_connection() -> psycopg2.extensions.connection:
+    while True:
+        try:
+            conn = psycopg2.connect(**db)
+            conn.autocommit = False
+            return conn
+        except Exception as e:
+            logging.error('Connect Failed Retrying...', exc_info=True)
+            time.sleep(3)
 
 
-def generate_products():
+def generate_products(conn, cursor):
     for i in range(factory["products"]):
         cursor.execute("""
         INSERT INTO oltp.products
@@ -37,7 +45,7 @@ def generate_products():
     logging.info('oltp.products generated')
 
 
-def generate_machines():
+def generate_machines(conn, cursor):
     machine_id = 1
     for line, machines in factory["machine_layout"].items():
         for m in machines:
@@ -58,18 +66,24 @@ def generate_machines():
 
 
 def main():
+    conn, cursor = None, None
     try:
-        generate_products()
-        generate_machines()
-        logging.warning('init completed')
+        conn = get_connection()
+        cursor = conn.cursor()
+
+        generate_products(conn, cursor)
+        generate_machines(conn, cursor)
+        logging.warning('init completed.')
 
     except Exception as e:
         logging.error('Exception', exc_info=True)
         conn.rollback()
 
     finally:
-        cursor.close()
-        conn.close()
+        if cursor:
+            cursor.close()
+        if conn:
+            conn.close()
 
 
 if __name__ == '__main__':

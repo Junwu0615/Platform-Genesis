@@ -14,12 +14,12 @@ factory:
 
 simulation:
   duration_hours: 24
+  orders: 30
 
   status_types:
     - RUNNING
     - IDLE
     - DOWN
-
   event_types:
     - ERROR
     - MAINTENANCE
