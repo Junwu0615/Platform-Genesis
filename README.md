@@ -39,6 +39,7 @@ Schema 設計只是為了服務該負載的結果。
 | Add New Role | Migration User | 2026-03-24 |
 | Simulate Test Run | - | 2026-03-24 |
 | SQL Script | delete_table_data.py | 2026-03-24 |
+| SQL Script | create_partition_table.py | 2026-03-24 |
 | Create OLAP DDL ( 5 ) | Star Schema | - |
 | OLTP to OLAP By ETL | - | - |
 | Analytical Queries | - | - |

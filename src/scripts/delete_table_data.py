@@ -1,15 +1,25 @@
 """
 Update Date: 2026-03-24
+Description: deletes all data from the specified tables
 """
-import psycopg2
+import logging, psycopg2
 
 TARGET_LIST = [
+    # OLTP Tables
+    'oltp.machine_status_logs',
+    'oltp.machine_events',
+    'oltp.machines',
     'oltp.production_records',
-    'oltp.staging_logs'
-    'oltp.staging_logs'
-    'oltp.staging_logs'
-    'oltp.staging_logs'
-    'oltp.staging_logs'
+    'oltp.production_orders',
+    'oltp.products',
+    'oltp.machine_status_logs_2026_03',
+    'oltp.machine_status_logs_2026_04',
+    # OLAP Tables
+    'olap.dim_time',
+    'olap.dim_product',
+    'olap.dim_machine',
+    'olap.fact_production',
+    'olap.fact_machine_status',
 ]
 
 def main():
@@ -26,10 +36,13 @@ def main():
         for table in TARGET_LIST:
             sql = f"DELETE FROM {table} WHERE 1=1"
             cursor.execute(sql)
+            logging.warning(f'Deleted data from {table} ...')
+
         conn.commit()
+        logging.warning('All data deleted successfully.')
 
     except Exception as e:
-        print('Exception:', e)
+        logging.error('Exception: ', exc_info=True)
 
     finally:
         if conn:

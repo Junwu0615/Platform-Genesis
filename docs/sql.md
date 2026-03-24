@@ -386,12 +386,14 @@ CREATE SCHEMA IF NOT EXISTS olap;
   ```
   -- 1. 切換身分
   SET ROLE oltp_owner;
+  -- SET ROLE olap_owner;
   
   -- 2. 確認目前身分 ( 確保已經切換成功 )
   SELECT current_user, session_user;
   
   -- 3. 操作指令
-  CREATE TABLE oltp.products (...);
+  CREATE TABLE oltp.table (...);
+  -- CREATE TABLE olap.table (...);
   
   -- 4. [ 可選 ] 操作完畢後切回原始身分
   RESET ROLE;
