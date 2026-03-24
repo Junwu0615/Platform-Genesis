@@ -1,7 +1,7 @@
 """
 Update Date: 2026-03-24
 """
-import random, psycopg2
+import logging, random, psycopg2
 from datetime import datetime, timedelta
 
 
@@ -42,7 +42,7 @@ def generate_products():
             random.choice(["A","B","C"])
         ))
     conn.commit()
-    print("products generated")
+    logging.warning("products generated")
 
 
 # ===============================
@@ -59,7 +59,7 @@ def generate_machines():
             f"L{random.randint(1,3)}"
         ))
     conn.commit()
-    print("machines generated")
+    logging.warning("machines generated")
 
 
 # ===============================
@@ -81,7 +81,7 @@ def generate_orders():
             end_time
         ))
     conn.commit()
-    print("orders generated")
+    logging.warning("orders generated")
 
 
 # ===============================
@@ -109,7 +109,7 @@ def generate_machine_status():
             current_time += timedelta(minutes=random.randint(1,5))
 
     conn.commit()
-    print("machine status generated")
+    logging.warning("machine status generated")
 
 
 # ===============================
@@ -134,7 +134,7 @@ def generate_production_records():
             event_time
         ))
     conn.commit()
-    print("production records generated")
+    logging.warning("production records generated")
 
 
 # ===============================
@@ -157,7 +157,7 @@ def generate_machine_events():
             event_time
         ))
     conn.commit()
-    print("machine events generated")
+    logging.warning("machine events generated")
 
 
 def main():
@@ -168,10 +168,11 @@ def main():
         generate_machine_status()
         generate_production_records()
         generate_machine_events()
-        print("simulation completed")
+        logging.warning("simulation completed")
 
     except Exception as e:
-        print("Exception:", e)
+        logging.error("Exception", exc_info=True)
+        conn.rollback()
 
     finally:
         cursor.close()

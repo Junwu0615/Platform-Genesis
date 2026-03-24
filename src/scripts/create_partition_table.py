@@ -49,7 +49,7 @@ def main():
         END $$;
         """
         cursor.execute(sql)
-        logging.warning('[This Mon] Partition Table ...')
+        logging.info('[This Mon] Partition Table ...')
 
         sql = """
         DO $$
@@ -85,13 +85,14 @@ def main():
         END $$;
         """
         cursor.execute(sql)
-        logging.warning('[Next Mon] Partition Table ...')
+        logging.info('[Next Mon] Partition Table ...')
 
         conn.commit()
         logging.warning("Created partition table for 'machine_status_logs' successfully.")
 
     except Exception as e:
         logging.error('Exception: ', exc_info=True)
+        conn.rollback()
 
     finally:
         if conn:

@@ -36,13 +36,14 @@ def main():
         for table in TARGET_LIST:
             sql = f"DELETE FROM {table} WHERE 1=1"
             cursor.execute(sql)
-            logging.warning(f'Deleted data from {table} ...')
+            logging.info(f'Deleted data from {table} ...')
 
         conn.commit()
         logging.warning('All data deleted successfully.')
 
     except Exception as e:
         logging.error('Exception: ', exc_info=True)
+        conn.rollback()
 
     finally:
         if conn:
