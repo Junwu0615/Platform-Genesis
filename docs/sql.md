@@ -110,7 +110,7 @@ CREATE SCHEMA IF NOT EXISTS olap;
 
 <br>
 
-### *C.　權限設置*
+### *⭐ C.　權限設置*
 | 角色層級 | 帳號 | LOGIN | 核心能力 | 風險程度 |
 | :--: | :--: | :--: | :--: | :--: |
 | superuser | `postgres / pguser` | ✔ | 系統維護、DB 配置、建立資料庫 | 🔴 |
@@ -328,7 +328,7 @@ CREATE SCHEMA IF NOT EXISTS olap;
   ```
   ![PNG](../assets/all_table.png)
 
-- ### *D.2.　Index 加速查詢*
+- ### *⭐ D.2.　Index 加速查詢*
   ```
   # 索引是透過「空間換取時間」，讓資料庫從漫無目的的搜尋，進化為有邏輯的快速定位。
     # 創建目的: 為常見查詢模式服務
@@ -363,7 +363,7 @@ CREATE SCHEMA IF NOT EXISTS olap;
 <br>
 
 ### *F.　常見查詢*
-- ### *Notice : 檢查表格擁有者*
+- ### *⭐ Notice : 檢查表格擁有者*
   ```
   SELECT
     schemaname,
@@ -374,7 +374,7 @@ CREATE SCHEMA IF NOT EXISTS olap;
   -- AND schemaname = 'oltp' 
   AND schemaname = 'olap'
   ```
-- ### *Notice : 轉移表格擁有權限*
+- ### *⭐ Notice : 轉移表格擁有權限*
   ```
   -- 轉移 oltp.products 擁有權給 oltp_owner
   ALTER TABLE oltp.products OWNER TO oltp_owner;
@@ -382,7 +382,7 @@ CREATE SCHEMA IF NOT EXISTS olap;
   -- 轉移 olap.dim_product 擁有權給 olap_owner
   ALTER TABLE olap.dim_product OWNER TO olap_owner;
   ```
-- ### *Migration User : 建表時要切換角色*
+- ### *⭐ Migration User : 建表時要切換角色*
   ```
   -- 1. 切換身分
   SET ROLE oltp_owner;
