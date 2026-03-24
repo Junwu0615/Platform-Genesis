@@ -1,1 +1,3 @@
 psycopg2==2.9.11
+colorlog==6.9.0
+PyYAML==6.0.3

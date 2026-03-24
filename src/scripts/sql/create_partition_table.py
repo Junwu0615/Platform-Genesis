@@ -1,17 +1,21 @@
+# -*- coding: utf-8 -*-
 """
 Update Date: 2026-03-24
 Description: creates partition tables for machine_status_logs based on the month of log_time
 """
-import logging, psycopg2
+import psycopg2
+from src.models.log import Logger
+
+logging = Logger(console_name='.main_console')
 
 def main():
     conn, cursor = None, None
     try:
         conn = psycopg2.connect(
-            host="localhost",
-            database="pgdatabase",
-            user="migration_user",
-            password="migration_pwd"
+            host='localhost',
+            database='pgdatabase',
+            user='migration_user',
+            password='migration_pwd'
         )
         cursor = conn.cursor()
 

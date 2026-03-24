@@ -1,9 +1,12 @@
+# -*- coding: utf-8 -*-
 """
 Update Date: 2026-03-24
 """
-import logging, random, psycopg2
+import random, psycopg2
 from datetime import datetime, timedelta
+from src.models.log import Logger
 
+logging = Logger(console_name='.main_console')
 
 # ===============================
 # DB Connection

@@ -39,14 +39,58 @@ Orders:              30
 Status logs:         ~5000+
 Production records:  500
 Machine events:      100
+
+
+# Load → TPS
+    OFF_PEAK
+    status logs : 2/sec
+    production  : 1/sec
+    events      : 0.2/sec
+    
+    NORMAL
+    status logs : 6/sec
+    production  : 3/sec
+    events      : 1/sec
+    
+    PEAK
+    status logs : 15/sec
+    production  : 8/sec
+    events      : 3/sec
+
+
+# OLTP TPS
+OFF_PEAK : ~3/sec
+NORMAL   : ~10/sec
+PEAK     : ~25/sec
+
+
+# By Day
+| table               | rows/day |
+| ------------------- | -------- |
+| machine_status_logs | ~200k    |
+| production_records  | ~80k     |
+| machine_events      | ~10k     |
+
 ```
 
 <br>
 
-### *D.　Benchmark*
+### *D.　Startup Simulate Script*
+- #### *D.1.　Initialize Factory Data*
+    ```
+    python init_factory_data.py
+    ```
+- #### *D.2.　Simulate Factory Stream*
+    ```
+    python simulate_factory_stream.py
+    ```
 
 <br>
 
-### *E.　Metrics*
+### *E.　Benchmark*
+
+<br>
+
+### *F.　Metrics*
 
 <br>

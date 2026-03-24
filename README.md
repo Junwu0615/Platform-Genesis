@@ -13,7 +13,7 @@
 
 Simulating HTAP workload using a single PostgreSQL instance with schema isolation, analyzing contention between transactional and analytical queries.
 ```
-OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載 】；Schema 設計只是為了【 服務該負載 】的結果。
+OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載 】； Schema 設計只是為了【 服務該負載 】的結果。
 ```
 
 <br>
@@ -37,9 +37,12 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 | Add New Role | Migration User | 2026-03-24 |
 | Simulate Test Run | beta_test.py | 2026-03-24 |
 | Script | delete_table_data.py | 2026-03-24 |
+| Script | drop_table.py | 2026-03-24 |
 | Script | create_partition_table.py | 2026-03-24 |
+| Script | factory_config.yaml | 2026-03-24 |
+| Script | factory_load_model.py | 2026-03-24 |
 | Script | init_factory_data.py | 2026-03-24 |
-| Script | stream_simulation.py | 2026-03-24 |
+| Script | simulate_factory_stream.py | 2026-03-24 |
 | Create OLAP DDL ( 5 ) | Star Schema | - |
 | Create Materialized View ( MV ) | 建立物化檢視表 | - |
 | OLTP to OLAP By ETL | - | - |
@@ -92,7 +95,7 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 <br>
 
 ### *D.　Notice*
-- #### *⭐ 欲真正解決 OLTP/OLAP 衝突，詳見[另一解法](https://github.com/Junwu0615/OLTP-To-OLAP-Pipeline)*
+- #### *⭐ 欲真正解決 OLTP / OLAP 衝突，詳見[另一解法](https://github.com/Junwu0615/OLTP-To-OLAP-Pipeline)*
 - #### *a.　OLTP　VS.　OLAP　VS.　HTAP*
   | **Type** | **Core Objectives** | **Design Philosophy** | **Data Model** | **Query Features** |
   |:--:|:--:|:--:|:--:|:--:|
