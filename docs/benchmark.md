@@ -11,7 +11,7 @@
 
 ### *B.　Table Features*
 - #### *OLTP*
-|**Name**|**Type**|*Streaming*|**Description**|**Remark**|
+|**Name**|**Type**|**Streaming**|**Description**|**Remark**|
 |--:|:--:|:--:|:--:|:--:|
 | machines | 靜態 | - | 儲存機台基本資訊 | 須預處理 |
 | products | 靜態 | - | 儲存產品基本資訊 | 須預處理 |
@@ -31,7 +31,7 @@
 
 <br>
 
-### *C.　Simulation Data volume*
+### *C.　Simulation Data Volume*
 ```
 Products:            5
 Machines:            20

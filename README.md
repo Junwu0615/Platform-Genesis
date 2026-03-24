@@ -13,8 +13,7 @@
 
 Simulating HTAP workload using a single PostgreSQL instance with schema isolation, analyzing contention between transactional and analytical queries.
 ```
-OLTP 與 OLAP 的本質差異不在資料結構，而在工作負載 ( Workload )；
-Schema 設計只是為了服務該負載的結果。
+OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載 】；Schema 設計只是為了【 服務該負載 】的結果。
 ```
 
 <br>
@@ -34,7 +33,7 @@ Schema 設計只是為了服務該負載的結果。
 | SQL Script | this_month_partition.sql | 2026-03-22 |
 | DB Settings | 權限切割設置 | 2026-03-23 |
 | Add PoWA | By Docker | 2026-03-23 |
-| PoWA Web 登入失敗 | 暫找無原因 | 2026-03-23 |
+| PoWA Web 登入失敗 | ⚠️ 暫找無原因 | 2026-03-23 |
 | Add New Role | Migration User | 2026-03-24 |
 | Simulate Test Run | beta_test.py | 2026-03-24 |
 | Script | delete_table_data.py | 2026-03-24 |
@@ -42,6 +41,7 @@ Schema 設計只是為了服務該負載的結果。
 | Script | init_factory_data.py | 2026-03-24 |
 | Script | stream_simulation.py | 2026-03-24 |
 | Create OLAP DDL ( 5 ) | Star Schema | - |
+| Create Materialized View ( MV ) | 建立物化檢視表 | - |
 | OLTP to OLAP By ETL | - | - |
 | Analytical Queries | - | - |
 | Single to Batch Insert | - | - |
@@ -87,7 +87,7 @@ Schema 設計只是為了服務該負載的結果。
 
 ### *C.2.　[About SQL Something Detail](./docs/sql.md)*
 
-### *C.3.　[Benchmark Result](./docs/benchmark.md)*
+### *C.3.　[Benchmark](./docs/benchmark.md)*
 
 <br>
 
