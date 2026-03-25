@@ -72,7 +72,7 @@ def update_order_status(cursor, event_dict):
             if detail['produced_qty'] >= detail['target_qty']:
                 cursor.execute("""
                 UPDATE oltp.production_orders
-                SET end_t = %s
+                SET end_at = %s
                 WHERE order_id = %s
                 """, (
                     get_now(tzinfo=TZ_UTC_8),
@@ -235,10 +235,9 @@ def init_transaction_dict(conn, cursor) -> dict:
 
 
 def simulate_stream(conn, cursor, event_dict):
+    batch_count = 0
     while True:
         try:
-            batch_count = 0
-
             now = get_now(tzinfo=TZ_UTC_8)
             load = get_load_profile(now.hour)
             load_setting = load_cfg[load]
@@ -249,13 +248,14 @@ def simulate_stream(conn, cursor, event_dict):
             prob = load_setting['prob']
 
             check_is_create_order(cursor, event_dict, prob)
+            order_len = len(event_dict['order_list'])
 
-            for _ in range(int(prod_count)):
+            for _ in range(int(prod_count)*order_len):
                 insert_production_record(cursor, event_dict)
                 batch_count += 1
 
             # TODO 待優化情境邏輯 -1
-            for _ in range(int(status_count)):
+            for _ in range(int(status_count)*order_len):
                 insert_machine_status(cursor, event_dict)
                 batch_count += 1
 
@@ -271,9 +271,10 @@ def simulate_stream(conn, cursor, event_dict):
                 batch_count = 0
 
             logging.info(
-                f'{str(now)[:19]} | batch_count={batch_count} | load={load} | '
-                f'status={status_count} '
-                f'prod={prod_count}'
+                f'{str(now)[:19]} | '
+                f'batch={batch_count} | '
+                f'load={load} | '
+                f'order_len={order_len}'
             )
 
             time.sleep(1)

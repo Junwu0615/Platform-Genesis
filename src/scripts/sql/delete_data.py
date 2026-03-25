@@ -12,18 +12,18 @@ TARGET_LIST = [
     # OLTP Tables
     'oltp.machine_status_logs',
     'oltp.machine_events',
-    'oltp.machines',
+    # 'oltp.machines',
     'oltp.production_records',
     'oltp.production_orders',
-    'oltp.products',
+    # 'oltp.products',
     'oltp.machine_status_logs_2026_03',
     'oltp.machine_status_logs_2026_04',
     # OLAP Tables
-    'olap.dim_time',
-    'olap.dim_product',
-    'olap.dim_machine',
-    'olap.fact_production',
-    'olap.fact_machine_status',
+    # 'olap.dim_time',
+    # 'olap.dim_product',
+    # 'olap.dim_machine',
+    # 'olap.fact_production',
+    # 'olap.fact_machine_status',
 ]
 
 def main():
