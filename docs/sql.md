@@ -233,6 +233,7 @@ CREATE SCHEMA IF NOT EXISTS olap;
     -- 避免使用者寫出無限迴圈的 SQL，或是拖垮整個實例的 SQL
     -- statement_timeout: query 最長執行時間 → 自動 kill query
   
+    -- 正在進行 stream 級別的寫入，給予一個【 寬裕 】但【 有上限 】的保護
     ALTER ROLE oltp_user
     SET statement_timeout = '10s';
   

@@ -13,11 +13,13 @@ from src.scripts.simulate_v1.factory_load_model import get_load_profile
 from src.modules.log import Logger
 from src.utils.utils import *
 
-
 logging = Logger(console_name='.main_console')
-YAML_CONFIG_PATH = os.path.join('./src/scripts/factory_config.yaml')
 
-with open(YAML_CONFIG_PATH) as f:
+YAML_VERSION = 'simulate_v1'
+YAML_NAME = 'factory_config.yaml'
+CONFIG_PATH = os.path.join('./src/scripts', YAML_VERSION, YAML_NAME)
+
+with open(CONFIG_PATH) as f:
     config = yaml.safe_load(f)
 
 db = config['database']
@@ -57,7 +59,7 @@ def close_connection(conn, cursor):
         logging.warning("'conn.close()' called ...")
 
 
-def insert_production_order(conn, cursor):
+def insert_production_order(cursor):
     cursor.execute("""
     INSERT INTO oltp.production_orders
     (product_id, planned_quantity, start_time, end_time)
@@ -72,7 +74,7 @@ def insert_production_order(conn, cursor):
     return cursor.fetchone()[0]
 
 
-def insert_production_record(conn, cursor):
+def insert_production_record(cursor):
     cursor.execute("""
     INSERT INTO oltp.production_records
     (order_id, machine_id, product_id, quantity, event_time)
@@ -87,7 +89,7 @@ def insert_production_record(conn, cursor):
     ))
 
 
-def insert_machine_status(conn, cursor):
+def insert_machine_status(cursor):
     cursor.execute("""
     INSERT INTO oltp.machine_status_logs
     (machine_id, status, event_time)
@@ -100,7 +102,7 @@ def insert_machine_status(conn, cursor):
     ))
 
 
-def insert_machine_event(conn, cursor):
+def insert_machine_event(cursor):
     cursor.execute("""
     INSERT INTO oltp.machine_events
     (machine_id, event_type, description, event_time)
@@ -128,19 +130,19 @@ def simulate(conn, cursor):
             event_count = load_setting['event_per_sec']
 
             for _ in range(int(status_count)):
-                insert_machine_status(conn, cursor)
+                insert_machine_status(cursor)
                 batch_count += 1
 
             for _ in range(int(prod_count)):
-                insert_production_order(conn, cursor)
+                insert_production_order(cursor)
                 batch_count += 1
 
             for _ in range(int(prod_count)):
-                insert_production_record(conn, cursor)
+                insert_production_record(cursor)
                 batch_count += 1
 
             if random.random() < event_count:
-                insert_machine_event(conn, cursor)
+                insert_machine_event(cursor)
                 batch_count += 1
 
             if batch_count >= BATCH_SIZE:

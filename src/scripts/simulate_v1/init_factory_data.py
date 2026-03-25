@@ -8,16 +8,19 @@ import os, yaml, psycopg2
 from datetime import datetime, timedelta
 from src.modules.log import Logger
 
-
 logging = Logger(console_name='.main_console')
-YAML_CONFIG_PATH = os.path.join('./src/scripts/factory_config.yaml')
 
-with open(YAML_CONFIG_PATH) as f:
+YAML_VERSION = 'simulate_v1'
+YAML_NAME = 'factory_config.yaml'
+CONFIG_PATH = os.path.join('./src/scripts', YAML_VERSION, YAML_NAME)
+
+with open(CONFIG_PATH) as f:
     config = yaml.safe_load(f)
 
-db = config["database"]
-factory = config["factory"]
+db = config['database']
+factory = config['factory']
 
+# BATCH_SIZE = 500
 
 def get_connection() -> psycopg2.extensions.connection:
     while True:
@@ -31,7 +34,7 @@ def get_connection() -> psycopg2.extensions.connection:
 
 
 def generate_products(conn, cursor):
-    for i in range(factory["products"]):
+    for i in range(factory['products']):
         cursor.execute("""
         INSERT INTO oltp.products
         (product_name, product_type)
@@ -47,7 +50,7 @@ def generate_products(conn, cursor):
 
 def generate_machines(conn, cursor):
     machine_id = 1
-    for line, machines in factory["machine_layout"].items():
+    for line, machines in factory['machine_layout'].items():
         for m in machines:
             cursor.execute("""
             INSERT INTO oltp.machines
@@ -73,6 +76,7 @@ def main():
 
         generate_products(conn, cursor)
         generate_machines(conn, cursor)
+
         logging.warning('init completed.')
 
     except Exception as e:
