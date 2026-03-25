@@ -4,16 +4,19 @@ database:
   user: oltp_user
   password: oltp_pwd
 
-factory:
+init_data:
   products: 8
-
   machine_layout:
     L1: ["CNC","CNC","DRILL","LATHE","CNC","LATHE"]
     L2: ["CNC","DRILL","DRILL","LATHE","LATHE","CNC"]
     L3: ["CNC","CNC","CNC","DRILL","LATHE","LATHE"]
 
-simulation:
-  duration_hours: 24
+simulate:
+  duration_hours: 24 # not used
+
+  target_qty_min: 300 # 目標生産数の最小値
+  target_qty_max: 1500 # 目標生産数の最大値
+
   orders: 30
 
   status_types:
@@ -28,18 +31,18 @@ simulation:
 load_profile:
   OFF_PEAK:
     status_per_sec: 2
-    order_per_hour: 2
     production_per_sec: 1
     event_per_sec: 0.2
+    prob: 0.001
 
   NORMAL:
     status_per_sec: 6
-    order_per_hour: 5
     production_per_sec: 3
     event_per_sec: 1
+    prob: 0.003
 
   PEAK:
     status_per_sec: 15
-    order_per_hour: 10
     production_per_sec: 8
     event_per_sec: 3
+    prob: 0.006

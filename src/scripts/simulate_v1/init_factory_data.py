@@ -18,7 +18,7 @@ with open(CONFIG_PATH) as f:
     config = yaml.safe_load(f)
 
 db = config['database']
-factory = config['factory']
+init_data = config['init_data']
 
 # BATCH_SIZE = 500
 
@@ -34,7 +34,7 @@ def get_connection() -> psycopg2.extensions.connection:
 
 
 def generate_products(conn, cursor):
-    for i in range(factory['products']):
+    for i in range(init_data['products']):
         cursor.execute("""
         INSERT INTO oltp.products
         (product_name, product_type)
@@ -50,7 +50,7 @@ def generate_products(conn, cursor):
 
 def generate_machines(conn, cursor):
     machine_id = 1
-    for line, machines in factory['machine_layout'].items():
+    for line, machines in init_data['machine_layout'].items():
         for m in machines:
             cursor.execute("""
             INSERT INTO oltp.machines

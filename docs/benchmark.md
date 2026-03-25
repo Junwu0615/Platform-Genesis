@@ -5,6 +5,21 @@
   - 生產訂單
   - 機台狀態 ( 運轉 / 停機 / 故障 )
   - 生產產出 ( 良品 / 不良品 )
+  
+
+ CREATE ORDER
+      │
+      ▼
+   開始生產
+      │
+      ▼
+   持續產生 production_records
+      │
+      ▼
+   達到 order.quantity
+      │
+      ▼
+ORDER COMPLETE
 ```
 
 <br>

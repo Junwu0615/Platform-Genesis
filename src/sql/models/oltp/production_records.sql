@@ -4,7 +4,7 @@ CREATE TABLE oltp.production_records (
     machine_id INT REFERENCES oltp.machines(machine_id),
     product_id INT REFERENCES oltp.products(product_id),
     quantity INT,
-    event_time TIMESTAMPTZ NOT NULL
+    event_time TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
 
 

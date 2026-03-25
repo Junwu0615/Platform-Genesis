@@ -3,7 +3,7 @@ CREATE TABLE oltp.machine_events (
     machine_id INT REFERENCES oltp.machines(machine_id),
     event_type VARCHAR(50),
     description TEXT,
-    event_time TIMESTAMPTZ NOT NULL
+    event_time TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
 
 
