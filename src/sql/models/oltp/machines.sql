@@ -4,7 +4,7 @@ CREATE TABLE oltp.machines (
     machine_type VARCHAR(50),
     line_no VARCHAR(20),
     created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
+    updated_at TIMESTAMPTZ DEFAULT Null
 );
 
 
