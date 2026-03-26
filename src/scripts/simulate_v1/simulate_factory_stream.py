@@ -37,7 +37,7 @@ def check_is_create_order(cursor, event_dict, prob):
         insert_production_order(cursor, event_dict)
 
 
-def update_order_status(cursor, event_dict):
+def update_order_status(cursor, event_dict, done_qty):
     """
     TODO 檢查是否有訂單完成，若完成則更新訂單狀態並從訂單列表移除
     """
@@ -63,6 +63,8 @@ def update_order_status(cursor, event_dict):
 
                 # 清空機台持單狀態
                 event_dict['machine_status'][_machine_id] = None
+
+                done_qty += 1
 
                 logging.warning(f'[order_id={order_id}] have been completed. '
                                 f'( produced_qty: {detail['produced_qty']} >= target_qty: {detail['target_qty']} )')
@@ -273,7 +275,7 @@ def init_transaction_dict(conn, cursor) -> dict:
 
 
 def simulate_stream(conn, cursor, event_dict):
-    data_qty, batch_count = 0, 0
+    data_qty, done_qty, batch_count = 0, 0, 0
     while True:
         try:
             now = get_now(hours=8, tzinfo=TZ_UTC_8)
@@ -305,7 +307,7 @@ def simulate_stream(conn, cursor, event_dict):
                 batch_count += 1
                 data_qty += 1
 
-            update_order_status(cursor, event_dict)
+            update_order_status(cursor, event_dict, done_qty)
 
             if batch_count >= BATCH_SIZE:
                 conn.commit()
@@ -314,18 +316,20 @@ def simulate_stream(conn, cursor, event_dict):
             _idle = sum([1 for k,v in event_dict['machine_status'].items() if v is None])
             _run = sum([1 for k,v in event_dict['machine_status'].items()]) - _idle
 
-            ret = ''
+            ret = '等機台任領の訂單 : '
             for k,v in event_dict['order_queue'].items():
-                ret += f'{k}[{len(v)}] '
+                ret += f'{k}[{len(v)}] | '
 
             logging.info(
+                f'\n整體の概要 : '
                 f'MODE={mode} | '
                 f'ORDER_IN_PROGRESS={order_qty} | '
-                f'DONE_QTY={event_dict['order_count'] - order_qty} | '
+                f'DONE_QTY={done_qty} | '
                 f'DATA_QTY={data_qty} | '
+                f'BATCH=[{batch_count}/{BATCH_SIZE}]\n'
+                f'當前機台の狀態 : '
                 f'RUN=[{_run}/{_run + _idle}] | '
-                f'IDLE=[{_idle}/{_run + _idle}] | '
-                f'BATCH=[{batch_count}/{BATCH_SIZE}] | '
+                f'IDLE=[{_idle}/{_run + _idle}]\n'
                 f'{ret}'
             )
 
