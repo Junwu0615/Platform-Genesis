@@ -216,7 +216,7 @@ def init_transaction_dict(conn, cursor) -> dict:
         conn.commit()
 
     except Exception as e:
-        logging.error('Exception', exc_info=True)
+        logging.error('[Rollback] Exception', exc_info=True)
         conn.rollback()
 
     return event_dict
@@ -280,7 +280,7 @@ def simulate_stream(conn, cursor, event_dict):
             cursor = conn.cursor()
 
         except Exception as e:
-            logging.error('Exception', exc_info=True)
+            logging.error('[Rollback] Exception', exc_info=True)
             conn.rollback()
 
 
@@ -303,7 +303,6 @@ def main():
 
     finally:
         close_conn(conn, cursor, logging)
-        logging.warning('Factory Stream Simulation Stopped.')
 
 
 if __name__ == '__main__':

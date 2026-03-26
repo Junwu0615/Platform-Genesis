@@ -21,3 +21,16 @@ def close_conn(conn, cursor, logging):
     if conn:
         conn.close()
         logging.warning("'conn.close()' called ...")
+
+
+def table_exists(cursor, schema_name, table_name):
+    """檢查指定的 Schema 和 Table 是否存在"""
+    query = """
+        SELECT EXISTS (
+            SELECT FROM information_schema.tables 
+            WHERE  table_schema = %s
+            AND    table_name   = %s
+        );
+    """
+    cursor.execute(query, (schema_name, table_name))
+    return cursor.fetchone()[0]

@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 """
 TODO
-    Update Date: 2026-03-24
-    Description:
+    Update Date: 2026-03-26
+    Description: Generate Static Data [oltp.machines, oltp.products]
 """
 import os, yaml, psycopg2
 from datetime import datetime, timedelta
 from src.modules.log import Logger
-from src.utils.conn import get_conn, close_conn
+from src.utils.conn import get_conn, close_conn, table_exists
 
 logging = Logger(console_name='.main')
 
@@ -22,29 +22,6 @@ db = config['database']
 init_data = config['init_data']
 
 # BATCH_SIZE = 500
-
-def get_connection() -> psycopg2.extensions.connection:
-    while True:
-        try:
-            conn = psycopg2.connect(**db)
-            conn.autocommit = False
-            return conn
-        except Exception as e:
-            logging.error('Connect Failed Retrying...', exc_info=True)
-            time.sleep(3)
-
-
-def table_exists(cursor, schema_name, table_name):
-    """檢查指定的 Schema 和 Table 是否存在"""
-    query = """
-        SELECT EXISTS (
-            SELECT FROM information_schema.tables 
-            WHERE  table_schema = %s
-            AND    table_name   = %s
-        );
-    """
-    cursor.execute(query, (schema_name, table_name))
-    return cursor.fetchone()[0]
 
 
 def generate_products(conn, cursor):
@@ -71,10 +48,10 @@ def generate_machines(conn, cursor):
         SELECT DISTINCT ON (machine_type)
         machine_name
         FROM oltp.machines
-        ORDER BY machine_type, created_at DESC;
+        ORDER BY machine_type, machine_id DESC;
         """)
         machines = cursor.fetchall()
-        event_dict['machine_list'] = sorted(i[0] for i in machines)
+        record_count = {i[0][2:-2]:int(i[0].split('-')[-1]) for i in machines}
 
 
     # TODO 生成靜態表
@@ -102,8 +79,9 @@ def generate_machines(conn, cursor):
 
 def main():
     conn, cursor = None, None
+    logging.warning('Starting Init Factory Data...')
     try:
-        conn = get_connection()
+        conn = get_conn(db, logging)
         cursor = conn.cursor()
 
         generate_products(conn, cursor)
@@ -112,14 +90,11 @@ def main():
         logging.warning('init completed.')
 
     except Exception as e:
-        logging.error('Exception', exc_info=True)
+        logging.error('[Rollback] Exception', exc_info=True)
         conn.rollback()
 
     finally:
-        if cursor:
-            cursor.close()
-        if conn:
-            conn.close()
+        close_conn(conn, cursor, logging)
 
 
 if __name__ == '__main__':
