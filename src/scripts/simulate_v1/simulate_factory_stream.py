@@ -121,7 +121,7 @@ def insert_production_record(cursor, event_dict):
     _order_id = random.choice(event_dict['order_list'])
     _machine_id = random.choice(event_dict['machine_list'])
     _product_id = random.choice(event_dict['product_list'])
-    _quantity = random.randint(1, 10)
+    _quantity = random.randint(simulate['prod_qty_min'], simulate['prod_qty_max'])
 
     cursor.execute("""
     INSERT INTO oltp.production_records
@@ -178,14 +178,16 @@ def insert_machine_event(cursor, event_dict):
 
 def init_transaction_dict(conn, cursor) -> dict:
     """
-    TODO 初始化事務字典 : 用字典記錄必要變數，包含機台列表、產品列表、訂單列表
+    TODO 初始化事務字典 : 用字典記錄必要變數，包含機台列表、產品列表、訂單列表 ... etc.
         - 從資料庫讀取產品資訊
         - 產品完成後 移除訂單索引
     """
     event_dict = {
+        'machine_status': {}, # 記錄每個機台狀態 # True/False
         'machine_list': [],  # 機台列表 # 過程不異動
         'product_list': [],  # 產品列表 # 過程不異動
         'order_list': [],    # 訂單列表 # 過程會異動
+        'order_count': 0,    # 總訂單數 # 已完成訂單數: 總訂單數 - 尚生產數
         'detail': {} # 訂單詳情字典，key: order_id, value: dict (product_id, target_qty, produced_qty)
     }
 
@@ -197,6 +199,7 @@ def init_transaction_dict(conn, cursor) -> dict:
         """)
         machines = cursor.fetchall()
         event_dict['machine_list'] = sorted(i[0] for i in machines)
+        event_dict['machine_status'] = {i:False for i in event_dict['machine_list']}
 
         # 取得產品列表
         cursor.execute("""
@@ -222,6 +225,7 @@ def init_transaction_dict(conn, cursor) -> dict:
 
             _order_id = cursor.fetchone()[0]
             event_dict['order_list'] += [_order_id]
+            event_dict['order_count'] += 1
             event_dict['detail'][_order_id] = {
                 'product_id': _product_id,
                 'target_qty': _target_qty,
@@ -238,12 +242,12 @@ def init_transaction_dict(conn, cursor) -> dict:
 
 
 def simulate_stream(conn, cursor, event_dict):
-    batch_count = 0
+    data_qyt, batch_count = 0, 0
     while True:
         try:
-            now = get_now(tzinfo=TZ_UTC_8)
-            load = get_load_profile(now.hour)
-            load_setting = load_cfg[load]
+            now = get_now(hours=8, tzinfo=TZ_UTC_8)
+            mode = get_load_profile(now.hour)
+            load_setting = load_cfg[mode]
 
             status_count = load_setting['status_per_sec']
             prod_count = load_setting['prod_per_sec']
@@ -251,21 +255,24 @@ def simulate_stream(conn, cursor, event_dict):
             prob = load_setting['prob']
 
             check_is_create_order(cursor, event_dict, prob)
-            order_len = len(event_dict['order_list'])
+            order_qty = len(event_dict['order_list'])
 
-            for _ in range(int(prod_count)*order_len):
+            for _ in range(int(prod_count)*order_qty):
                 insert_production_record(cursor, event_dict)
                 batch_count += 1
+                data_qty += 1
 
             # TODO 待優化情境邏輯 -1
-            for _ in range(int(status_count)*order_len):
+            for _ in range(int(status_count)*order_qty):
                 insert_machine_status(cursor, event_dict)
                 batch_count += 1
+                data_qty += 1
 
             # TODO 待優化情境邏輯 -2
             if random.random() < event_count:
                 insert_machine_event(cursor, event_dict)
                 batch_count += 1
+                data_qty += 1
 
             update_order_status(cursor, event_dict)
 
@@ -274,10 +281,13 @@ def simulate_stream(conn, cursor, event_dict):
                 batch_count = 0
 
             logging.info(
-                f'{str(now)[:19]} | '
-                f'batch={batch_count} | '
-                f'load={load} | '
-                f'order_len={order_len}'
+                f'batch=[{batch_count}/{BATCH_SIZE}] | '
+                f'mode={mode} | '
+                f'order_qty={order_qty} | '
+                f'done_qty={event_dict['order_count'] - order_qty} | '
+                f'data_qty={data_qty} | '
+                f'mach_type=[A,B,C] | '
+                f'mach_prod=[a/b] | '
             )
 
             time.sleep(1)

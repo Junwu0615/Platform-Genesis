@@ -17,6 +17,9 @@ simulate:
   target_qty_min: 300 # 目標生産数の最小値
   target_qty_max: 1500 # 目標生産数の最大値
 
+  prod_qty_min: 1 # 實際生產效率の最小値
+  prod_qty_max: 3 # 實際生產效率の最大値
+
   orders: 30
 
   status_types:

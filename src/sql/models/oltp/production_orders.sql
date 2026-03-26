@@ -2,8 +2,9 @@ CREATE TABLE oltp.production_orders (
     order_id SERIAL PRIMARY KEY,
     product_id INT REFERENCES oltp.products(product_id),
     quantity INT,
-    start_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
-    end_at TIMESTAMPTZ DEFAULT Null
+    start_at TIMESTAMPTZ DEFAULT Null,
+    end_at TIMESTAMPTZ DEFAULT Null,
+    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
 
 

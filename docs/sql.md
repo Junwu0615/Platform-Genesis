@@ -226,9 +226,24 @@ CREATE SCHEMA IF NOT EXISTS olap;
   ALTER ROLE olap_user
   SET search_path = olap;
   ```
+  
+- ### *C.4.　設定使用時區*
+  ```
+  -- 數據保持 +0 時區 ; 讀取操作顯示 +8 時區
+  -- 1. 任何連線進來的用戶，如果沒有額外設定，則顯示+8
+  ALTER DATABASE pgdatabase SET timezone TO 'Asia/Taipei';
+  
+  -- 2. 確保特定用戶登入時一定是+8
+  ALTER ROLE pguser SET timezone TO 'Asia/Taipei';
+  ALTER ROLE migration_user SET timezone TO 'Asia/Taipei';
+  ALTER ROLE oltp_owner SET timezone TO 'Asia/Taipei';
+  ALTER ROLE olap_owner SET timezone TO 'Asia/Taipei';
+  ALTER ROLE oltp_user SET timezone TO 'Asia/Taipei';
+  ALTER ROLE olap_user SET timezone TO 'Asia/Taipei';
+  ```
 
-- ### *C.4.　設定使用者資源使用上限 ( 避免屎 SQL 拖垮整個實例 )*
-  - #### *⭐ C.4.1.　Query 執行時間限制*
+- ### *C.5.　設定使用者資源使用上限 ( 避免屎 SQL 拖垮整個實例 )*
+  - #### *⭐ C.5.1.　Query 執行時間限制*
     ```
     -- 避免使用者寫出無限迴圈的 SQL，或是拖垮整個實例的 SQL
     -- statement_timeout: query 最長執行時間 → 自動 kill query
@@ -241,7 +256,7 @@ CREATE SCHEMA IF NOT EXISTS olap;
     SET statement_timeout = '60s';
     ```
 
-  - #### *C.4.2.　Query planning 限制*
+  - #### *C.5.2.　Query planning 限制*
     ```
     -- lock_timeout: 等鎖最長時間 → 直接失敗
   
@@ -252,7 +267,7 @@ CREATE SCHEMA IF NOT EXISTS olap;
     SET lock_timeout = '10s';
     ```
 
-  - #### *C.4.3.　idle 連線限制*
+  - #### *C.5.3.　idle 連線限制*
     ```
     -- idle_in_transaction_session_timeout: 忘記 commit 的 session → kill session
   
@@ -263,7 +278,7 @@ CREATE SCHEMA IF NOT EXISTS olap;
     SET idle_in_transaction_session_timeout = '60s';
     ```
 
-  - #### *⭐ C.4.4.　Memory 限制*
+  - #### *⭐ C.5.4.　Memory 限制*
     ```
     -- 避免一個 query 吃爆 RAM 
     -- 最常拖垮系統的原因就是 work_mem 設定過大 → 大量資料排序/聚合 → 吃爆記憶體 → 整個實例當掉
@@ -275,7 +290,7 @@ CREATE SCHEMA IF NOT EXISTS olap;
     SET work_mem = '64MB';
     ```
 
-  - #### *C.4.5.　Parallel query 限制*
+  - #### *C.5.5.　Parallel query 限制*
     ```
     -- Parallel 只有在 large scan / aggregation 才有用
   
@@ -286,7 +301,7 @@ CREATE SCHEMA IF NOT EXISTS olap;
     SET max_parallel_workers_per_gather = 2;
     ```
 
-  - #### *⭐ C.4.6.　連線數限制*
+  - #### *⭐ C.5.6.　連線數限制*
     ```
     -- 直接限制 user 連線數
   
@@ -297,7 +312,7 @@ CREATE SCHEMA IF NOT EXISTS olap;
     CONNECTION LIMIT 5;
     ```
 
-  - #### *⭐ C.4.7.　temp file 限制*
+  - #### *⭐ C.5.7.　temp file 限制*
     ```
     -- temp_file_limit: query 可用 disk 上限
     -- 避免 query 做大量 sort / hash 吃爆磁碟空間, 導致整個實例當掉 
