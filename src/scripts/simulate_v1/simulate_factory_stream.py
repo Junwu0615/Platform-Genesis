@@ -13,8 +13,9 @@ from datetime import datetime, timedelta, timezone
 from src.scripts.simulate_v1.factory_load_model import get_load_profile
 from src.modules.log import Logger
 from src.utils.utils import *
+from src.utils.conn import get_conn, close_conn
 
-logging = Logger(console_name='.main_console')
+logging = Logger(console_name='.main')
 
 YAML_VERSION = 'simulate_v1'
 YAML_NAME = 'factory_config.yaml'
@@ -32,26 +33,6 @@ BATCH_SIZE = 500
 STATUSES = simulate['status_types']
 EVENT_TYPES = simulate['event_types']
 NUM_ORDERS = simulate['orders']
-
-
-def get_connection() -> psycopg2.extensions.connection:
-    while True:
-        try:
-            conn = psycopg2.connect(**db)
-            conn.autocommit = False
-            return conn
-        except Exception as e:
-            logging.error('Connect Failed Retrying...', exc_info=True)
-            time.sleep(3)
-
-
-def close_connection(conn, cursor):
-    if cursor:
-        cursor.close()
-        logging.warning("'cursor.close()' called ...")
-    if conn:
-        conn.close()
-        logging.warning("'conn.close()' called ...")
 
 
 def check_is_create_order(cursor, event_dict, prob):
@@ -294,8 +275,8 @@ def simulate_stream(conn, cursor, event_dict):
 
         except psycopg2.OperationalError:
             # re-connect
-            close_connection(conn, cursor)
-            conn = get_connection()
+            close_conn(conn, cursor, logging)
+            conn = get_conn(db, logging)
             cursor = conn.cursor()
 
         except Exception as e:
@@ -307,7 +288,7 @@ def main():
     conn, cursor = None, None
     logging.warning('Starting Factory Stream Simulation...')
     try:
-        conn = get_connection()
+        conn = get_conn(db, logging)
         cursor = conn.cursor()
 
         event_dict = init_transaction_dict(conn, cursor)
@@ -321,7 +302,7 @@ def main():
         logging.error('已完成最後一次事務提交...', exc_info=False)
 
     finally:
-        close_connection(conn, cursor)
+        close_conn(conn, cursor, logging)
         logging.warning('Factory Stream Simulation Stopped.')
 
 

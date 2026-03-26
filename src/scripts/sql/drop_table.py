@@ -6,7 +6,7 @@ Description: drop the specified tables
 import psycopg2
 from src.modules.log import Logger
 
-logging = Logger(console_name='.main_console')
+logging = Logger(console_name='.main')
 
 TARGET_LIST = [
     # OLTP Tables

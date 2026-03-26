@@ -6,18 +6,18 @@ Description: deletes all data from the specified tables
 import psycopg2
 from src.modules.log import Logger
 
-logging = Logger(console_name='.main_console')
+logging = Logger(console_name='.main')
 
 TARGET_LIST = [
     # OLTP Tables
-    'oltp.machine_status_logs',
-    'oltp.machine_events',
-    # 'oltp.machines',
-    'oltp.production_records',
-    'oltp.production_orders',
-    # 'oltp.products',
-    'oltp.machine_status_logs_2026_03',
-    'oltp.machine_status_logs_2026_04',
+    # 'oltp.machine_status_logs',
+    # 'oltp.machine_events',
+    'oltp.machines',
+    # 'oltp.production_records',
+    # 'oltp.production_orders',
+    'oltp.products',
+    # 'oltp.machine_status_logs_2026_03',
+    # 'oltp.machine_status_logs_2026_04',
     # OLAP Tables
     # 'olap.dim_time',
     # 'olap.dim_product',

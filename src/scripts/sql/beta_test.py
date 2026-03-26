@@ -6,7 +6,7 @@ import random, psycopg2
 from datetime import datetime, timedelta
 from src.modules.log import Logger
 
-logging = Logger(console_name='.main_console')
+logging = Logger(console_name='.main')
 
 # ===============================
 # DB Connection

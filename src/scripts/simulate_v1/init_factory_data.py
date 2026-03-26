@@ -7,8 +7,9 @@ TODO
 import os, yaml, psycopg2
 from datetime import datetime, timedelta
 from src.modules.log import Logger
+from src.utils.conn import get_conn, close_conn
 
-logging = Logger(console_name='.main_console')
+logging = Logger(console_name='.main')
 
 YAML_VERSION = 'simulate_v1'
 YAML_NAME = 'factory_config.yaml'
@@ -33,6 +34,19 @@ def get_connection() -> psycopg2.extensions.connection:
             time.sleep(3)
 
 
+def table_exists(cursor, schema_name, table_name):
+    """檢查指定的 Schema 和 Table 是否存在"""
+    query = """
+        SELECT EXISTS (
+            SELECT FROM information_schema.tables 
+            WHERE  table_schema = %s
+            AND    table_name   = %s
+        );
+    """
+    cursor.execute(query, (schema_name, table_name))
+    return cursor.fetchone()[0]
+
+
 def generate_products(conn, cursor):
     for i in range(init_data['products']):
         cursor.execute("""
@@ -50,15 +64,33 @@ def generate_products(conn, cursor):
 
 def generate_machines(conn, cursor):
     machine_id = 1
+    record_count = {} # 記錄編碼
+    if table_exists(cursor, 'oltp', 'machines'):
+        # TODO 確認資料庫是否已建表 # 若有取得機台號碼
+        cursor.execute("""
+        SELECT DISTINCT ON (machine_type)
+        machine_name
+        FROM oltp.machines
+        ORDER BY machine_type, created_at DESC;
+        """)
+        machines = cursor.fetchall()
+        event_dict['machine_list'] = sorted(i[0] for i in machines)
+
+
+    # TODO 生成靜態表
     for line, machines in init_data['machine_layout'].items():
         for m in machines:
+            if m not in record_count:
+                record_count[m] = 0
+            record_count[m] += 1
+
             cursor.execute("""
             INSERT INTO oltp.machines
             (machine_name, machine_type, line_no)
             VALUES (%s,%s,%s)
             """,
             (
-                f'M-{machine_id}',
+                f'M-{m}-{record_count[m]}',
                 m,
                 line
             ))

@@ -6,7 +6,7 @@ Description: creates partition tables for machine_status_logs based on the month
 import psycopg2
 from src.modules.log import Logger
 
-logging = Logger(console_name='.main_console')
+logging = Logger(console_name='.main')
 
 def main():
     conn, cursor = None, None
