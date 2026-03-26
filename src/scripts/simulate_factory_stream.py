@@ -7,11 +7,10 @@ TODO
     Notice:
         - SET synchronous_commit = OFF; -- session 設定 ( 壓測必開 )
 """
-from collections import deque
 from src.modules.log import Logger
 from src.utils.utils import *
 from src.utils.conn import get_conn, close_conn, table_exists, BATCH_SIZE
-from src.scripts.simulate_v1.factory_load_model import get_load_profile
+from src.scripts.factory_load_model import get_load_profile
 
 
 logging = Logger(console_name='.main')
@@ -29,20 +28,23 @@ EVENT_TYPES = simulate['event_types']
 NUM_ORDERS = simulate['orders']
 
 
-def check_is_create_order(cursor, event_dict, prob):
+def check_is_create_order(cursor, event_dict, prob) -> bool:
     """
     TODO 基於機率檢查是否要新增生產訂單
     """
     if random.random() < prob:
         insert_production_order(cursor, event_dict)
+        return True
+
+    return False
 
 
-def update_order_status(cursor, event_dict, done_qty):
+def update_order_status(cursor, event_dict) -> bool:
     """
     TODO 檢查是否有訂單完成，若完成則更新訂單狀態並從訂單列表移除
     """
     if len(event_dict['order_dict'].keys()) > 0:
-        _target_list = event_dict['order_dict'].keys()
+        _target_list = copy.deepcopy(list(event_dict['order_dict'].keys()))
         for _order_id in _target_list:
             detail = event_dict['detail'][_order_id]
             if detail['produced_qty'] >= detail['target_qty']:
@@ -67,10 +69,12 @@ def update_order_status(cursor, event_dict, done_qty):
                 # 清空機台持單狀態
                 event_dict['machine_status'][_machine_id] = None
 
-                done_qty += 1
-
                 logging.warning(f'[order_id={_order_id}] have been completed. '
                                 f'( produced_qty: {detail['produced_qty']} >= target_qty: {detail['target_qty']} )')
+
+                return True
+
+    return False
 
 
 def insert_production_order(cursor, event_dict):
@@ -106,12 +110,14 @@ def insert_production_order(cursor, event_dict):
     }
 
 
-def insert_production_record(cursor, event_dict, _machine_id):
+def insert_production_record(cursor, event_dict, _machine_id) -> int:
     """
     TODO 插入生產記錄
         - 狀況 1 : 第一次匹配生產
         - 狀況 2 : 持續生產
     """
+    ret = 1
+
     # TODO 1. 取得機台類型
     _machine_type = event_dict['machine_dict'].get(_machine_id)
 
@@ -130,6 +136,7 @@ def insert_production_record(cursor, event_dict, _machine_id):
             get_now(hours=8),
             _order_id
         ))
+        ret += 1
         logging.info(f'[{_machine_type}: {_machine_id}] Production Begins Based on the Order [{_order_id}].')
 
     elif event_dict['machine_status'][_machine_id] is not None:
@@ -161,6 +168,8 @@ def insert_production_record(cursor, event_dict, _machine_id):
     # TODO 6. 更新事務字典中的訂單計數狀況 + mach_id 資訊
     event_dict['detail'][_order_id]['produced_qty'] += _quantity
     event_dict['detail'][_order_id]['mach_id'] = _machine_id
+
+    return ret
 
 
 def insert_machine_status(cursor, event_dict):
@@ -236,7 +245,7 @@ def init_transaction_dict(conn, cursor) -> dict:
         """)
         products = cursor.fetchall()
         event_dict['product_dict'] = {i[0]: i[1] for i in products}
-        event_dict['order_queue'] = {i: deque() for i in list(set(i[1] for i in products))}
+        event_dict['order_queue'] = {i: collections.deque() for i in list(set(i[1] for i in products))}
 
         # 初始化第一批訂單
         for _ in range(NUM_ORDERS):
@@ -289,14 +298,18 @@ def simulate_stream(conn, cursor, event_dict):
             event_count = load_setting['event_per_sec']
             prob = load_setting['prob']
 
-            check_is_create_order(cursor, event_dict, prob)
+            if check_is_create_order(cursor, event_dict, prob):
+                batch_count += 1
+                data_qty += 1
+
             order_qty = len(event_dict['order_dict'].keys())
 
             # TODO 所有機台狀態為 False 皆要進行判斷
             for _machine_id in event_dict['machine_status'].keys():
-                insert_production_record(cursor, event_dict, _machine_id)
-                batch_count += 1
-                data_qty += 1
+                _count = insert_production_record(cursor, event_dict, _machine_id)
+                if isinstance(_count, int):
+                    batch_count += _count
+                    data_qty += _count
 
             # TODO 待優化情境邏輯 -1
             for _ in range(int(status_count)*order_qty):
@@ -310,7 +323,10 @@ def simulate_stream(conn, cursor, event_dict):
                 batch_count += 1
                 data_qty += 1
 
-            update_order_status(cursor, event_dict, done_qty)
+            if update_order_status(cursor, event_dict):
+                done_qty += 1
+                batch_count += 1
+                data_qty += 1
 
             if batch_count >= BATCH_SIZE:
                 conn.commit()
