@@ -55,6 +55,9 @@ def update_order_status(cursor, event_dict, done_qty):
                     _order_id
                 ))
 
+                # 取得 mach_id 資訊
+                _machine_id = event_dict['detail'][_order_id]['mach_id']
+
                 # 從訂單字典移除
                 del event_dict['order_dict'][_order_id]
 
@@ -155,8 +158,9 @@ def insert_production_record(cursor, event_dict, _machine_id):
         _quantity,
     ))
 
-    # TODO 6. 更新事務字典中的訂單計數狀況
+    # TODO 6. 更新事務字典中的訂單計數狀況 + mach_id 資訊
     event_dict['detail'][_order_id]['produced_qty'] += _quantity
+    event_dict['detail'][_order_id]['mach_id'] = _machine_id
 
 
 def insert_machine_status(cursor, event_dict):
@@ -210,7 +214,7 @@ def init_transaction_dict(conn, cursor) -> dict:
         # TODO 過程會異動
         'order_dict': {},    # 訂單字典 key: order_id, value: prod_id
         'machine_status': {},  # 記錄機台持單狀態 # None / Not None (order_id)
-        'detail': {}, # 訂單詳情字典 key: order_id, value: dict (product_id, target_qty, produced_qty)
+        'detail': {}, # 訂單詳情字典 key: order_id, value: dict (product_id, target_qty, produced_qty, mach_id)
         'order_queue': {}, # 訂單隊列 # 按照順序依序給予機器運轉
         'order_count': 0,  # 總訂單數 ; 已完成訂單數: 總訂單數 - 尚生產數
     }
@@ -312,8 +316,8 @@ def simulate_stream(conn, cursor, event_dict):
                 conn.commit()
                 batch_count = 0
 
-            _idle = sum([1 for k,v in event_dict['machine_status'].items() if v is None])
-            _run = sum([1 for k,v in event_dict['machine_status'].items()]) - _idle
+            _idle = sum([1 for _,v in event_dict['machine_status'].items() if v is None])
+            _run = sum([1 for _ in event_dict['machine_status'].keys()]) - _idle
 
             ret = '等機台任領の訂單 : '
             for k,v in event_dict['order_queue'].items():
