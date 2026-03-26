@@ -281,7 +281,6 @@ def simulate_stream(conn, cursor, event_dict):
             load_setting = load_cfg[mode]
 
             status_count = load_setting['status_per_sec']
-            prod_count = load_setting['prod_per_sec']
             event_count = load_setting['event_per_sec']
             prob = load_setting['prob']
 
@@ -314,16 +313,20 @@ def simulate_stream(conn, cursor, event_dict):
 
             _idle = sum([1 for k,v in event_dict['machine_status'].items() if v is None])
             _run = sum([1 for k,v in event_dict['machine_status'].items()]) - _idle
+
+            ret = ''
+            for k,v in event_dict['order_queue'].items():
+                ret += f'{k}[{len(v)}] '
+
             logging.info(
                 f'MODE={mode} | '
-                f'ORDER_QTY={order_qty} | '
+                f'ORDER_IN_PROGRESS={order_qty} | '
                 f'DONE_QTY={event_dict['order_count'] - order_qty} | '
                 f'DATA_QTY={data_qty} | '
                 f'RUN=[{_run}/{_run + _idle}] | '
                 f'IDLE=[{_idle}/{_run + _idle}] | '
-                f'mach_type=[A,B,C] | '
-                f'mach_prod=[a/b] | '
                 f'BATCH=[{batch_count}/{BATCH_SIZE}] | '
+                f'{ret}'
             )
 
             time.sleep(1)

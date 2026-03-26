@@ -20,7 +20,7 @@ simulate:
   prod_qty_min: 1 # 實際生產效率の最小値
   prod_qty_max: 3 # 實際生產效率の最大値
 
-  orders: 30 # 初始第一批訂單有幾個
+  orders: 108 # 第一批生產訂單數量
 
   status_types:
     - RUNNING
@@ -33,19 +33,16 @@ simulate:
 
 load_profile: # 特殊時間紅利加成 + 訂單生成機率 (prob)
   OFF_PEAK:
-    prod_per_sec: 1
     status_per_sec: 2
     event_per_sec: 0.2
-    prob: 0.001
+    prob: 0.1
 
   NORMAL:
-    prod_per_sec: 3
     status_per_sec: 6
     event_per_sec: 1
-    prob: 0.003
+    prob: 0.5
 
   PEAK:
-    prod_per_sec: 8
     status_per_sec: 15
     event_per_sec: 3
-    prob: 0.006
+    prob: 1
