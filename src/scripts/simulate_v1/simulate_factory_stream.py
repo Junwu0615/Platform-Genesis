@@ -7,28 +7,21 @@ TODO
     Notice:
         - SET synchronous_commit = OFF; -- session 設定 ( 壓測必開 )
 """
-import os, time, yaml, random, copy, psycopg2
-from datetime import datetime, timedelta, timezone
-
-from src.scripts.simulate_v1.factory_load_model import get_load_profile
 from src.modules.log import Logger
 from src.utils.utils import *
-from src.utils.conn import get_conn, close_conn
+from src.utils.conn import get_conn, close_conn, table_exists
+from src.scripts.simulate_v1.factory_load_model import get_load_profile
+
 
 logging = Logger(console_name='.main')
 
-YAML_VERSION = 'simulate_v1'
-YAML_NAME = 'factory_config.yaml'
-CONFIG_PATH = os.path.join('./src/scripts', YAML_VERSION, YAML_NAME)
-
-with open(CONFIG_PATH) as f:
+YAML_VERSION = 'v1'
+with open(os.path.join('./src/scripts', f'simulate_{YAML_VERSION}', 'factory_config.yaml')) as f:
     config = yaml.safe_load(f)
 
 db = config['database']
 simulate = config['simulate']
 load_cfg = config['load_profile']
-
-BATCH_SIZE = 500
 
 STATUSES = simulate['status_types']
 EVENT_TYPES = simulate['event_types']

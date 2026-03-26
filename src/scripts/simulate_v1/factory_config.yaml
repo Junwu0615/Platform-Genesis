@@ -5,8 +5,8 @@ database:
   password: oltp_pwd
 
 init_data:
-  products: 8
-  machine_layout:
+  products: 8 # 建立已知訂單訊息
+  machine_layout: # 建立已知訂單訊息機台
     L1: ["CNC","CNC","DRILL","LATHE","CNC","LATHE"]
     L2: ["CNC","DRILL","DRILL","LATHE","LATHE","CNC"]
     L3: ["CNC","CNC","CNC","DRILL","LATHE","LATHE"]
@@ -20,7 +20,7 @@ simulate:
   prod_qty_min: 1 # 實際生產效率の最小値
   prod_qty_max: 3 # 實際生產效率の最大値
 
-  orders: 30
+  orders: 30 # 初始第一批訂單有幾個
 
   status_types:
     - RUNNING
@@ -31,7 +31,7 @@ simulate:
     - MAINTENANCE
     - ALARM
 
-load_profile:
+load_profile: # 特殊時間紅利加成 + 訂單生成機率 (prob)
   OFF_PEAK:
     prod_per_sec: 1
     status_per_sec: 2
