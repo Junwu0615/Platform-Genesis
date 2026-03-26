@@ -11,12 +11,12 @@ logging = Logger(console_name='.main')
 TARGET_LIST = [
     # OLTP Tables
     # 'oltp.machine_status_logs',
-    # 'oltp.machine_events',
-    'oltp.machines',
-    # 'oltp.production_records',
-    # 'oltp.production_orders',
-    'oltp.products',
-    # 'oltp.machine_status_logs_2026_03',
+    'oltp.machine_events',
+    # 'oltp.machines',
+    'oltp.production_records',
+    'oltp.production_orders',
+    # 'oltp.products',
+    'oltp.machine_status_logs_2026_03',
     # 'oltp.machine_status_logs_2026_04',
     # OLAP Tables
     # 'olap.dim_time',

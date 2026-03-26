@@ -1,15 +1,16 @@
 # -*- coding: utf-8 -*-
 """
 TODO
-    Update Date: 2026-03-26
+    Update Date: 2026-03-27
     Description:
         - Supporting Contexts: OFF_PEAK, NORMAL, PEAK
     Notice:
         - SET synchronous_commit = OFF; -- session 設定 ( 壓測必開 )
 """
+from collections import deque
 from src.modules.log import Logger
 from src.utils.utils import *
-from src.utils.conn import get_conn, close_conn, table_exists
+from src.utils.conn import get_conn, close_conn, table_exists, BATCH_SIZE
 from src.scripts.simulate_v1.factory_load_model import get_load_profile
 
 
@@ -40,8 +41,9 @@ def update_order_status(cursor, event_dict):
     """
     TODO 檢查是否有訂單完成，若完成則更新訂單狀態並從訂單列表移除
     """
-    if len(event_dict['order_list']) > 0:
-        for order_id in copy.deepcopy(event_dict['order_list']):
+    if len(event_dict['order_dict'].keys()) > 0:
+        _target_list = event_dict['order_dict'].keys()
+        for order_id in _target_list:
             detail = event_dict['detail'][order_id]
             if detail['produced_qty'] >= detail['target_qty']:
                 cursor.execute("""
@@ -49,14 +51,18 @@ def update_order_status(cursor, event_dict):
                 SET end_at = %s
                 WHERE order_id = %s
                 """, (
-                    get_now(tzinfo=TZ_UTC_8),
+                    get_now(),
                     order_id
                 ))
 
-                # 從訂單列表移除
-                event_dict['order_list'].remove(order_id)
+                # 從訂單字典移除
+                del event_dict['order_dict'][order_id]
+
                 # 同時移除訂單詳情
                 event_dict['detail'].pop(order_id, None)
+
+                # 清空機台持單狀態
+                event_dict['machine_status'][_machine_id] = None
 
                 logging.warning(f'[order_id={order_id}] have been completed. '
                                 f'( produced_qty: {detail['produced_qty']} >= target_qty: {detail['target_qty']} )')
@@ -66,7 +72,8 @@ def insert_production_order(cursor, event_dict):
     """
     TODO 建立生產訂單
     """
-    _product_id = random.choice(event_dict['product_list'])
+    _product_id = random.choice(list(event_dict['product_dict'].keys()))
+    _product_type = event_dict['product_dict'].get(_product_id)
     _target_qty = random.randint(simulate['target_qty_min'], simulate['target_qty_max'])
 
     cursor.execute("""
@@ -80,7 +87,13 @@ def insert_production_order(cursor, event_dict):
     ))
 
     _order_id = cursor.fetchone()[0]
-    event_dict['order_list'] += [_order_id]
+
+    # 取得訂單後 塞入佇列
+    event_dict['order_queue'][_product_type] += [_order_id]
+
+    # 建立訂單 ID 對照產品 ID
+    event_dict['order_dict'][_order_id] = _product_id
+
     event_dict['detail'][_order_id] = {
         'product_id': _product_id,
         'target_qty': _target_qty,
@@ -88,15 +101,46 @@ def insert_production_order(cursor, event_dict):
     }
 
 
-def insert_production_record(cursor, event_dict):
+def insert_production_record(cursor, event_dict, _machine_id):
     """
     TODO 插入生產記錄
+        - 狀況 1 : 第一次匹配生產
+        - 狀況 2 : 持續生產
     """
-    _order_id = random.choice(event_dict['order_list'])
-    _machine_id = random.choice(event_dict['machine_list'])
-    _product_id = random.choice(event_dict['product_list'])
+    # TODO 1. 取得機台類型
+    _machine_type = event_dict['machine_dict'].get(_machine_id)
+
+    # TODO 2. 從指定機型佇列中取出第一順位訂單 (而非隨機挑選) ; 或是持續生產
+    if event_dict['order_queue'][_machine_type] and event_dict['machine_status'][_machine_id] is None:
+        # 須確認是否已經訂單在身，若無取新訂單
+        _order_id = event_dict['order_queue'][_machine_type].popleft()
+        event_dict['machine_status'][_machine_id] = _order_id
+
+        # TODO 2.1 更新訂單開始作業時間
+        cursor.execute("""
+        UPDATE oltp.production_orders
+        SET start_at = %s
+        WHERE order_id = %s
+        """, (
+            get_now(),
+            order_id
+        ))
+        logging.info(f'[{_machine_type}: {_machine_id}] Production Begins Based on the Order [{_order_id}].')
+
+    elif event_dict['machine_status'][_machine_id] is not None:
+        # 須確認是否已經訂單在身，若有先完成既有訂單
+        _order_id = event_dict['machine_status'][_machine_id]
+    else:
+        logging.warning(f'[{_machine_type}] Not Have Order in Queue, Machine [{_machine_id}] IDLE ...')
+        return
+
+    # TODO 3. 隨機生產數
     _quantity = random.randint(simulate['prod_qty_min'], simulate['prod_qty_max'])
 
+    # TODO 4. 用訂單 ID 取得產品 ID
+    _product_id = event_dict['order_dict'].get(_order_id)
+
+    # TODO 5. 插入交易日誌
     cursor.execute("""
     INSERT INTO oltp.production_records
     (order_id, machine_id, product_id, quantity)
@@ -109,7 +153,7 @@ def insert_production_record(cursor, event_dict):
         _quantity,
     ))
 
-    # TODO 更新事務字典中的訂單詳情
+    # TODO 6. 更新事務字典中的訂單計數狀況
     event_dict['detail'][_order_id]['produced_qty'] += _quantity
 
 
@@ -117,7 +161,7 @@ def insert_machine_status(cursor, event_dict):
     """
     TODO 插入機台狀態 # 有問題
     """
-    _product_id = random.choice(event_dict['product_list'])
+    _product_id = random.choice(list(event_dict['product_dict'].keys()))
     _event_status = random.choice(STATUSES)
 
     cursor.execute("""
@@ -135,7 +179,7 @@ def insert_machine_event(cursor, event_dict):
     """
     TODO 插入機台事件 # 有問題
     """
-    _machine_id = random.choice(event_dict['machine_list'])
+    _machine_id = random.choice(list(event_dict['machine_dict'].keys()))
     _event_type = random.choice(EVENT_TYPES)
 
     cursor.execute("""
@@ -157,48 +201,61 @@ def init_transaction_dict(conn, cursor) -> dict:
         - 產品完成後 移除訂單索引
     """
     event_dict = {
-        'machine_status': {}, # 記錄每個機台狀態 # True/False
-        'machine_list': [],  # 機台列表 # 過程不異動
-        'product_list': [],  # 產品列表 # 過程不異動
-        'order_list': [],    # 訂單列表 # 過程會異動
-        'order_count': 0,    # 總訂單數 # 已完成訂單數: 總訂單數 - 尚生產數
-        'detail': {} # 訂單詳情字典，key: order_id, value: dict (product_id, target_qty, produced_qty)
+        # TODO 過程不異動
+        'machine_dict': [],  # 機台字典 key: mach_id, value: mach_type
+        'product_dict': {},  # 產品字典 key: prod_id, value: prod_type
+
+        # TODO 過程會異動
+        'order_dict': {},    # 訂單字典 key: order_id, value: prod_id
+        'machine_status': {},  # 記錄機台持單狀態 # None / Not None (order_id)
+        'detail': {}, # 訂單詳情字典 key: order_id, value: dict (product_id, target_qty, produced_qty)
+        'order_queue': {}, # 訂單隊列 # 按照順序依序給予機器運轉
+        'order_count': 0,  # 總訂單數 ; 已完成訂單數: 總訂單數 - 尚生產數
     }
 
     try:
         # 取得機台列表
         cursor.execute("""
-        SELECT machine_id
+        SELECT machine_id, machine_type
         FROM oltp.machines
         """)
         machines = cursor.fetchall()
-        event_dict['machine_list'] = sorted(i[0] for i in machines)
-        event_dict['machine_status'] = {i:False for i in event_dict['machine_list']}
+        event_dict['machine_dict'] = {i[0]:i[1] for i in machines}
+        event_dict['machine_status'] = {i:None for i in list(event_dict['machine_dict'].keys())}
 
         # 取得產品列表
         cursor.execute("""
-        SELECT product_id
+        SELECT product_id, product_type
         FROM oltp.products
         """)
         products = cursor.fetchall()
-        event_dict['product_list'] = sorted(i[0] for i in products)
+        event_dict['product_dict'] = {i[0]: i[1] for i in products}
+        event_dict['order_queue'] = {i: deque() for i in list(set(i[1] for i in products))}
 
         # 初始化第一批訂單
         for _ in range(NUM_ORDERS):
-            _product_id = random.choice(event_dict['product_list'])
+            _product_id = random.choice(list(event_dict['product_dict'].keys()))
+            _product_type = event_dict['product_dict'].get(_product_id)
             _target_qty = random.randint(simulate['target_qty_min'], simulate['target_qty_max'])
 
             cursor.execute("""
-            INSERT INTO oltp.production_orders (product_id, quantity)
-            VALUES (%s, %s)
+            INSERT INTO oltp.production_orders (product_id, quantity, start_at)
+            VALUES (%s, %s, %s)
             RETURNING order_id
             """, (
                 _product_id,
-                _target_qty
+                _target_qty,
+                get_now()
             ))
 
             _order_id = cursor.fetchone()[0]
-            event_dict['order_list'] += [_order_id]
+
+            # 取得訂單後 塞入佇列
+            event_dict['order_queue'][_product_type] += [_order_id]
+
+            # 建立訂單 ID 對照產品 ID
+            event_dict['order_dict'][_order_id] = _product_id
+
             event_dict['order_count'] += 1
             event_dict['detail'][_order_id] = {
                 'product_id': _product_id,
@@ -216,7 +273,7 @@ def init_transaction_dict(conn, cursor) -> dict:
 
 
 def simulate_stream(conn, cursor, event_dict):
-    data_qyt, batch_count = 0, 0
+    data_qty, batch_count = 0, 0
     while True:
         try:
             now = get_now(hours=8, tzinfo=TZ_UTC_8)
@@ -229,10 +286,11 @@ def simulate_stream(conn, cursor, event_dict):
             prob = load_setting['prob']
 
             check_is_create_order(cursor, event_dict, prob)
-            order_qty = len(event_dict['order_list'])
+            order_qty = len(event_dict['order_dict'].keys())
 
-            for _ in range(int(prod_count)*order_qty):
-                insert_production_record(cursor, event_dict)
+            # TODO 所有機台狀態為 False 皆要進行判斷
+            for _machine_id in event_dict['machine_status'].keys():
+                insert_production_record(cursor, event_dict, _machine_id)
                 batch_count += 1
                 data_qty += 1
 
