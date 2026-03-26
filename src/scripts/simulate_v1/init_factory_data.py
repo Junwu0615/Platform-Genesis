@@ -37,6 +37,7 @@ def generate_machines(conn, cursor):
         machines = cursor.fetchall()
         record_count = {i[0].split('-')[1]:int(i[0].split('-')[-1]) for i in machines}
 
+    count = 0
     for line, machines in init_data['machine_layout'].items():
         for m in machines:
             if m not in record_count:
@@ -53,9 +54,10 @@ def generate_machines(conn, cursor):
                 m,
                 line
             ))
+            count += 1
 
     conn.commit()
-    logging.info('oltp.machines generated')
+    logging.info(f"[{count}] oltp.machines generated ...")
 
 
 def generate_products(conn, cursor):
@@ -85,20 +87,18 @@ def generate_products(conn, cursor):
             _get_type
         ))
     conn.commit()
-    logging.info('oltp.products generated')
+    logging.info(f"[{init_data['products']}] oltp.products generated ...")
 
 
 def main():
     conn, cursor = None, None
-    logging.warning('Starting Init Factory Data...')
+    logging.warning('Starting Init Factory Data ...')
     try:
         conn = get_conn(db, logging)
         cursor = conn.cursor()
 
         generate_machines(conn, cursor)
         generate_products(conn, cursor)
-
-        logging.warning('Init Data Completed.')
 
     except Exception as e:
         logging.error('[Rollback] Exception', exc_info=True)
