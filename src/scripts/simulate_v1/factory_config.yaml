@@ -22,27 +22,29 @@ simulate:
 
   orders: 108 # 第一批生產訂單數量
 
-  status_types:
-    - RUNNING
-    - IDLE
-    - DOWN
-  event_types:
-    - ERROR
-    - MAINTENANCE
-    - ALARM
+  status_types: #簡單定義 4 種製程狀態
+    - MAINTENANCE # 1 # process: [1 -> 2]
+    - IDLE # 2 # process: [2 -> 1], [2 -> 3], [2 -> 4]
+    - RUNNING # 3 # process: [3 -> 2], [3 -> 4]
+    - ALARM # 4 # process: [4 -> 3]
+
+#  event_types:
+#    - ERROR
+#    - MAINTENANCE
+#    - ALARM
 
 load_profile: # 特殊時間紅利加成 + 訂單生成機率 (prob)
   OFF_PEAK:
     status_per_sec: 2
-    event_per_sec: 0.2
+#    event_per_sec: 0.2
     prob: 0.1
 
   NORMAL:
     status_per_sec: 6
-    event_per_sec: 1
+#    event_per_sec: 1
     prob: 0.5
 
   PEAK:
     status_per_sec: 15
-    event_per_sec: 3
+#    event_per_sec: 3
     prob: 1

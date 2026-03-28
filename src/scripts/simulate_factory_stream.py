@@ -24,7 +24,7 @@ simulate = config['simulate']
 load_cfg = config['load_profile']
 
 STATUSES = simulate['status_types']
-EVENT_TYPES = simulate['event_types']
+# EVENT_TYPES = simulate['event_types']
 NUM_ORDERS = simulate['orders']
 
 
@@ -190,23 +190,23 @@ def insert_machine_status(cursor, event_dict):
     ))
 
 
-def insert_machine_event(cursor, event_dict):
-    """
-    TODO 插入機台事件 # 有問題
-    """
-    _machine_id = random.choice(list(event_dict['machine_dict'].keys()))
-    _event_type = random.choice(EVENT_TYPES)
-
-    cursor.execute("""
-    INSERT INTO oltp.machine_events
-    (machine_id, event_type, description)
-    VALUES (%s, %s, %s)
-    """,
-    (
-        _machine_id,
-        _event_type,
-        'Auto Generated Event',
-    ))
+# def insert_machine_event(cursor, event_dict):
+#     """
+#     TODO 插入機台事件 # 有問題
+#     """
+#     _machine_id = random.choice(list(event_dict['machine_dict'].keys()))
+#     _event_type = random.choice(EVENT_TYPES)
+#
+#     cursor.execute("""
+#     INSERT INTO oltp.machine_events
+#     (machine_id, event_type, description)
+#     VALUES (%s, %s, %s)
+#     """,
+#     (
+#         _machine_id,
+#         _event_type,
+#         'Auto Generated Event',
+#     ))
 
 
 def init_transaction_dict(conn, cursor) -> dict:
@@ -295,7 +295,7 @@ def simulate_stream(conn, cursor, event_dict):
             load_setting = load_cfg[mode]
 
             status_count = load_setting['status_per_sec']
-            event_count = load_setting['event_per_sec']
+            # event_count = load_setting['event_per_sec']
             prob = load_setting['prob']
 
             if check_is_create_order(cursor, event_dict, prob):
@@ -318,10 +318,10 @@ def simulate_stream(conn, cursor, event_dict):
                 data_qty += 1
 
             # TODO 待優化情境邏輯 -2
-            if random.random() < event_count:
-                insert_machine_event(cursor, event_dict)
-                batch_count += 1
-                data_qty += 1
+            # if random.random() < event_count:
+            #     insert_machine_event(cursor, event_dict)
+            #     batch_count += 1
+            #     data_qty += 1
 
             if update_order_status(cursor, event_dict):
                 done_qty += 1
