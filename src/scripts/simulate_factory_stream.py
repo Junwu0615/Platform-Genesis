@@ -56,7 +56,7 @@ def update_order_status(cursor, event_dict) -> int:
                     SET end_at = %s
                     WHERE order_id = %s
                     """, (
-                        get_now(hours=8),
+                        get_now(hours=8, tzinfo=TZ_UTC_8),
                         _order_id
                     ))
                     ret += 1
@@ -148,7 +148,7 @@ def insert_production_record(cursor, event_dict, _machine_id) -> int:
         SET start_at = %s
         WHERE order_id = %s
         """, (
-            get_now(hours=8),
+            get_now(hours=8, tzinfo=TZ_UTC_8),
             _order_id
         ))
         ret += 1
