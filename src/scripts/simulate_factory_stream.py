@@ -7,10 +7,13 @@ TODO
     Notice:
         - SET synchronous_commit = OFF; -- session 設定 ( 壓測必開 )
 """
+import os, sys
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
+
 from src.modules.log import Logger
 from src.utils.utils import *
 from src.utils.conn import get_conn, close_conn, table_exists, BATCH_SIZE
-from src.scripts.factory_load_model import get_load_profile
+from src.scripts.load_config import get_load_profile, TRANSITION_RULES
 
 
 logging = Logger(console_name='.main')
@@ -23,8 +26,6 @@ db = config['database']
 simulate = config['simulate']
 load_cfg = config['load_profile']
 
-STATUSES = simulate['status_types']
-# EVENT_TYPES = simulate['event_types']
 NUM_ORDERS = simulate['orders']
 
 
@@ -67,12 +68,13 @@ def update_order_status(cursor, event_dict) -> int:
                     # TODO 2. 更新機台狀態 : RUNNING -> IDLE
                     cursor.execute("""
                     INSERT INTO oltp.machine_status_logs
-                    (machine_id, status)
-                    VALUES (%s, %s)
+                    (machine_id, status, event_time)
+                    VALUES (%s, %s, %s)
                     """,
                     (
                         _machine_id,
                         'IDLE',
+                        get_now(hours=8, tzinfo=TZ_UTC_8),
                     ))
                     ret += 1
 
@@ -105,12 +107,13 @@ def insert_production_order(cursor, event_dict):
 
     cursor.execute("""
     INSERT INTO oltp.production_orders
-    (product_id, quantity)
-    VALUES (%s, %s)
+    (product_id, quantity, created_at)
+    VALUES (%s, %s, %s)
     RETURNING order_id
     """, (
         _product_id,
         _target_qty,
+        get_now(hours=8, tzinfo=TZ_UTC_8),
     ))
 
     _order_id = cursor.fetchone()[0]
@@ -134,7 +137,7 @@ def insert_production_record(cursor, event_dict, _machine_id) -> int:
         - 狀況 1 : 第一次生產匹配
         - 狀況 2 : 持續生產
     """
-    ret = 1
+    ret, _status = 1, None
 
     # TODO 1. 取得機台類型
     _machine_type = event_dict['machine_dict'].get(_machine_id)
@@ -143,7 +146,8 @@ def insert_production_record(cursor, event_dict, _machine_id) -> int:
     if event_dict['order_queue'][_machine_type] and event_dict['machine_status'][_machine_id]['status'] == 'IDLE':
         # 須確認是否已經訂單在身，若無取新訂單
         _order_id = event_dict['order_queue'][_machine_type].popleft()
-        event_dict['machine_status'][_machine_id]['status'] = 'RUNNING'
+        _status = 'RUNNING'
+        event_dict['machine_status'][_machine_id]['status'] = _status
         event_dict['machine_status'][_machine_id]['order_id'] = _order_id
 
         # TODO 2.1 更新訂單開始作業時間
@@ -161,23 +165,27 @@ def insert_production_record(cursor, event_dict, _machine_id) -> int:
         # TODO 2.2 更新機台狀態 : IDLE -> RUNNING
         cursor.execute("""
         INSERT INTO oltp.machine_status_logs
-        (machine_id, status)
-        VALUES (%s, %s)
+        (machine_id, status, event_time)
+        VALUES (%s, %s, %s)
         """,
         (
             _machine_id,
-            'RUNNING',
+            _status,
+            get_now(hours=8, tzinfo=TZ_UTC_8),
         ))
         ret += 1
 
     elif event_dict['machine_status'][_machine_id]['order_id'] is not None:
         # 須確認是否已經訂單在身，若有先完成既有訂單
         _order_id = event_dict['machine_status'][_machine_id]['order_id']
+        _status = event_dict['machine_status'][_machine_id]['status']
 
     else:
         # logging.warning(f'[{_machine_type}] Not Have Order in Queue, Machine [{_machine_id}] IDLE ...')
         return
 
+    if _status != 'RUNNING':
+        return 0
 
     # TODO 3. 隨機生產數
     _quantity = random.randint(simulate['prod_qty_min'], simulate['prod_qty_max'])
@@ -188,14 +196,15 @@ def insert_production_record(cursor, event_dict, _machine_id) -> int:
     # TODO 5. 插入交易日誌
     cursor.execute("""
     INSERT INTO oltp.production_records
-    (order_id, machine_id, product_id, quantity)
-    VALUES (%s, %s, %s, %s)
+    (order_id, machine_id, product_id, quantity, event_time)
+    VALUES (%s, %s, %s, %s, %s)
     """,
     (
         _order_id,
         _machine_id,
         _product_id,
         _quantity,
+        get_now(hours=8, tzinfo=TZ_UTC_8),
     ))
 
     # TODO 6. 更新事務字典中的訂單計數狀況 + mach_id 資訊
@@ -215,36 +224,31 @@ def insert_machine_status(cursor, event_dict, _machine_id) -> int:
     """
     _random = None
 
-    # 取得當前狀態
+    # 1. 取得當前狀態
     _event_status = event_dict['machine_status'][_machine_id]['status']
 
-    # 不是目標狀態則進行略過處理
-    if _event_status == 'MAINTENANCE':
-        _random = random.choices(['MAINTENANCE', 'IDLE'], weights=[0.9, 0.1])[0]
-
-    elif _event_status == 'IDLE':
-        _random = random.choices(['IDLE', 'MAINTENANCE'], weights=[0.9, 0.1])[0]
-
-    elif _event_status == 'RUNNING':
-        _random = random.choices(['RUNNING', 'ALARM'], weights=[0.9, 0.1])[0]
-
-    elif _event_status == 'ALARM':
-        _random = random.choices(['ALARM', 'RUNNING'], weights=[0.8, 0.2])[0]
-
-    else:
-        pass
+    # 2. 實施隨機邏輯
+    if _event_status in TRANSITION_RULES:
+        next_states, weights = TRANSITION_RULES[_event_status]
+        _event_status = random.choices(next_states, weights=weights)[0]
 
     if _event_status == _random:
+        # 3. 直接返回且不更新狀態
         return 0
 
+    # 4. 更新當前狀態
+    event_dict['machine_status'][_machine_id]['status'] = _random
+
+    # 5. 提交狀態更新
     cursor.execute("""
     INSERT INTO oltp.machine_status_logs
-    (machine_id, status)
-    VALUES (%s, %s)
+    (machine_id, status, event_time)
+    VALUES (%s, %s, %s)
     """,
     (
         _machine_id,
-        _event_status,
+        _random,
+        get_now(hours=8, tzinfo=TZ_UTC_8),
     ))
     return 1
 
@@ -296,12 +300,13 @@ def init_transaction_dict(conn, cursor) -> dict:
         for _machine_id in event_dict['machine_dict'].keys():
             cursor.execute("""
             INSERT INTO oltp.machine_status_logs
-            (machine_id, status)
-            VALUES (%s, %s)
+            (machine_id, status, event_time)
+            VALUES (%s, %s, %s)
             """,
             (
                 _machine_id,
                 'IDLE',
+                get_now(hours=8, tzinfo=TZ_UTC_8),
             ))
 
         # TODO 2. 初始化第一批訂單
@@ -311,12 +316,13 @@ def init_transaction_dict(conn, cursor) -> dict:
             _target_qty = random.randint(simulate['target_qty_min'], simulate['target_qty_max'])
 
             cursor.execute("""
-            INSERT INTO oltp.production_orders (product_id, quantity)
-            VALUES (%s, %s)
+            INSERT INTO oltp.production_orders (product_id, quantity, created_at)
+            VALUES (%s, %s, %s)
             RETURNING order_id
             """, (
                 _product_id,
                 _target_qty,
+                get_now(hours=8, tzinfo=TZ_UTC_8),
             ))
 
             _order_id = cursor.fetchone()[0]
@@ -355,8 +361,6 @@ def simulate_stream(conn, cursor, event_dict):
             mode = get_load_profile(now.hour)
             load_setting = load_cfg[mode]
 
-            # status_count = load_setting['status_per_sec']
-            # event_count = load_setting['event_per_sec']
             prob = load_setting['prob']
 
             if check_is_create_order(cursor, event_dict, prob):

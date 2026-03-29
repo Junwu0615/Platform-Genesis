@@ -91,13 +91,17 @@ PEAK     : ~25/sec
 <br>
 
 ### *D.　Startup Simulate Script*
-- #### *D.1.　Initialize Factory Data*
+- #### *D.1.　Go to Env*
     ```
-    python init_factory_data.py
+    .\.venv\Scripts\activate
     ```
-- #### *D.2.　Simulate Factory Stream*
+- #### *D.2.　Initialize Factory Data*
     ```
-    python simulate_factory_stream.py
+    python src/scripts/init_factory_data.py
+    ```
+- #### *D.3.　Simulate Factory Stream*
+    ```
+    python src/scripts/simulate_factory_stream.py
     ```
 
 <br>

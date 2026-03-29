@@ -4,6 +4,9 @@ TODO
     Update Date: 2026-03-26
     Description: Generate Static Data [oltp.machines, oltp.products]
 """
+import os, sys
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
+
 from src.modules.log import Logger
 from src.utils.utils import *
 from src.utils.conn import get_conn, close_conn, table_exists
