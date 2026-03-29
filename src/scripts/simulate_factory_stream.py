@@ -13,10 +13,11 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '.
 from src.modules.log import Logger
 from src.utils.utils import *
 from src.utils.conn import get_conn, close_conn, table_exists, BATCH_SIZE
-from src.scripts.load_config import get_load_profile, TRANSITION_RULES
+from src.scripts.load_config import MachineStatusSimulator
 
 
 logging = Logger(console_name='.main')
+mss = MachineStatusSimulator()
 
 YAML_VERSION = 'v1'
 with open(os.path.join('./src/scripts', f'simulate_{YAML_VERSION}', 'factory_config.yaml')) as f:
@@ -227,19 +228,21 @@ def insert_machine_status(cursor, event_dict, _machine_id) -> int:
     # 1. 取得當前狀態
     _event_status = event_dict['machine_status'][_machine_id]['status']
 
-    # 2. 實施隨機邏輯
-    if _event_status in TRANSITION_RULES:
-        next_states, weights = TRANSITION_RULES[_event_status]
-        _event_status = random.choices(next_states, weights=weights)[0]
-
-    if _event_status == _random:
-        # 3. 直接返回且不更新狀態
+    # 直接返回且不更新狀態
+    if _event_status is None:
         return 0
 
-    # 4. 更新當前狀態
+    # 2. 實施隨機邏輯
+    _random = mss.get_next_status(_event_status)
+
+    # 直接返回且不更新狀態
+    if _event_status == _random:
+        return 0
+
+    # 3. 更新當前狀態
     event_dict['machine_status'][_machine_id]['status'] = _random
 
-    # 5. 提交狀態更新
+    # 4. 提交狀態更新
     cursor.execute("""
     INSERT INTO oltp.machine_status_logs
     (machine_id, status, event_time)
@@ -358,7 +361,7 @@ def simulate_stream(conn, cursor, event_dict):
     while True:
         try:
             now = get_now(hours=8, tzinfo=TZ_UTC_8)
-            mode = get_load_profile(now.hour)
+            mode = mss.get_load_profile(now.hour)
             load_setting = load_cfg[mode]
 
             prob = load_setting['prob']
