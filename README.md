@@ -24,7 +24,7 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 
 ### *A.　Current Progress*
 |**Item**|**Description**|**Time**|
-|:--:|:--:|:--:|
+|:--:|:--|:--:|
 | Create Project | - | 2026-03-20 |
 | Add PostgreSQL | By Docker | 2026-03-20 |
 | Define Process | - | 2026-03-20 |
@@ -53,6 +53,7 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 | 優化情境邏輯 | 插入機台事件 : 🗑️ machine_events | 2026-03-28 |
 | execute -> execute_batch | 批次發送 + 批次提交 : 不適用於目前模擬方式 | X |
 | 優化情境邏輯 | 插入機台狀態 | 2026-03-30 |
+| 增加數據量邏輯 | - | 2026-03-30 |
 | Try Again PoWA Web | - | - |
 | Create OLAP DDL ( 5 ) | Star Schema | - |
 | Create Materialized View ( MV ) | 建立物化檢視表 | - |

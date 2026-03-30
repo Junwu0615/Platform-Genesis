@@ -16,8 +16,8 @@ TARGET_LIST = [
     'oltp.production_orders',
     'oltp.machine_status_logs_2026_03',
     # 'oltp.machine_status_logs_2026_04',
-    'oltp.products',
-    'oltp.machines',
+    # 'oltp.products',
+    # 'oltp.machines',
     # OLAP Tables
     # 'olap.dim_time',
     # 'olap.dim_product',

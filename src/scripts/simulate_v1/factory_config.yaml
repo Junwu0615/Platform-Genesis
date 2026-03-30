@@ -12,18 +12,21 @@ init_data:
     L3: ["CNC","CNC","CNC","DRILL","LATHE","LATHE"]
 
 simulate:
-  orders: 150 # 第一批生產訂單數量
+  orders: 50 # 第一批生產訂單數量
 
-  target_qty_min: 1000 # 目標生産数の最小値
-  target_qty_max: 5000 # 目標生産数の最大値
+  target_qty_min: 300 # 目標生産数の最小値
+  target_qty_max: 1500 # 目標生産数の最大値
 
   prod_qty_min: 1 # 實際生產效率の最小値
-  prod_qty_max: 5 # 實際生產效率の最大値
+  prod_qty_max: 10 # 實際生產效率の最大値
 
-load_profile: # 訂單生成機率 (prob)
+load_profile:
   OFF_PEAK:
-    prob: 0.1
+    efficiency: 2 # 效率加成 ( 增加數據筆數  )
+    prob: 0.005 # 訂單生成機率
   NORMAL:
-    prob: 0.5
+    efficiency: 5
+    prob: 0.01
   PEAK:
-    prob: 1
+    efficiency: 10
+    prob: 0.1

@@ -22,13 +22,15 @@ class MachineStatusSimulator:
 
 
     def get_load_profile(self, hour: int) -> str:
-        if 0 <= hour < 6:
+        if 0 <= hour < 8:
             return 'OFF_PEAK'
-        if 6 <= hour < 9:
+        elif 8 <= hour < 12:
             return 'PEAK'
-        if 9 <= hour < 18:
+        elif 12 <= hour < 13:
+            return 'OFF_PEAK'
+        elif 13 <= hour < 15:
             return 'NORMAL'
-        if 18 <= hour < 22:
+        elif 15 <= hour < 24:
             return 'PEAK'
-
-        return 'OFF_PEAK'
+        else:
+            return 'OFF_PEAK'

@@ -30,18 +30,17 @@ load_cfg = config['load_profile']
 NUM_ORDERS = simulate['orders']
 
 
-def check_is_create_order(cursor, event_dict, prob) -> bool:
+def check_is_create_order(cursor, event_dict: dict, prob: float) -> int:
     """
     TODO 基於機率檢查是否要新增生產訂單
     """
     if random.random() < prob:
-        insert_production_order(cursor, event_dict)
-        return True
+        ret = insert_production_order(cursor, event_dict)
+        return ret
+    return 0
 
-    return False
 
-
-def update_order_status(cursor, event_dict) -> int:
+def update_order_status(cursor, event_dict: dict) -> int:
     """
     TODO 檢查是否有訂單完成，若完成則更新訂單狀態並從訂單列表移除
     """
@@ -98,41 +97,46 @@ def update_order_status(cursor, event_dict) -> int:
         return ret
 
 
-def insert_production_order(cursor, event_dict):
+def insert_production_order(cursor, event_dict: dict) -> int:
     """
-    TODO 建立生產訂單
+    TODO 建立生產訂單: 若是命中，則瞬間生成大量訂單
     """
-    _product_id = random.choice(list(event_dict['product_dict'].keys()))
-    _product_type = event_dict['product_dict'].get(_product_id)
-    _target_qty = random.randint(simulate['target_qty_min'], simulate['target_qty_max'])
+    ret = 0
+    for _ in range(NUM_ORDERS):
+        _product_id = random.choice(list(event_dict['product_dict'].keys()))
+        _product_type = event_dict['product_dict'].get(_product_id)
+        _target_qty = random.randint(simulate['target_qty_min'], simulate['target_qty_max'])
 
-    cursor.execute("""
-    INSERT INTO oltp.production_orders
-    (product_id, quantity, created_at)
-    VALUES (%s, %s, %s)
-    RETURNING order_id
-    """, (
-        _product_id,
-        _target_qty,
-        get_now(hours=8, tzinfo=TZ_UTC_8),
-    ))
+        cursor.execute("""
+        INSERT INTO oltp.production_orders
+        (product_id, quantity, created_at)
+        VALUES (%s, %s, %s)
+        RETURNING order_id
+        """, (
+            _product_id,
+            _target_qty,
+            get_now(hours=8, tzinfo=TZ_UTC_8),
+        ))
 
-    _order_id = cursor.fetchone()[0]
+        _order_id = cursor.fetchone()[0]
 
-    # 取得訂單後 塞入佇列
-    event_dict['order_queue'][_product_type] += [_order_id]
+        # 取得訂單後 塞入佇列
+        event_dict['order_queue'][_product_type] += [_order_id]
 
-    # 建立訂單 ID 對照產品 ID
-    event_dict['order_dict'][_order_id] = _product_id
+        # 建立訂單 ID 對照產品 ID
+        event_dict['order_dict'][_order_id] = _product_id
+        event_dict['detail'][_order_id] = {
+            'product_id': _product_id,
+            'target_qty': _target_qty,
+            'produced_qty': 0
+        }
 
-    event_dict['detail'][_order_id] = {
-        'product_id': _product_id,
-        'target_qty': _target_qty,
-        'produced_qty': 0
-    }
+        ret += 1
+    else:
+        return ret
 
 
-def insert_production_record(cursor, event_dict, _machine_id) -> int:
+def insert_production_record(cursor, event_dict: dict, _machine_id: int, efficiency: int) -> int:
     """
     TODO 插入實時生產記錄
         - 狀況 1 : 第一次生產匹配
@@ -188,34 +192,37 @@ def insert_production_record(cursor, event_dict, _machine_id) -> int:
     if _status != 'RUNNING':
         return 0
 
-    # TODO 3. 隨機生產數
-    _quantity = random.randint(simulate['prod_qty_min'], simulate['prod_qty_max'])
-
-    # TODO 4. 用訂單 ID 取得產品 ID
+    # TODO 3. 用訂單 ID 取得產品 ID
     _product_id = event_dict['order_dict'].get(_order_id)
 
-    # TODO 5. 插入交易日誌
-    cursor.execute("""
-    INSERT INTO oltp.production_records
-    (order_id, machine_id, product_id, quantity, event_time)
-    VALUES (%s, %s, %s, %s, %s)
-    """,
-    (
-        _order_id,
-        _machine_id,
-        _product_id,
-        _quantity,
-        get_now(hours=8, tzinfo=TZ_UTC_8),
-    ))
+    # TODO 4. 根據效率增加生產數量
+    for _ in range(efficiency):
+        # TODO 5. 隨機生產數
+        _quantity = random.randint(simulate['prod_qty_min'], simulate['prod_qty_max'])
 
-    # TODO 6. 更新事務字典中的訂單計數狀況 + mach_id 資訊
-    event_dict['detail'][_order_id]['produced_qty'] += _quantity
-    event_dict['detail'][_order_id]['mach_id'] = _machine_id
+        # TODO 6. 插入交易日誌
+        cursor.execute("""
+        INSERT INTO oltp.production_records
+        (order_id, machine_id, product_id, quantity, event_time)
+        VALUES (%s, %s, %s, %s, %s)
+        """,
+        (
+            _order_id,
+            _machine_id,
+            _product_id,
+            _quantity,
+            get_now(hours=8, tzinfo=TZ_UTC_8),
+        ))
+
+        # TODO 7. 更新事務字典中的訂單計數狀況 + mach_id 資訊
+        event_dict['detail'][_order_id]['produced_qty'] += _quantity
+        event_dict['detail'][_order_id]['mach_id'] = _machine_id
+        ret += 1
 
     return ret
 
 
-def insert_machine_status(cursor, event_dict, _machine_id) -> int:
+def insert_machine_status(cursor, event_dict: dict, _machine_id: int) -> int:
     """
     TODO 插入機台狀態 : 在此實施隨機邏輯，可基於權重機率調整
         - MAINTENANCE # 1 # process: [1 -> 2]
@@ -355,7 +362,7 @@ def init_transaction_dict(conn, cursor) -> dict:
     return event_dict
 
 
-def simulate_stream(conn, cursor, event_dict):
+def simulate_stream(conn, cursor, event_dict: dict):
     data_qty, done_qty, batch_ct = 0, 0, 0
     last_commit_time = time.time()
     while True:
@@ -365,13 +372,14 @@ def simulate_stream(conn, cursor, event_dict):
             load_setting = load_cfg[mode]
 
             prob = load_setting['prob']
+            efficiency = load_setting['efficiency']
 
-            if check_is_create_order(cursor, event_dict, prob):
-                batch_ct, data_qty = batch_ct + 1, data_qty + 1
+            _ct = check_is_create_order(cursor, event_dict, prob)
+            batch_ct, data_qty = batch_ct + _ct, data_qty + _ct
 
             # TODO 所有機台皆要進行判斷狀態更新
             for _machine_id in event_dict['machine_status'].keys():
-                _ct = insert_production_record(cursor, event_dict, _machine_id)
+                _ct = insert_production_record(cursor, event_dict, _machine_id, efficiency)
                 if isinstance(_ct, int):
                     batch_ct, data_qty = batch_ct + _ct, data_qty + _ct
 
