@@ -1,46 +1,39 @@
 version: '3.8'
 
 services:
-  powa-repository:
-    build: .
-    container_name: powa-repository
+  postgres:
+    image: postgres:16
+    container_name: powa-postgres
+    restart: unless-stopped
     environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: powa
+    ports:
+      - '5431:5432'
     volumes:
       - powa_data:/var/lib/postgresql/data
-    ports:
-      - "5431:5432"
-    networks:
-      - powa-network
+      - ./init:/docker-entrypoint-initdb.d
+    command:
+      - postgres
+      - -c
+      - shared_preload_libraries=pg_stat_statements,powa
+      - -c
+      - pg_stat_statements.track=all
+      - -c
+      - track_io_timing=on
 
   powa-web:
-    image: powateam/powa-web
-    container_name: powa_web
+    image: powateam/powa-web:latest
+    container_name: powa-web
     depends_on:
-      - powa-repository
-    environment:
-      COOKIE_SECRET: ${COOKIE_SECRET}
-      POWA_SERVER_1_LABEL: local-powa
-      POWA_SERVER_1_HOST: powa-repository
-      POWA_SERVER_1_PORT: "5432"
-      POWA_SERVER_1_DB: ${POSTGRES_DB}
-      POWA_SERVER_1_USER: ${POWA_SERVERS_PRIMARY_USER}
-      POWA_SERVER_1_PASS: ${POWA_SERVERS_PRIMARY_PASS}
-      POWA_SERVERS_PRIMARY_HOST: powa-repository
-      POWA_SERVERS_PRIMARY_PORT: "5432"
-      POWA_SERVERS_PRIMARY_DB: ${POSTGRES_DB}
-      POWA_SERVERS_PRIMARY_USER: ${POWA_SERVERS_PRIMARY_USER}
-      POWA_SERVERS_PRIMARY_PASS: ${POWA_SERVERS_PRIMARY_PASS}
+      - postgres
     ports:
-      - "8888:8888"
-    networks:
-      - powa-network
-
-networks:
-  powa-network:
-    driver: bridge
+      - '8888:8888'
+    environment:
+      POWA_SERVER_HOST: postgres
+      POWA_SERVER_PORT: 5432
+      POWA_SERVER_DBNAME: powa
 
 volumes:
   powa_data:

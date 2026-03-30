@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import psycopg2
 
-
 MODULE_NAME = __name__.upper()
 BATCH_SIZE = 500
 
