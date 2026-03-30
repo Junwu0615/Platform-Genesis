@@ -13,7 +13,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '.
 from src.modules.log import Logger
 from src.utils.utils import *
 from src.utils.conn import get_conn, close_conn, table_exists, BATCH_SIZE
-from src.scripts.config import MachineStatusSimulator
+from src.config.simulator import MachineStatusSimulator
 
 
 logging = Logger(console_name='.main')

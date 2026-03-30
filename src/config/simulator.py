@@ -13,7 +13,7 @@ class MachineStatusSimulator:
 
 
     def get_next_status(self, current_status) -> str:
-        """根據權重取得下一個狀態"""
+        """TODO 根據權重取得下一個狀態"""
         if current_status not in self.transition_rules:
             raise Exception(f'{current_status} not in self.transition_rules, please check it.')
 
@@ -22,6 +22,7 @@ class MachineStatusSimulator:
 
 
     def get_load_profile(self, hour: int) -> str:
+        """TODO 定義各時間區間的負載類型"""
         if 0 <= hour < 8:
             return 'OFF_PEAK'
         elif 8 <= hour < 12:

@@ -60,6 +60,7 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 | OLTP to OLAP By ETL | - | - |
 | Analytical Queries | - | - |
 | Multi-Instance Simulate | - | - |
+| Design Benchmark | - | - |
 | Benchmark | - | - |
 | Metrics | - | - |
 | Add Terraform | VM / Network / Storage | - |
