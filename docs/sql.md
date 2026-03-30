@@ -398,6 +398,34 @@ CREATE SCHEMA IF NOT EXISTS olap;
   -- 轉移 olap.dim_product 擁有權給 olap_owner
   ALTER TABLE olap.dim_product OWNER TO olap_owner;
   ```
+- ### *⭐ Notice : 查詢卡住的 PID 並殺掉*
+  ```
+  -- 查詢正在執行的 SQL，找出卡在 target_table 的 PID
+  SELECT pid, state, query, wait_event_type, wait_event 
+  FROM pg_stat_activity 
+  WHERE 1=1
+  AND query ILIKE '%target_table%'
+  AND pid <> pg_backend_pid();
+  
+  -- 強制結束該查詢
+  SELECT pg_terminate_backend(???);
+  ```
+- ### *⭐ Notice : 刪除表格*
+  ```
+  # TRUNCATE 是 DDL 指令，它不記錄每一行的刪除，而是直接把資料檔案「截斷」歸零
+  # TRUNCATE 速度比 DELETE 快 100 倍以上
+  # TRUNCATE 本身不允許刪除被引用的表格，除非加上 CASCADE
+  # 加上 CASCADE 會連同那些引用它的子表也一併清空
+  
+  -- 清空資料但保留結構(引用的子表也一併清空)，並重置自增 ID
+  TRUNCATE TABLE oltp.table RESTART IDENTITY CASCADE;
+  
+  -- 清空資料但保留結構(引用的子表也一併清空)，不重置自增 ID
+  TRUNCATE TABLE oltp.table CASCADE;
+  
+  -- 慎用 ! 會逐行刪除資料，速度慢，且可能導致鎖表
+  DELETE FROM oltp.table; 
+  ```
 - ### *⭐ Migration User : 建表時要切換角色*
   ```
   -- 1. 切換身分

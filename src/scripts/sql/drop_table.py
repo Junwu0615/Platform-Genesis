@@ -38,11 +38,23 @@ def main():
         for table in TARGET_LIST:
             sql = f"""
             SET ROLE oltp_owner;
-            DROP TABLE {table};
+            
+            TRUNCATE TABLE {table} RESTART IDENTITY CASCADE;
+            
             RESET ROLE;
             """
             cursor.execute(sql)
-            logging.warning(f'DROP TABLE {table} ...')
+            logging.warning(f'#1 TRUNCATE TABLE {table} ...')
+
+            sql = f"""
+            SET ROLE oltp_owner;
+            
+            DROP TABLE {table};
+            
+            RESET ROLE;
+            """
+            cursor.execute(sql)
+            logging.warning(f'#2 DROP TABLE {table} ...')
 
         conn.commit()
         logging.warning('All drop table successfully.')

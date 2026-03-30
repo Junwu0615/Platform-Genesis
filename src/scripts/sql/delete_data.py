@@ -38,9 +38,15 @@ def main():
         cursor = conn.cursor()
 
         for table in TARGET_LIST:
-            sql = f"DELETE FROM {table} WHERE 1=1"
+            sql = f"""
+            SET ROLE oltp_owner;
+
+            TRUNCATE TABLE {table} RESTART IDENTITY CASCADE;
+
+            RESET ROLE;
+            """
             cursor.execute(sql)
-            logging.info(f'Deleted data from {table} ...')
+            logging.info(f'TRUNCATE TABLE DATA FROM {table} ...')
 
         conn.commit()
         logging.warning('All data deleted successfully.')
