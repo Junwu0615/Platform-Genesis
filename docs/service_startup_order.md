@@ -70,7 +70,7 @@
 - #### *b.　確認擁有角色權限 + Schema 是否建立*
   ```
   # 進入容器
-  docker exec -it powa-postgres psql -U postgres -d powa
+  docker exec -it powa-postgres psql -U powa -d powa
   
   # 確認角色權限
   \du
@@ -80,8 +80,11 @@
   ```
 - #### *c.　檢查 Extensions*
   ```
+  # 確認 \dx # 應該要有 (5 rows) : [pg_stat_statements, btree_gist, hypopg, plpgsql, powa]
   \dx
-  # 應該要有 (5 rows) : [pg_stat_statements, btree_gist, hypopg, plpgsql, powa]
+  
+  # 若無，手動執行
+  docker exec -it powa-postgres psql -U powa -d powa -f /docker-entrypoint-initdb.d/01_powa.sql
   ```
 - #### *d.　確保已經建立 Server*
   ```

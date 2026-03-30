@@ -4,7 +4,7 @@ CREATE EXTENSION IF NOT EXISTS hypopg;
 CREATE EXTENSION IF NOT EXISTS btree_gist;
 CREATE EXTENSION IF NOT EXISTS powa;
 
--- 建立登入帳號
+-- -- 建立登入帳號
 -- CREATE ROLE powa LOGIN PASSWORD 'powa';
 --
 -- -- 重要：必須 superuser

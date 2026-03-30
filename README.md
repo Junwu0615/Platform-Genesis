@@ -37,7 +37,7 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 | SQL Script | this_month_partition.sql | 2026-03-22 |
 | DB Settings | 權限切割設置 | 2026-03-23 |
 | Add PoWA | By Docker | 2026-03-23 |
-| PoWA Web Login Failed | ⚠️ 暫找無原因 | 2026-03-23 |
+| PoWA Web Login Failed | ⚠️no reason found yet | 2026-03-23 |
 | Add New Role | Migration User | 2026-03-24 |
 | Simulate Test Run | beta_test.py | 2026-03-24 |
 | Script | delete_data.py | 2026-03-24 |
@@ -55,7 +55,7 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 | 優化情境邏輯 | 插入機台狀態 | 2026-03-30 |
 | 增加數據量邏輯 | - | 2026-03-30 |
 | PoWA ( Running Normally ) | - | 2026-03-30 |
-| Try Again PoWA Web | - | - |
+| Try Again PoWA Web | ⚠️very difficult to deal with | X |
 | Create OLAP DDL ( 5 ) | Star Schema | - |
 | Create Materialized View ( MV ) | 建立物化檢視表 | - |
 | OLTP to OLAP By ETL | - | - |
