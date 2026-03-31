@@ -205,9 +205,56 @@
   ```
 
 - #### *4.　HTAP Workload Benchmark*
-```
-
-```
+  ```
+  ### CLEAN UP CONTAINER ENV ⬇️ 
+  docker restart postgres_sql_container
+  
+  
+  ### ACTION ⬇️
+  docker exec -it postgres_sql_container pgbench -c 20 -j 4 -T 60 -b tpcb-like@9 -f /tmp/olap_benchmark.sql@1 -U pguser -d pgdatabase
+  
+  
+  ### RETURN ⬇️
+  transaction type: multiple scripts
+  scaling factor: 50
+  query mode: simple
+  number of clients: 20
+  number of threads: 4
+  maximum number of tries: 1
+  duration: 60 s
+  number of transactions actually processed: 78316
+  number of failed transactions: 0 (0.000%)
+  latency average = 15.323 ms
+  initial connection time = 8.491 ms
+  tps = 1305.185332 (without initial connection time)
+  SQL script 1: <builtin: TPC-B (sort of)>
+   - weight: 9 (targets 90.0% of total)
+   - 70614 transactions (90.2% of total, tps = 1176.826664)
+   - number of failed transactions: 0 (0.000%)
+   - latency average = 14.176 ms
+   - latency stddev = 31.767 ms
+  SQL script 2: /tmp/olap_benchmark.sql
+   - weight: 1 (targets 10.0% of total)
+   - 7702 transactions (9.8% of total, tps = 128.358668)
+   - number of failed transactions: 0 (0.000%)
+   - latency average = 13.764 ms
+   - latency stddev = 32.800 ms
+  
+  
+  ### DESCRIPTION ⬇️
+  1. 混合負載下的效能損耗 (HTAP Impact)
+  TPS 跌幅 ≈ 10.6%：對比純 OLTP 的 1460 TPS，加入 10% 的 OLAP 查詢後，總 TPS 降至 1305。
+  結論： 這是一個非常優秀的表現。通常在沒有優化（如分區或索引）的系統中，10% 的 OLAP 往往會拖垮 30-50% 的交易效能。這證明了你的「分區表」架構成功隔離了大部分的 IO 衝突。
+  
+  2. 延遲的「拉鋸戰」 (Latency Dynamics)
+  OLTP 延遲上升：從 13.7ms 增加到 14.17ms。
+  OLAP 延遲增加：從 9.35ms 顯著增加到 13.76ms（增幅約 47%）。
+  分析：這顯示了典型的 CPU 與 Buffer Cache 競爭。當 OLTP 頻繁更新索引時，OLAP 的 GROUP BY 計算必須等待 CPU 週期，且其掃描的資料塊可能被 OLTP 的寫入動作擠出快取。
+  
+  3. 穩定性警訊：標準差 (Stddev)
+  高抖動 (Stddev ≈ 32ms)：無論是 OLTP 還是 OLAP，標準差都大於平均延遲（> 2 倍）。
+  解讀：這代表系統出現了「效能不平均」的現象。有些查詢很快，但有些查詢因為等待 WAL (預寫日誌) 鎖定 或 Checkpoint (檢查點) 寫入磁碟而卡住了。在高並發的 HTAP 場景中，這通常是磁碟 IOPS 到達瓶頸的前兆。
+  ```
 
 - #### *5.　Saturation Benchmark*
 ```
