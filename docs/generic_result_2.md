@@ -1,4 +1,4 @@
-## *🪛 shm_size: 5 GB*
+## *🪛 shm_size: 16 GB*
 ![PNG](../assets/generic_result_2.png)
 
 <br>

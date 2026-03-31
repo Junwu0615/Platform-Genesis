@@ -61,6 +61,6 @@
 
 ### *B.　Generic DB Benchmark*
 - #### *[shm_size: 64 MB | Benchmark Result](../docs/generic_result_1.md)*
-- #### *[shm_size: 5 GB | Benchmark Result](../docs/generic_result_2.md)*
+- #### *[shm_size: 16 GB | Benchmark Result](../docs/generic_result_2.md)*
 
 <br>
