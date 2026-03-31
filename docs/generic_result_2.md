@@ -67,16 +67,90 @@ SHOW synchronous_commit;
   docker exec -it postgres_sql_container pgbench -c 30 -j 8 -T 60 -b tpcb-like@9 -f /tmp/olap_benchmark.sql@1 -U pguser -d pgdatabase
   
   ### RETURN 1 ⬇️
+  transaction type: multiple scripts
+  scaling factor: 50
+  query mode: simple
+  number of clients: 30
+  number of threads: 8
+  maximum number of tries: 1
+  duration: 60 s
+  number of transactions actually processed: 82096
+  number of failed transactions: 0 (0.000%)
+  latency average = 21.929 ms
+  initial connection time = 11.008 ms
+  tps = 1368.021608 (without initial connection time)
+  SQL script 1: <builtin: TPC-B (sort of)>
+   - weight: 9 (targets 90.0% of total)
+   - 74020 transactions (90.2% of total, tps = 1233.445715)
+   - number of failed transactions: 0 (0.000%)
+   - latency average = 20.716 ms
+   - latency stddev = 10.149 ms
+  SQL script 2: /tmp/olap_benchmark.sql
+   - weight: 1 (targets 10.0% of total)
+   - 8075 transactions (9.8% of total, tps = 134.559229)
+   - number of failed transactions: 0 (0.000%)
+   - latency average = 14.318 ms
+   - latency stddev = 3.772 ms
   
   
   ### ACTION 2 ⬇️
   docker exec -it postgres_sql_container pgbench -c 50 -j 8 -T 60 -b tpcb-like@9 -f /tmp/olap_benchmark.sql@1 -U pguser -d pgdatabase
+  
+  ### RETURN 2 ⬇️
+  transaction type: multiple scripts
+  scaling factor: 50
+  query mode: simple
+  number of clients: 50
+  number of threads: 8
+  maximum number of tries: 1
+  duration: 60 s
+  number of transactions actually processed: 79764
+  number of failed transactions: 0 (0.000%)
+  latency average = 37.613 ms
+  initial connection time = 15.248 ms
+  tps = 1329.315810 (without initial connection time)
+  SQL script 1: <builtin: TPC-B (sort of)>
+   - weight: 9 (targets 90.0% of total)
+   - 71932 transactions (90.2% of total, tps = 1198.790743)
+   - number of failed transactions: 0 (0.000%)
+   - latency average = 34.641 ms
+   - latency stddev = 35.182 ms
+  SQL script 2: /tmp/olap_benchmark.sql
+   - weight: 1 (targets 10.0% of total)
+   - 7830 transactions (9.8% of total, tps = 130.491736)
+   - number of failed transactions: 0 (0.000%)
+   - latency average = 19.225 ms
+   - latency stddev = 24.777 ms
   
   
   ### ACTION 3 ⬇️
   docker exec -it postgres_sql_container pgbench -c 100 -j 8 -T 60 -b tpcb-like@9 -f /tmp/olap_benchmark.sql@1 -U pguser -d pgdatabase
   
   ### RETURN 3 ⬇️
+  transaction type: multiple scripts
+  scaling factor: 50
+  query mode: simple
+  number of clients: 100
+  number of threads: 8
+  maximum number of tries: 1
+  duration: 60 s
+  number of transactions actually processed: 83229
+  number of failed transactions: 0 (0.000%)
+  latency average = 72.044 ms
+  initial connection time = 74.120 ms
+  tps = 1388.035173 (without initial connection time)
+  SQL script 1: <builtin: TPC-B (sort of)>
+   - weight: 9 (targets 90.0% of total)
+   - 75059 transactions (90.2% of total, tps = 1251.781615)
+   - number of failed transactions: 0 (0.000%)
+   - latency average = 68.311 ms
+   - latency stddev = 42.065 ms
+  SQL script 2: /tmp/olap_benchmark.sql
+   - weight: 1 (targets 10.0% of total)
+   - 8169 transactions (9.8% of total, tps = 136.236881)
+   - number of failed transactions: 0 (0.000%)
+   - latency average = 25.134 ms
+   - latency stddev = 9.421 ms
   ```
 
   | **Evaluation** | **30 Clients ( Sweet Spot )** | **50 Clients ( Medium-load )** | **100 Clients ( High-load )** | **Trend ( 30 vs 100 )** |
