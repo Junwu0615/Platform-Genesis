@@ -17,6 +17,11 @@
 
 Simulating HTAP workload using a single PostgreSQL instance with schema isolation, analyzing contention between transactional and analytical queries.
 ```
+* Database architecture should be driven by workload.
+  ↪︎ * Workload defines query patterns.
+        ↪︎ * Query patterns define schema design.
+               ↪︎ * Schema design defines indexing and storage strategy.
+
 OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載 】； Schema 設計只是為了【 服務該負載 】的結果。
 ```
 
