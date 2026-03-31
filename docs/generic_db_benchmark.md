@@ -63,10 +63,10 @@
 | **Step** | **Description** | **Tool** |
 | :--: | :-- | :--: |
 | 1 | Query Benchmark | direct query method |
-| 2 | OLTP Workload Benchmark | pgbench by docker |
-| 3 | OLAP Workload Benchmark | pgbench by docker |
-| 4 | HTAP Workload Benchmark | pgbench by docker |
-| 5 | Saturation Benchmark | pgbench by docker |
+| 2 | OLTP Workload Benchmark | use pgbench by docker |
+| 3 | OLAP Workload Benchmark | use pgbench by docker |
+| 4 | HTAP Workload Benchmark | use pgbench by docker |
+| 5 | Saturation Benchmark | use pgbench by docker |
 
 - #### *1.　Query Benchmark*
   ```
@@ -244,21 +244,94 @@
   ### DESCRIPTION ⬇️
   1. 混合負載下的效能損耗 (HTAP Impact)
   TPS 跌幅 ≈ 10.6%：對比純 OLTP 的 1460 TPS，加入 10% 的 OLAP 查詢後，總 TPS 降至 1305。
-  結論： 這是一個非常優秀的表現。通常在沒有優化（如分區或索引）的系統中，10% 的 OLAP 往往會拖垮 30-50% 的交易效能。這證明了你的「分區表」架構成功隔離了大部分的 IO 衝突。
+  結論： 這是一個非常優秀的表現。通常在沒有優化（如分區或索引）的系統中，10% 的 OLAP 往往會拖垮 30-50% 的交易效能。
+  這證明了你的「分區表」架構成功隔離了大部分的 IO 衝突。
   
   2. 延遲的「拉鋸戰」 (Latency Dynamics)
   OLTP 延遲上升：從 13.7ms 增加到 14.17ms。
   OLAP 延遲增加：從 9.35ms 顯著增加到 13.76ms（增幅約 47%）。
-  分析：這顯示了典型的 CPU 與 Buffer Cache 競爭。當 OLTP 頻繁更新索引時，OLAP 的 GROUP BY 計算必須等待 CPU 週期，且其掃描的資料塊可能被 OLTP 的寫入動作擠出快取。
+  分析： 這顯示了典型的 CPU 與 Buffer Cache 競爭。
+  當 OLTP 頻繁更新索引時，OLAP 的 GROUP BY 計算必須等待 CPU 週期，且其掃描的資料塊可能被 OLTP 的寫入動作擠出快取。
   
   3. 穩定性警訊：標準差 (Stddev)
   高抖動 (Stddev ≈ 32ms)：無論是 OLTP 還是 OLAP，標準差都大於平均延遲（> 2 倍）。
-  解讀：這代表系統出現了「效能不平均」的現象。有些查詢很快，但有些查詢因為等待 WAL (預寫日誌) 鎖定 或 Checkpoint (檢查點) 寫入磁碟而卡住了。在高並發的 HTAP 場景中，這通常是磁碟 IOPS 到達瓶頸的前兆。
+  解讀：這代表系統出現了「效能不平均」的現象。有些查詢很快，但有些查詢因為等待 WAL (預寫日誌) 鎖定 或 Checkpoint (檢查點) 寫入磁碟而卡住了。
+  在高並發的 HTAP 場景中，這通常是磁碟 IOPS 到達瓶頸的前兆。
   ```
 
 - #### *5.　Saturation Benchmark*
 ```
+### 既然在 20 個連線下系統表現依然穩健，最後一個測試 Saturation 的目標就是「壓垮它」!
+### 觀察指標：
+  - TPS 頂峰：在哪個連線數下，TPS 不再增長？
+  - 延遲暴增：在哪個點開始，latency average 突破 100ms？
+### 階梯式加壓： 將 clients 分別設為 50, 100, 200
 
+
+### ACTION 1 ⬇️
+docker exec -it postgres_sql_container pgbench -c 50 -j 8 -T 60 -b tpcb-like@9 -f /tmp/olap_benchmark.sql@1 -U pguser -d pgdatabase
+
+### RETURN 1 ⬇️
+transaction type: multiple scripts
+scaling factor: 50
+query mode: simple
+number of clients: 50
+number of threads: 8
+maximum number of tries: 1
+duration: 60 s
+number of transactions actually processed: 81802
+number of failed transactions: 0 (0.000%)
+latency average = 36.679 ms
+initial connection time = 13.136 ms
+tps = 1363.178707 (without initial connection time)
+SQL script 1: <builtin: TPC-B (sort of)>
+ - weight: 9 (targets 90.0% of total)
+ - 73518 transactions (89.9% of total, tps = 1225.131075)
+ - number of failed transactions: 0 (0.000%)
+ - latency average = 34.984 ms
+ - latency stddev = 16.110 ms
+SQL script 2: /tmp/olap_benchmark.sql
+ - weight: 1 (targets 10.0% of total)
+ - 8280 transactions (10.1% of total, tps = 137.980975)
+ - number of failed transactions: 0 (0.000%)
+ - latency average = 16.471 ms
+ - latency stddev = 5.160 ms
+
+
+### ACTION 2 ⬇️
+docker exec -it postgres_sql_container pgbench -c 100 -j 8 -T 60 -b tpcb-like@9 -f /tmp/olap_benchmark.sql@1 -U pguser -d pgdatabase
+
+### RETURN 2 ⬇️
+transaction type: multiple scripts
+scaling factor: 50
+query mode: simple
+number of clients: 100
+number of threads: 8
+maximum number of tries: 1
+duration: 60 s
+number of transactions actually processed: 81323
+number of failed transactions: 0 (0.000%)
+latency average = 73.719 ms
+initial connection time = 95.235 ms
+tps = 1356.500502 (without initial connection time)
+SQL script 1: <builtin: TPC-B (sort of)>
+ - weight: 9 (targets 90.0% of total)
+ - 73361 transactions (90.2% of total, tps = 1223.691125)
+ - number of failed transactions: 0 (0.000%)
+ - latency average = 71.631 ms
+ - latency stddev = 39.624 ms
+SQL script 2: /tmp/olap_benchmark.sql
+ - weight: 1 (targets 10.0% of total)
+ - 7962 transactions (9.8% of total, tps = 132.809377)
+ - number of failed transactions: 0 (0.000%)
+ - latency average = 22.148 ms
+ - latency stddev = 7.684 ms
+
+
+### ACTION 3 ⬇️
+docker exec -it postgres_sql_container pgbench -c 200 -j 8 -T 60 -b tpcb-like@9 -f /tmp/olap_benchmark.sql@1 -U pguser -d pgdatabase
+
+### RETURN 3 ⬇️
 ```
 
 <br>

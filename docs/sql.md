@@ -431,6 +431,35 @@ CREATE SCHEMA IF NOT EXISTS olap;
   DELETE FROM oltp.table; 
   ```
   
+- ### *Notice : 殺掉所有除了自己以外的連線*
+  ```
+  SELECT pg_terminate_backend(pid)
+  FROM pg_stat_activity
+  WHERE 1=1
+  AND pid <> pg_backend_pid()
+  AND datname = 'pgdatabase';
+  ```
+
+- ### *Notice : 查詢誰正在占用位置*
+  ```
+  SELECT pid, usename, datname, state, query, backend_start
+  FROM pg_stat_activity
+  WHERE 1=1
+  AND state IS NOT NULL
+  ORDER BY state, backend_start;
+  ```
+
+- ### *Notice : 查詢總連線數 + 連線設置上限*
+  ```
+  SELECT
+      state,
+      count(*),
+      sum(count(*)) OVER() as total_connections,
+      (SELECT setting::int FROM pg_settings WHERE name = 'max_connections') as max_limit
+  FROM pg_stat_activity
+  GROUP BY state;
+  ```
+
 - ### *⭐ Migration User : 建表時要切換角色*
   ```
   -- 1. 切換身分
@@ -447,7 +476,7 @@ CREATE SCHEMA IF NOT EXISTS olap;
   -- 4. [ 可選 ] 操作完畢後切回原始身分
   RESET ROLE;
   ```
-  
+
 - ### *OLTP : 查詢生產完畢的訂單*
   ```
   SELECT *

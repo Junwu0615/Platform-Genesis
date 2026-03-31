@@ -22,6 +22,7 @@ Simulating HTAP workload using a single PostgreSQL instance with schema isolatio
         ↪︎ * Query patterns define schema design.
                ↪︎ * Schema design defines indexing and storage strategy.
 
+
 OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載 】； Schema 設計只是為了【 服務該負載 】的結果。
 ```
 
@@ -64,6 +65,7 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 | Create OLAP DDL ( 5 ) | Star Schema | - |
 | Create Materialized View ( MV ) | 建立物化檢視表 | - |
 | Design Benchmark | two testing methods | 2026-03-31 |
+| Generic DB Benchmark | - | 2026-03-31 |
 | OLTP to OLAP By ETL | - | - |
 | Analytical Queries | - | - |
 | Multi-Instance Simulate | - | - |
