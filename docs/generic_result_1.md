@@ -7,6 +7,7 @@
 ### *Generic DB Benchmark*
 | **Step** | **Description** | **Tool** |
 | :--: | :-- | :--: |
+| [0](https://github.com/Junwu0615/OLTP-OLAP-Unified-DB/blob/main/docs/generic_result_2.md#-skip--1query-benchmark) | Initialize pgbench Benchmark Data | - |
 | [1](https://github.com/Junwu0615/OLTP-OLAP-Unified-DB/blob/main/docs/generic_result_1.md#1query-benchmark) | Query Benchmark | direct query method |
 | [2](https://github.com/Junwu0615/OLTP-OLAP-Unified-DB/blob/main/docs/generic_result_1.md#2oltp-workload-benchmark) | OLTP Workload Benchmark | use pgbench by docker |
 | [3](https://github.com/Junwu0615/OLTP-OLAP-Unified-DB/blob/main/docs/generic_result_1.md#3olap-workload-benchmark) | OLAP Workload Benchmark | use pgbench by docker |
@@ -14,6 +15,16 @@
 | [5](https://github.com/Junwu0615/OLTP-OLAP-Unified-DB/blob/main/docs/generic_result_1.md#5saturation-benchmark) | Saturation Benchmark | use pgbench by docker |
 
 <br>
+
+- #### *0.　INITIALIZE pgbench Benchmark Data*
+  ```
+  ### INITIALIZE ONCE ⬇️
+   -s 1: 約 10 萬筆資料
+   -s 50: 約 500 萬筆資料
+   ⭐ -s 500: 約 5000 萬筆資料
+  
+  docker exec -it postgres_sql_container pgbench -i -s 500 -U pguser -d pgdatabase
+  ```
 
 - #### *1.　Query Benchmark*
   ```
@@ -60,13 +71,6 @@
 
 - #### *2.　OLTP Workload Benchmark*
   ```
-  ### INITIALIZE ONCE ⬇️
-   -s 1: 約 10 萬筆資料
-   -s 50: 約 500 萬筆資料
-   ⭐ -s 500: 約 5000 萬筆資料
-  docker exec -it postgres_sql_container pgbench -i -s 500 -U pguser -d pgdatabase
-  
-  
   ### ACTION ⬇️
    c: client 數量
    j: thread 數量

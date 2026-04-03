@@ -6,7 +6,7 @@
 
 <br>
 
-### *2.　[ Please Skip ] Setting Account to Airflow in PostgreSQL*
+### *~~2.　Setting Account to Airflow in PostgreSQL~~*
 - #### *a.　進入 PostgreSQL container*
   ```
   # -U : 使用已存在的使用者
@@ -57,7 +57,7 @@
 
 <br>
 
-### *4.　Startup PoWA*
+### *~~4.　Startup PoWA~~*
 - #### *a.　背景啟動*
   ```
   docker compose up -d --build
