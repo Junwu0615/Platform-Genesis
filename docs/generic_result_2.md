@@ -7,12 +7,12 @@
 ### *Generic DB Benchmark*
 | **Step** | **Description** | **Tool** |
 | :--: | :-- | :--: |
-| [0](https://github.com/Junwu0615/OLTP-OLAP-Unified-DB/blob/main/docs/generic_result_2.md#-skip--1query-benchmark) | Initialize pgbench Benchmark Data | - |
-| [1](https://github.com/Junwu0615/OLTP-OLAP-Unified-DB/blob/main/docs/generic_result_2.md#-skip--1query-benchmark) | Query Benchmark | direct query method |
-| [2](https://github.com/Junwu0615/OLTP-OLAP-Unified-DB/blob/main/docs/generic_result_2.md#-skip--2oltp-workload-benchmark) | OLTP Workload Benchmark | use pgbench by docker |
-| [3](https://github.com/Junwu0615/OLTP-OLAP-Unified-DB/blob/main/docs/generic_result_2.md#-skip--3olap-workload-benchmark) | OLAP Workload Benchmark | use pgbench by docker |
-| [4](https://github.com/Junwu0615/OLTP-OLAP-Unified-DB/blob/main/docs/generic_result_2.md#-skip--4htap-workload-benchmark) | HTAP Workload Benchmark | use pgbench by docker |
-| [5](https://github.com/Junwu0615/OLTP-OLAP-Unified-DB/blob/main/docs/generic_result_2.md#-skip--saturation-benchmark) | Saturation Benchmark | use pgbench by docker |
+| [0](https://github.com/Junwu0615/OLTP-OLAP-Unified-DB/blob/main/docs/generic_result_2.md#0initialize-pgbench-benchmark-data) | Initialize pgbench Benchmark Data | - |
+| [1](https://github.com/Junwu0615/OLTP-OLAP-Unified-DB/blob/main/docs/generic_result_2.md#1query-benchmark) | Query Benchmark | direct query method |
+| [2](https://github.com/Junwu0615/OLTP-OLAP-Unified-DB/blob/main/docs/generic_result_2.md#-skip--2oltp-workload-benchmark) | OLTP Workload Benchmark | use pgbench |
+| [3](https://github.com/Junwu0615/OLTP-OLAP-Unified-DB/blob/main/docs/generic_result_2.md#3olap-workload-benchmark) | OLAP Workload Benchmark | use pgbench |
+| [4](https://github.com/Junwu0615/OLTP-OLAP-Unified-DB/blob/main/docs/generic_result_2.md#4htap-workload-benchmark) | HTAP Workload Benchmark | use pgbench |
+| [5](https://github.com/Junwu0615/OLTP-OLAP-Unified-DB/blob/main/docs/generic_result_2.md#5saturation-benchmark) | Saturation Benchmark | use pgbench |
 
 <br>
 
@@ -93,11 +93,11 @@ docker stats postgres_sql_container --no-stream
   docker exec -it postgres_sql_container pgbench -i -s 500 -U pguser -d pgdatabase
   ```
 
-- #### *[ SKIP ] 1.　Query Benchmark*
-- #### *[ SKIP ] 2.　OLTP Workload Benchmark*
-- #### *[ SKIP ] 3.　OLAP Workload Benchmark*
-- #### *[ SKIP ] 4.　HTAP Workload Benchmark*
-- #### *5.　Saturation Benchmark*
+- #### *~~1.　Query Benchmark~~*
+- #### *~~2.　OLTP Workload Benchmark~~*
+- #### *~~3.　OLAP Workload Benchmark~~*
+- #### *~~4.　HTAP Workload Benchmark~~*
+- #### *~~5.　Saturation Benchmark~~*
   ```
   ### ACTION 1 ⬇️
   docker exec -it postgres_sql_container pgbench -c 30 -j 8 -T 60 -b tpcb-like@99 -f /tmp/olap_benchmark.sql@1 -U pguser -d pgdatabase
