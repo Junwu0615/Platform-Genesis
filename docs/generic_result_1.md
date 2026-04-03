@@ -7,7 +7,7 @@
 ### *Generic DB Benchmark*
 | **Step** | **Description** | **Tool** |
 | :--: | :-- | :--: |
-| [0](https://github.com/Junwu0615/OLTP-OLAP-Unified-DB/blob/main/docs/generic_result_1.md#0initialize-pgbench-benchmark-data) | Initialize pgbench Benchmark Data | - |
+| [0](https://github.com/Junwu0615/OLTP-OLAP-Unified-DB/blob/main/docs/generic_result_1.md#01initialize-pgbench-benchmark-data) | Initialize pgbench Benchmark Data | - |
 | [1](https://github.com/Junwu0615/OLTP-OLAP-Unified-DB/blob/main/docs/generic_result_1.md#1query-benchmark) | Query Benchmark | direct query method |
 | [2](https://github.com/Junwu0615/OLTP-OLAP-Unified-DB/blob/main/docs/generic_result_1.md#2oltp-workload-benchmark) | OLTP Workload Benchmark | use pgbench |
 | [3](https://github.com/Junwu0615/OLTP-OLAP-Unified-DB/blob/main/docs/generic_result_1.md#3olap-workload-benchmark) | OLAP Workload Benchmark | use pgbench |
@@ -89,19 +89,22 @@
 
 - #### *2.　OLTP Workload Benchmark*
   ```
+  # c: client 數量 / j: thread 數量 / T: 測試秒數
   ### ACTION ⬇️
-   c: client 數量
-   j: thread 數量
-   T: 測試秒數
-  docker exec -it postgres_sql_container pgbench -c 20 -j 4 -T 30 -U pguser -d pgdatabase
+  docker exec -it postgres_sql_container pgbench -c 30 -j 8 -T 300 -b tpcb-like@100 -U pguser -d pgdatabase
   
   
   ### RETURN ⬇️
+  
+  
+  
+  ### DESCRIPTION ⬇️
   ```
 
 - #### *3.　OLAP Workload Benchmark*
   ```
   ### ACTION ⬇️
+  docker exec -it postgres_sql_container pgbench -c 30 -j 8 -T 300 -f /tmp/olap_benchmark.sql@100 -U pguser -d pgdatabase
   
   
   ### RETURN ⬇️
@@ -133,21 +136,20 @@
   docker exec -it postgres_sql_container pgbench -c 30 -j 8 -T 300 -M prepared -b tpcb-like@90 -f /tmp/dashboard_benchmark.sql@9 -f /tmp/olap_benchmark.sql@1 -U pguser -d pgdatabase
   
   ### RETURN 2 ⬇️
+  
   ```
 
-  | **Evaluation** | **30 Clients ( Generic )** | **30 Clients ( Prepared )** | **Trend ( Generic vs Prepared )** |
-  | :--: | :--: | :--: | :--: |
-  | AVG TPS | - | - | - |
-  | AVG Latency ( ms ) | - | - | - |
-  | OLTP Std Dev ( ms ) | - | - | - |
-  | OLAP Std Dev ( ms ) | - | - | - |
-  | Conn Overhead ( ms ) | - | - | - |
+<br>
 
-  ```
-  ### DESCRIPTION ⬇️
+- #### *Performance Comparison of Load Modes*
+  | **Load Modes** | **Evaluation ( TPS )** | **Description** |
+  | :--: | :--: | :-- |
+  | OLTP | - | - |
+  | OLAP | - | - |
+  | HTAP | - | - |
 
-  ```
 
+<br>
 
 - #### *~~5.　Saturation Benchmark~~*
   | **Evaluation** | **30 Clients ( Sweet Spot )** | **50 Clients ( Medium-load )** | **100 Clients ( High-load )** | **Trend ( 30 vs 100 )** |

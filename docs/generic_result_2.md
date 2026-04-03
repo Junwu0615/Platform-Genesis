@@ -23,54 +23,33 @@
 
 ### *Settings Before Action*
 ```
--- 從 Docker-Desktop 移進 WSL2
--- 由 /home 使用檔案 + compose up 避免遇到
-  -- 9P 協定瓶頸: 這層通訊開銷極大，比 Windows 本生虛擬化還慢
-  -- I/O 延遲爆炸: 頻繁切換寫入 WAL 和 Data blocks
+# 從 Docker-Desktop 移進 WSL2
+# 由 /home 使用檔案 + compose up 避免遇到
+  1. 9P 協定瓶頸: 這層通訊開銷極大，比 Windows 本生虛擬化還慢
+  2. I/O 延遲爆炸: 頻繁切換寫入 WAL 和 Data blocks
 
 mkdir -p ~/OLTP-OLAP-Unified-DB
 cp -r /mnt/c/專案路徑/* ~/OLTP-OLAP-Unified-DB/
--- ex: cp -r /mnt/c/Users/PC/Code/Python/Publish-To-Git/OLTP-OLAP-Unified-DB/src ~/OLTP-OLAP-Unified-DB/
+# ex: cp -r /mnt/c/Users/PC/Code/Python/Publish-To-Git/OLTP-OLAP-Unified-DB/src ~/OLTP-OLAP-Unified-DB/
 
 
--- 用 WSL2 確認容器資源限制 ( 預期32 )
+# 用 WSL2 確認容器資源限制 ( 預期32 )
 nproc
 
 
--- 建立 'pgbench_accounts' 索引
-docker exec -it postgres_sql_container psql -U pguser -d pgdatabase -c "
--- CREATE INDEX idx_accounts_aid_mod10 ON pgbench_accounts ((aid % 10));
-CREATE INDEX idx_ultra_fast ON pgbench_accounts ((aid % 10), abalance);
-ANALYZE pgbench_accounts;
-"
+# 設定 docker-compose.yaml
+shm_size: '16gb' -- 避免高並發時崩潰 / TPS: 穩定性提升
+command: >
+  postgres
+  -c shared_buffers=10GB -- 提升快取與工作記憶體 / 減少實體 IO 讀取 / TPS: +20% ~ 50%
+  -c work_mem=128MB -- 同上
+  -c maintenance_work_mem=512MB
+  -c synchronous_commit=off -- 暴力提升寫入吞吐量 (實驗專用) / 消除 WAL 寫入延遲 / TPS: +100% ~ 300%
+  -c checkpoint_completion_target=0.9 -- 同上
+  -c max_connections=100
 
 
--- 避免高並發時崩潰
--- TPS: 穩定性提升
-docker-compose setting shm_size
-
-
--- 提升快取與工作記憶體
--- 減少實體 IO 讀取
--- TPS: +20% ~ 50%
-ALTER ROLE pguser SET shared_buffers = '10GB';
-ALTER ROLE pguser SET work_mem = '128MB'; # 100(conn) * 128(MB) = 12.5(GB)
-
-
--- 暴力提升寫入吞吐量 (實驗專用)
--- 消除 WAL 寫入延遲
--- TPS: +100% ~ 300%
-ALTER ROLE pguser SET synchronous_commit = 'off';
-ALTER ROLE pguser SET checkpoint_completion_target = '0.9';
-
-
--- 允許更多背景工作人員處理 OLAP
--- 充分利用多核心 CPU
--- TPS: OLAP 加速
-ALTER ROLE pguser SET max_parallel_workers_per_gather = 4;
-
-
--- 確認設定已生效
+# 確認設定已生效
 docker exec -it postgres_sql_container psql -U pguser -d pgdatabase
 
 SHOW shared_buffers;
@@ -78,7 +57,7 @@ SHOW work_mem;
 SHOW synchronous_commit;
 
 
--- 持續監控容器資源使用狀況
+# 持續監控容器資源使用狀況
 docker stats postgres_sql_container --no-stream
 ```
 

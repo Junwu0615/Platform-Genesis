@@ -296,7 +296,8 @@ CREATE SCHEMA IF NOT EXISTS olap;
   
     ALTER ROLE oltp_user
     SET max_parallel_workers_per_gather = 0;
-  
+    
+    -- 允許更多人員處理 OLAP / 充分利用多核心 CPU / TPS: OLAP 加速
     ALTER ROLE olap_user
     SET max_parallel_workers_per_gather = 4;
     ```
