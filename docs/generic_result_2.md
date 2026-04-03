@@ -98,26 +98,66 @@ docker stats postgres_sql_container --no-stream
 - #### *0.2　Prepare Benchmark Scripts*
   ```
   ### 1. COPY SQL SCRIPT IN CONTAINER ⬇️
-  -- docker cp "src/sql/scripts/olap_benchmark.sql" postgres_sql_container:/tmp/olap_benchmark.sql
-  docker cp "src/sql/scripts/dashboard.sql" postgres_sql_container:/tmp/dashboard.sql
-  docker cp "src/sql/scripts/olap.sql" postgres_sql_container:/tmp/olap.sql
+  docker cp "src/sql/scripts/dashboard_benchmark.sql" postgres_sql_container:/tmp/dashboard_benchmark.sql
+  docker cp "src/sql/scripts/olap_benchmark.sql" postgres_sql_container:/tmp/olap_benchmark.sql
   
   ### 2. 一次性清理 BOM 與 Windows 換行符 (CRLF -> LF) ⬇️
-  -- docker exec -it postgres_sql_container sh -c "sed -i '1s/^\xef\xbb\xbf//; s/\r$//' /tmp/olap_benchmark.sql"
-  docker exec -it postgres_sql_container sh -c "sed -i '1s/^\xef\xbb\xbf//; s/\r$//' /tmp/dashboard.sql"
-  docker exec -it postgres_sql_container sh -c "sed -i '1s/^\xef\xbb\xbf//; s/\r$//' /tmp/olap.sql"
+  docker exec -it postgres_sql_container sh -c "sed -i '1s/^\xef\xbb\xbf//; s/\r$//' /tmp/dashboard_benchmark.sql"
+  docker exec -it postgres_sql_container sh -c "sed -i '1s/^\xef\xbb\xbf//; s/\r$//' /tmp/olap_benchmark.sql"
   
   ### 3. CHECK SCRIPT ⬇️
-  -- docker exec -it postgres_sql_container cat /tmp/olap_benchmark.sql
-  docker exec -it postgres_sql_container cat /tmp/dashboard.sql
-  docker exec -it postgres_sql_container cat /tmp/olap.sql
+  docker exec -it postgres_sql_container cat /tmp/dashboard_benchmark.sql
+  docker exec -it postgres_sql_container cat /tmp/olap_benchmark.sql
   ```
 
+<br>
+
 - #### *~~1.　Query Benchmark~~*
-- #### *~~2.　OLTP Workload Benchmark~~*
-- #### *~~3.　OLAP Workload Benchmark~~*
-- #### *~~4.　HTAP Workload Benchmark~~*
-- #### *~~5.　Saturation Benchmark~~*
+- #### *2.　OLTP Workload Benchmark*
+  ```
+  ### ACTION ⬇️
+  docker exec -it postgres_sql_container pgbench -c 30 -j 8 -T 300 -b tpcb-like@100 -U pguser -d pgdatabase
+  
+  ### RETURN ⬇️
+  transaction type: <builtin: TPC-B (sort of)>
+  scaling factor: 500
+  query mode: simple
+  number of clients: 30
+  number of threads: 8
+  maximum number of tries: 1
+  duration: 300 s
+  number of transactions actually processed: 633601
+  number of failed transactions: 0 (0.000%)
+  latency average = 14.205 ms
+  initial connection time = 7.322 ms
+  tps = 2111.920631 (without initial connection time)
+  ```
+
+<br>
+
+- #### *3.　OLAP Workload Benchmark*
+  ```
+  ### ACTION ⬇️
+  docker exec -it postgres_sql_container pgbench -c 30 -j 8 -T 300 -f /tmp/olap_benchmark.sql@100 -U pguser -d pgdatabase
+  
+  ### RETURN ⬇️
+  transaction type: /tmp/olap.sql
+  scaling factor: 1
+  query mode: simple
+  number of clients: 30
+  number of threads: 8
+  maximum number of tries: 1
+  duration: 300 s
+  number of transactions actually processed: 1201
+  number of failed transactions: 0 (0.000%)
+  latency average = 7622.358 ms
+  initial connection time = 8.877 ms
+  tps = 3.935790 (without initial connection time)
+  ```
+
+<br>
+
+- #### *4.　HTAP Workload Benchmark*
   | Layer | Item | % |
   | :--: | :-- | :--: |
   | 1 | OLTP ( Source of Truth ) | 90 |
@@ -126,32 +166,111 @@ docker stats postgres_sql_container --no-stream
 
   ```
   ### ACTION 1 ⬇️
-  -- docker exec -it postgres_sql_container pgbench -c 30 -j 8 -T 60 -b tpcb-like@99 -f /tmp/olap_benchmark.sql@1 -U pguser -d pgdatabase
-  docker exec -it postgres_sql_container pgbench -c 30 -j 8 -T 300 -b tpcb-like@90 -f /tmp/dashboard.sql@9 -f /tmp/olap.sql@1 -U pguser -d pgdatabase
-
+  docker exec -it postgres_sql_container pgbench -c 30 -j 8 -T 300 -b tpcb-like@90 -f /tmp/dashboard_benchmark.sql@9 -f /tmp/olap_benchmark.sql@1 -U pguser -d pgdatabase
   
   ### RETURN 1 ⬇️
-
+  transaction type: multiple scripts
+  scaling factor: 500
+  query mode: simple
+  number of clients: 30
+  number of threads: 8
+  maximum number of tries: 1
+  duration: 300 s
+  number of transactions actually processed: 77195
+  number of failed transactions: 0 (0.000%)
+  latency average = 118.131 ms
+  initial connection time = 8.340 ms
+  tps = 253.955567 (without initial connection time)
+  SQL script 1: <builtin: TPC-B (sort of)>
+   - weight: 90 (targets 90.0% of total)
+   - 69326 transactions (89.8% of total, tps = 228.068186)
+   - number of failed transactions: 0 (0.000%)
+   - latency average = 2.084 ms
+   - latency stddev = 1.813 ms
+  SQL script 2: /tmp/dashboard_benchmark.sql
+   - weight: 9 (targets 9.0% of total)
+   - 7109 transactions (9.2% of total, tps = 23.387138)
+   - number of failed transactions: 0 (0.000%)
+   - latency average = 274.741 ms
+   - latency stddev = 55.187 ms
+  SQL script 3: /tmp/olap_benchmark.sql
+   - weight: 1 (targets 1.0% of total)
+   - 759 transactions (1.0% of total, tps = 2.496953)
+   - number of failed transactions: 0 (0.000%)
+   - latency average = 9146.638 ms
+   - latency stddev = 770.821 ms
   
   
   ### ACTION 2 ⬇️
-  docker exec -it postgres_sql_container pgbench -c 50 -j 8 -T 60 -b tpcb-like@9 -f /tmp/olap_benchmark.sql@1 -U pguser -d pgdatabase
+  docker exec -it postgres_sql_container pgbench -c 30 -j 8 -T 300 -M prepared -b tpcb-like@90 -f /tmp/dashboard_benchmark.sql@9 -f /tmp/olap_benchmark.sql@1 -U pguser -d pgdatabase
   
   ### RETURN 2 ⬇️
-
-  
-  
-  ### ACTION 3 ⬇️
-  # ⚠️ 使用 -b tpcb-like@9 (90% OLTP, 10% OLAP) 可以模擬更真實的混合負載，通常能提供更全面的性能評估
-  docker exec -it postgres_sql_container pgbench -c 100 -j 8 -T 60 -b tpcb-like@9 -f /tmp/olap_benchmark.sql@1 -U pguser -d pgdatabase
-  
-  # ⚠️ 使用 -M prepared (預編譯語句) 可以減少 SQL 解析時間，通常能提升 10-20% TPS
-  docker exec -it postgres_sql_container pgbench -c 100 -j 8 -T 60 -M prepared -b tpcb-like@9 -f /tmp/olap_benchmark.sql@1 -U pguser -d pgdatabase
-
-  
-  ### RETURN 3 ⬇️
+  transaction type: multiple scripts
+  scaling factor: 500
+  query mode: prepared
+  number of clients: 30
+  number of threads: 8
+  maximum number of tries: 1
+  duration: 300 s
+  number of transactions actually processed: 78386
+  number of failed transactions: 0 (0.000%)
+  latency average = 116.468 ms
+  initial connection time = 7.347 ms
+  tps = 257.581563 (without initial connection time)
+  SQL script 1: <builtin: TPC-B (sort of)>
+   - weight: 90 (targets 90.0% of total)
+   - 70635 transactions (90.1% of total, tps = 232.111266)
+   - number of failed transactions: 0 (0.000%)
+   - latency average = 1.437 ms
+   - latency stddev = 1.581 ms
+  SQL script 2: /tmp/dashboard_benchmark.sql
+   - weight: 9 (targets 9.0% of total)
+   - 6965 transactions (8.9% of total, tps = 22.887449)
+   - number of failed transactions: 0 (0.000%)
+   - latency average = 270.862 ms
+   - latency stddev = 29.747 ms
+  SQL script 3: /tmp/olap_benchmark.sql
+   - weight: 1 (targets 1.0% of total)
+   - 785 transactions (1.0% of total, tps = 2.579562)
+   - number of failed transactions: 0 (0.000%)
+   - latency average = 9001.754 ms
+   - latency stddev = 666.161 ms
   ```
 
+<br>
+
+- #### *Performance Comparison of Load Modes*
+| **Load Modes** | **Evaluation ( TPS )** | **Description** |
+| :--: | :--: | :--: |
+| OLTP | 2111 | 高併發小事務，平均延遲僅 14.2 ms |
+| OLAP | 3.9 | 複雜查詢，平均延遲高達 7,622 ms |
+| HTAP | 253.9 | 受到 1% OLAP 查詢的資源佔用影響，總吞吐量大幅下降 |
+
+```
+### DESCRIPTION ⬇️
+# 在混合負載（90% OLTP / 9% Dashboard / 1% OLAP）的場景下，數據呈現明顯的「木桶效應」：
+- OLTP (Layer 1): 表現最穩定，延遲從純負載的 14ms 降至 1.4ms ~ 2ms（因為總請求量受限於長查詢，單次處理速度反而變快）。
+- Near-Real-Time (Layer 2): 提供儀表板使用的中度查詢，延遲落在 270ms ~ 274ms。
+- OLAP (Layer 3): 雖然僅佔 1% 的比例，但其延遲高達 9,000ms+。這 1% 的重量級查詢是拖慢整體 TPS（從 2111 降至 253）的主要原因。
+
+
+# 測試中對比了「簡單查詢 (Simple)」與「預編譯查詢 (Prepared)」對混合負載的影響：
+- TPS 提升: 從 253.9 微幅增加至 257.5 (+1.4%)。
+- OLTP 延遲優化: 在 Prepared 模式下，OLTP 的平均延遲從 2.084ms 降至 1.437ms，優化效果達 31%。
+- 結論: 對於高比例的 OLTP 混合場景，開啟 prepared 模式能顯著降低解析開銷，讓短指令處理更高效。
+
+# 關鍵洞察與建議
+- 資源爭搶明顯: 當 OLAP 佔比僅 1% 時，整體的 TPS 就產生了劇烈下滑。這證明了在單機 PostgreSQL 中執行 HTAP 時，長查詢會產生嚴重的 I/O 或 CPU 鎖定，影響 OLTP 的處理頻率。
+- 延遲落差極大: 最快與最慢的請求延遲相差約 6,000 倍 (1.4ms vs 9,000ms)，這在實務上可能導致連線池（Connection Pool）被長查詢佔滿。
+- 後續建議: 
+    1.  讀寫分離: 考慮引入副本（Replica）處理那 1% 的 OLAP 與 9% 的 Dashboard 請求。
+    2.  資源隔離: 若必須在同一台機器，建議調整 max_parallel_workers 或使用 cgroups 限制背景分析任務的資源。
+    3.  索引優化: 針對 Layer 2 (Dashboard) 的查詢進行特定索引優化，降低其 270ms 的延遲，以釋放更多 worker 給 OLTP 使用。
+```
+
+<br>
+
+- #### *~~5.　Saturation Benchmark~~*
   | **Evaluation** | **30 Clients ( Sweet Spot )** | **50 Clients ( Medium-load )** | **100 Clients ( High-load )** | **Trend ( 30 vs 100 )** |
   | :--: | :--: | :--: | :--: | :--: |
   | AVG TPS | - | - | - | - |
@@ -159,11 +278,5 @@ docker stats postgres_sql_container --no-stream
   | OLTP Std Dev ( ms ) | - | - | - | - |
   | OLAP Std Dev ( ms ) | - | - | - | - |
   | Conn Overhead ( ms ) | - | - | - | - |
-
-  ```
-  ### DESCRIPTION ⬇️
-
-  ### OPTIMIZATION PLAN ⬇️
-  ```
 
 <br>
