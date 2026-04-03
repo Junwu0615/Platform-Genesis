@@ -62,15 +62,17 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 | 增加數據量邏輯 | - | 2026-03-30 |
 | PoWA ( Running Normally ) | - | 2026-03-30 |
 | Try Again PoWA Web | ⚠️very difficult to deal with | 2026-03-30 |
-| Design Benchmark | two testing methods | 2026-03-31 |
+| Generic DB Benchmark | Design Benchmark-1 | 2026-03-31 |
 | Generic DB Benchmark | 64MB | 2026-03-31 |
 | Fine-tuning<br>PostgreSQL Docker Settings | `shm-size` | 2026-04-01 |
 | WSL2 Startup Docker Engine | - | 2026-04-03 |
-| Generic DB Benchmark | 64MB vs 16GB | 2026-04-04 |
+| Generic DB Benchmark | Design Benchmark-2 | 2026-04-03 |
+| Generic DB Benchmark | 64MB vs 16GB | - |
 | Workload Benchmark | - | - |
 | Create OLAP DDL ( 5 ) | Star Schema | - |
 | Create Materialized View ( MV ) | 建立物化檢視表 | - |
 | OLTP to OLAP By ETL | - | - |
+| DAG ETL Script | Fan-out Queue Pattern | - |
 | Analytical Queries | - | - |
 | Multi-Instance Simulate | - | X |
 | Add Terraform | VM / Network / Storage | - |
@@ -123,7 +125,7 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 ### *D.　Benchmark*
 | **Type** | **Objective** | **Methods** |
 | :--: | :--: | :--: |
-| *[Generic DB Benchmark](./docs/generic_db_benchmark.md)* | 找「資料庫」極限    | 內建工具 |
+| *[Generic DB Benchmark](./docs/generic_db_benchmark.md)* | 找「資料庫」極限   | 內建工具 |
 | *[Workload Benchmark](./docs/workload_benchmark.md)* | 找「指定系統」瓶頸 | 自訂腳本 |
 
 <br>
