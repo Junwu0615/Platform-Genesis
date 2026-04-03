@@ -132,6 +132,7 @@
   initial connection time = 7.116 ms
   ⭐ tps = 7499.582863 (without initial connection time)
   ```
+- #### *[Docker Desktop vs. WSL2 ( Pure Read Performance )](https://github.com/Junwu0615/OLTP-OLAP-Unified-DB/blob/main/docs/generic_result_2.md#docker-desktop-vs-wsl2--pure-read-performance-)*
 
 <br>
 

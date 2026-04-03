@@ -132,6 +132,24 @@ docker stats postgres_sql_container --no-stream
   latency average = 2.591 ms
   initial connection time = 7.304 ms
   ⭐ tps = 11577.754184 (without initial connection time)
+  
+  
+  ### ACTION 3 ( 極限測試 純讀取 負載 ) ⬇️
+  docker exec -it postgres_sql_container pgbench -S -c 100 -j 32 -T 300 -M prepared -U pguser -d pgdatabase
+  
+  ### RETURN 3 ⬇️
+  transaction type: <builtin: select only>
+  scaling factor: 500
+  query mode: prepared
+  number of clients: 100
+  number of threads: 32
+  maximum number of tries: 1
+  duration: 300 s
+  number of transactions actually processed: 3529519
+  number of failed transactions: 0 (0.000%)
+  latency average = 8.500 ms
+  initial connection time = 91.631 ms
+  ⭐ tps = 11764.198508 (without initial connection time)
   ```
 
 <br>
@@ -244,11 +262,27 @@ docker stats postgres_sql_container --no-stream
 <br>
 
 - #### *Docker Desktop vs. WSL2 ( Pure Read Performance )*
-  | **Evaluation** | **Docker Desktop<br>( Windows 虛擬層 )** | **WSL2<br>( 原生 Linux 核心 )** | **Performance Improvement** |
-  | :--: | :--: | :--: | :--: |
-  | TPS | 7,499 | 11,577 | + 54.3% |
-  | Latency | 4.000 ms | 2.591 ms | - 35.2% |
-  | Total Transactions | 2.55 million times | 3.47 million times | + 1.22 million times |
+  | **Evaluation** | **Docker Desktop<br>( Windows 虛擬層 )** | **WSL2<br>( 原生 Linux 核心 )** | **WSL2<br>( 極限測試 )** | **Performance Improvement ( 非極限比較 )** |
+  | :--: | :--: | :--: | :--: | :--: |
+  | TPS | 7,499 | 11,577 | 11,764 | + 54.3% |
+  | Latency | 4.000 ms | 2.591 ms | 8.500 ms | - 35.2% |
+  | Total Transactions | 2.55 million times | 3.47 million times | 3.52 million times | + 1.22 million times |
+
+  ```
+  ### DESCRIPTION ⬇️
+  # OLTP 的核心確實是 事務（Transaction），包含大量的 UPDATE、INSERT。但為什麼我們還要測純讀取？
+  - 排除磁碟干擾： 寫入測試（TPC-B）受限於磁碟 I/O 延遲和 WAL 寫入速度。純讀取可以告訴你：「如果排除掉慢速硬碟，這台機器的 CPU 與記憶體溝通效率極限在哪？」
+  - 測試併發處理能力： 即使是純讀取，30 個 Client 還是會競爭 共享緩衝區（Shared Buffers）的內存鎖（LWLocks）。如果這部分的 TPS 上不去，代表你的虛擬化環境（Docker Desktop）在處理內存分頁切換時效率極低。
+  - 結論： 純讀取不是重點，但它證明了 WSL2 的系統呼叫損耗比 Docker Desktop 低了 50% 以上。在真實 OLTP 壓力下，這 50% 的優勢會轉化為更快的索引查詢與快取命中處理。
+  
+  
+  # 極限測試
+  -c 128: 餵飽 32 核心（每個核心處理 4 個連線）
+  -j 32: 讓 pgbench 壓測工具也用滿 32 執行緒
+  -M prepared: 測試真正的「記憶體檢索速度」，而不是測試「SQL 解析速度」
+  - 總結 : 在 32 核機器上只跑出 1.1 萬 TPS 是不科學的。這通常是因為 Windows 的核心調度器 (Scheduler) 無法有效地把高頻率的虛擬機請求分發給 32 個物理核心。
+  若把同樣的配置搬到純 Linux（非虛擬化）環境，數字通常會直接噴發到 10 萬以上。WSL2 雖強，但在「超高併發」的極限壓測下，虛擬化層的代價會變得很明顯。
+  ```
 
 <br>
 
