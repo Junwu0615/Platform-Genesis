@@ -188,7 +188,6 @@
       - Checkpoint -> Checkpoint Frequency too High
     ```
   - #### *⭐ 2.　WAL Rate*
-  - ![PNG](../assets/grafana_02.PNG)
     ```
     -- Equivalent SQL ⬇️ 
     None
@@ -202,7 +201,6 @@
      - Checkpoint ( WAL Rate Spike )
     ```
   - #### *3.　IO Saturation*
-  - ![PNG](../assets/grafana_03.PNG)
     ```
     -- Equivalent SQL ⬇️ 
     None
