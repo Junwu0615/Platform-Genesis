@@ -141,5 +141,13 @@
   ```
   docker-compose up -d
   ```
+  
+- #### *b.　Grafana 設定*
+  ```
+  acc: admin
+  pwd: admin
+  
+  新增 Prometheus datasource: http:127.0.0.1:9090
+  ```
 
 <br>
