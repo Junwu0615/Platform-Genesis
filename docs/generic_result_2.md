@@ -270,7 +270,8 @@ docker stats postgres_sql_container --no-stream
 
   ```
   ### DESCRIPTION ⬇️
-  # OLTP 的核心確實是 事務（Transaction），包含大量的 UPDATE、INSERT。但為什麼我們還要測純讀取？
+  # OLTP 核心事務為 Transaction，包含大量的 UPDATE、INSERT。
+    但...為什麼我們還要測純讀取 ?
   - 排除磁碟干擾： 寫入測試（TPC-B）受限於磁碟 I/O 延遲和 WAL 寫入速度。純讀取可以告訴你：「如果排除掉慢速硬碟，這台機器的 CPU 與記憶體溝通效率極限在哪？」
   - 測試併發處理能力： 即使是純讀取，30 個 Client 還是會競爭 共享緩衝區（Shared Buffers）的內存鎖（LWLocks）。如果這部分的 TPS 上不去，代表你的虛擬化環境（Docker Desktop）在處理內存分頁切換時效率極低。
   - 結論： 純讀取不是重點，但它證明了 WSL2 的系統呼叫損耗比 Docker Desktop 低了 50% 以上。在真實 OLTP 壓力下，這 50% 的優勢會轉化為更快的索引查詢與快取命中處理。
@@ -296,24 +297,32 @@ docker stats postgres_sql_container --no-stream
   ```
   ### DESCRIPTION ⬇️
   # 在混合負載（90% OLTP / 9% Dashboard / 1% OLAP）的場景下，數據呈現明顯的「木桶效應」：
-  - OLTP (Layer 1): 表現最穩定，延遲從純負載的 14ms 降至 1.4ms ~ 2ms（因為總請求量受限於長查詢，單次處理速度反而變快）。
-  - Near-Real-Time (Layer 2): 提供儀表板使用的中度查詢，延遲落在 270ms ~ 274ms。
-  - OLAP (Layer 3): 雖然僅佔 1% 的比例，但其延遲高達 9,000ms+。這 1% 的重量級查詢是拖慢整體 TPS（從 2111 降至 253）的主要原因。
+  - OLTP (Layer 1): 表現最穩定，延遲從純負載的 14ms 降至 1.4ms ~ 2ms（因為總請求量受限於長查詢，單次處理速度反而變快）
+  - Near-Real-Time (Layer 2): 提供儀表板使用的中度查詢，延遲落在 270ms ~ 274ms
+  - OLAP (Layer 3): 雖然僅佔 1% 的比例，但其延遲高達 9,000ms+。這 1% 的重量級查詢是拖慢整體 TPS（從 2111 降至 253）的主要原因
   
   
   # 測試中對比了「簡單查詢 (Simple)」與「預編譯查詢 (Prepared)」對混合負載的影響：
-  - TPS 提升: 從 253.9 微幅增加至 257.5 (+1.4%)。
-  - OLTP 延遲優化: 在 Prepared 模式下，OLTP 的平均延遲從 2.084ms 降至 1.437ms，優化效果達 31%。
-  - 結論: 對於高比例的 OLTP 混合場景，開啟 prepared 模式能顯著降低解析開銷，讓短指令處理更高效。
+  - TPS 提升: 從 253.9 微幅增加至 257.5 (+1.4%)
+  - OLTP 延遲優化: 在 Prepared 模式下，OLTP 的平均延遲從 2.084ms 降至 1.437ms，優化效果達 31%
+  - 結論: 對於高比例的 OLTP 混合場景，開啟 prepared 模式能顯著降低解析開銷，讓短指令處理更高效
   
   
   # 關鍵洞察與建議
-  - 資源爭搶明顯: 當 OLAP 佔比僅 1% 時，整體的 TPS 就產生了劇烈下滑。這證明了在單機 PostgreSQL 中執行 HTAP 時，長查詢會產生嚴重的 I/O 或 CPU 鎖定，影響 OLTP 的處理頻率。
-  - 延遲落差極大: 最快與最慢的請求延遲相差約 6,000 倍 (1.4ms vs 9,000ms)，這在實務上可能導致連線池（Connection Pool）被長查詢佔滿。
-  - 後續建議: 
-      1.  讀寫分離: 考慮引入副本（Replica）處理那 1% 的 OLAP 與 9% 的 Dashboard 請求。
-      2.  資源隔離: 若必須在同一台機器，建議調整 max_parallel_workers 或使用 cgroups 限制背景分析任務的資源。
-      3.  索引優化: 針對 Layer 2 (Dashboard) 的查詢進行特定索引優化，降低其 270ms 的延遲，以釋放更多 worker 給 OLTP 使用。
+  - 資源爭搶明顯: 當 OLAP 佔比僅 1% 時，整體的 TPS 就產生了劇烈下滑。這證明了在單機 PostgreSQL 中執行 HTAP 時，長查詢會產生嚴重的 I/O 或 CPU 鎖定，影響 OLTP 的處理頻率
+  - 延遲落差極大: 最快與最慢的請求延遲相差約 6,000 倍 (1.4ms vs 9,000ms)，這在實務上可能導致連線池（Connection Pool）被長查詢佔滿
+  - 後續優化方案:
+      1.  讀寫分離: 考慮引入副本（Replica）處理那 1% 的 OLAP 與 9% 的 Dashboard 請求
+          - 同裝置（同磁碟）開副本：可解決「鎖」，不解決「餓」
+            - 鎖: 記憶體與鎖的競爭 (Lock Contention)
+              - OLAP 查詢通常需要大量的 work_mem 進行排序。獨立的副本可以擁有自己的記憶體分配，不會搶走 OLTP 的 Buffer Cache
+              - 複雜的分析查詢有時會產生長期的快照衝突或特殊的輕量級鎖，分開實例可以讓 OLTP 的事務提交更順暢
+            - 餓: I/O 飢餓 (I/O Starvation)
+              - 當 1% 的 OLAP 開始進行「全表掃描（Full Table Scan）」時，磁碟的讀取頭（或 SSD 的通道）會被佔滿
+              - OLTP 需要極快地寫入 WAL 日誌。如果 I/O 被 OLAP 塞住，OLTP 的預寫日誌（Write Ahead Log）會卡住，導致 TPS 瞬間崩潰
+  
+      2.  資源隔離: 若必須在同一台機器，建議調整 max_parallel_workers 或使用 cgroups 限制背景分析任務的資源
+      3.  索引優化: 針對 Layer 2 (Dashboard) 的查詢進行特定索引優化，降低其 270ms 的延遲，以釋放更多 worker 給 OLTP 使用
   ```
 
 <br>
