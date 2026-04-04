@@ -51,7 +51,24 @@
 
 <br>
 
-### *C.　Simulation Data Volume*
+### *C.　Settings Before Action*
+```
+# 定義監控目標
+  - OS 層監控： CPU、Memory、Disk I/O、Network I/O、Load
+  - DB 層監控： TPS、Latency、Lock、Connection Count、Buffer Cache Hit Ratio
+  - WAL 壓力監控： WAL 生成速率、WAL 傳輸速率、WAL 傳輸延遲
+  - Table bloat / vacuum 監控： bloat ratio、vacuum 活動頻率、dead tuples 數量
+  
+# 導入監控工具： Prometheus + Grafana + Postgres-Exporter
+
+# 多開腳本壓測： 漸進式開腳本，觀測同時對同一個資料庫灌資料的影響
+  - 開到第 N 個 Python 實例，BATCH_SIZE 的提交速度開始變慢？
+  - 加入 OLAP 查詢時，production_records 的插入延遲是否翻倍？
+```
+
+<br>
+
+### *D.　Simulation Data Volume*
 ```
 Products:            5
 Machines:            20
@@ -77,7 +94,7 @@ PEAK     : ~25/sec
 
 <br>
 
-### *D.　Startup Simulate Script*
+### *E.　Startup Simulate Script*
 - #### *1.　Go to Env*
     ```
     .\.venv\Scripts\activate
@@ -93,10 +110,6 @@ PEAK     : ~25/sec
 
 <br>
 
-### *E.　Benchmark*
-
-<br>
-
-### *F.　Metrics*
+### *F.　Benchmark*
 
 <br>
