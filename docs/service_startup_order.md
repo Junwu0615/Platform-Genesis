@@ -168,7 +168,7 @@
 
 - #### *d.　監控位置*
   - #### *⭐ 1.　TPS: 每秒 Commit + Rollback 數*
-    - ![PNG](../assets/grafana_01.PNG)
+  - ![PNG](../assets/grafana_01.PNG)
     ```
     -- Equivalent SQL ⬇️ 
     SELECT
@@ -188,7 +188,7 @@
       - Checkpoint -> Checkpoint Frequency too High
     ```
   - #### *⭐ 2.　WAL Rate*
-    - ![PNG](../assets/grafana_02.PNG)
+  - ![PNG](../assets/grafana_02.PNG)
     ```
     -- Equivalent SQL ⬇️ 
     None
@@ -202,7 +202,7 @@
      - Checkpoint ( WAL Rate Spike )
     ```
   - #### *3.　IO Saturation*
-    - ![PNG](../assets/grafana_03.PNG)
+  - ![PNG](../assets/grafana_03.PNG)
     ```
     -- Equivalent SQL ⬇️ 
     None
@@ -213,7 +213,7 @@
     非預期 : IO Full -> TPS 突然下降
     ```
   - #### *⭐ 4.　Lock Contention*
-    - ![PNG](../assets/grafana_04.PNG)
+  - ![PNG](../assets/grafana_04.PNG)
     ```
     -- Equivalent SQL ⬇️ 
     SELECT *
@@ -229,7 +229,7 @@
         - OLAP Query -> AccessShareLock
     ```
   - #### *5.　Connections*
-    - ![PNG](../assets/grafana_05.PNG)
+  - ![PNG](../assets/grafana_05.PNG)
     ```
     -- Equivalent SQL ⬇️ 
     SELECT count(*)
@@ -244,7 +244,7 @@
         - Pool Misconfiguration -> Connection Pooling Exploded
     ```
   - #### *⭐ 6.　Cache Hit Ratio*
-    - ![PNG](../assets/grafana_06.PNG)
+  - ![PNG](../assets/grafana_06.PNG)
     ```
     -- Equivalent SQL ⬇️ 
     None
@@ -257,7 +257,7 @@
       - dataset > RAM ???
     ```
   - #### *⭐ 7.　WAL Flush / Checkpoint*
-    - ![PNG](../assets/grafana_07.PNG)
+  - ![PNG](../assets/grafana_07.PNG)
     ```
     -- Equivalent SQL ⬇️ 
     None
