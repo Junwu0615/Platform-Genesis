@@ -76,7 +76,7 @@
   ```
   docker-compose up -d
   ```
-- #### *去除乾淨*
+- #### *c.　移除服務*
   ```
   # 停止且移除 :「容器」、「沒定義的孤兒」、「資料庫內容」
   docker-compose down --volumes --remove-orphans

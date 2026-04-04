@@ -127,9 +127,8 @@ CREATE SCHEMA IF NOT EXISTS olap;
     -- oltp_user: 讀/寫權限
     CREATE ROLE oltp_user LOGIN PASSWORD 'oltp_pwd';
     ```
-  - #### *1.2.　OLTP Role*
+  - #### *1.2.　OLAP Role*
     ```
-    CREATE ROLE migration_user LOGIN PASSWORD 'xxx';
     -- olap_owner: 擁有者權限 + 不允許登入
     CREATE ROLE olap_owner NOLOGIN;
     
@@ -203,8 +202,13 @@ CREATE SCHEMA IF NOT EXISTS olap;
     -- 4. 設定預設權限 : 確保 migration_user 進去建立的表，自動讓 owner 擁有完整權限
     ALTER DEFAULT PRIVILEGES FOR ROLE migration_user IN SCHEMA oltp
     GRANT ALL ON TABLES TO oltp_owner;
+    ALTER DEFAULT PRIVILEGES FOR ROLE migration_user IN SCHEMA oltp
+    GRANT ALL ON SEQUENCES TO oltp_owner;
+
     ALTER DEFAULT PRIVILEGES FOR ROLE migration_user IN SCHEMA olap
     GRANT ALL ON TABLES TO olap_owner;
+    ALTER DEFAULT PRIVILEGES FOR ROLE migration_user IN SCHEMA olap
+    GRANT ALL ON SEQUENCES TO olap_owner;
     ```
   - #### *2.4.　Remove Public Role 預設權限*
     ```
@@ -307,7 +311,7 @@ CREATE SCHEMA IF NOT EXISTS olap;
     -- 直接限制 user 連線數
   
     ALTER ROLE oltp_user
-    CONNECTION LIMIT 50;
+    CONNECTION LIMIT 100;
   
     ALTER ROLE olap_user
     CONNECTION LIMIT 5;
