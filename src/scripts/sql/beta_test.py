@@ -12,7 +12,7 @@ logging = Logger(console_name='.main')
 # DB Connection
 # ===============================
 conn = psycopg2.connect(
-    host="localhost",
+    host='127.0.0.1',
     database="pgdatabase",
     user="oltp_user",
     password="oltp_pwd"

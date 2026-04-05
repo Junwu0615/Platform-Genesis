@@ -14,8 +14,9 @@ TARGET_LIST = [
     # 'oltp.machine_events', # not used
     'oltp.production_records',
     'oltp.production_orders',
-    'oltp.machine_status_logs_2026_03',
-    # 'oltp.machine_status_logs_2026_04',
+    # 'oltp.machine_status_logs_2026_03',
+    'oltp.machine_status_logs_2026_04',
+    # 'oltp.machine_status_logs_2026_05',
     # 'oltp.products',
     # 'oltp.machines',
     # OLAP Tables
@@ -30,7 +31,7 @@ def main():
     conn, cursor = None, None
     try:
         conn = psycopg2.connect(
-            host='localhost',
+            host='127.0.0.1',
             database='pgdatabase',
             user='migration_user',
             password='migration_pwd'

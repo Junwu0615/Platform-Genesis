@@ -12,7 +12,7 @@ def main():
     conn, cursor = None, None
     try:
         conn = psycopg2.connect(
-            host='localhost',
+            host='127.0.0.1',
             database='pgdatabase',
             user='migration_user',
             password='migration_pwd'
