@@ -1,7 +1,8 @@
 database:
-  host: localhost
+#  host: localhost # Windows 會先嘗試透過 IPv6 的 ::1 連線，如果失敗（或 Docker 沒監聽 IPv6），它會等到逾時後才降級回 IPv4 的 127.0.0.1。
+  host: 127.0.0.1 # 使用 IPv4 的 loopback 地址，避免 IPv6 連線問題
   database: pgdatabase
-  user: oltp_user
+  user: oltp_user # 設定針對'交易事務'的用戶
   password: oltp_pwd
 
 init_data:
