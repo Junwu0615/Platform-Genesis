@@ -152,20 +152,31 @@
   
   # 快速導入 Dashboard ( Dashboards -> New -> Import )
     - Import via grafana.com :
-      - PostgreSQL: ⭐9628 / 9629
-      - Node Exporter: 1860
-      - PostgreSQL Table: 12485
+      - PostgreSQL: 9628 ( TPS, Transactions, Locks, Cache hit, Connections, Database size )
+      - Node Exporter: 1860 ( CPU, RAM, Disk IO, Disk usage, Network, Load average )
+      - PostgreSQL Table: 12485 ( Table size, Table growth, Index size, Sequential scans, Index scans )
   
-  # 觀測重點 ( 人工整併 )
-  CPU
-  RAM
-  Disk IO
-  TPS
-  Locks
-  Connections
-  WAL rate
-  Cache hit
-  Top tables
+  # 觀測重點 ( ⭐htap_grafana.json )
+  HTAP Monitoring
+    System Layer ( Node Exporter )
+    - CPU
+    - RAM
+    - Disk IO
+    - Disk usage
+  
+    PostgreSQL Layer ( Postgres Exporter )
+    - TPS
+    - Connections
+    - Locks
+    - WAL rate
+    - Cache hit ratio
+    - Checkpoints
+  
+    Table Layer
+    - Top 10 table size
+    - Top 10 seq scan
+    - Top 10 index scan
+    - Table growth
   ```
 - ![PNG](../assets/grafana_1.PNG)
 - ![PNG](../assets/grafana_2.PNG)
