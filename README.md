@@ -70,6 +70,9 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 | Generic DB Benchmark | Docker Desktop ( 64MB )<br>vs<br>WSL2 ( 16GB ) | 2026-04-04 |
 | Workload Benchmark | Design Benchmark | 2026-04-04 |
 | Add Monitoring | Postgres Exporter + Prometheus + Grafana | 2026-04-04 |
+| Add Monitoring | Node Exporter | 2026-04-05 |
+| Grafana Dashboard | Organize Observation Indicators | 2026-04-05 |
+| Add WSL2 Settings | `.wslconfig` | 2026-04-06 |
 | Create OLAP DDL ( 5 ) | Star Schema | - |
 | Create Materialized View ( MV ) | 建立物化檢視表 | - |
 | OLTP to OLAP By ETL | - | - |
@@ -93,6 +96,7 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
   | ~~PoWA UI Web~~ | for `PoWA` | [8888](http:127.0.0.1:8888) |
   | Grafana | for `Monitoring` | [3000](http:127.0.0.1:3000) |
   | Prometheus | for `Monitoring` | [9090](http:127.0.0.1:9090) |
+  | Node Exporter | for `Monitoring` | [9100](http:127.0.0.1:9100) |
   | Postgres Exporter | for `Monitoring` | [9187](http:127.0.0.1:9187) |
 
 

@@ -8,6 +8,44 @@ services:
       DATA_SOURCE_NAME: 'postgresql://postgres_exporter:exporter@host.docker.internal:5432/postgres?sslmode=disable'
     ports:
       - '9187:9187'
+    command:
+      - '--collector.stat_bgwriter' # TPS / IO / tuples
+      - '--collector.stat_database' # checkpoint / write
+      - '--collector.stat_user_tables' # table activity
+      - '--collector.wal' # WAL throughput
+      - '--collector.locks' # lock contention 貌似預設即開
+      - '--collector.database' # DB size
+      - '--auto-discover-databases' # 自動抓所有 database 的 metrics
+      - '--collector.postmaster' # Table size / index size
+#      - '--collector.replication' # Replication status 若未來做 HTAP replica
+    networks:
+      - monitoring_default
+    restart: always
+
+  node_exporter:
+    image: prom/node-exporter
+    container_name: node_exporter
+    pid: host
+    volumes:
+#      - '/:/host:ro,rslave'
+      - '/proc:/host/proc:ro'
+      - '/sys:/host/sys:ro'
+      - '/:/rootfs:ro,rslave'
+    command:
+#      - '--path.rootfs=/host'
+      - '--path.procfs=/host/proc'
+      - '--path.sysfs=/host/sys'
+      - '--path.rootfs=/rootfs'
+      # 避免抓 container mount
+      - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($|/)'
+      # 避免 pseudo filesystem
+      - '--collector.filesystem.fs-types-exclude=^(autofs|binfmt_misc|bpf|cgroup2?|configfs|debugfs|devpts|devtmpfs|fusectl|hugetlbfs|mqueue|overlay|proc|pstore|rpc_pipefs|securityfs|sysfs|tracefs)$'
+      # 避免抓 C、D drive mount ( Node Exporter 掃描這些路徑會極度緩慢且容易報錯 )
+      - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc|mnt/c|mnt/d|mnt/e)($$|/)'
+    networks:
+      - monitoring_default
+    ports:
+      - '9100:9100'
     restart: always
 
   prometheus:
@@ -15,8 +53,11 @@ services:
     container_name: prometheus
     volumes:
       - ./prometheus.yaml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
     ports:
       - '9090:9090'
+    networks:
+      - monitoring_default
     restart: always
 
   grafana:
@@ -28,7 +69,14 @@ services:
       - GF_SECURITY_ADMIN_PASSWORD=admin
     volumes:
       - grafana_data:/var/lib/grafana
+    networks:
+      - monitoring_default
     restart: always
 
 volumes:
   grafana_data:
+  prometheus_data:
+
+networks:
+    monitoring_default:
+        driver: bridge

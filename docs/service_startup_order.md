@@ -152,6 +152,20 @@
   
   # 快速導入 Dashboard ( Dashboards -> New -> Import )
     - Import via grafana.com : ⭐9628 or 455
+    - PostgreSQL: 9628 / 9629
+    - Node Exporter: 1860
+    - PostgreSQL Table: 12485
+  
+  # 觀測重點 ( 人工整併 )
+  CPU
+  RAM
+  Disk IO
+  TPS
+  Locks
+  Connections
+  WAL rate
+  Cache hit
+  Top tables
   ```
 - ![PNG](../assets/grafana_1.PNG)
 - ![PNG](../assets/grafana_2.PNG)
@@ -265,6 +279,11 @@
     預期 : None
     非預期 :
       - checkpoints_req -> WAL segment filled up -> max_wal_size too small
+    ```
+    
+  - #### *8.　...*
+    ```
+    http://127.0.0.1:9187/metrics
     ```
 
 <br>
