@@ -13,4 +13,9 @@ CREATE TABLE olap.fact_production (
 
 -- 順序決定了索引的生死 ( 關於匹配原則無法跳過，否則失效成代價極高的 Full Scan )
 CREATE INDEX idx_olap_prod_composite
-ON olap.fact_production(machine_key, date_key);
+ON olap.fact_production(machine_key);
+
+
+-- 防止萬一的保險：任何不在範圍內的資料都會掉進這裡
+CREATE TABLE olap.fact_production_default
+PARTITION OF olap.fact_production DEFAULT;

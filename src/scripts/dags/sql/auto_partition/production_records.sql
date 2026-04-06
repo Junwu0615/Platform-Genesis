@@ -1,22 +1,23 @@
 DO $$
 DECLARE
     target_schema TEXT := 'oltp';
-    target_table  TEXT := 'machine_status_logs';
+    target_table  TEXT := 'production_records';
 
     run_date      DATE;
     start_date    DATE;
     end_date      DATE;
     partition_name TEXT;
 BEGIN
-    -- 迴圈建立「本月」與「下個月」的分區 (預建機制)
-    FOR i IN 0..1 LOOP
-        run_date   := date_trunc('month', CURRENT_DATE + (i || ' month')::interval);
+    -- 迴圈建立分區表
+    FOR i IN 0..3 LOOP
+        run_date   := date_trunc('day', CURRENT_DATE + (i || ' day')::interval);
         start_date := run_date;
-        end_date   := run_date + interval '1 month';
-        partition_name := target_table || '_' || to_char(start_date, 'YYYY_MM');
+        end_date   := run_date + interval '1 day';
+        partition_name := target_table || '_' || to_char(start_date, 'YYYY_MM_DD');
 
         EXECUTE format(
-            'CREATE TABLE IF NOT EXISTS %I.%I
+            'SET ROLE oltp_owner;
+            CREATE TABLE IF NOT EXISTS %I.%I
             PARTITION OF %I.%I
             FOR VALUES FROM (%L) TO (%L)',
             target_schema, partition_name,

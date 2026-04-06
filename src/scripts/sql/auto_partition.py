@@ -10,7 +10,7 @@ logging = Logger(console_name='.main')
 
 def _get_sql_script(table_name: str) -> str:
     # file_path = f'../sql/scripts/{table_name}/auto_partition.sql'
-    file_path = f'src/sql/scripts/{table_name}/auto_partition.sql'
+    file_path = f'src/scripts/dags/sql/auto_partition/{table_name}.sql'
 
     with open(file_path, 'r', encoding='utf-8') as f:
         sql_script = f.read()
@@ -28,7 +28,11 @@ def main():
         )
         cursor = conn.cursor()
 
-        for table_name in ['machine_status_logs', 'production_records']:
+        for table_name in [
+            'machine_status_logs',
+            'production_records',
+            'fact_production'
+        ]:
             sql = _get_sql_script(table_name)
             cursor.execute(sql)
             logging.warning(f"Created partition table for '{table_name}' successfully.")

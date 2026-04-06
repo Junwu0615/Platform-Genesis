@@ -12,21 +12,23 @@ TARGET_LIST = [
     # OLTP Tables
     # 'oltp.machine_events', # not used
     # 'oltp.machine_status_logs',
-    'oltp.machine_status_logs_2026_04',
-    'oltp.machine_status_logs_2026_05',
+    # 'oltp.machine_status_logs_2026_04',
+    # 'oltp.machine_status_logs_2026_05',
     # 'oltp.production_records',
-    'oltp.production_records_2026_04',
-    'oltp.production_records_2026_05',
+    # 'oltp.production_records_2026_04',
+    # 'oltp.production_records_2026_05',
     # 'oltp.production_orders',
     # 'oltp.machines',
     # 'oltp.products',
 
     # OLAP Tables
-    # 'olap.fact_production',
-    # 'olap.fact_machine_status',
-    # 'olap.dim_date',
-    # 'olap.dim_product',
-    # 'olap.dim_machine',
+    'olap.fact_production',
+    # 'olap.fact_production_2026_04',
+    # 'olap.fact_production_2026_05',
+    'olap.fact_machine_status',
+    'olap.dim_date',
+    'olap.dim_product',
+    'olap.dim_machine',
 ]
 
 def main():
@@ -44,21 +46,21 @@ def main():
             schema_owner = f"{table.split('.')[0]}_owner"
 
             sql = f"""
-            SET ROLE {schema_owner};
+            -- SET ROLE {schema_owner};
             
             TRUNCATE TABLE {table} RESTART IDENTITY CASCADE;
             
-            RESET ROLE;
+            -- RESET ROLE;
             """
             cursor.execute(sql)
             logging.warning(f'#1 TRUNCATE TABLE {table} ...')
 
             sql = f"""
-            SET ROLE {schema_owner};
+            -- SET ROLE {schema_owner};
             
             DROP TABLE {table};
             
-            RESET ROLE;
+            -- RESET ROLE;
             """
             cursor.execute(sql)
             logging.warning(f'#2 DROP TABLE {table} ...')

@@ -1,5 +1,5 @@
 INSERT INTO olap.fact_production (
-    date_key, machine_key, product_key, order_id, actual_quantity, event_timestamp
+    date_key, machine_key, product_key, order_id, quantity, event_timestamp
 )
 SELECT
     to_char(r.event_time, 'YYYYMMDD')::INT, -- 轉換為 Date Key
