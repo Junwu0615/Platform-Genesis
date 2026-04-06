@@ -68,9 +68,11 @@
 <br>
 
 ### *3.　Startup Airflow*
-- #### *a.　創建目錄 + 初始化*
+- #### *a.　創建目錄 + 給予指定資料夾權限 + 初始化*
   ```
   mkdir config; mkdir dags; mkdir logs; mkdir plugins;
+  sudo chown -R 50000:0 ./airflow
+  
   docker-compose up airflow-init
   ```
 - #### *b.　背景啟動*

@@ -9,7 +9,7 @@
 [![](https://img.shields.io/badge/Technology-Terraform-important.svg?style=plastic)](https://github.com/Junwu0615/OLTP-OLAP-UNIFIED-DB) <br>
 [![](https://img.shields.io/badge/Technology-Grafana-important.svg?style=plastic)](https://github.com/Junwu0615/OLTP-OLAP-UNIFIED-DB) 
 [![](https://img.shields.io/badge/Technology-Prometheus-important.svg?style=plastic)](https://github.com/Junwu0615/OLTP-OLAP-UNIFIED-DB) 
-[![](https://img.shields.io/badge/Technology-PoWA-yellow.svg?style=plastic)](https://github.com/Junwu0615/OLTP-OLAP-UNIFIED-DB) 
+[![](https://img.shields.io/badge/Technology-PoWA-inactive.svg?style=plastic)](https://github.com/Junwu0615/OLTP-OLAP-UNIFIED-DB) 
 [![](https://img.shields.io/badge/Technology-Apache_Airflow-important.svg?style=plastic)](https://github.com/Junwu0615/OLTP-OLAP-UNIFIED-DB) <br>
 
 <br>
