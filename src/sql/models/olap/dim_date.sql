@@ -6,7 +6,8 @@ CREATE TABLE olap.dim_date (
     month_name VARCHAR(10),
     year INT,
     quarter INT,
-    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
+    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMPTZ DEFAULT Null
 );
 
 
