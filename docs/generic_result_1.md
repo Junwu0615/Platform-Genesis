@@ -30,8 +30,8 @@
 - #### *0.2　Prepare Benchmark Scripts*
   ```
   ### 1. COPY SQL SCRIPT IN CONTAINER ⬇️
-  docker cp ".\src\sql\scripts\dashboard_benchmark.sql" postgres_sql_container:/tmp/dashboard_benchmark.sql
-  docker cp ".\src\sql\scripts\olap_benchmark.sql" postgres_sql_container:/tmp/olap_benchmark.sql
+  docker cp ".\src\sql\scripts\generic_benchmark\dashboard_benchmark.sql" postgres_sql_container:/tmp/dashboard_benchmark.sql
+  docker cp ".\src\sql\scripts\generic_benchmark\olap_benchmark.sql" postgres_sql_container:/tmp/olap_benchmark.sql
   
   
   ### 2. 一次性清理 BOM 與 Windows 換行符 (CRLF -> LF) ⬇️

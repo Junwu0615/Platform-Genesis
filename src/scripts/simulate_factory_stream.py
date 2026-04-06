@@ -293,7 +293,7 @@ def init_transaction_dict(conn, cursor) -> dict:
         # 取得機台列表
         cursor.execute("""
         SELECT machine_id, machine_type
-        FROM oltp.machines
+        FROM oltp.machine
         """)
         machines = cursor.fetchall()
         event_dict['machine_dict'] = {i[0]:i[1] for i in machines}
@@ -306,7 +306,7 @@ def init_transaction_dict(conn, cursor) -> dict:
         # 取得產品列表
         cursor.execute("""
         SELECT product_id, product_type
-        FROM oltp.products
+        FROM oltp.product
         """)
         products = cursor.fetchall()
         event_dict['product_dict'] = {i[0]: i[1] for i in products}

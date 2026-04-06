@@ -73,7 +73,8 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 | Add Monitoring | Node Exporter | 2026-04-05 |
 | Grafana Dashboard | Organize Observation Indicators | 2026-04-05 |
 | Add WSL2 Settings | `.wslconfig` | 2026-04-06 |
-| Create OLAP DDL ( 5 ) | Star Schema | - |
+| Create OLAP DDL ( 5 ) | Star Schema | 2026-04-06 |
+| Auto Partition | `log` + `records` | 2026-04-06 |
 | Create Materialized View ( MV ) | 建立物化檢視表 | - |
 | OLTP to OLAP By ETL | - | - |
 | DAG ETL Script | Fan-out Queue Pattern | - |
@@ -133,7 +134,7 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 ### *D.　Benchmark*
 | **Type** | **Objective** | **Methods** |
 | :--: | :--: | :--: |
-| *[Generic DB Benchmark](./docs/generic_db_benchmark.md)* | 找「資料庫」極限   | 內建工具 |
+| *[Generic Benchmark](./docs/generic_benchmark.md)* | 找「資料庫」極限   | 內建工具 |
 | *[Workload Benchmark](./docs/workload_benchmark.md)* | 找「指定系統」瓶頸 | 自訂腳本 |
 
 <br>

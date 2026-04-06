@@ -10,3 +10,8 @@ CREATE TABLE oltp.production_records (
 
 CREATE INDEX idx_production_machine_time
 ON oltp.production_records(machine_id, event_time);
+
+
+-- 防止萬一的保險：任何不在範圍內的資料都會掉進這裡
+CREATE TABLE oltp.production_records_default
+PARTITION OF oltp.production_records DEFAULT;

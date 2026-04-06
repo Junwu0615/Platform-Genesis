@@ -12,7 +12,11 @@ TARGET_LIST = [
     # OLTP Tables
     # 'oltp.machine_events', # not used
     # 'oltp.machine_status_logs',
+    'oltp.machine_status_logs_2026_04',
+    'oltp.machine_status_logs_2026_05',
     # 'oltp.production_records',
+    'oltp.production_records_2026_04',
+    'oltp.production_records_2026_05',
     # 'oltp.production_orders',
     # 'oltp.machines',
     # 'oltp.products',

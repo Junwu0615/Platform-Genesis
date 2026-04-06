@@ -2,7 +2,7 @@
 """
 TODO
     Update Date: 2026-03-26
-    Description: Generate Static Data [oltp.machines, oltp.products]
+    Description: Generate Static Data [oltp.machine, oltp.product]
 """
 import os, sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
@@ -26,15 +26,15 @@ def generate_machines(conn, cursor):
     """
     TODO 數據生成邏輯
         - 機台名稱需要按照獲得機種順序依序遞增
-        - 確認 oltp.machines 是否已建表，若有取得機台號碼
+        - 確認 oltp.machine 是否已建表，若有取得機台號碼
         - 生成靜態表
     """
     record_count = {} # 記錄編碼
-    if table_exists(cursor, 'oltp', 'machines'):
+    if table_exists(cursor, 'oltp', 'machine'):
         cursor.execute("""
         SELECT DISTINCT ON (machine_type)
         machine_name
-        FROM oltp.machines
+        FROM oltp.machine
         ORDER BY machine_type, machine_id DESC;
         """)
         machines = cursor.fetchall()
@@ -48,7 +48,7 @@ def generate_machines(conn, cursor):
             record_count[m] += 1
 
             cursor.execute("""
-            INSERT INTO oltp.machines
+            INSERT INTO oltp.machine
             (machine_name, machine_type, line_no)
             VALUES (%s, %s, %s)
             """,
@@ -60,19 +60,19 @@ def generate_machines(conn, cursor):
             count += 1
 
     conn.commit()
-    logging.info(f"[{count}] oltp.machines generated ...")
+    logging.info(f"[{count}] oltp.machine generated ...")
 
 
 def generate_products(conn, cursor):
     """
     TODO 數據生成邏輯
         - product_type 綁 machine_type ( 指定訂單只能指定機種生產 )
-        - 需要去撈 oltp.machines 確認目前有什麼機台種類，基於該種類進行訂單生成
+        - 需要去撈 oltp.machine 確認目前有什麼機台種類，基於該種類進行訂單生成
     """
     cursor.execute("""
     SELECT DISTINCT ON (machine_type)
     machine_type
-    FROM oltp.machines;
+    FROM oltp.machine;
     """)
     mach_type = cursor.fetchall()
     record_content = [i[0] for i in mach_type] # 記錄編碼
@@ -81,7 +81,7 @@ def generate_products(conn, cursor):
         _get_type = random.choice(record_content)
 
         cursor.execute("""
-        INSERT INTO oltp.products
+        INSERT INTO oltp.product
         (product_name, product_type)
         VALUES (%s, %s)
         """,
@@ -90,7 +90,7 @@ def generate_products(conn, cursor):
             _get_type
         ))
     conn.commit()
-    logging.info(f"[{init_data['products']}] oltp.products generated ...")
+    logging.info(f"[{init_data['products']}] oltp.product generated ...")
 
 
 def main():

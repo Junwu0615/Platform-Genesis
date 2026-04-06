@@ -8,3 +8,8 @@ CREATE TABLE oltp.machine_status_logs (
 
 CREATE INDEX idx_status_machine_time
 ON oltp.machine_status_logs(machine_id, event_time);
+
+
+-- 防止萬一的保險：任何不在範圍內的資料都會掉進這裡
+CREATE TABLE oltp.machine_status_logs_default
+PARTITION OF oltp.machine_status_logs DEFAULT;
