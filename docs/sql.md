@@ -408,6 +408,50 @@ CREATE SCHEMA IF NOT EXISTS olap;
 <br>
 
 ### *F.　常見查詢*
+- ### *⭐ Notice : 檢查特定用戶對所有表的權限*
+  ```
+  SELECT 
+      schemaname, 
+      tablename, 
+      has_table_privilege('olap_user', schemaname || '.' || tablename, 'SELECT') AS can_select,
+      has_table_privilege('olap_user', schemaname || '.' || tablename, 'INSERT') AS can_insert,
+      has_table_privilege('olap_user', schemaname || '.' || tablename, 'UPDATE') AS can_update,
+      has_table_privilege('olap_user', schemaname || '.' || tablename, 'DELETE') AS can_delete
+  FROM pg_tables
+  WHERE schemaname IN ('olap', 'oltp')
+  ORDER BY schemaname, tablename;
+  ```
+
+- ### *⭐ Notice : 檢視 Schema 層級的權限 ( Usage/Create )*
+  ```
+  r: SELECT
+  a: INSERT
+  w: UPDATE
+  d: DELETE
+  D: TRUNCATE
+  x: REFERENCES
+  t: TRIGGER
+  U: USAGE (for Schema or Sequence)
+  
+  SELECT 
+      n.nspname AS schema_name,
+      pg_catalog.pg_get_userbyid(n.nspowner) AS owner,
+      pg_catalog.obj_description(n.oid, 'pg_namespace') AS description,
+      n.nspacl AS access_privileges -- 顯示 ACL 字符串
+  FROM pg_catalog.pg_namespace n
+  WHERE n.nspname IN ('olap', 'oltp');
+  ```
+
+- ### *⭐ Notice : Default Privileges*
+  ```
+  SELECT 
+      pg_get_userbyid(defaclrole) AS grantor_role, -- 誰建立物件會觸發
+      defaclnamespace::regnamespace AS schema_name,
+      defaclobjtype AS object_type, -- T 代表 Table, S 代表 Sequence
+      defaclacl AS default_permissions
+  FROM pg_default_acl;
+  ```
+
 - ### *⭐ Notice : 檢查表格擁有者*
   ```
   SELECT

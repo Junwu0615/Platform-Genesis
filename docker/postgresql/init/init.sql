@@ -95,7 +95,7 @@ GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO oltp_user;
 ALTER DEFAULT PRIVILEGES FOR ROLE oltp_owner IN SCHEMA oltp
 GRANT USAGE, SELECT ON SEQUENCES TO oltp_user;
 
-\echo '--- [FINISH] 授予 oltp Schema 權限 ---'
+\echo '--- [FINISH] 授予 OLTP Role 權限 ---'
 
 
 -- * 針對 olap Schema 的權限設定：
@@ -121,7 +121,10 @@ GRANT USAGE, SELECT ON SEQUENCES TO olap_user;
 GRANT USAGE ON SCHEMA oltp TO olap_user;
 GRANT SELECT ON ALL TABLES IN SCHEMA oltp TO olap_user;
 
-\echo '--- [FINISH] 授予 olap Schema 權限 ---'
+ALTER DEFAULT PRIVILEGES FOR ROLE oltp_owner IN SCHEMA oltp
+GRANT SELECT ON TABLES TO olap_user;
+
+\echo '--- [FINISH] 授予 OLAP Role 權限 ---'
 
 
 -- * Migration Role 權限設定：
@@ -145,17 +148,32 @@ GRANT ALL ON TABLES TO oltp_owner;
 ALTER DEFAULT PRIVILEGES FOR ROLE migration_user IN SCHEMA oltp
 GRANT ALL ON SEQUENCES TO oltp_owner;
 
+ALTER DEFAULT PRIVILEGES FOR ROLE migration_user IN SCHEMA oltp
+GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO oltp_user;
+ALTER DEFAULT PRIVILEGES FOR ROLE migration_user IN SCHEMA oltp
+GRANT USAGE, SELECT ON SEQUENCES TO oltp_user;
+
 ALTER DEFAULT PRIVILEGES FOR ROLE migration_user IN SCHEMA olap
 GRANT ALL ON TABLES TO olap_owner;
 ALTER DEFAULT PRIVILEGES FOR ROLE migration_user IN SCHEMA olap
 GRANT ALL ON SEQUENCES TO olap_owner;
 
+ALTER DEFAULT PRIVILEGES FOR ROLE migration_user IN SCHEMA olap
+GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO olap_user;
+ALTER DEFAULT PRIVILEGES FOR ROLE migration_user IN SCHEMA olap
+GRANT USAGE, SELECT ON SEQUENCES TO olap_user;
+
+-- 確保 migration_user 在 oltp 建表, oltp_user 能讀取
+ALTER DEFAULT PRIVILEGES FOR ROLE migration_user IN SCHEMA oltp
+GRANT SELECT ON TABLES TO olap_user;
+
 \echo '--- [FINISH] 授予 Migration Role 權限 ---'
 
 
--- * Remove Public Role 預設權限
+-- * Remove 預設權限：撤銷 PUBLIC 角色在 schema 上的權限，確保只有特定角色能存取
 REVOKE ALL ON SCHEMA oltp FROM PUBLIC;
 REVOKE ALL ON SCHEMA olap FROM PUBLIC;
+REVOKE ALL ON SCHEMA public FROM PUBLIC; -- 怕有用戶亂塞東西進來
 
 \echo '--- [FINISH] Remove Public Role ---'
 
