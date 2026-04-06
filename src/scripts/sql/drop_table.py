@@ -10,18 +10,19 @@ logging = Logger(console_name='.main')
 
 TARGET_LIST = [
     # OLTP Tables
-    'oltp.machine_status_logs',
-    'oltp.machine_events',
-    'oltp.production_records',
-    'oltp.production_orders',
-    'oltp.machines',
-    'oltp.products',
+    # 'oltp.machine_status_logs',
+    # 'oltp.machine_events',
+    # 'oltp.production_records',
+    # 'oltp.production_orders',
+    # 'oltp.machines',
+    # 'oltp.products',
+
     # OLAP Tables
+    # 'olap.fact_production',
+    # 'olap.fact_machine_status',
     # 'olap.dim_time',
     # 'olap.dim_product',
     # 'olap.dim_machine',
-    # 'olap.fact_production',
-    # 'olap.fact_machine_status',
 ]
 
 def main():
@@ -36,8 +37,10 @@ def main():
         cursor = conn.cursor()
 
         for table in TARGET_LIST:
+            schema_owner = f"{table.split('.')[0]}_owner"
+
             sql = f"""
-            SET ROLE oltp_owner;
+            SET ROLE {schema_owner};
             
             TRUNCATE TABLE {table} RESTART IDENTITY CASCADE;
             
@@ -47,7 +50,7 @@ def main():
             logging.warning(f'#1 TRUNCATE TABLE {table} ...')
 
             sql = f"""
-            SET ROLE oltp_owner;
+            SET ROLE {schema_owner};
             
             DROP TABLE {table};
             

@@ -3,7 +3,7 @@ CREATE TABLE olap.dim_product (
     product_id INT NOT NULL,
     product_name VARCHAR(100),
     product_type VARCHAR(50),
-    created_at TIMESTAMP
+    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
 
 

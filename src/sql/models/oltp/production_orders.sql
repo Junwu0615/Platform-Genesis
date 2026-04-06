@@ -1,6 +1,6 @@
 CREATE TABLE oltp.production_orders (
     order_id SERIAL PRIMARY KEY,
-    product_id INT REFERENCES oltp.products(product_id),
+    product_id INT REFERENCES oltp.product(product_id),
     quantity INT,
     start_at TIMESTAMPTZ DEFAULT Null,
     end_at TIMESTAMPTZ DEFAULT Null,

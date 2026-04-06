@@ -1,11 +1,11 @@
 ### *A.　Event Description*
 ```
 # 以製造工廠為主題情境
-  - 定義機台 [mach] : machines
-  - 定義訂單 [prod] : products
-  - 生產訂單 [prod_order] : production_orders <- [products]
+  - 定義機台 [mach] : machine
+  - 定義訂單 [prod] : product
+  - 生產訂單 [prod_order] : production_orders <- [product]
   - 機台狀態 [mach_st_log] : machine_status_logs
-  - 生產產出 [prod_recd] : production_records <- [production_orders, machines, products]
+  - 生產產出 [prod_recd] : production_records <- [production_orders, machine, product]
 
 
    建立訂單 [prod_order]
@@ -33,8 +33,8 @@
 - #### *OLTP*
 |**Name**|**Type**|**Streaming**|**Description**|**Remark**|
 |--:|:--:|:--:|:--|:--:|
-| machines | 靜態 | - | 機台基本資訊 | ⚠ 預處理 |
-| products | 靜態 | - | 產品基本資訊 | ⚠ 預處理 |
+| machine | 靜態 | - | 機台基本資訊 | ⚠ 預處理 |
+| product | 靜態 | - | 產品基本資訊 | ⚠ 預處理 |
 | 🗑️ machine_events | 動態 | 低頻 | 記錄機台運行過程中的各類事件 | - |
 | machine_status_logs | 動態 | 低頻 | 持續記錄機台狀態變化 | - |
 | production_orders | 動態 | 低頻 | 記錄生產訂單資訊 | - |
@@ -43,9 +43,9 @@
 - #### *OLAP*
 |**Name**| **Description**|**Remark**|
 |--:|:--|:--:|
+| dim_date | 時間維度表 | 不需從 OLTP 抽 ; ⚠ 預處理 |
 | dim_machine | 機台維度表 | - |
 | dim_product | 產品維度表 | - |
-| dim_time | 時間維度表 | - |
 | fact_machine_status | 機台狀態事實表 | - |
 | fact_production | 生產事實表 | - |
 

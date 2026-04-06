@@ -1,6 +1,6 @@
 CREATE TABLE oltp.machine_events (
     event_id BIGSERIAL PRIMARY KEY,
-    machine_id INT REFERENCES oltp.machines(machine_id),
+    machine_id INT REFERENCES oltp.machine(machine_id),
     event_type VARCHAR(50),
     description TEXT,
     event_time TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP

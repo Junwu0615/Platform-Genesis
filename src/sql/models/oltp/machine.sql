@@ -1,4 +1,4 @@
-CREATE TABLE oltp.machines (
+CREATE TABLE oltp.machine (
     machine_id SERIAL PRIMARY KEY,
     machine_name VARCHAR(100) NOT NULL CONSTRAINT uq_machine_name UNIQUE,
     machine_type VARCHAR(50),
@@ -8,5 +8,5 @@ CREATE TABLE oltp.machines (
 );
 
 
-CREATE INDEX idx_machines_line
-ON oltp.machines(line_no);
+CREATE INDEX idx_machine_line
+ON oltp.machine(line_no);
