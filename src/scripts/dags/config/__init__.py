@@ -16,6 +16,7 @@ from airflow.utils.task_group import TaskGroup
 from airflow.operators.empty import EmptyOperator
 from airflow.operators.python import PythonOperator
 from airflow.exceptions import AirflowFailException
+from airflow.exceptions import AirflowSkipException
 from airflow.operators.python import BranchPythonOperator
 from airflow.operators.trigger_dagrun import TriggerDagRunOperator # TODO 引用坑 ... 有使用的腳本都要標記，可註解，但不可無這行
 from airflow.providers.common.sql.operators.sql import SQLExecuteQueryOperator

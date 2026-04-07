@@ -25,8 +25,7 @@ with DAG(
         event_b = triggering_events.get(WF_B_STATUS.uri)
 
         if not event_a or not event_b:
-            logging.warning('非 Dataset 同步觸發，可能是手動執行')
-            return 'Manual'
+            raise AirflowSkipException('Non-Event-Driven, May be Manual ...')
 
         # 3. 通用判斷：先驗證數位簽章（確保資料的真實性），再檢查時效性
         check_digital_signature(event_a)
@@ -49,7 +48,7 @@ with DAG(
         logging.info(f'最舊資料距離現在: {diff_hours:.2f} 小時')
 
         if diff_hours > 4:
-            raise AirflowFailException(f'❌ 拒絕執行：資料過期 ... 最舊資料已超過 4 小時 ({diff_hours:.1f}h)')
+            raise AirflowSkipException(f'❌ 拒絕執行：資料過期 ... 最舊資料已超過 4 小時 ({diff_hours:.1f}h)')
 
         # 4. 鑑別上游 Task
         logging.warning(f'event_a[-1].extra: {event_a[-1].extra}')
