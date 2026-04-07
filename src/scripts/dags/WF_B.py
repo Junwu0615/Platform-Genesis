@@ -7,6 +7,13 @@ from utils.dag_tool import check_parameters
 def extract_logic(**kwargs):
     logging.warning('正在從 OLTP 提取資料...')
 
+    # 只有代碼真的跑完最後一行，這個 extra 才會被寫入資料庫
+    kwargs['outlet_events'][WF_B_STATUS].extra = {
+        'status': 'SUCCESS',
+        'data_date': kwargs['ds'],
+        'actual_finish_time': datetime.now().isoformat()
+    }
+
 
 DAG_ID = 'WF_B'
 with DAG(

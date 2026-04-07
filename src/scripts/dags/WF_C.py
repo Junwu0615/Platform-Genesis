@@ -3,6 +3,11 @@ from config.constants import WF_A_STATUS, WF_B_STATUS
 # from airflow.datasets import Dataset
 
 
+def check_digital_signature(_events):
+    if not _events or not _events[-1].extra or _events[-1].extra.get('status') != 'SUCCESS':
+        raise AirflowFailException('Interception: Upstream status is not genuine success or lacks credentials!')
+
+
 with DAG(
         dag_id='WF_C',
         start_date=datetime(2025, 1, 1),
@@ -18,6 +23,9 @@ with DAG(
         # 2. 分別拿到 A 與 B 的最後更新時間
         events_a = triggering_events.get(WF_A_STATUS.uri)
         events_b = triggering_events.get(WF_B_STATUS.uri)
+
+        check_digital_signature(events_a)
+        check_digital_signature(events_b)
 
         if not events_a or not events_b:
             logging.warning('非 Dataset 同步觸發，可能是手動執行')
