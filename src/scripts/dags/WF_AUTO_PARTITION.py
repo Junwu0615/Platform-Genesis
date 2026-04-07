@@ -1,9 +1,4 @@
-from airflow.models.param import Param
-from airflow.utils.task_group import TaskGroup
-from airflow.operators.python import PythonOperator
-from airflow.operators.python import BranchPythonOperator
-from airflow.operators.trigger_dagrun import TriggerDagRunOperator
-
+# from airflow.operators.trigger_dagrun import TriggerDagRunOperator
 from config import *
 from utils.dag_tool import START, END, create_dag, check_parameters
 
@@ -58,9 +53,9 @@ with dag:
         for i in target_list:
             TriggerDagRunOperator(
                 task_id=f'trigger_{i}',
-                trigger_dag_id='SQL_OPERATOR_TOOL',
+                trigger_dag_id='SQL_OPERATOR',
                 conf={'trigger_file': i},
-                wait_for_completion=False,  # 是否等待子 DAG 完成 才繼續執行後續任務
+                wait_for_completion=True,   # 是否等待子 DAG 完成 才繼續執行後續任務
                 poke_interval=30            # 如果要等待，每隔多久檢查子 DAG 狀態
             )
 
