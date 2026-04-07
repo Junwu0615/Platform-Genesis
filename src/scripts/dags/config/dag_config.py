@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+from config import *
 
 class BaseDagConfig:
     default_args = {

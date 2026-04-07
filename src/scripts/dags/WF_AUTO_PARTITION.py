@@ -1,6 +1,6 @@
 # from airflow.operators.trigger_dagrun import TriggerDagRunOperator
 from config import *
-from utils.dag_tool import START, END, create_dag, check_parameters
+from utils.dag_tool import create_dag, check_parameters
 
 
 # TODO  Settings Configuration
@@ -54,6 +54,14 @@ def check_branch(**kwargs) -> list:
 
 
 with dag:
+    START = EmptyOperator(
+        task_id='START',
+        trigger_rule='all_success'
+    )
+    END = EmptyOperator(
+        task_id='END',
+        trigger_rule='none_failed'
+    )
     CHECK_PARAMETERS = PythonOperator(
         task_id='CHECK_PARAMETERS',
         python_callable=check_parameters,

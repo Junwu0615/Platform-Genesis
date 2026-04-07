@@ -3,15 +3,15 @@ from config.dag_config import BaseDagConfig
 
 
 # TODO 常用動態變數
-def __getattr__(name: str):
-    _common_tasks = {
-        'START': {'task_id': 'START', 'trigger_rule': 'all_success'},
-        'END': {'task_id': 'END', 'trigger_rule': 'none_failed'},
-    }
-    if name in _common_tasks:
-        return EmptyOperator(**_common_tasks[name])
-
-    raise AttributeError(f"module '{__name__}' has no attribute '{name}'")
+# def __getattr__(name: str):
+#     _common_tasks = {
+#         'START': {'task_id': 'START', 'trigger_rule': 'all_success'},
+#         'END': {'task_id': 'END', 'trigger_rule': 'none_failed'},
+#     }
+#     if name in _common_tasks:
+#         return EmptyOperator(**_common_tasks[name])
+#
+#     raise AttributeError(f"module '{__name__}' has no attribute '{name}'")
 
 
 # TODO 常用函式
