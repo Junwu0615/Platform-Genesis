@@ -107,7 +107,7 @@
   ```
 - #### *e.　除錯 DAG 方式*
   ```
-  # 1. 進入容器
+  # 進入容器
   
   # 執行除錯命令
     [1] airflow dags reserialize
