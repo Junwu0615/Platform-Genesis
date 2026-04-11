@@ -118,6 +118,13 @@
     airflow dags list-import-errors
   ```
 
+- #### *f.　查水錶找到主閘道*
+  ```
+  docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' airflow-airflow-worker-1
+  # 172.19.0.7: 為 Airflow 容器，在 Docker 虛擬網路裡的私有 IP
+  # 172.19.0.1: 就是它的出口； 繞過連線實體位置的坑 ( 在 YAML 加上 'host.docker.internal:172.19.0.1' )
+  ```
+
 <br>
 
 ### *~~4.　Startup PoWA~~*
