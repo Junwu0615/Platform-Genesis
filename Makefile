@@ -62,11 +62,8 @@ list-configs:
 	@echo "$(ALL_COMPOSE)" | tr ' ' '\n'
 
 clear-force:
-	@echo "清理所有「已停止」的容器"
-	docker container prune -f
-
-	@echo "清理所有「未被掛載」的 Volume"
-	docker volume prune -f
+	@echo "清理 container + image + network + volume"
+	docker system prune -a --volumes
 
 get-chown-all:
 	@echo "正在回收專案所有權至 $$(whoami)..."
