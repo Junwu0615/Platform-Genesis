@@ -1,4 +1,6 @@
+# 待改: oltp-olap-unified-db-cluster -> ooud-cluster
 MAIN_NAME = oltp-olap-unified-db-cluster
+
 MAIN_COMPOSE = ./docker/docker-compose.yaml
 
 ALL_COMPOSE := $(wildcard ./docker/*/docker-compose.yaml)
@@ -16,13 +18,13 @@ AIRFLOW_DIR = ./docker/airflow
 
 init:
 	@echo "* 針對子服務進行必要性 init"
-	@echo "1. 正在建立 Airflow 必要目錄..."
+	@echo "1. 正在建立 Airflow 必要目錄 ..."
 	mkdir -p $(AIRFLOW_DIR)/config $(AIRFLOW_DIR)/dags $(AIRFLOW_DIR)/logs $(AIRFLOW_DIR)/plugins
 	@echo "2. 修正 Airflow 目錄權限, 讓目錄及其子目錄歸屬給 UID 50000"
 	sudo chown -R 50000:0 $(AIRFLOW_DIR)
 	@echo "3. 確保權限足夠 (rwxr-xr-x)"
 	sudo chmod -R 775 $(AIRFLOW_DIR)
-	@echo "4. 執行 Airflow 資料庫初始化 (airflow-init)..."
+	@echo "4. 執行 Airflow 資料庫初始化 ..."
 	docker compose -f $(MAIN_COMPOSE) up airflow-init
 	@echo "5. 環境預熱完成 ..."
 
@@ -31,7 +33,7 @@ build:
 	docker compose -f $(BUILD_SERVICES) build --no-cache
 
 up: fix-sock db-wait prod-mode
-	@echo "* 正在啟動集群版服務..."
+	@echo "* 正在啟動集群版服務 ..."
 	docker compose -f $(MAIN_COMPOSE) up -d
 	@echo "* 啟動完成 ..."
 
@@ -51,18 +53,17 @@ fix-sock:
 	sudo chmod 666 /var/run/docker.sock
 
 db-wait:
-	@echo "1. 正在啟動資料庫..."
+	@echo "1. 正在啟動資料庫 ..."
 	docker compose -f $(MAIN_COMPOSE) up -d dev-db
-	@echo "2. 等待資料庫就緒..."
+	@echo "2. 等待資料庫就緒 ..."
 	sleep 10
-	@echo "3. Continue..."
 
 list-configs:
 	@echo "偵測到的子服務設定檔如下："
 	@echo "$(ALL_COMPOSE)" | tr ' ' '\n'
 
 clear-force:
-	@echo "清理 container + image + network + volume"
+	@echo "清理 build cache + container + image + network + volume"
 	docker system prune -a --volumes
 
 get-chown-all:
@@ -82,4 +83,4 @@ copy-dag: dev-mode
 	cp -ra src/scripts/dags $(AIRFLOW_DIR)
 	sudo chown -R 50000:0 $(AIRFLOW_DIR)
 	sudo chmod -R 775 $(AIRFLOW_DIR)
-	@echo "DAGs 同步完成並已校正權限 !"
+	@echo "DAGs 同步完成並已校正權限 ..."
