@@ -3,8 +3,10 @@
 - name: Dynamic Monitoring Configuration
   hosts: localhost
   vars:
-    postgres_exporter_host: 'host.docker.internal'
-    node_exporter_host: 'host.docker.internal'
+#    postgres_exporter_host: 'host.docker.internal'
+#    node_exporter_host: 'host.docker.internal'
+    postgres_exporter_host: 'ooud-cluster-postgres_exporter-1'
+    node_exporter_host: 'ooud-cluster-node_exporter-1'
     config_path: '{{ playbook_dir }}/../docker/monitoring/prometheus.yaml'
 
   tasks:
@@ -13,7 +15,7 @@
         src: templates/prometheus.yml.j2
         dest: '{{ config_path }}'
 
-    - name: Restart Prometheus to load new config
+    - name: Restart Prometheus to Loading New Configure
       community.docker.docker_container:
         name: ooud-cluster-prometheus-1
         state: started
