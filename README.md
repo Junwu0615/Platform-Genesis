@@ -81,19 +81,20 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 | DAG | Try `Dataset` | 2026-04-08 |
 | Add Portainer | By Docker | 2026-04-11 |
 | Docker Compose Profiles | compose 模組化，整套 lab 一鍵部署 | 2026-04-11 |
-| Add Makefile | - | 2026-04-11 |
+| Add Makefile | for `docker-compose` | 2026-04-11 |
 | Add Airflow Config UI | `Trigger w/ Config` | 2026-04-18 |
 | Update DAGs Coding Style | - | 2026-04-18 |
 | Create Materialized View ( MV ) | 建立物化檢視表 | - |
 | Grafana Dashboard | update `htap_grafana.json` | - |
 | Analytical Queries | - | - |
 | Multi-Instance Simulate | like Edge Machine | X |
-| Add Terraform | Step 1: Docker Provider : 體驗宣告式配置 | - |
-| Terraform | docker-compose 配置轉移 | - |
-| Add Ansible | Step 2: 負責節點的初始化 + 設定檔 | - |
+| Add Terraform | Step 1: Docker Provider : 體驗宣告式配置 | 2026-04-19 |
+| Terraform | docker-compose 配置轉移 | 2026-04-19 |
+| Add Ansible | Step 2: 負責節點的初始化 + 設定檔 | 2026-04-19 |
+| Add Makefile | for `terraform + ansible` | 2026-04-19 |
+| Terraform vs. Docker Compose | 體驗狀態管理差異性 ; 可救回配置崩潰，提高 HA | 2026-04-19 |
+| Terraform & Ansible | 體驗 Ansible 如何補足 Terraform 的不足 | 2026-04-19 |
 | Add Kubernetes | Step 3: Kind ( K8s in Docker ) | - |
-| Terraform vs. Docker Compose | 體驗狀態管理差異性 ; 可救回配置崩潰，提高 HA | - |
-| Terraform & Ansible | 體驗 Ansible 如何補足 Terraform 的不足 | - |
 | K8s 複雜度 | 體驗 Pod、Service、Ingress 抽象層 | - |
 
 <br>
