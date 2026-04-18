@@ -117,6 +117,7 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 
 - #### *II.　[Service Startup Order](./docs/service_startup_order.md)*
 - #### *III.　[WSL2 Startup Docker Engine](./docs/wsl2_startup_docker_engine.md)*
+- #### *IV.　[Install Terraform](./docs/terraform.md)*
 
 <br>
 
