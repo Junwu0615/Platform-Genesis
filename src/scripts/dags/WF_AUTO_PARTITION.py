@@ -13,29 +13,25 @@ from utils.dag_tool import create_dag, check_parameters
 DAG_ID = 'WF_AUTO_PARTITION'
 SCHEDULE = '0 0 * * *'
 TAGS = ['WF', 'AUTO', 'SCHEDULE']
-
-params = {
-        'trigger_file': Param(
+PARAMS = {
+    'trigger_file': Param(
+        [
             'fact_production',
-            type='string',
-            title='選擇要執行 SQL 檔案 (可複選)',
-            enum=['fact_production', 'machine_status_logs', 'production_records'],
-        ),
-        'target_env': Param(
-            'DEV',
-            type='string',
-            title='目標環境',
-            enum=['DEV', 'STAGING', 'PROD'],
-        ),
-        'dry_run': Param(True, type='boolean', title='是否僅測試'),
-    }
+            'machine_status_logs',
+            'production_records'
+        ],
+        type='array',
+        title='選擇執行 SQL 檔案',
+        description="可以選擇一或多個檔案進行處理"
+    ),
+}
 
 
 dag = create_dag(
     dag_id=DAG_ID,
     schedule=SCHEDULE,
     owner='PC',
-    params=params,
+    params=PARAMS,
     **{
         'tags': TAGS,
         'max_active_runs': 1,   # TODO 同一時間只允許 1 個實例運行，若超過則排隊等待
@@ -46,17 +42,9 @@ dag = create_dag(
 
 def check_branch(**kwargs) -> list:
     dag_run = kwargs.get('dag_run').conf if kwargs.get('dag_run') is not None else {}
-    parameters = {**kwargs.get('params', {}), **dag_run}
-
-    # ret_list = [
-    #     'fact_production',
-    #     # 'machine_status_logs',
-    #     # 'production_records'
-    # ]
-    # return [f'{DAG_ID}.trigger_{i}' for i in ret_list]
-    ret = parameters.get('trigger_file', None)
-
-    return f'{DAG_ID}.trigger_{ret}'
+    _get_list = dag_run.get('trigger_file', [])
+    logging.warning(f'target_list: {_get_list}')
+    return [f'{DAG_ID}.trigger_{i}' for i in _get_list]
 
 
 with dag:
@@ -70,8 +58,8 @@ with dag:
             'SCHEDULE': SCHEDULE,
         }
     )
-    CHECK_BRANCH_FROM_PARAMETERS = BranchPythonOperator(
-        task_id='CHECK_BRANCH_FROM_PARAMETERS',
+    CHECK_BRANCH = BranchPythonOperator(
+        task_id='CHECK_BRANCH',
         python_callable=check_branch
     )
     with TaskGroup(group_id=DAG_ID) as WF_AUTO_PARTITION:
@@ -83,13 +71,13 @@ with dag:
         for i in target_list:
             TriggerDagRunOperator(
                 task_id=f'trigger_{i}',
-                trigger_dag_id='SQL_OPERATOR',
+                trigger_dag_id='OP_SQL',
                 conf={'trigger_file': i},
                 wait_for_completion=True,   # 是否等待子 DAG 完成 才繼續執行後續任務
                 poke_interval=30            # 如果要等待，每隔多久檢查子 DAG 狀態
             )
 
     START >> CHECK_PARAMETERS >> \
-    CHECK_BRANCH_FROM_PARAMETERS >> \
+    CHECK_BRANCH >> \
     WF_AUTO_PARTITION >> \
     END
