@@ -32,7 +32,7 @@ resource "docker_container" "prometheus" {
   }
 }
 
-# Grafana 容器 (示範環境變數管理)
+# Grafana 容器
 resource "docker_container" "grafana" {
   name  = "ooud-cluster-grafana-1"
   image = "grafana/grafana:latest"

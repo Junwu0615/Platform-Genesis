@@ -19,7 +19,7 @@ MONITORING_CONTENT = grafana prometheus node_exporter postgres_exporter
 POSTGRESQL_CONTENT = dev-db pgadmin
 PORTAINER_CONTENT = portainer
 
-.PHONY: build up down down-v ps \
+.PHONY: build up down down-v ps rm \
 fix-sock db-wait list-configs clear-force get-chown-all dev-mode prod-mode \
 airflow monitoring portainer postgresql
 
@@ -28,7 +28,7 @@ init:
 	@echo "1. 正在建立 Airflow 必要目錄 ..."
 	mkdir -p $(AIRFLOW_DIR)/config $(AIRFLOW_DIR)/dags $(AIRFLOW_DIR)/logs $(AIRFLOW_DIR)/plugins
 	@echo "2. 修正 Airflow 目錄權限, 讓目錄及其子目錄歸屬給 UID 50000 + 確保權限足夠 (rwxr-xr-x)"
-	make prod-mode
+	@make prod-mode
 	@echo "3. 執行 Airflow 資料庫初始化 ..."
 	docker compose -f $(MAIN_COMPOSE) up airflow-init
 	@echo "4. 環境預熱完成 ..."
@@ -89,10 +89,10 @@ prod-mode:
 
 copy-dag:
 	@echo "將開發 DAGs 複製到 Airflow 容器中的 DAGs 對應資料夾 | 先刪除目錄下所有內容 | 執行複製"
-	make dev-mode
+	@make dev-mode
 	sudo rm -rf $(AIRFLOW_DIR)/dags/*
 	cp -ra src/scripts/dags $(AIRFLOW_DIR)
-	make prod-mode
+	@make prod-mode
 	@echo "DAGs 同步完成並已校正權限 ..."
 
 airflow: fix-sock copy-dag
@@ -123,3 +123,19 @@ refresh: fix-sock
 	fi
 	@echo "2. 更新單一服務 $(container) | 強制砍並重開 | 完全不動其他關聯服務"
 	docker compose -f $(MAIN_COMPOSE) up -d --force-recreate --no-deps $(container)
+
+rm:
+	@echo "* 正在檢查並清理指定的容器..."
+	@echo "1. 檢查是否有定義 container 且不為空"
+	@if [ -z "$(container)" ]; then \
+		echo "Error: 必須指定服務名稱，ex: make rm container=airflow-webserver"; \
+		exit 1; \
+	fi
+	@if [ $$(docker ps -a -q -f name=$(container)) ]; then \
+		echo "2.1 偵測到容器，正在執行強制刪除..."; \
+		docker rm -f $(container); \
+	else \
+		echo "2.2 容器不存在，跳過刪除動作"; \
+	fi
+	@echo "3. 當前集群狀態"
+	@make ps

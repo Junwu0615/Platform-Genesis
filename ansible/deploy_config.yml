@@ -1,19 +1,19 @@
 # ansible/deploy_config.yml
 
-- name: Configure Monitoring Stack
+- name: Dynamic Monitoring Configuration
   hosts: localhost
   vars:
     postgres_exporter_host: 'host.docker.internal'
     node_exporter_host: 'host.docker.internal'
-    config_path: '../docker/monitoring/prometheus.yaml'
+    config_path: '{{ playbook_dir }}/../docker/monitoring/prometheus.yaml'
 
   tasks:
-    - name: Generate Prometheus Configuration from Template
+    - name: Render Prometheus Configuration
       template:
         src: templates/prometheus.yml.j2
         dest: '{{ config_path }}'
 
-    - name: Reload Prometheus Service
+    - name: Restart Prometheus to load new config
       community.docker.docker_container:
         name: ooud-cluster-prometheus-1
         state: started
