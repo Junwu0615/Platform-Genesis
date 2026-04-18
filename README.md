@@ -1,16 +1,18 @@
 <a href='https://github.com/Junwu0615/OLTP-OLAP-UNIFIED-DB'><img alt='GitHub Views' src='https://views.whatilearened.today/views/github/Junwu0615/OLTP-OLAP-UNIFIED-DB.svg'>
 [![](https://img.shields.io/badge/Operating_System-Windows_11-blue.svg?style=plastic)](https://www.microsoft.com/zh-tw/software-download/windows10) <br> 
 [![](https://img.shields.io/badge/Technology-Python-yellow.svg?style=plastic)](https://github.com/Junwu0615/OLTP-OLAP-UNIFIED-DB)
-[![](https://img.shields.io/badge/Technology-PostgreSQL-important.svg?style=plastic)](https://github.com/Junwu0615/OLTP-OLAP-UNIFIED-DB)
+[![](https://img.shields.io/badge/Technology-PostgreSQL-yellow.svg?style=plastic)](https://github.com/Junwu0615/OLTP-OLAP-UNIFIED-DB)
+[![](https://img.shields.io/badge/Technology-Kubernetes-important.svg?style=plastic)](https://github.com/Junwu0615/OLTP-OLAP-UNIFIED-DB) 
 [![](https://img.shields.io/badge/Technology-Docker-yellow.svg?style=plastic)](https://github.com/Junwu0615/OLTP-OLAP-UNIFIED-DB) <br>
 [![](https://img.shields.io/badge/Technology-OLTP-critical.svg?style=plastic)](https://github.com/Junwu0615/OLTP-OLAP-UNIFIED-DB)
 [![](https://img.shields.io/badge/Technology-OLAP-critical.svg?style=plastic)](https://github.com/Junwu0615/OLTP-OLAP-UNIFIED-DB)
 [![](https://img.shields.io/badge/Technology-HTAP-critical.svg?style=plastic)](https://github.com/Junwu0615/OLTP-OLAP-UNIFIED-DB)
-[![](https://img.shields.io/badge/Technology-Terraform-important.svg?style=plastic)](https://github.com/Junwu0615/OLTP-OLAP-UNIFIED-DB) <br>
+[![](https://img.shields.io/badge/Technology-Terraform-important.svg?style=plastic)](https://github.com/Junwu0615/OLTP-OLAP-UNIFIED-DB)
+[![](https://img.shields.io/badge/Technology-Ansible-important.svg?style=plastic)](https://github.com/Junwu0615/OLTP-OLAP-UNIFIED-DB) <br>
 [![](https://img.shields.io/badge/Technology-Grafana-important.svg?style=plastic)](https://github.com/Junwu0615/OLTP-OLAP-UNIFIED-DB) 
 [![](https://img.shields.io/badge/Technology-Prometheus-important.svg?style=plastic)](https://github.com/Junwu0615/OLTP-OLAP-UNIFIED-DB) 
 [![](https://img.shields.io/badge/Technology-PoWA-inactive.svg?style=plastic)](https://github.com/Junwu0615/OLTP-OLAP-UNIFIED-DB) 
-[![](https://img.shields.io/badge/Technology-Apache_Airflow-important.svg?style=plastic)](https://github.com/Junwu0615/OLTP-OLAP-UNIFIED-DB) <br>
+[![](https://img.shields.io/badge/Technology-Apache_Airflow-yellow.svg?style=plastic)](https://github.com/Junwu0615/OLTP-OLAP-UNIFIED-DB) <br>
 
 <br>
 
@@ -86,9 +88,12 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 | Grafana Dashboard | update `htap_grafana.json` | - |
 | Analytical Queries | - | - |
 | Multi-Instance Simulate | like Edge Machine | X |
-| Add Terraform | 基礎設施供應 : 負責變出資源。<br>ex：雲端開 VM、設定網路、建立 S3 Bucket ... | - |
-| Add Ansible | 組態管理 : 負責進入主機。<br>ex：安裝 Docker、設定權限、拉 Git 專案、啟動服務 ... | - |
-| Upload GCP | - | - |
+| Add Terraform | Docker Provider : 體驗宣告式配置 | - |
+| Add Ansible | 負責節點的初始化 + 設定檔 | - |
+| Add Kubernetes | Kind ( K8s in Docker ) | - |
+| Terraform vs. Docker Compose | 體驗狀態管理差異性 | - |
+| Terraform & Ansible | 體驗 Ansible 如何補足 Terraform 的不足 | - |
+| K8S 的複雜度 | 體驗 Pod、Service、Ingress 抽象層 | - |
 
 <br>
 
@@ -143,6 +148,192 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
   ```
 
 - #### *2.　[About SQL Something Detail](./docs/sql.md)*
+
+- #### *3.　Project Tree*
+  ```
+  tree -I 'venv|.git|docs|logs|assets'
+  
+  .
+  ├── LICENSE
+  ├── Makefile
+  ├── README.md
+  ├── docker
+  │   ├── airflow
+  │   │   ├── airflow-webserver.pid
+  │   │   ├── airflow.cfg
+  │   │   ├── config
+  │   │   ├── dags
+  │   │   │   ├── OP_SQL.py
+  │   │   │   ├── WF_AUTO_PARTITION.py
+  │   │   │   ├── WF_A_DATASET.py
+  │   │   │   ├── WF_B_DATASET.py
+  │   │   │   ├── WF_CREATE_TABLE.py
+  │   │   │   ├── WF_C_DATASET.py
+  │   │   │   ├── __pycache__
+  │   │   │   │   ├── OP_SQL.cpython-312.pyc
+  │   │   │   │   ├── WF_AUTO_PARTITION.cpython-312.pyc
+  │   │   │   │   ├── WF_A_DATASET.cpython-312.pyc
+  │   │   │   │   ├── WF_B_DATASET.cpython-312.pyc
+  │   │   │   │   ├── WF_CREATE_TABLE.cpython-312.pyc
+  │   │   │   │   └── WF_C_DATASET.cpython-312.pyc
+  │   │   │   ├── config
+  │   │   │   │   ├── __init__.py
+  │   │   │   │   ├── __pycache__
+  │   │   │   │   │   ├── __init__.cpython-312.pyc
+  │   │   │   │   │   ├── constants.cpython-312.pyc
+  │   │   │   │   │   └── dag_config.cpython-312.pyc
+  │   │   │   │   ├── constants.py
+  │   │   │   │   └── dag_config.py
+  │   │   │   ├── sql
+  │   │   │   │   ├── __init__.py
+  │   │   │   │   ├── auto_partition
+  │   │   │   │   │   ├── fact_production.sql
+  │   │   │   │   │   ├── machine_status_logs.sql
+  │   │   │   │   │   └── production_records.sql
+  │   │   │   │   ├── dim_date.sql
+  │   │   │   │   ├── dim_machine.sql
+  │   │   │   │   ├── dim_product.sql
+  │   │   │   │   ├── fact_machine_status.sql
+  │   │   │   │   ├── fact_production.sql
+  │   │   │   │   └── models
+  │   │   │   │       ├── olap
+  │   │   │   │       │   ├── dim_date.sql
+  │   │   │   │       │   ├── dim_machine.sql
+  │   │   │   │       │   ├── dim_product.sql
+  │   │   │   │       │   ├── fact_machine_status.sql
+  │   │   │   │       │   └── fact_production.sql
+  │   │   │   │       └── oltp
+  │   │   │   │           ├── machine.sql
+  │   │   │   │           ├── machine_events.sql
+  │   │   │   │           ├── machine_status_logs.sql
+  │   │   │   │           ├── product.sql
+  │   │   │   │           ├── production_orders.sql
+  │   │   │   │           └── production_records.sql
+  │   │   │   └── utils
+  │   │   │       ├── __init__.py
+  │   │   │       ├── __pycache__
+  │   │   │       │   ├── __init__.cpython-312.pyc
+  │   │   │       │   └── dag_tool.cpython-312.pyc
+  │   │   │       └── dag_tool.py
+  │   │   ├── deploy_dags.sh
+  │   │   ├── docker-compose.yaml
+  │   │   ├── plugins
+  │   │   └── webserver_config.py
+  │   ├── docker-compose.yaml
+  │   ├── monitoring
+  │   │   ├── docker-compose.yaml
+  │   │   ├── htap_grafana.json
+  │   │   └── prometheus.yaml
+  │   ├── portainer
+  │   │   ├── data
+  │   │   │   ├── bin
+  │   │   │   ├── certs
+  │   │   │   │   ├── cert.pem
+  │   │   │   │   └── key.pem
+  │   │   │   ├── chisel
+  │   │   │   │   └── private-key.pem
+  │   │   │   ├── compose
+  │   │   │   ├── docker_config
+  │   │   │   │   └── config.json
+  │   │   │   ├── portainer.db
+  │   │   │   ├── portainer.key
+  │   │   │   ├── portainer.pub
+  │   │   │   └── tls
+  │   │   └── docker-compose.yaml
+  │   ├── postgresql
+  │   │   ├── Dockerfile
+  │   │   ├── docker-compose.yaml
+  │   │   └── init
+  │   │       └── init.sql
+  │   ├── powa
+  │   │   ├── Dockerfile
+  │   │   ├── docker-compose.yaml
+  │   │   └── init
+  │   │       └── powa.sql
+  │   └── wsl2
+  ├── requirements.txt
+  └── src
+      ├── __init__.py
+      ├── __pycache__
+      │   └── __init__.cpython-312.pyc
+      ├── config
+      │   ├── __init__.py
+      │   └── simulator.py
+      ├── modules
+      │   ├── __init__.py
+      │   ├── __pycache__
+      │   │   ├── __init__.cpython-312.pyc
+      │   │   └── log.cpython-312.pyc
+      │   └── log.py
+      ├── scripts
+      │   ├── __init__.py
+      │   ├── dags
+      │   │   ├── OP_SQL.py
+      │   │   ├── WF_AUTO_PARTITION.py
+      │   │   ├── WF_A_DATASET.py
+      │   │   ├── WF_B_DATASET.py
+      │   │   ├── WF_CREATE_TABLE.py
+      │   │   ├── WF_C_DATASET.py
+      │   │   ├── config
+      │   │   │   ├── __init__.py
+      │   │   │   ├── constants.py
+      │   │   │   └── dag_config.py
+      │   │   ├── sql
+      │   │   │   ├── __init__.py
+      │   │   │   ├── auto_partition
+      │   │   │   │   ├── fact_production.sql
+      │   │   │   │   ├── machine_status_logs.sql
+      │   │   │   │   └── production_records.sql
+      │   │   │   ├── dim_date.sql
+      │   │   │   ├── dim_machine.sql
+      │   │   │   ├── dim_product.sql
+      │   │   │   ├── fact_machine_status.sql
+      │   │   │   ├── fact_production.sql
+      │   │   │   └── models
+      │   │   │       ├── olap
+      │   │   │       │   ├── dim_date.sql
+      │   │   │       │   ├── dim_machine.sql
+      │   │   │       │   ├── dim_product.sql
+      │   │   │       │   ├── fact_machine_status.sql
+      │   │   │       │   └── fact_production.sql
+      │   │   │       └── oltp
+      │   │   │           ├── machine.sql
+      │   │   │           ├── machine_events.sql
+      │   │   │           ├── machine_status_logs.sql
+      │   │   │           ├── product.sql
+      │   │   │           ├── production_orders.sql
+      │   │   │           └── production_records.sql
+      │   │   └── utils
+      │   │       ├── __init__.py
+      │   │       └── dag_tool.py
+      │   ├── init_factory_data.py
+      │   ├── simulate_factory_stream.py
+      │   ├── simulate_v1
+      │   │   ├── __init__.py
+      │   │   └── factory_config.yaml
+      │   ├── sql
+      │   │   ├── auto_partition.py
+      │   │   ├── delete_data.py
+      │   │   └── drop_table.py
+      │   └── test.py
+      ├── sql
+      │   ├── __init__.py
+      │   └── scripts
+      │       ├── __init__.py
+      │       └── generic_benchmark
+      │           ├── dashboard_benchmark.sql
+      │           └── olap_benchmark.sql
+      └── utils
+          ├── __init__.py
+          ├── __pycache__
+          │   ├── __init__.cpython-312.pyc
+          │   └── utils.cpython-312.pyc
+          ├── conn.py
+          └── utils.py
+  
+  51 directories, 126 files
+  ```
+
 
 <br>
 
