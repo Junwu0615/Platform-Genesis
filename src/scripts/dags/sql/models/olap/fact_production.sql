@@ -1,3 +1,5 @@
+SET ROLE olap_owner;
+
 CREATE TABLE olap.fact_production (
     fact_id BIGSERIAL NOT NULL,
     date_key INT REFERENCES olap.dim_date(date_key),
@@ -19,3 +21,5 @@ ON olap.fact_production(machine_key);
 -- 防止萬一的保險：任何不在範圍內的資料都會掉進這裡
 CREATE TABLE olap.fact_production_default
 PARTITION OF olap.fact_production DEFAULT;
+
+RESET ROLE;

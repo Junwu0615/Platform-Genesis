@@ -1,3 +1,5 @@
+SET ROLE olap_owner;
+
 CREATE TABLE olap.dim_product (
     product_key SERIAL PRIMARY KEY,
     product_id INT NOT NULL CONSTRAINT uq_dim_product_id UNIQUE,
@@ -10,3 +12,5 @@ CREATE TABLE olap.dim_product (
 
 CREATE INDEX idx_dim_product_id
 ON olap.dim_product(product_id);
+
+RESET ROLE;

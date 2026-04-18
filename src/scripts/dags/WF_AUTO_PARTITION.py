@@ -44,7 +44,7 @@ def check_branch(**kwargs) -> list:
     dag_run = kwargs.get('dag_run').conf if kwargs.get('dag_run') is not None else {}
     _get_list = dag_run.get('trigger_file', [])
     logging.warning(f'target_list: {_get_list}')
-    return [f'{DAG_ID}.trigger_{i}' for i in _get_list]
+    return [f'{DAG_ID}.{i}' for i in _get_list]
 
 
 with dag:
@@ -76,8 +76,8 @@ with dag:
                     'trigger_file': i,
                     'path': 'auto_partition',
                 },
-                wait_for_completion=True,   # 是否等待子 DAG 完成 才繼續執行後續任務
-                poke_interval=30            # 如果要等待，每隔多久檢查子 DAG 狀態
+                wait_for_completion=True,
+                poke_interval=30 # 若等待，每隔多久檢查子 DAG 狀態
             )
 
     START >> CHECK_PARAMETERS >> \

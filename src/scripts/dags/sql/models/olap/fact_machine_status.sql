@@ -1,3 +1,5 @@
+SET ROLE olap_owner;
+
 CREATE TABLE olap.fact_machine_status (
     status_id BIGSERIAL PRIMARY KEY,
     date_key INT REFERENCES olap.dim_date(date_key),
@@ -11,3 +13,5 @@ CREATE TABLE olap.fact_machine_status (
 
 CREATE INDEX idx_fact_status_lookup
 ON olap.fact_machine_status(machine_key, start_time, status);
+
+RESET ROLE;

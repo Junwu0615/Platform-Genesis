@@ -1,3 +1,5 @@
+SET ROLE olap_owner;
+
 CREATE TABLE olap.dim_date (
     date_key INT PRIMARY KEY,
     date DATE,
@@ -13,3 +15,5 @@ CREATE TABLE olap.dim_date (
 
 CREATE INDEX idx_dim_date_ymd
 ON olap.dim_date(year, month_name, date);
+
+RESET ROLE;

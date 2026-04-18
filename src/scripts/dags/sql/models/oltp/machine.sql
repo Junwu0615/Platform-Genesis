@@ -1,3 +1,5 @@
+SET ROLE oltp_owner;
+
 CREATE TABLE oltp.machine (
     machine_id SERIAL PRIMARY KEY,
     machine_name VARCHAR(100) NOT NULL CONSTRAINT uq_machine_name UNIQUE,
@@ -10,3 +12,5 @@ CREATE TABLE oltp.machine (
 
 CREATE INDEX idx_machine_line
 ON oltp.machine(line_no);
+
+RESET ROLE;

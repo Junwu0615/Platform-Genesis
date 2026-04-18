@@ -1,3 +1,5 @@
+SET ROLE olap_owner;
+
 CREATE TABLE olap.dim_machine (
     machine_key SERIAL PRIMARY KEY,
     machine_id INT NOT NULL CONSTRAINT uq_dim_machine_name UNIQUE,
@@ -11,3 +13,5 @@ CREATE TABLE olap.dim_machine (
 
 CREATE INDEX idx_dim_machine_id
 ON olap.dim_machine(machine_id);
+
+RESET ROLE;

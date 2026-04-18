@@ -1,3 +1,5 @@
+SET ROLE oltp_owner;
+
 CREATE TABLE oltp.production_orders (
     order_id SERIAL PRIMARY KEY,
     product_id INT REFERENCES oltp.product(product_id),
@@ -10,3 +12,5 @@ CREATE TABLE oltp.production_orders (
 
 CREATE INDEX idx_orders_product
 ON oltp.production_orders(product_id);
+
+RESET ROLE;

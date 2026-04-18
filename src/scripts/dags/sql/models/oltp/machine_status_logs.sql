@@ -1,3 +1,5 @@
+SET ROLE oltp_owner;
+
 CREATE TABLE oltp.machine_status_logs (
     log_id BIGSERIAL, -- 不設 PK 追求寫入速度最快
     machine_id INT REFERENCES oltp.machine(machine_id),
@@ -13,3 +15,5 @@ ON oltp.machine_status_logs(machine_id, event_time);
 -- 防止萬一的保險：任何不在範圍內的資料都會掉進這裡
 CREATE TABLE oltp.machine_status_logs_default
 PARTITION OF oltp.machine_status_logs DEFAULT;
+
+RESET ROLE;
