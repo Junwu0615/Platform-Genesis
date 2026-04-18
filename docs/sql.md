@@ -348,8 +348,8 @@ CREATE SCHEMA IF NOT EXISTS olap;
   olap.fact_production
 
   ### 懶人建表指令 ###
-  docker cp "src/sql/models/oltp" postgres_sql_container:/tmp
-  docker cp "src/sql/models/olap" postgres_sql_container:/tmp
+  docker cp "src/scripts/dags/sql/models/oltp" postgres_sql_container:/tmp
+  docker cp "src/scripts/dags/sql/models/olap" postgres_sql_container:/tmp
   
   docker exec -it postgres_sql_container psql -U migration_user -d pgdatabase
   

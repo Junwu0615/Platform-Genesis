@@ -74,11 +74,14 @@ def create_dag(dag_id: str, schedule=None, owner: str=None, params: dict=None, *
 def get_value(key: str=None, read_bool: bool=False, **kwargs):
     dag_run = kwargs.get('dag_run').conf if kwargs.get('dag_run') is not None else {}
     parameters = {**kwargs.get('params', {}), **dag_run}
+    logging.info(f'parameters: {parameters}')
+
     ret = parameters.get(key, None)
-    logging.warning(f'USE KEY & GET VAL FROM PARAMETERS: {ret}')
+    logging.info(f'USE KEY & GET VAL FROM PARAMETERS: {ret}')
 
     if read_bool:
-        path = Path(f'/opt/airflow/dags/sql/auto_partition/{ret}.sql')
+        path = Path(f'/opt/airflow/dags/sql/{parameters.get('path')}/{ret}.sql')
+        logging.warning(f'READ Path: {path}')
         return path.read_text()
 
     return ret

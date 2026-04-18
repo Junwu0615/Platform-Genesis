@@ -81,7 +81,7 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 | Docker Compose Profiles | compose 模組化，整套 lab 一鍵部署 | 2026-04-11 |
 | Add Makefile | - | 2026-04-11 |
 | Add Airflow Config UI | `Trigger w/ Config` | 2026-04-18 |
-| Update DAGs Coding Style | - | - |
+| Update DAGs Coding Style | - | 2026-04-18 |
 | Create Materialized View ( MV ) | 建立物化檢視表 | - |
 | Grafana Dashboard | update `htap_grafana.json` | - |
 | Analytical Queries | - | - |

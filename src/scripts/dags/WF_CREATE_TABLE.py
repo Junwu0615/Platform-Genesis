@@ -10,41 +10,21 @@ from utils.dag_tool import create_dag, check_parameters
 
 
 # TODO  Settings Configuration
-DAG_ID = 'WF_AUTO_PARTITION'
-SCHEDULE = '0 0 * * *'
-TAGS = ['WF', 'AUTO', 'SCHEDULE']
-PARAMS = {
-    'trigger_file': Param(
-        [
-            'fact_production',
-            'machine_status_logs',
-            'production_records'
-        ],
-        type='array',
-        title='選擇執行 SQL 檔案',
-        description="可以選擇一或多個檔案進行處理"
-    ),
-}
+DAG_ID = 'WF_CREATE_TABLE'
+SCHEDULE = None
+TAGS = ['WF', 'MANUAL']
 
 
 dag = create_dag(
     dag_id=DAG_ID,
     schedule=SCHEDULE,
     owner='PC',
-    params=PARAMS,
     **{
         'tags': TAGS,
         'max_active_runs': 1,   # TODO 同一時間只允許 1 個實例運行，若超過則排隊等待
         'max_active_tasks': 10, # TODO 同一時間只允許 10 個任務運行，若超過則排隊等待
     }
 )
-
-
-def check_branch(**kwargs) -> list:
-    dag_run = kwargs.get('dag_run').conf if kwargs.get('dag_run') is not None else {}
-    _get_list = dag_run.get('trigger_file', [])
-    logging.warning(f'target_list: {_get_list}')
-    return [f'{DAG_ID}.trigger_{i}' for i in _get_list]
 
 
 with dag:
@@ -58,15 +38,15 @@ with dag:
             'SCHEDULE': SCHEDULE,
         }
     )
-    CHECK_BRANCH = BranchPythonOperator(
-        task_id='CHECK_BRANCH',
-        python_callable=check_branch
-    )
-    with TaskGroup(group_id=DAG_ID) as WF_AUTO_PARTITION:
+
+    with TaskGroup(group_id=f'OLTP') as OLTP:
         target_list = [
-            'fact_production',
+            'machine',
+            # 'machine_events',
             'machine_status_logs',
-            'production_records'
+            'product',
+            'production_orders',
+            'production_records',
         ]
         for i in target_list:
             TriggerDagRunOperator(
@@ -74,13 +54,35 @@ with dag:
                 trigger_dag_id='OP_SQL',
                 conf={
                     'trigger_file': i,
-                    'path': 'auto_partition',
+                    'path': 'models/oltp',
+                },
+                wait_for_completion=True,   # 是否等待子 DAG 完成 才繼續執行後續任務
+                poke_interval=30            # 如果要等待，每隔多久檢查子 DAG 狀態
+            )
+
+    with TaskGroup(group_id=f'OLAP') as OLAP:
+        target_list = [
+            'dim_date',
+            'dim_machine',
+            'dim_product',
+            'fact_machine_status',
+            'fact_production',
+        ]
+        for i in target_list:
+            TriggerDagRunOperator(
+                task_id=f'{i}',
+                trigger_dag_id='OP_SQL',
+                conf={
+                    'trigger_file': i,
+                    'path': 'models/olap',
                 },
                 wait_for_completion=True,   # 是否等待子 DAG 完成 才繼續執行後續任務
                 poke_interval=30            # 如果要等待，每隔多久檢查子 DAG 狀態
             )
 
     START >> CHECK_PARAMETERS >> \
-    CHECK_BRANCH >> \
-    WF_AUTO_PARTITION >> \
+    [
+        OLTP,
+        OLAP,
+    ] >> \
     END
