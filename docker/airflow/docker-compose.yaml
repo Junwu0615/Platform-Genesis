@@ -63,6 +63,7 @@ x-airflow-common:
     AIRFLOW__API__AUTH_BACKENDS: 'airflow.api.auth.backend.basic_auth,airflow.api.auth.backend.session'
     AIRFLOW__SCHEDULER__DAG_DIR_LIST_INTERVAL: '10'
     AIRFLOW__SCHEDULER__MIN_FILE_PROCESS_INTERVAL: '10'
+    AIRFLOW__WEB_SERVER__SHOW_TRIGGER_FORM_IF_NO_PARAMS: 'false' # 強制開啟預設參數界面
     # yamllint disable rule:line-length
     # Use simple http server on scheduler for health checks
     # See https://airflow.apache.org/docs/apache-airflow/stable/administration-and-deployment/logging-monitoring/check-health.html#scheduler-health-check-server
@@ -131,6 +132,9 @@ services:
       timeout: 10s
       retries: 5
       start_period: 30s
+    environment:
+      <<: *airflow-common-env # 確保原本的環境變數也要保留
+      AIRFLOW__WEB_SERVER__SHOW_TRIGGER_FORM_IF_NO_PARAMS: 'false' # 強制開啟預設參數界面
     restart: unless-stopped
     depends_on:
       <<: *airflow-common-depends-on

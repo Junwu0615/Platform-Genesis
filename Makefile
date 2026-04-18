@@ -88,8 +88,9 @@ prod-mode:
 	sudo chmod -R 775 $(AIRFLOW_DIR)
 
 copy-dag:
-	@echo "將開發 DAGs 複製到 Airflow 容器中的 DAGs 對應資料夾"
+	@echo "將開發 DAGs 複製到 Airflow 容器中的 DAGs 對應資料夾 | 先刪除目錄下所有內容 | 執行複製"
 	make dev-mode
+	sudo rm -rf $(AIRFLOW_DIR)/dags/*
 	cp -ra src/scripts/dags $(AIRFLOW_DIR)
 	make prod-mode
 	@echo "DAGs 同步完成並已校正權限 ..."

@@ -80,12 +80,15 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 | Add Portainer | By Docker | 2026-04-11 |
 | Docker Compose Profiles | compose 模組化，整套 lab 一鍵部署 | 2026-04-11 |
 | Add Makefile | - | 2026-04-11 |
+| Add Airflow Config UI | `Trigger w/ Config` | 2026-04-18 |
+| Update DAGs Coding Style | - | - |
 | Create Materialized View ( MV ) | 建立物化檢視表 | - |
 | Grafana Dashboard | update `htap_grafana.json` | - |
 | Analytical Queries | - | - |
-| Multi-Instance Simulate | - | X |
-| Add Ansible | 組態管理 : 負責進入主機。<br>ex：安裝 Docker、設定權限、拉 Git 專案、啟動服務 ... | - |
+| Multi-Instance Simulate | like Edge Machine | X |
 | Add Terraform | 基礎設施供應 : 負責變出資源。<br>ex：雲端開 VM、設定網路、建立 S3 Bucket ... | - |
+| Add Ansible | 組態管理 : 負責進入主機。<br>ex：安裝 Docker、設定權限、拉 Git 專案、啟動服務 ... | - |
+| Upload GCP | - | - |
 
 <br>
 

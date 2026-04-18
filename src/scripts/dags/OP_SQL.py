@@ -10,33 +10,27 @@ from utils.dag_tool import create_dag, check_parameters, get_value
 
 
 # TODO  Settings Configuration
-DAG_ID = 'SQL_OPERATOR'
+DAG_ID = 'OP_SQL'
 SCHEDULE = None
-TAGS = ['SQL', 'OPERATOR']
+TAGS = ['SQL', 'OPERATOR', 'OP']
 
 
 dag = create_dag(
     dag_id=DAG_ID,
+    schedule=SCHEDULE,
     owner='PC',
     **{
         'tags': TAGS,
-        'schedule': SCHEDULE,
         'template_searchpath': ['/opt/airflow/dags/sql'],
-        'max_active_runs': 30,   # TODO 同一時間只允許 30 個實例運行，若超過則排隊等待
-        'max_active_tasks': 10,  # TODO 同一時間只允許 10 個任務運行，若超過則排隊等待
+        'max_active_runs': 30,  # TODO 同一時間只允許 30 個實例運行，若超過則排隊等待
+        'max_active_tasks': 10, # TODO 同一時間只允許 10 個任務運行，若超過則排隊等待
     }
 )
 
 
 with dag:
-    START = EmptyOperator(
-        task_id='START',
-        trigger_rule='all_success'
-    )
-    END = EmptyOperator(
-        task_id='END',
-        trigger_rule='none_failed'
-    )
+    from utils.dag_tool import START, END
+
     CHECK_PARAMETERS = PythonOperator(
         task_id='CHECK_PARAMETERS',
         python_callable=check_parameters,

@@ -7,17 +7,25 @@ TODO
 """
 from config import *
 from config.constants import WF_A_STATUS, WF_B_STATUS
-from utils.dag_tool import check_parameters, verify_dataset_integrity
+from utils.dag_tool import create_dag, check_parameters, verify_dataset_integrity
 
 
-DAG_ID = 'WF_C'
-with DAG(
-        dag_id=DAG_ID,
-        start_date=datetime(2025, 1, 1),
-        schedule=[WF_A_STATUS, WF_B_STATUS], # TODO 關鍵：由 Dataset 觸發 而非時間
-        catchup=False,
-        tags=['DATASET']
-) as dag:
+# TODO  Settings Configuration
+DAG_ID = 'WF_C_DATASET'
+SCHEDULE = [WF_A_STATUS, WF_B_STATUS] # TODO 關鍵：由 Dataset 觸發 而非時間
+TAGS = ['WF', 'DATASET']
+
+
+dag = create_dag(
+    dag_id=DAG_ID,
+    schedule=SCHEDULE,
+    owner='PC',
+    **{
+        'tags': TAGS,
+    }
+)
+
+with dag:
     @task
     def CHECK_FRESH_STATUS(**kwargs):
         # 1. 取得觸發字典
@@ -57,19 +65,14 @@ with DAG(
         return 'Verified'
 
 
-    START = EmptyOperator(
-        task_id='START',
-        trigger_rule='all_success'
-    )
-    END = EmptyOperator(
-        task_id='END',
-        trigger_rule='none_failed_min_one_success'
-    )
+    from utils.dag_tool import START, END
+
     CHECK_PARAMETERS = PythonOperator(
         task_id='CHECK_PARAMETERS',
         python_callable=check_parameters,
         op_kwargs={
             'DAG_ID': DAG_ID,
+            'SCHEDULE': SCHEDULE,
         }
     )
 

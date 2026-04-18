@@ -11,7 +11,7 @@ from utils.dag_tool import create_dag, check_parameters
 
 # TODO  Settings Configuration
 DAG_ID = 'WF_AUTO_PARTITION'
-SCHEDULE = '0 0 * * *' # 每天午夜執行
+SCHEDULE = '0 0 * * *'
 TAGS = ['WF', 'AUTO', 'SCHEDULE']
 
 params = {
@@ -33,13 +33,13 @@ params = {
 
 dag = create_dag(
     dag_id=DAG_ID,
+    schedule=SCHEDULE,
     owner='PC',
     params=params,
     **{
         'tags': TAGS,
-        'schedule': SCHEDULE,
-        'max_active_runs': 1,    # TODO 同一時間只允許 1 個實例運行，若超過則排隊等待
-        'max_active_tasks': 10,  # TODO 同一時間只允許 10 個任務運行，若超過則排隊等待
+        'max_active_runs': 1,   # TODO 同一時間只允許 1 個實例運行，若超過則排隊等待
+        'max_active_tasks': 10, # TODO 同一時間只允許 10 個任務運行，若超過則排隊等待
     }
 )
 
@@ -60,14 +60,8 @@ def check_branch(**kwargs) -> list:
 
 
 with dag:
-    START = EmptyOperator(
-        task_id='START',
-        trigger_rule='all_success'
-    )
-    END = EmptyOperator(
-        task_id='END',
-        trigger_rule='none_failed'
-    )
+    from utils.dag_tool import START, END
+
     CHECK_PARAMETERS = PythonOperator(
         task_id='CHECK_PARAMETERS',
         python_callable=check_parameters,
