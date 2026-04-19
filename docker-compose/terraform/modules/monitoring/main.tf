@@ -1,5 +1,6 @@
 # terraform/modules/monitoring/main.tf
 
+
 terraform {
   required_providers {
     docker = {
@@ -15,6 +16,7 @@ locals {
       image    = "prom/prometheus:latest"
       ports    = [{ internal = 9090, external = 9090 }]
       restart  = "unless-stopped"
+      security_opts = null
       pid_mode = null
       envs     = null
       command  = null
@@ -28,6 +30,7 @@ locals {
       image    = "grafana/grafana:latest"
       ports    = [{ internal = 3000, external = 3000 }]
       restart  = "unless-stopped"
+      security_opts = null
       pid_mode = null
       envs     = [
         "GF_SECURITY_ADMIN_PASSWORD=admin",
@@ -42,6 +45,7 @@ locals {
       image    = "prometheuscommunity/postgres-exporter:latest"
       ports    = [{ internal = 9187, external = 9187 }]
       restart  = "unless-stopped"
+      security_opts = null
       pid_mode = null
       envs     = [
         "DATA_SOURCE_NAME=postgresql://postgres_exporter:exporter@host.docker.internal:5432/postgres?sslmode=disable"
@@ -66,6 +70,7 @@ locals {
       image    = "prom/node-exporter:latest"
       ports    = [{ internal = 9100, external = 9100 }]
       restart  = "unless-stopped"
+      security_opts = null
       pid_mode = "host" # TODO 特例：需要主機 PID 模式
       envs     = null
       command  = [
@@ -87,63 +92,9 @@ locals {
   }
 }
 
-resource "docker_container" "apps" {
-  for_each = local.apps
-
-  # TODO 基礎設置
-  name     = "${var.main_name}-${each.key}-1"
-  image    = each.value.image
-
-  # TODO 針對性處理共性與非共性的
-  dynamic "volumes" {
-    for_each = each.value.volumes
-    content {
-      host_path      = lookup(volumes.value, "host", null)
-      volume_name    = lookup(volumes.value, "volume_name", null)
-      container_path = volumes.value.container
-      read_only      = volumes.value.ro
-    }
-  }
-  dynamic "host" {
-    for_each = each.value.host
-    content {
-      host  = lookup(host.value, "host", null)
-      ip    = lookup(host.value, "ip", null) # 欲監控目標的主閘道
-    }
-  }
-  dynamic "ports" {
-    for_each = each.value.ports
-    content {
-      internal  = lookup(ports.value, "internal", null)
-      external  = lookup(ports.value, "external", null)
-    }
-  }
-
-  # TODO 其餘共性標籤 ( 含 ports, lifecycle ... )
-  pid_mode = each.value.pid_mode # TODO 若是 null 則自動忽略
-  restart  = each.value.restart
-  env      = each.value.envs
-
-  labels {
-    label = "com.docker.compose.project"
-    value = var.main_name
-  }
-  labels {
-    label = "com.docker.compose.service"
-    value = each.key
-  }
-  networks_advanced {
-    aliases = [each.key] # TODO 增加藝名卡，使網域內可用別名被找到
-    name = var.network_name
-  }
-  lifecycle {
-    ignore_changes = [
-      image,         # 忽略 sha256 與 latest 的字串差異
-      network_mode,  # 忽略 Docker 自動補上的 bridge 模式
-      user,          # 忽略映像檔內建的 user ID
-      working_dir,   # 忽略映像檔內建的工作目錄
-      command,       # 忽略啟動指令的格式微差
-      entrypoint,    # 忽略入口點的微差
-    ]
-  }
+module "generic_worker" {
+  source       = "../generic_docker_container"
+  main_name    = var.main_name
+  network_name = var.network_name
+  app_configs  = local.apps # TODO 把定義清單丟進去
 }

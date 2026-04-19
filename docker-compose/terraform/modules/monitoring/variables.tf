@@ -1,5 +1,6 @@
 # terraform/modules/monitoring/variables.tf
 
+
 variable "main_name" {
   description = "項目名稱 (由父層傳入)"
   type        = string

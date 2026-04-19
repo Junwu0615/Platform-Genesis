@@ -1,5 +1,6 @@
 # terraform/variables.tf
 
+
 variable "MAIN_NAME" {
   description = "主項目名稱"
   type        = string
