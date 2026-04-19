@@ -94,6 +94,7 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 | Add Makefile | for `terraform + ansible` | 2026-04-19 |
 | Terraform vs. Docker Compose | 體驗狀態管理差異性 ; 可救回配置崩潰，提高 HA | 2026-04-19 |
 | Terraform & Ansible | 體驗 Ansible 如何補足 Terraform 的不足 | 2026-04-19 |
+| Terraform Modularization | - | 2026-04-20 |
 | Add Kubernetes | Step 3 : Kind ( K8s in Docker ) | - |
 | K8s 複雜度 | 體驗 Pod、Service、Ingress 抽象層 | - |
 
@@ -134,19 +135,20 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 - #### *II.　Makefile Execute ( ⭐ Terraform + Ansible + Compose )*
   ```
   cd docker-compose
-  # 初始化
+  
+  # initialization
   make init
   make build
   make setup
   
-  # 依賴 compose 服務
+  # depends on 'Compose' service
   make postgresql
   make airflow
   
-  # 依賴 Terraform + Ansible 服務
+  # depends on 'Terraform' + 'Ansible' services ( Monitoring + Portainer )
   make all
   
-  # 關閉服務
+  # service shutdown
   make down
   make destroy
   ```

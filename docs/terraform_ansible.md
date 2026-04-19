@@ -49,6 +49,9 @@ terraform apply -auto-approve # 跳過確認環節，直接執行
 # 關閉宣告
 terraform destroy -auto-approve
 
+# Terraform 如何自動理清這些模組間的依賴關係
+terraform graph
+
 # 基於動態參數調整並重啟服務
 ansible-playbook deploy_config.yml
 

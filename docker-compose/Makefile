@@ -22,7 +22,7 @@ PORTAINER_CONTENT = portainer
 .PHONY: build up down down-v ps rm \
 fix-sock db-wait list-configs clear-force get-chown-all dev-mode prod-mode \
 airflow monitoring portainer postgresql \
-setup config infra all destroy
+setup config infra all destroy graph
 
 init:
 	@echo "* 針對子服務進行必要性 init"
@@ -160,3 +160,7 @@ all: infra config
 destroy:
 	@echo "* Destroy Infrastructure ..."
 	cd $(TERRAFORM_DIR) && terraform destroy -auto-approve
+
+graph:
+	@echo "* 顯示 Terraform 如何理清模組間依賴關係 ..."
+	cd $(TERRAFORM_DIR) && terraform graph
