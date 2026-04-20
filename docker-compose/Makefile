@@ -154,6 +154,10 @@ config:
 	@echo "* Ansible: Applying Configurations ..."
 	cd $(ANSIBLE_DIR) && ansible-playbook -i inventory.ini playbook.yml
 
+reload:
+	@echo "* Ansible: Applying Configurations ..."
+	cd $(ANSIBLE_DIR) && ansible-playbook -i inventory.ini playbook.yml --tags reload
+
 all: infra config
 	@echo "* 依賴 Terraform + Ansible 服務全部啟動 ..."
 

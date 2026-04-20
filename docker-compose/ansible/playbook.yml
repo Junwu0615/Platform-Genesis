@@ -2,13 +2,9 @@
 
 
 - name: Dynamic Monitoring Configuration
+  hosts: monitoring_servers  # 對應 .ini 群組
+  become: false              # root 開關，視情況調整
   roles:
     - monitoring
-  hosts: monitoring_servers  # 對應 .ini 裡的群組
-  become: false              # 如果是本機執行通常不需 root，視情況調整
   vars:
-    postgres_exporter_host: '{{ main_name }}-postgres_exporter-1'
-    #postgres_exporter_host: '{{ host_docker_internal }}'
-    node_exporter_host: '{{ main_name }}-node_exporter-1'
-    #node_exporter_host: '{{ host_docker_internal }}'
     config_path: "{{ playbook_dir }}/../docker/monitoring/prometheus.yaml"

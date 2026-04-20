@@ -195,9 +195,18 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
   ├── docker-compose
   │   ├── Makefile
   │   ├── ansible
-  │   │   ├── deploy_config.yml
-  │   │   └── templates
-  │   │       └── prometheus.yml.j2
+  │   │   ├── inventory.ini
+  │   │   ├── playbook.yml
+  │   │   └── roles
+  │   │       └── monitoring
+  │   │           ├── handlers
+  │   │           │   └── main.yml
+  │   │           ├── tasks
+  │   │           │   └── main.yml
+  │   │           ├── templates
+  │   │           │   └── prometheus.yml.j2
+  │   │           └── vars
+  │   │               └── main.yml
   │   ├── docker
   │   │   ├── airflow
   │   │   │   ├── airflow-webserver.pid

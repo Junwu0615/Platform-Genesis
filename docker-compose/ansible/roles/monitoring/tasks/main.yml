@@ -1,7 +1,7 @@
 # ansible/roles/monitoring/task/main.yml
 
 
-- name: Reload Prometheus Configuration
+- name: Render Prometheus Configuration
   template:
     src: prometheus.yml.j2
     dest: '{{ config_path }}'
@@ -12,8 +12,11 @@
   notify: Reload Prometheus # TODO [法 2] 告知 handlers 進行 "Reload Prometheus" 動作
 
 
-- name: Force Reload Prometheus Configuration
+- name: Manual Force Reload Prometheus
   uri:
     url: "http://localhost:9090/-/reload"
     method: POST
-  tags: [never, reload] # 明確指定 --tags reload 時才會跑
+    status_code: [200, 202]
+  # never: 平時執行該任務會被自動跳過，除非明確指定
+  # 明確指定 --tags reload 時才會跑
+  tags: [never, reload]
