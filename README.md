@@ -37,15 +37,15 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 |**Item**|**Description**|**Time**|
 |--:|:--|:--:|
 | Create Project | - | 2026-03-20 |
-| Add PostgreSQL | By Docker | 2026-03-20 |
+| Add `PostgreSQL` | By Docker | 2026-03-20 |
 | Define Process | - | 2026-03-20 |
 | Define Event Story | - | 2026-03-21 |
 | Define Project Directory | - | 2026-03-21 |
 | Define Table DDL | - | 2026-03-21 |
 | Create OLTP DDL ( 6 ) | 3NF | 2026-03-21 |
-| Add Airflow | By Docker | 2026-03-21 |
+| Add `Airflow` | By Docker | 2026-03-21 |
 | DB Settings | Permission Settings | 2026-03-23 |
-| Add PoWA | By Docker | 2026-03-23 |
+| Add `PoWA` | By Docker | 2026-03-23 |
 | PoWA Web Login Failed | ⚠️no reason found yet | 2026-03-23 |
 | Add New Role | Migration User | 2026-03-24 |
 | Script | delete_data.py | 2026-03-24 |
@@ -69,8 +69,8 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 | Generic DB Benchmark | Design Benchmark-2 | 2026-04-03 |
 | Generic DB Benchmark | Docker Desktop ( 64MB )<br>vs<br>WSL2 ( 16GB ) | 2026-04-04 |
 | Workload Benchmark | Design Benchmark | 2026-04-04 |
-| Add Monitoring | Postgres Exporter + Prometheus + Grafana | 2026-04-04 |
-| Add Monitoring | Node Exporter | 2026-04-05 |
+| Add `Monitoring` | Postgres Exporter + Prometheus + Grafana | 2026-04-04 |
+| Add `Monitoring` | Node Exporter | 2026-04-05 |
 | Grafana Dashboard | Organize Observation Indicators | 2026-04-05 |
 | Add WSL2 Settings | `.wslconfig` | 2026-04-06 |
 | Create OLAP DDL ( 5 ) | Star Schema | 2026-04-06 |
@@ -81,7 +81,7 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 | DAG ETL Script | Fan-out Queue Pattern | 2026-04-06 |
 | DAG | Try `Param` | 2026-04-07 |
 | DAG | Try `Dataset` | 2026-04-08 |
-| Add Portainer | By Docker | 2026-04-11 |
+| Add `Portainer` | By Docker | 2026-04-11 |
 | Docker Compose Profiles | compose 模組化，整套 lab 一鍵部署 | 2026-04-11 |
 | Add Makefile | for `docker-compose` | 2026-04-11 |
 | Add Airflow Config UI | `Trigger w/ Config` | 2026-04-18 |
@@ -171,30 +171,14 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 
 ### *D.　Implementation*
 - #### *I.　Roadmap*
-  ```
-  # 待生成完整流程圖
-  
-  1. [Schema Design]
-           ↓
-  2. [Data Generator]
-           ↓
-  3. [OLTP Schema (3NF)]
-           ↓
-  4. [ETL] # ETL : Extract → Transform → Load
-           ↓
-  5. [OLAP Schema (Star Schema)]
-           ↓
-  6. [Analytical Queries]
-           ↓
-  7. [Benchmark & Metrics]
-  ```
+- ![PNG](./assets/roadmap.PNG)
 
 - #### *II.　[About SQL Something Detail](./docs/sql.md)*
 
 - #### *III.　Project Tree*
   ```
-  tree -I 'venv|.git|__pycache__|docs|logs|assets'
-  tree -d -I 'venv|.git|__pycache__|docs|logs|assets'
+  tree -I 'venv|.git|__pycache__|docs|logs|assets|kafka_data'
+  tree -d -I 'venv|.git|__pycache__|docs|logs|assets|kafka_data'
 
   .
   ├── LICENSE
@@ -225,6 +209,18 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
   │   │   │   ├── docker-compose.yaml
   │   │   │   ├── plugins
   │   │   │   └── webserver_config.py
+  │   │   ├── iot-platform
+  │   │   │   ├── config
+  │   │   │   │   ├── mosquitto.conf
+  │   │   │   │   └── passwd
+  │   │   │   ├── data
+  │   │   │   │   └── kafka_data
+  │   │   │   │   └── mqtt_data
+  │   │   │   │       └── mosquitto.db
+  │   │   │   ├── dockerfile
+  │   │   │   │   └── Dockerfile.kafka
+  │   │   │   ├── kafka-compose.yaml
+  │   │   │   └── mqtt-compose.yaml
   │   │   ├── monitoring
   │   │   │   ├── docker-compose.yaml
   │   │   │   ├── htap_grafana.json
