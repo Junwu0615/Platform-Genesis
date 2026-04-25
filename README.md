@@ -131,7 +131,7 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 <br>
 
 ### *C.　Command Platform*
-- #### *I.　Makefile Execute ( ⭐ Docker-Compose )*
+- #### *I.　Makefile Execute ( Docker-Compose )*
   ```
   cd docker-compose
   make init
@@ -148,7 +148,7 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
   make build
   make setup
   
-  # depends on 'Compose' service ( Airflow + Postgresql )
+  # depends on 'Compose' service ( Airflow + Postgresql + MQTT + Kafka )
   make postgresql
   make airflow
   make mqtt
@@ -164,7 +164,7 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
   
 - #### *III.　Makefile Execute ( ⭐ K8s + Helm + Terraform + Ansible )*
   ```
-  k3d cluster create ooud-cluster
+  kind
   ```
 
 <br>
