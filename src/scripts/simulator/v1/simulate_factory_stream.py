@@ -26,7 +26,7 @@ logging = Logger(console_name='.main')
 mss = MachineStatusSimulator()
 
 YAML_VERSION = 'v1'
-with open(os.path.join('./src/scripts', f'simulate_{YAML_VERSION}', 'factory_config.yaml')) as f:
+with open(os.path.join('./src/scripts/simulator', f'{YAML_VERSION}', 'factory_config.yaml')) as f:
     config = yaml.safe_load(f)
 
 db = config['database']

@@ -23,9 +23,9 @@
 Simulating HTAP workload using a single PostgreSQL instance with schema isolation, analyzing contention between transactional and analytical queries.
 ```
 * Database architecture should be driven by workload.
-  ↪︎ * Workload defines query patterns.
-        ↪︎ * Query patterns define schema design.
-               ↪︎ * Schema design defines indexing and storage strategy.
+ ↪︎ * Workload defines query patterns.
+ ↪︎ * Query patterns define schema design.
+ ↪︎ * Schema design defines indexing and storage strategy.
 
 
 OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載 】； Schema 設計只是為了【 服務該負載 】的結果。
@@ -95,9 +95,11 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 | Terraform Modularization | - | 2026-04-20 |
 | Ansible Modularization | - | 2026-04-20 |
 | Add `iot-platform` | MQTT Broker + Apache Kafka | 2026-04-25 |
-| Multi-Instance Simulate | like Edge Machine | - |
-| Create Materialized View ( MV ) | 建立物化檢視表 | - |
+| Simple Simulation | organizing old versions : `v1` | 2026-04-28 |
+| Multi-Instance Simulation | like real-edge : `v2` | 2026-04-28 |
+| `v2` make Dockerfile | - | - |
 | Grafana Dashboard | update `htap_grafana.json` | - |
+| Create Materialized View ( MV ) | 建立物化檢視表 | - |
 | Analytical Queries | - | - |
 | Add Kubernetes | Step 3 : Kind ( K8s in Docker ) | - |
 | K8s 複雜度 | 體驗 Pod、Service、Ingress 抽象層 | - |
@@ -306,23 +308,22 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
       │   │   └── utils
       │   │       ├── __init__.py
       │   │       └── dag_tool.py
-      │   ├── init_factory_data.py
-      │   ├── simulate_factory_stream.py
-      │   ├── simulate_v1
+      │   ├── generic_benchmark
+      │   │   ├── dashboard_benchmark.sql
+      │   │   └── olap_benchmark.sql
+      │   ├── simulator
       │   │   ├── __init__.py
-      │   │   └── factory_config.yaml
-      │   ├── sql
-      │   │   ├── auto_partition.py
-      │   │   ├── delete_data.py
-      │   │   └── drop_table.py
-      │   └── test.py
-      ├── sql
-      │   ├── __init__.py
-      │   └── scripts
-      │       ├── __init__.py
-      │       └── generic_benchmark
-      │           ├── dashboard_benchmark.sql
-      │           └── olap_benchmark.sql
+      │   │   ├── v1
+      │   │   │   ├── __init__.py
+      │   │   │   ├── factory_config.yaml
+      │   │   │   ├── init_factory_data.py
+      │   │   │   └── simulate_factory_stream.py
+      │   │   └── v2
+      │   │       └── __init__.py
+      │   └── sql
+      │       ├── auto_partition.py
+      │       ├── delete_data.py
+      │       └── drop_table.py
       └── utils
           ├── __init__.py
           ├── conn.py
