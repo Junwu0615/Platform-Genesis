@@ -256,10 +256,13 @@
   # 新增 Prometheus datasource: http:127.0.0.1:9090
   
   # 快速導入 Dashboard ( Dashboards -> New -> Import )
-    - Import via grafana.com :
-      - PostgreSQL: 9628 ( TPS, Transactions, Locks, Cache hit, Connections, Database size )
-      - Node Exporter: 1860 ( CPU, RAM, Disk IO, Disk usage, Network, Load average )
-      - PostgreSQL Table: 12485 ( Table size, Table growth, Index size, Sequential scans, Index scans )
+  - Import via grafana.com :
+    - PostgreSQL: 9628 ( TPS, Transactions, Locks, Cache hit, Connections, Database size )
+    - Node Exporter: 1860 ( CPU, RAM, Disk IO, Disk usage, Network, Load average )
+    - PostgreSQL Table: 12485 ( Table size, Table growth, Index size, Sequential scans, Index scans )
+    - Kafka 全方位監控 : 11600
+    - K8s 叢集基礎監控 : 1860
+    - K8s 叢集進階監控 : 15760
   
   # 觀測重點 ( ⭐htap_grafana.json )
   HTAP Monitoring

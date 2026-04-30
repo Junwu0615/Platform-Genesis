@@ -48,7 +48,7 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 | DB Settings | Permission Settings | 2026-03-23 |
 | Add `PoWA` | By Docker | 2026-03-23 |
 | PoWA Web Login Failed | ⚠️no reason found yet | 2026-03-23 |
-| Add New Role | Migration User | 2026-03-24 |
+| New Role | Migration User | 2026-03-24 |
 | Script | delete_data.py | 2026-03-24 |
 | Script | drop_table.py | 2026-03-24 |
 | Script | factory_config.yaml | 2026-03-24 |
@@ -73,7 +73,7 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 | Add `Monitoring` | Postgres Exporter + Prometheus + Grafana | 2026-04-04 |
 | Add `Monitoring` | Node Exporter | 2026-04-05 |
 | Grafana Dashboard | Organize Observation Indicators | 2026-04-05 |
-| Add WSL2 Settings | `.wslconfig` | 2026-04-06 |
+| WSL2 Settings | `.wslconfig` | 2026-04-06 |
 | Create OLAP DDL ( 5 ) | Star Schema | 2026-04-06 |
 | Partition Settings | `default_partition` | 2026-04-06 |
 | Auto Partition | `dags/sql/auto_partition/*` | 2026-04-06 |
@@ -98,11 +98,11 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 | Add `iot-platform` | MQTT Broker + Apache Kafka | 2026-04-25 |
 | Simple Simulation | organizing old versions : `v1` | 2026-04-28 |
 | Multi-Instance Simulation | like real-edge : `v2` | 2026-04-28 |
-| Add MQTT Logic | for `command_platform` | 2026-04-28 |
-| Add MQTT Logic | for `multi-instance` | - |
-| Add Kafka Logic | `kafka-connect` | 2026-04-30 |
-| Add Kafka Logic | `comsumers` | - |
-| Add API Service Logic | - | - |
+| MQTT Logic | for `command_platform` | 2026-04-28 |
+| MQTT Logic | for `multi-instance` | - |
+| Kafka Logic | `kafka-connect` | 2026-04-30 |
+| Kafka Logic | `comsumers` | - |
+| API Service Logic | - | - |
 | `v2` make Dockerfile | - | - |
 | Grafana Dashboard | update `htap_grafana.json` | - |
 | Create Materialized View ( MV ) | 建立物化檢視表 | - |
@@ -110,8 +110,9 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 | Kubernetes | 入門 : `Minikube` | - |
 | Kubernetes | 進階 ( HA ) : `K3s` + `VMware` | - |
 | Kubernetes | 底層 ( Hard Way ) : `Kubeadm` + `VMware` | - |
-| Kubernetes | 公有雲 : `Google Kubernetes Engine ( GKE )` | - |
-| K8s 複雜度 | 體驗 Pod、Service、Ingress 抽象層 | - |
+| Kubernetes | 公有雲 : Google Kubernetes Engine ( `GKE` ) | - |
+| K8s | 體驗 Pod、Service、Ingress 抽象層 | - |
+| K8s | 體驗工具 `Lens` / `k9s` / `Kubernetes Dashboard` | - |
 
 <br>
 
@@ -183,7 +184,8 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 ### *D.　Implementation*
 - ![PNG](./assets/roadmap.PNG)
 - #### *I.　[About SQL Something Detail](./docs/sql.md)*
-- #### *II.　Project Tree*
+- #### *II.　[About K8s](./docs/k8s.md)*
+- #### *III.　Project Tree*
   ```
   tree -I 'venv|.git|__pycache__|docs|logs|assets|kafka_data'
   tree -d -I 'venv|.git|__pycache__|docs|logs|assets|kafka_data'
