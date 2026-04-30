@@ -84,7 +84,7 @@ def insert_production_order(ms, cursor, event_dict: dict) -> int:
             'target_qty': _target_qty,
             # 'prod_qty': 0
         }
-        ms.add_content(topic=f'Mach/{_mach_name}', payload=payload, qos=1)
+        ms.add_content(topic=f'cp/mach-order/{_mach_name}', payload=payload, qos=1)
 
         ret += 1
     else:

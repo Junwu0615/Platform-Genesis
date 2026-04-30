@@ -196,7 +196,7 @@
   docker-compose -f kafka-compose.yaml up -d
   ```
 
-- #### *b.　測試 Broker 是否認得帳密*
+- #### *b.　[ MQTT ] 測試 Broker 是否認得帳密*
   ```
   # 故意不用密碼 => 失敗
   docker exec -it mqtt_broker mosquitto_sub -t "test/topic"
@@ -205,21 +205,38 @@
   docker exec -it mqtt_broker mosquitto_sub -t "test/topic" -u admin -P 123456789
   ```
   
-- #### *c.　JSON 設定 ( MQTT -> Kafka )*
+- #### *c.　[ Kafka ] 設定 Kafka-Connect*
   ```
-  {
-    "name": "mqtt-source-connector",
-    "config": {
-      "connector.class": "io.confluent.connect.mqtt.MqttSourceConnector",
-      "mqtt.server.uris": "tcp://mqtt:1883",
-      "mqtt.topics": "current/sensor/+",
-      "kafka.topic": "raw_current_data",
-      "mqtt.username": "admin",
-      "mqtt.password": "123456789",
-      "mqtt.qos": "0", 
-      "value.converter": "org.apache.kafka.connect.converters.ByteArrayConverter"
-    }
-  }
+  # 1. 確認 kafka-connect 是否支援 MQTT Source Connector
+  curl http://localhost:8083/connector-plugins | jq '.[].class'
+  -- "io.confluent.connect.mqtt.MqttSinkConnector"
+  -- "io.confluent.connect.mqtt.MqttSourceConnector"
+  
+  # 2. 傳送配置讓 Kafka 訂閱 MQTT Broker 指定主題，並將資料寫入 Kafka
+  curl -X POST -H "Content-Type: application/json" --data @docker-compose/docker/iot-platform/config/connectors/mqtt-cp-mach-order.json http://localhost:8083/connectors
+  
+  # 3. 確認目前已訂閱清單
+  curl http://localhost:8083/connectors
+  
+  # 4.1 確認 mqtt-cp-mach-order 配置
+  curl http://localhost:8083/connectors/mqtt-cp-mach-order
+  
+  # 4.2 確認 mqtt-cp-mach-order 狀態
+  curl http://localhost:8083/connectors/mqtt-cp-mach-order/status
+
+  -------
+  
+  # 5. 暫停 Connector（不刪除，只是停止抓取資料）
+  curl -X PUT http://localhost:8083/connectors/mqtt-cp-mach-order/pause
+  
+  # 6. 恢復執行
+  curl -X PUT http://localhost:8083/connectors/mqtt-cp-mach-order/resume
+  
+  # 7. 重啟（當 Connector 出現 FAILED 狀態時試試看）
+  curl -X POST http://localhost:8083/connectors/mqtt-cp-mach-order/restart
+  
+  # 8. 刪除 Connector
+  curl -X DELETE http://localhost:8083/connectors/mqtt-cp-mach-order
   ```
 
 <br>
