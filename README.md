@@ -151,9 +151,16 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 
 ```bash
 cd docker-compose
+
+# initialization
 make init
 make build
+
+# depends on 'Compose' service
 make up
+
+# service shutdown
+make down
 ```
 </ul>
 </details>
@@ -381,7 +388,7 @@ make destroy
 - #### *⭐ 欲真正解決 OLTP / OLAP 衝突，詳見[另一解法](https://github.com/Junwu0615/OLTP-To-OLAP-Pipeline)*
 - #### *I.　OLTP　VS.　OLAP　VS.　HTAP*
   | **Type** | **Core Objectives** | **Design Philosophy** | **Data Model** | **Query Features** |
-  |:--:|:--:|:--:|:--:|:--:|
+  |:--:|:--|:--|:--|:--|
   | OLTP | 快速且正確地處理`交易` | 一致性優先 | [ 正規化 ]<br>3NF | 單筆查詢、低延遲 |
   | OLAP | 高效`分析`大量資料 | 查詢效率優先 | [ 非正規化 ]<br>Star Schema / Wide Table | 聚合分析、大量掃描 |
   | HTAP | 同時支援`交易`與`分析` | 負載平衡 | 混合模型 | 即時分析 + 交易 |
