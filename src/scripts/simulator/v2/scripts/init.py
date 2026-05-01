@@ -21,6 +21,7 @@ config = get_yaml_config(YAML_PATH)
 
 db = config['database']
 init_data = config['init_data']
+simulate = config['simulate']
 
 
 def generate_machines(conn, cursor):
@@ -79,22 +80,28 @@ def generate_products(conn, cursor):
     record_content = [i[0] for i in mach_type] # 記錄編碼
 
     for i in range(init_data['products']):
+        _target_qty = random.randint(simulate['target_qty_min'], simulate['target_qty_max'])
         _get_type = random.choice(record_content)
 
         cursor.execute("""
         INSERT INTO oltp.product
-        (product_name, product_type)
-        VALUES (%s, %s)
+        (product_name, product_type, target_qty)
+        VALUES (%s, %s, %s)
         """,
         (
             f'{_get_type}-{random.randint(0, 999999):06d}',
-            _get_type
+            _get_type,
+            _target_qty,
         ))
     conn.commit()
     logging.info(f"[{init_data['products']}] oltp.product generated ...")
 
 
 def main():
+    """
+    TODO 動作事項
+        - OLTP : 初始化「機台」,「訂單」數據
+    """
     conn, cursor = None, None
     logging.warning('Starting Init Factory Data ...')
     try:

@@ -27,8 +27,8 @@ simulate:
 
   orders: 50 # 第一批生產訂單數量
 
-  target_qty_min: 300 # 目標生産数の最小値
-  target_qty_max: 1500 # 目標生産数の最大値
+  target_qty_min: 500 # 目標生産数の最小値
+  target_qty_max: 3000 # 目標生産数の最大値
 
   prod_qty_min: 1 # 實際生產效率の最小値
   prod_qty_max: 10 # 實際生產效率の最大値

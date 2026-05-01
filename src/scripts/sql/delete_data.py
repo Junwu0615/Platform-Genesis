@@ -12,13 +12,13 @@ TARGET_LIST = [
     # OLTP Tables
     # 'oltp.machine_status_logs', # not used
     # 'oltp.machine_events', # not used
-    'oltp.production_records',
-    'oltp.production_orders',
+    # 'oltp.production_records',
+    # 'oltp.production_orders',
     # 'oltp.machine_status_logs_2026_03',
-    'oltp.machine_status_logs_2026_04',
+    # 'oltp.machine_status_logs_2026_04',
     # 'oltp.machine_status_logs_2026_05',
-    # 'oltp.products',
-    # 'oltp.machines',
+    'oltp.product',
+    'oltp.machine',
     # OLAP Tables
     # 'olap.dim_time',
     # 'olap.dim_product',

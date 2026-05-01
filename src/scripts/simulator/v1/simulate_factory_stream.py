@@ -110,9 +110,10 @@ def insert_production_order(cursor, event_dict: dict) -> int:
     """
     ret = 0
     for _ in range(NUM_ORDERS):
-        _product_id = random.choice(list(event_dict['product_dict'].keys()))
-        _product_type = event_dict['product_dict'].get(_product_id)
-        _target_qty = random.randint(simulate['target_qty_min'], simulate['target_qty_max'])
+        _prod_name = random.choice(list(event_dict['product_dict'].keys()))
+        _prod_id = event_dict['product_dict'][_prod_name]['prod_id']
+        _prod_type = event_dict['product_dict'][_prod_name]['prod_type']
+        _target_qty = event_dict['product_dict'][_prod_name]['target_qty']
 
         cursor.execute("""
         INSERT INTO oltp.production_orders
@@ -305,15 +306,18 @@ def init_transaction_dict(conn, cursor) -> dict:
 
         # 取得產品列表
         cursor.execute("""
-        SELECT product_id, product_type
+        SELECT product_name, product_id, product_type, target_qty
         FROM oltp.product
         """)
         products = cursor.fetchall()
-        event_dict['product_dict'] = {i[0]: i[1] for i in products}
-        event_dict['order_queue'] = {i: collections.deque() for i in list(set(i[1] for i in products))}
+        event_dict['product_dict'] = {i[0]:{
+            'prod_id': i[1],
+            'prod_type': i[2],
+            'target_qty': i[3],
+        } for i in products}
+        event_dict['order_queue'] = {i: collections.deque() for i in list(set(i[2] for i in products))}
 
-
-        # TODO 1. 更新機台狀態 : IDLE
+        # 1. 更新機台狀態 : IDLE
         for _machine_id in event_dict['machine_dict'].keys():
             cursor.execute("""
             INSERT INTO oltp.machine_status_logs
@@ -326,36 +330,8 @@ def init_transaction_dict(conn, cursor) -> dict:
                 get_now(hours=8, tzinfo=TZ_UTC_8),
             ))
 
-        # TODO 2. 初始化第一批訂單
-        for _ in range(NUM_ORDERS):
-            _product_id = random.choice(list(event_dict['product_dict'].keys()))
-            _product_type = event_dict['product_dict'].get(_product_id)
-            _target_qty = random.randint(simulate['target_qty_min'], simulate['target_qty_max'])
-
-            cursor.execute("""
-            INSERT INTO oltp.production_orders (product_id, quantity, created_at)
-            VALUES (%s, %s, %s)
-            RETURNING order_id
-            """, (
-                _product_id,
-                _target_qty,
-                get_now(hours=8, tzinfo=TZ_UTC_8),
-            ))
-
-            _order_id = cursor.fetchone()[0]
-
-            # 取得訂單後 塞入佇列
-            event_dict['order_queue'][_product_type] += [_order_id]
-
-            # 建立訂單 ID 對照產品 ID
-            event_dict['order_dict'][_order_id] = _product_id
-
-            event_dict['order_count'] += 1
-            event_dict['detail'][_order_id] = {
-                'product_id': _product_id,
-                'target_qty': _target_qty,
-                'produced_qty': 0
-            }
+        # 2. 初始化第一批訂單
+        _ct = insert_production_order(cursor, event_dict)
 
         conn.commit()
 

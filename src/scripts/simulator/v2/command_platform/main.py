@@ -55,22 +55,21 @@ def insert_production_order(ms, cursor, event_dict: dict) -> int:
         _prod_name = random.choice(list(event_dict['product_dict'].keys()))
         _prod_id = event_dict['product_dict'][_prod_name]['prod_id']
         _prod_type = event_dict['product_dict'][_prod_name]['prod_type']
+        _target_qty = event_dict['product_dict'][_prod_name]['target_qty']
 
         _mach_name = random.choice(list(
             k for k,v in event_dict['machine_dict'].items() if v['mach_type'] == _prod_type
         ))
 
-        _target_qty = random.randint(simulate['target_qty_min'], simulate['target_qty_max'])
-
-        cursor.execute("""
-        INSERT INTO oltp.production_orders (product_id, quantity, created_at)
-        VALUES (%s, %s, %s)
-        RETURNING order_id
-        """, (
-            _prod_id,
-            _target_qty,
-            get_now(hours=8, tzinfo=TZ_UTC_8),
-        ))
+        # cursor.execute("""
+        # INSERT INTO oltp.production_orders (product_id, quantity, created_at)
+        # VALUES (%s, %s, %s)
+        # RETURNING order_id
+        # """, (
+        #     _prod_id,
+        #     _target_qty,
+        #     get_now(hours=8, tzinfo=TZ_UTC_8),
+        # ))
 
         _order_id = cursor.fetchone()[0]
         payload = {
@@ -116,13 +115,14 @@ def init_transaction_dict(ms, conn, cursor) -> dict:
 
         # 取得產品列表
         cursor.execute("""
-        SELECT product_name, product_id, product_type
+        SELECT product_name, product_id, product_type, target_qty
         FROM oltp.product
         """)
         products = cursor.fetchall()
         event_dict['product_dict'] = {i[0]:{
             'prod_id': i[1],
             'prod_type': i[2],
+            'target_qty': i[3],
         } for i in products}
 
 
@@ -177,6 +177,13 @@ def simulate_stream(ms, conn, cursor, event_dict: dict):
 
 
 def main():
+    """
+    TODO 動作事項
+        - MQTT ( Kafka ) : 「傳送」訊息
+        - OLTP R (僅初始化):
+            - 「機台規格」
+            - 「產品規格」
+    """
     ms, conn, cursor = None, None, None
     logging.warning('[# command_platform] Starting Factory Stream Simulation...')
     try:
