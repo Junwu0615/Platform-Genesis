@@ -61,17 +61,18 @@ def insert_production_order(ms, cursor, event_dict: dict) -> int:
             k for k,v in event_dict['machine_dict'].items() if v['mach_type'] == _prod_type
         ))
 
-        # cursor.execute("""
-        # INSERT INTO oltp.production_orders (product_id, quantity, created_at)
-        # VALUES (%s, %s, %s)
-        # RETURNING order_id
-        # """, (
-        #     _prod_id,
-        #     _target_qty,
-        #     get_now(hours=8, tzinfo=TZ_UTC_8),
-        # ))
+        cursor.execute("""
+        INSERT INTO oltp.production_orders (product_id, quantity, created_at)
+        VALUES (%s, %s, %s)
+        RETURNING order_id
+        """, (
+            _prod_id,
+            _target_qty,
+            get_now(hours=8, tzinfo=TZ_UTC_8),
+        ))
 
         _order_id = cursor.fetchone()[0]
+
         payload = {
             'mach_name': _mach_name,
             'mach_id': event_dict['machine_dict'][_mach_name]['mach_id'],
@@ -179,10 +180,14 @@ def simulate_stream(ms, conn, cursor, event_dict: dict):
 def main():
     """
     TODO 動作事項
+        - 實例 : 1
+        \
         - MQTT ( Kafka ) : 「傳送」訊息
         - OLTP R (僅初始化):
             - 「機台規格」
             - 「產品規格」
+        - OLTP W (Real-time) :
+            - 「建立生產訂單」
     """
     ms, conn, cursor = None, None, None
     logging.warning('[# command_platform] Starting Factory Stream Simulation...')

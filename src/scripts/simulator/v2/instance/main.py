@@ -273,6 +273,8 @@ def on_message(client, userdata, msg):
 def main():
     """
     TODO 動作事項
+        - 實例 : N
+        \
         - MQTT ( Kafka ) : 「消費」/「傳送」訊息
     """
     logging.warning('Starting Factory Stream Simulation...')
