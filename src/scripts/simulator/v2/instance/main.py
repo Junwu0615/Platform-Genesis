@@ -6,9 +6,6 @@ TODO
     Notice:
 """
 import os, sys
-
-import mmh3
-
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '..', '..', '..')))
 
 from src.modules.log import Logger
@@ -35,15 +32,9 @@ load_cfg = config['load_profile']
 kafka = config['kafka']
 
 TARGET_MACH = os.getenv('TARGET_MACH', 'M-CNC-30')
+MAIN_NAME = f'# instance: {TARGET_MACH}'
 ORDER_TOPIC = 'mqtt_raw.cp.mach-order'
 GROUP_ID = 'iot-data-mach-processor'
-
-config = {
-    'bootstrap.servers': f'{kafka['host']}:{kafka['port']}',
-    'group.id': GROUP_ID,
-    'auto.offset.reset': kafka['auto_offset_reset'],
-    'enable.auto.commit': kafka['enable_auto_commit']
-}
 
 
 def update_order_status(cursor, event_dict: dict) -> int:
@@ -285,77 +276,97 @@ def simulate_stream(cursor, event_dict: dict):
 
 
 def get_partition_id(consumer, topic_name: str, machine_id: str) -> int:
-    # 取得分區總數 (動態取得，增加程式魯棒性)
+    # 取得分區總數
     cluster_metadata = consumer.list_topics(topic=topic_name)
     partitions = cluster_metadata.topics[topic_name].partitions
     num_partitions = len(partitions)
 
-    # 計算 Partition ID (核心邏輯)
-    # Kafka 的公式：(murmur2(key) & 0x7fffffff) % num_partitions
+    # 計算 Partition ID
     key_bytes = machine_id.encode('utf-8')
-    # target_partition = (murmur2(key_bytes, seed=0x12345678) & 0x7fffffff) % num_partitions
     target_partition = (mmh3.hash(key_bytes, seed=0x12345678) & 0x7fffffff) % num_partitions
 
     logging.info(f"機台 {machine_id} 對應 Partition 分區 ID 為: {target_partition}")
     return target_partition
 
 
-# def on_assign(consumer, partitions):
-#     """
-#     TODO 共用一個 Group，但每個人只會「認領」自己對應的那條路
-#     """
-#     target_partition = get_partition_id(consumer, ORDER_TOPIC, TARGET_MACH)
-#     relevant_partitions = [p for p in partitions if p.partition == target_partition]
-#
-#     if not relevant_partitions:
-#         logging.warning(f"警告： Kafka 沒分配分區 {target_partition} ... 空轉待命中 ...")
-#     else:
-#         logging.info(f"成功鎖定分區: {target_partition}")
-#
-#     consumer.assign(relevant_partitions)
+def receive_message(stop_event, **kwargs):
+    _config = {
+        'bootstrap.servers': f'{kafka['host']}:{kafka['port']}',
+        'group.id': GROUP_ID,
+        'auto.offset.reset': kafka['auto_offset_reset'],
+        'enable.auto.commit': kafka['enable_auto_commit']
+    }
+    consumer = Consumer(_config)
 
-
-def receive_message(consumer):
     target_partition = get_partition_id(consumer, ORDER_TOPIC, TARGET_MACH)
     tp = TopicPartition(ORDER_TOPIC, target_partition)
     consumer.assign([tp])
 
-    while True:
-        try:
-            msg = consumer.poll(1.0)  # 等待 1 秒
-
-            if msg is None: continue
-            if msg.error():
-                if msg.error().code() == KafkaError._PARTITION_EOF:
-                    # 當前消費完畢 => 目前沒新訊息，繼續等待
-                    logging.info(f"[# instance: {target_mach}] topic: {msg.topic()} | partition: {msg.partition()}")
-                    continue
-                else:
-                    # 其他錯誤: Broker 斷線、認證失敗 ...etc.
-                    logging.error(f"[# instance: {target_mach}] consumer error: {msg.error()}", exc_info=False)
-                    raise
-
-            key = msg.key().decode('utf-8') if msg.key() else 'N/A'
-            data = json.loads(msg.value().decode('utf-8'))
-
-            if data.get('mach_name') != TARGET_MACH:
-                continue  # 同 Partition 鄰居資料直接無視
-
-            logging.info(f"[# instance: {target_mach}] 收到來自 {key}: {data}")
-
-            # TODO 處理業務邏輯
+    try:
+        while not stop_event.is_set():
             try:
-                pass
+                stop_event.wait(timeout=0.1)
 
-                consumer.commit(asynchronous=False)  # TODO 處理成功，手動提交 Offset
+                msg = consumer.poll(1.0)  # 等待 1 秒
+
+                if msg is None: continue
+                if msg.error():
+                    if msg.error().code() == KafkaError._PARTITION_EOF:
+                        # 當前消費完畢 => 目前沒新訊息，繼續等待
+                        logging.info(f"[{MAIN_NAME}] topic: {msg.topic()} | partition: {msg.partition()}")
+                        continue
+                    else:
+                        # 其他錯誤: Broker 斷線、認證失敗 ...etc.
+                        logging.error(f"[{MAIN_NAME}] consumer error: {msg.error()}", exc_info=False)
+                        raise
+
+                key = msg.key().decode('utf-8') if msg.key() else 'N/A'
+                data = json.loads(msg.value().decode('utf-8'))
+
+                if data.get('mach_name') != TARGET_MACH:
+                    continue  # 同 Partition 鄰居資料直接無視
+
+                logging.info(f"[{MAIN_NAME}] 收到來自 {key}: {data}")
+
+                # TODO 處理業務邏輯
+                try:
+                    pass
+                    consumer.commit(asynchronous=False)  # TODO 處理成功，手動提交 Offset
+
+                except Exception as e:
+                    logging.error(f"[{MAIN_NAME}] 消費失敗不提交，下次從 offset 繼續開始 ...", exc_info=True)
+
 
             except Exception as e:
-                logging.error(f"[# instance: {target_mach}] "
-                              f"消費失敗不提交，下次從 offset 繼續開始 ...", exc_info=True)
+                logging.error('Exception', exc_info=True)
+
+    finally:
+        consumer.close()
+        logging.warning(f'[{MAIN_NAME}] 已安全關閉 consumer 連線 ...')
 
 
-        except Exception as e:
-            logging.error('Exception', exc_info=True)
+def start_service(threads, service_function: callable, **kwargs):
+    service_thread = threading.Thread(
+        target=service_function,
+        daemon=True,  # 當主執行緒結束時，子執行緒會被強制終止
+        kwargs=kwargs,
+    )
+    service_thread.start()
+    threads.append(service_thread)
+    logging.warning(f'[{MAIN_NAME}] {kwargs.get('title', '服務')}已啟動...')
+
+
+def stop_all_services(stop_event, threads: list):
+    logging.error(f'[{MAIN_NAME}] 正在向所有執行緒發出停止訊號...', exc_info=False)
+    stop_event.set()  # 發出停止訊號
+
+    # 等待所有執行緒結束
+    for thread in threads:
+        if thread.is_alive():
+            logging.info(f'[{MAIN_NAME}] 等待 {thread.name} 執行緒結束...')
+            thread.join()
+
+    logging.warning('\n\n' + logging.title_log(f'[{MAIN_NAME}] 所有執行緒服務已確實關閉'))
 
 
 def main(target_mach: str):
@@ -368,21 +379,24 @@ def main(target_mach: str):
             - 傳送
         - Offset 儲存：Kafka 根據 Key 紀錄消費數字 ; KEY => ( group.id + Topic + Partition ID )
     """
-    consumer = None
-    logging.warning(f'[# instance: {target_mach}] '
-                    f'Starting Factory Stream Simulation ...')
+    threads = []
+    stop_event = threading.Event()
+    logging.warning(f'[{MAIN_NAME}] Starting Factory Stream Simulation ...')
 
     try:
-        consumer = Consumer(config)
-        receive_message(consumer)
+        start_service(threads, receive_message, **{
+            'title': '「消費 mqtt_raw.cp.mach-order 訂單訊息」服務',
+            'stop_event': stop_event,
+        })
 
+        while True:
+            time.sleep(1)
 
     except KeyboardInterrupt:
         logging.error('偵測到 Ctrl+C，正在關閉連線 ...', exc_info=False)
 
     finally:
-        consumer.close()
-        logging.warning('已確實關閉 consumer 連線 ...')
+        stop_all_services(stop_event, threads)
 
 
 if __name__ == '__main__':
