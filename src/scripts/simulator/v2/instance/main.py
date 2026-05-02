@@ -19,7 +19,7 @@ from src.config.simulator import MachineStatusSimulator
 from confluent_kafka import (
     Consumer,
     KafkaError,
-    # TopicPartition
+    TopicPartition
 )
 
 
@@ -284,7 +284,7 @@ def simulate_stream(cursor, event_dict: dict):
             logging.error('[# Other] Exception', exc_info=True)
 
 
-def get_partition_id(topic_name: str, machine_id: str) -> int:
+def get_partition_id(consumer, topic_name: str, machine_id: str) -> int:
     # 取得分區總數 (動態取得，增加程式魯棒性)
     cluster_metadata = consumer.list_topics(topic=topic_name)
     partitions = cluster_metadata.topics[topic_name].partitions
@@ -300,19 +300,62 @@ def get_partition_id(topic_name: str, machine_id: str) -> int:
     return target_partition
 
 
-def on_assign(consumer, partitions):
-    """
-    TODO 共用一個 Group，但每個人只會「認領」自己對應的那條路
-    """
-    target_partition = get_partition_id(ORDER_TOPIC, TARGET_MACH)
-    relevant_partitions = [p for p in partitions if p.partition == target_partition]
+# def on_assign(consumer, partitions):
+#     """
+#     TODO 共用一個 Group，但每個人只會「認領」自己對應的那條路
+#     """
+#     target_partition = get_partition_id(consumer, ORDER_TOPIC, TARGET_MACH)
+#     relevant_partitions = [p for p in partitions if p.partition == target_partition]
+#
+#     if not relevant_partitions:
+#         logging.warning(f"警告： Kafka 沒分配分區 {target_partition} ... 空轉待命中 ...")
+#     else:
+#         logging.info(f"成功鎖定分區: {target_partition}")
+#
+#     consumer.assign(relevant_partitions)
 
-    if not relevant_partitions:
-        logging.warning(f"警告： Kafka 沒分配分區 {target_partition} ... 空轉待命中 ...")
-    else:
-        logging.info(f"成功鎖定分區: {target_partition}")
 
-    consumer.assign(relevant_partitions)
+def receive_message(consumer):
+    target_partition = get_partition_id(consumer, ORDER_TOPIC, TARGET_MACH)
+    tp = TopicPartition(ORDER_TOPIC, target_partition)
+    consumer.assign([tp])
+
+    while True:
+        try:
+            msg = consumer.poll(1.0)  # 等待 1 秒
+
+            if msg is None: continue
+            if msg.error():
+                if msg.error().code() == KafkaError._PARTITION_EOF:
+                    # 當前消費完畢 => 目前沒新訊息，繼續等待
+                    logging.info(f"[# instance: {target_mach}] topic: {msg.topic()} | partition: {msg.partition()}")
+                    continue
+                else:
+                    # 其他錯誤: Broker 斷線、認證失敗 ...etc.
+                    logging.error(f"[# instance: {target_mach}] consumer error: {msg.error()}", exc_info=False)
+                    raise
+
+            key = msg.key().decode('utf-8') if msg.key() else 'N/A'
+            data = json.loads(msg.value().decode('utf-8'))
+
+            if data.get('mach_name') != TARGET_MACH:
+                continue  # 同 Partition 鄰居資料直接無視
+
+            logging.info(f"[# instance: {target_mach}] 收到來自 {key}: {data}")
+
+            # TODO 處理業務邏輯
+            try:
+                pass
+
+                consumer.commit(asynchronous=False)  # TODO 處理成功，手動提交 Offset
+
+            except Exception as e:
+                logging.error(f"[# instance: {target_mach}] "
+                              f"消費失敗不提交，下次從 offset 繼續開始 ...", exc_info=True)
+
+
+        except Exception as e:
+            logging.error('Exception', exc_info=True)
 
 
 def main(target_mach: str):
@@ -325,43 +368,13 @@ def main(target_mach: str):
             - 傳送
         - Offset 儲存：Kafka 根據 Key 紀錄消費數字 ; KEY => ( group.id + Topic + Partition ID )
     """
-    logging.warning(f'[# instance: {target_mach}] Starting Factory Stream Simulation ...')
-    consumer = Consumer(config)
-    consumer.subscribe([ORDER_TOPIC], on_assign=on_assign)
+    consumer = None
+    logging.warning(f'[# instance: {target_mach}] '
+                    f'Starting Factory Stream Simulation ...')
 
     try:
-        while True:
-            try:
-                msg = consumer.poll(1.0) # 等待 1 秒
-
-                if msg is None: continue
-                if msg.error():
-                    if msg.error().code() == KafkaError._PARTITION_EOF:
-                        # 當前消費完畢 => 目前沒新訊息，繼續等待
-                        logging.info(f"[# instance: {target_mach}] topic: {msg.topic()} | partition: {msg.partition()}")
-                        continue
-                    else:
-                        # 其他錯誤: Broker 斷線、認證失敗 ...etc.
-                        logging.error(f"[# instance: {target_mach}] consumer error: {msg.error()}", exc_info=False)
-                        raise
-
-                key = msg.key().decode('utf-8') if msg.key() else 'N/A'
-                data = msg.value().decode('utf-8')
-                logging.info(f"[# instance: {target_mach}] 收到來自 {key} 的數據: {data}")
-
-                # TODO 處理業務邏輯
-                try:
-                    pass
-
-                    consumer.commit(asynchronous=False) # TODO 處理成功，手動提交 Offset
-
-                except Exception as e:
-                    logging.error(f"[# instance: {target_mach}] "
-                                  f"消費失敗不提交，下次從 offset 繼續開始 ...", exc_info=True)
-
-
-            except Exception as e:
-                logging.error('Exception', exc_info=True)
+        consumer = Consumer(config)
+        receive_message(consumer)
 
 
     except KeyboardInterrupt:
