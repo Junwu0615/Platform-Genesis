@@ -9,8 +9,9 @@ import sys, os; sys.path.insert(0, os.getcwd())
 
 from src.config import *
 from src.config.constant import *
+from src.config.sink_format import *
 from src.utils.tools import *
-from src.utils.kafka_tools import get_partition_id, add_message
+from src.utils.kafka_tools import get_partition_id, add_message, save_store_sink_data
 from src.utils.threading_tools import *
 from src.utils.env_config import GET_PATH_ROOT, get_logger_name
 from src.modules.log import Logger
@@ -18,6 +19,7 @@ from src.modules.simulator import MachineStatusSimulator
 from confluent_kafka import (
     Consumer,
     Producer,
+    SerializingProducer,
     KafkaError,
     TopicPartition
 )
@@ -77,21 +79,20 @@ def update_order_status(producer, event_dict: dict) -> int:
                     _now_time = get_now(hours=8, tzinfo=TZ_UTC_8)
 
                     # 1. 更新訂單結束時間
-                    payload = {
-                        'end_at': _now_time.isoformat(),
-                        'order_id': _order_id,
-                    }
+                    payload = copy.deepcopy(SINK_PROD_ORDERS)
+                    payload['payload']['order_id'] = _order_id
+                    payload['payload']['end_at'] = _now_time.isoformat()
+                    payload = save_store_sink_data(payload)
                     add_message(producer, topic='inst.prod-orders', key=TARGET_MACH, payload=payload)
 
                     ret += 1
 
                     # 2. 更新機台狀態 : RUNNING -> IDLE
-                    _status = 'IDLE'
-                    payload = {
-                        'machine_id': event_dict['mach_id'],
-                        'status': _status,
-                        'event_time': _now_time.isoformat(),
-                    }
+                    payload = copy.deepcopy(SINK_MACH_STATUS_LOGS)
+                    payload['payload']['machine_id'] = event_dict['mach_id']
+                    payload['payload']['status'] = 'IDLE'
+                    payload['payload']['event_time'] = _now_time.isoformat()
+                    payload = save_store_sink_data(payload)
                     add_message(producer, topic='inst.status-logs', key=TARGET_MACH, payload=payload)
 
                     ret += 1
@@ -138,10 +139,10 @@ def insert_production_record(producer, event_dict: dict, efficiency: int) -> int
         _now_time = get_now(hours=8, tzinfo=TZ_UTC_8)
 
         # 1.1 更新訂單開始作業時間
-        payload = {
-            'start_at': _now_time.isoformat(),
-            'order_id': _order_id,
-        }
+        payload = copy.deepcopy(SINK_PROD_ORDERS)
+        payload['payload']['order_id'] = _order_id
+        payload['payload']['start_at'] = _now_time.isoformat()
+        payload = save_store_sink_data(payload)
         add_message(producer, topic='inst.prod-orders', key=TARGET_MACH, payload=payload)
 
         ret += 1
@@ -149,11 +150,11 @@ def insert_production_record(producer, event_dict: dict, efficiency: int) -> int
 
 
         # 1.2 更新機台狀態 : IDLE -> RUNNING
-        payload = {
-            'machine_id': event_dict['mach_id'],
-            'status': _status,
-            'event_time': _now_time.isoformat(),
-        }
+        payload = copy.deepcopy(SINK_MACH_STATUS_LOGS)
+        payload['payload']['machine_id'] = event_dict['mach_id']
+        payload['payload']['status'] = _status
+        payload['payload']['event_time'] = _now_time.isoformat()
+        payload = save_store_sink_data(payload)
         add_message(producer, topic='inst.status-logs', key=TARGET_MACH, payload=payload)
 
         ret += 1
@@ -184,13 +185,13 @@ def insert_production_record(producer, event_dict: dict, efficiency: int) -> int
         event_dict['detail'][_order_id]['produced_qty'] += _quantity
 
         # 6. 插入交易日誌
-        payload = {
-            'order_id': _order_id,
-            'machine_id': event_dict['mach_id'],
-            'product_id': _product_id,
-            'quantity': event_dict['detail'][_order_id]['produced_qty'],
-            'event_time': _now_time.isoformat(),
-        }
+        payload = copy.deepcopy(SINK_PROD_RECORDS)
+        payload['payload']['order_id'] = _order_id
+        payload['payload']['machine_id'] = event_dict['mach_id']
+        payload['payload']['product_id'] = _product_id
+        payload['payload']['quantity'] = event_dict['detail'][_order_id]['produced_qty']
+        payload['payload']['event_time'] = _now_time.isoformat()
+        payload = save_store_sink_data(payload)
         add_message(producer, topic='inst.prod-records', key=TARGET_MACH, payload=payload)
         ret += 1
 
@@ -227,11 +228,11 @@ def insert_machine_status(producer, event_dict: dict) -> int:
     _now_time = get_now(hours=8, tzinfo=TZ_UTC_8)
 
     # 4. 提交狀態更新
-    payload = {
-        'machine_id': event_dict['mach_id'],
-        'status': _status,
-        'event_time': _now_time.isoformat(),
-    }
+    payload = copy.deepcopy(SINK_MACH_STATUS_LOGS)
+    payload['payload']['machine_id'] = event_dict['mach_id']
+    payload['payload']['status'] = _status
+    payload['payload']['event_time'] = _now_time.isoformat()
+    payload = save_store_sink_data(payload)
     add_message(producer, topic='inst.status-logs', key=TARGET_MACH, payload=payload)
     return 1
 
@@ -246,7 +247,8 @@ def producer_message(stop_event, **kwargs):
         'linger.ms': 50,
         'compression.type': 'lz4' # gzip / lz4[*] / snappy[*]
     }
-    producer = Producer(_config)
+    # producer = Producer(_config)
+    producer = SerializingProducer(_config)
 
     batch_ct, done_qty = 0, 0
     last_commit_time = time.time()
@@ -287,10 +289,10 @@ def producer_message(stop_event, **kwargs):
                         ret += f'{_detail['produced_qty']}/{_detail['target_qty']}'
                     logging.info(
                         f'[{MAIN_NAME}] 整體の概要 : '
-                        f'模式={mode} | '
-                        f'完成訂單數={done_qty}\n'
+                        f'MODE={mode} | '
+                        f'訂單完成={done_qty}\n'
                         f'[PROGRESS #{_order_id}]=[{ret}] | '
-                        f'BATCH=[{batch_ct}/{BATCH_SIZE}]\n'
+                        f'BATCH=[{batch_ct}/{BATCH_SIZE}] | '
                         f'機台の狀態 : {event_dict['machine_status']['status']} | '
                         f'排隊の訂單 : {len(event_dict['order_queue'])}\n'
                     )

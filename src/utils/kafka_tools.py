@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import copy
 import json
 
 from src.config import *
@@ -76,14 +77,14 @@ def add_message(producer, topic, key, payload):
     try:
         # 確保資料格式正確
         payload = payload.encode('utf-8') if isinstance(payload, str) else payload
-        payload = json.dumps(payload) if isinstance(payload, dict) else payload
+        payload = json.dumps(payload).encode('utf-8') if isinstance(payload, dict) else payload
 
         # 發送訊息
         producer.produce(
             topic=topic,
             key=str(key),  # 確保 key 是字串或 bytes
             value=payload,
-            callback=producer_on_message
+            on_delivery=producer_on_message
         )
 
         # 高併發環境，在外部 loop 每 N 筆呼叫一次
@@ -97,3 +98,21 @@ def add_message(producer, topic, key, payload):
 
     except Exception as e:
         logging.error(f'Failed to produce message to {topic} [KEY: {key}]', exc_info=True)
+
+
+def save_store_sink_data(payload: dict) -> dict:
+    """安全處理傳遞 sink 管道數據，確保不會因為格式問題導致 Kafka 發送失敗"""
+    del_list = []
+    for k,v in copy.deepcopy(payload['payload']).items():
+        if v is None:
+            del_list.append(k)
+            del payload['payload'][k]
+
+    for i in copy.deepcopy(payload['schema']['fields']):
+        if i['field'] in del_list:
+            payload['schema']['fields'].remove(i)
+
+    if len(payload) > 2:
+        raise ValueError(f"Payload contains unexpected keys: {payload.keys()}")
+
+    return payload

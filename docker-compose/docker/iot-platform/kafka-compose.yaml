@@ -21,6 +21,7 @@ services:
 #      - kafka_data:/var/lib/kafka/data
     networks:
       - ooud-cluster_iot_network
+      - ooud-cluster_default
     healthcheck:
       test: ["CMD-SHELL", "nc -z localhost 9092 || exit 1"]
       interval: 10s      # 每 10 秒檢查一次
@@ -52,6 +53,7 @@ services:
       CONNECT_PLUGIN_PATH: "/usr/share/java,/usr/share/confluent-hub-components"
     networks:
       - ooud-cluster_iot_network
+      - ooud-cluster_default
     healthcheck:
       test: [ "CMD-SHELL", "curl -f http://localhost:8083/connectors || exit 1" ]
       interval: 10s
@@ -72,8 +74,11 @@ services:
       KAFKA_CLUSTERS_0_KAFKACONNECT_0_ADDRESS: "http://kafka-connect:8083"
     networks:
       - ooud-cluster_iot_network
+      - ooud-cluster_default
 
 networks:
+  ooud-cluster_default:
+    external: true
   ooud-cluster_iot_network:
     external: true
 

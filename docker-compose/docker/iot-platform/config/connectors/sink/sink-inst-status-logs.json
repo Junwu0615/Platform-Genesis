@@ -5,19 +5,23 @@
     "connection.url": "jdbc:postgresql://dev-db:5432/pgdatabase",
     "connection.user": "olap_user",
     "connection.password": "olap_pwd",
+    "auto.create": "false",
+    "auto.evolve": "false",
 
     "tasks.max": "3",
 
     "topics": "inst.status-logs",
-    "insert.mode": "upsert",
-
     "table.name.format": "oltp.machine_status_logs",
 
-    "transforms": "",
-    "value.converter": "org.apache.kafka.connect.json.JsonConverter",
-    "value.converter.schemas.enable": "false",
+    "insert.mode": "insert",
+    "pk.mode": "none",
 
-    "auto.create": "false",
-    "auto.evolve": "false"
+    "key.converter": "org.apache.kafka.connect.storage.StringConverter",
+    "value.converter": "org.apache.kafka.connect.json.JsonConverter",
+    "value.converter.schemas.enable": "true",
+
+    "transforms": "ReplaceField",
+    "transforms.ReplaceField.type": "org.apache.kafka.connect.transforms.ReplaceField$Value",
+    "transforms.ReplaceField.whitelist": "machine_id,status,event_time"
   }
 }

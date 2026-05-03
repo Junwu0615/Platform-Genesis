@@ -5,19 +5,23 @@
     "connection.url": "jdbc:postgresql://dev-db:5432/pgdatabase",
     "connection.user": "olap_user",
     "connection.password": "olap_pwd",
+    "auto.create": "false",
+    "auto.evolve": "false",
 
     "tasks.max": "3",
 
     "topics": "inst.prod-records",
-    "insert.mode": "upsert",
-
     "table.name.format": "oltp.production_records",
 
-    "transforms": "",
-    "value.converter": "org.apache.kafka.connect.json.JsonConverter",
-    "value.converter.schemas.enable": "false",
+    "insert.mode": "insert",
+    "pk.mode": "none",
 
-    "auto.create": "false",
-    "auto.evolve": "false"
+    "key.converter.schemas.enable": "false",
+    "value.converter": "org.apache.kafka.connect.json.JsonConverter",
+    "value.converter.schemas.enable": "true",
+
+    "transforms": "ReplaceField",
+    "transforms.ReplaceField.type": "org.apache.kafka.connect.transforms.ReplaceField$Value",
+    "transforms.ReplaceField.whitelist": "order_id,machine_id,product_id,quantity,event_time"
   }
 }
