@@ -38,17 +38,21 @@ BATCH_SIZE = simulate['batch_size']
 NUM_ORDERS = simulate['orders']
 
 
-def check_is_create_order(ms, cursor, event_dict: dict, prob: float) -> int:
+conn = get_conn(db)
+cursor = conn.cursor()
+
+
+def check_is_create_order(ms, event_dict: dict, prob: float) -> int:
     """
     TODO 基於機率檢查是否要新增生產訂單
     """
     if random.random() < prob:
-        ret = insert_production_order(ms, cursor, event_dict)
+        ret = insert_production_order(ms, event_dict)
         return ret
     return 0
 
 
-def insert_production_order(ms, cursor, event_dict: dict) -> int:
+def insert_production_order(ms, event_dict: dict) -> int:
     """
     TODO 建立生產訂單:
         1. 若是命中，則瞬間生成大量訂單
@@ -64,6 +68,7 @@ def insert_production_order(ms, cursor, event_dict: dict) -> int:
         _mach_name = random.choice(list(
             k for k,v in event_dict['machine_dict'].items() if v['mach_type'] == _prod_type
         ))
+        _now_time = get_now(hours=8, tzinfo=TZ_UTC_8)
 
         cursor.execute("""
         INSERT INTO oltp.production_orders (product_id, quantity, created_at)
@@ -72,12 +77,13 @@ def insert_production_order(ms, cursor, event_dict: dict) -> int:
         """, (
             _prod_id,
             _target_qty,
-            get_now(hours=8, tzinfo=TZ_UTC_8),
+            _now_time,
         ))
 
         _order_id = cursor.fetchone()[0]
 
         payload = {
+            'time': _now_time.isoformat(),
             'mach_name': _mach_name,
             'mach_id': event_dict['machine_dict'][_mach_name]['mach_id'],
             # 'mach_type': event_dict['machine_dict'][_mach_name]['mach_type'],
@@ -86,7 +92,6 @@ def insert_production_order(ms, cursor, event_dict: dict) -> int:
             'prod_id': _prod_id,
             # 'prod_type': _prod_type,
             'target_qty': _target_qty,
-            # 'prod_qty': 0
         }
         ms.add_content(topic=f'cp/mach-order/{_mach_name}', payload=payload, qos=1)
 
@@ -95,7 +100,7 @@ def insert_production_order(ms, cursor, event_dict: dict) -> int:
         return ret
 
 
-def init_transaction_dict(ms, conn, cursor) -> dict:
+def init_transaction_dict(ms) -> dict:
     """
     TODO 初始化事務字典 : 用字典記錄必要變數，包含機台列表、產品列表、訂單列表 ... etc.
         - 從資料庫讀取產品資訊
@@ -133,7 +138,7 @@ def init_transaction_dict(ms, conn, cursor) -> dict:
         } for i in products if i[2] == 'CNC'} # FIXME DEV
 
         # 初始化第一批訂單
-        _ct = insert_production_order(ms, cursor, event_dict)
+        _ct = insert_production_order(ms, event_dict)
 
         conn.commit()
 
@@ -147,7 +152,9 @@ def init_transaction_dict(ms, conn, cursor) -> dict:
     return event_dict
 
 
-def simulate_stream(ms, conn, cursor, event_dict: dict):
+def simulate_stream(ms, event_dict: dict):
+    global conn, cursor
+
     batch_ct = 0
     last_commit_time = time.time()
     while True:
@@ -157,7 +164,7 @@ def simulate_stream(ms, conn, cursor, event_dict: dict):
             load_setting = load_cfg[mode]
             prob = load_setting['prob']
 
-            _ct = check_is_create_order(ms, cursor, event_dict, prob)
+            _ct = check_is_create_order(ms, event_dict, prob)
             batch_ct += _ct
 
             # 根據 BATCH_SIZE 或 時間間隔 (30s) 提交事務
@@ -188,18 +195,17 @@ def main():
         - 實例 : 1
         \
         - MQTT ( Kafka ) : 「傳送」訊息
+            - 生產訂單
         - OLTP R (僅初始化):
             - 「機台規格」
             - 「產品規格」
         - OLTP W (Real-time) :
-            - 「建立生產訂單」
+            - 「生產訂單」
     """
-    ms, conn, cursor = None, None, None
+    ms = None
     logging.notice('Starting Factory Stream Simulation ...')
-    try:
-        conn = get_conn(db)
-        cursor = conn.cursor()
 
+    try:
         ms = MqttServer(
             broker_host=DEFAULT_BROKER,
             broker_port=DEFAULT_BROKER_PORT,
@@ -212,8 +218,8 @@ def main():
             'use_middle': False,
         })
 
-        event_dict = init_transaction_dict(ms, conn, cursor)
-        simulate_stream(ms, conn, cursor, event_dict)
+        event_dict = init_transaction_dict(ms)
+        simulate_stream(ms, event_dict)
 
     except KeyboardInterrupt:
         logging.warning('偵測到 Ctrl+C，正在關閉連線 ...')
@@ -224,6 +230,7 @@ def main():
         close_conn(conn, cursor)
         ms.stop_all_services()
         return 0
+
 
 if __name__ == '__main__':
     exit_code = main()

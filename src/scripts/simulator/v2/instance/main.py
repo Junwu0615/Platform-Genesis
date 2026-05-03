@@ -9,7 +9,7 @@ import sys, os; sys.path.insert(0, os.getcwd())
 
 from src.config import *
 from src.utils.tools import *
-from src.utils.kafka_tools import *
+from src.utils.kafka_tools import get_partition_id, add_message
 from src.utils.threading_tools import *
 from src.utils.env_config import GET_PATH_ROOT, get_logger_name
 
@@ -56,7 +56,7 @@ event_dict = {
 }
 
 
-def update_order_status(cursor, event_dict: dict) -> int:
+def update_order_status(producer, event_dict: dict) -> int:
     """
     TODO 檢查是否有訂單完成，若完成則更新訂單狀態並從訂單列表移除
     """
@@ -113,7 +113,7 @@ def update_order_status(cursor, event_dict: dict) -> int:
         return ret
 
 
-def insert_production_record(cursor, event_dict: dict, _machine_id: int, efficiency: int) -> int:
+def insert_production_record(producer, event_dict: dict, _machine_id: int, efficiency: int) -> int:
     """
     TODO 插入實時生產記錄
         - 狀況 1 : 第一次生產匹配
@@ -139,6 +139,15 @@ def insert_production_record(cursor, event_dict: dict, _machine_id: int, efficie
         #     get_now(hours=8, tzinfo=TZ_UTC_8),
         #     _order_id
         # ))
+        payload = {
+            "mach_id": 67,
+            "order_id": 187601,
+            "prod_name": "CNC-697118",
+            "prod_id": 16,
+            "target_qty": 1518
+        }
+        add_message(producer, topic='inst.mach-prod-orders', key=TARGET_MACH, payload=payload)
+
         ret += 1
         logging.info(f'Production Begins Based on the Order [{_order_id}].')
 
@@ -167,7 +176,7 @@ def insert_production_record(cursor, event_dict: dict, _machine_id: int, efficie
         return 0
 
     # TODO 3. 用訂單 ID 取得產品 ID
-    _product_id = event_dict['order_dict'].get(_order_id)
+    _product_id = event_dict['order_dict'].get(_order_id).get('prod_id')
 
     # TODO 4. 根據效率增加生產數量
     for _ in range(efficiency):
@@ -196,7 +205,7 @@ def insert_production_record(cursor, event_dict: dict, _machine_id: int, efficie
     return ret
 
 
-def insert_machine_status(cursor, event_dict: dict, _machine_id: int) -> int:
+def insert_machine_status(producer, event_dict: dict, _machine_id: int) -> int:
     """
     TODO 插入機台狀態 : 在此實施隨機邏輯，可基於權重機率調整
         - MAINTENANCE # 1 # process: [1 -> 2]
@@ -237,56 +246,78 @@ def insert_machine_status(cursor, event_dict: dict, _machine_id: int) -> int:
     return 1
 
 
-def simulate_stream(cursor, event_dict: dict):
-    data_qty, done_qty = 0, 0
-    while True:
-        try:
-            now = get_now(hours=8, tzinfo=TZ_UTC_8)
-            mode = mss.get_load_profile(now.hour)
-            load_setting = load_cfg[mode]
+def producer_message(stop_event, **kwargs):
+    # TODO 生產者配置
+    _config = {
+        'bootstrap.servers': f'{kafka['host']}:{kafka['port']}',
+        'queue.buffering.max.messages': 100000,
+        'linger.ms': 50,
+        'compression.type': 'lz4' # gzip / lz4[*] / snappy[*]
+    }
+    producer = Producer(_config)
 
-            efficiency = load_setting['efficiency']
+    batch_ct, data_qty, done_qty = 0, 0, 0
+    last_commit_time = time.time()
 
-            # TODO 所有機台皆要進行判斷狀態更新
-            for _machine_id in event_dict['machine_status'].keys():
-                _ct = insert_production_record(cursor, event_dict, _machine_id, efficiency)
-                if isinstance(_ct, int):
-                    data_qty = data_qty + _ct
+    try:
+        while not stop_event.is_set():
+            try:
+                now = get_now(hours=8, tzinfo=TZ_UTC_8)
+                mode = mss.get_load_profile(now.hour)
+                load_setting = load_cfg[mode]
 
-                # TODO 隨機更新指定狀態
-                _ct = insert_machine_status(cursor, event_dict, _machine_id)
-                data_qty = data_qty + _ct
+                efficiency = load_setting['efficiency']
 
-            _ct = update_order_status(cursor, event_dict)
-            done_qty, data_qty = done_qty + _ct, data_qty + _ct
+                # TODO 所有機台皆要進行判斷狀態更新
+                for _machine_id in event_dict['machine_status'].keys():
+                    _ct = insert_production_record(producer, event_dict, _machine_id, efficiency)
+                    if isinstance(_ct, int):
+                        batch_ct, data_qty = batch_ct + _ct, data_qty + _ct
 
+                    # TODO 隨機更新指定狀態
+                    _ct = insert_machine_status(producer, event_dict, _machine_id)
+                    batch_ct, data_qty = batch_ct + _ct, data_qty + _ct
 
-            # TODO 輸出當前模擬狀態
-            _order_qty = len(event_dict['order_dict'].keys())
-            temp_dict = {}
-            for k, v in event_dict['machine_status'].items():
-                key = v['status']
-                if key not in temp_dict:
-                    temp_dict[key] = 0
-                temp_dict[key] += 1
-            _sum = sum(temp_dict.values())
-            ret_1 = ' | '.join([f'{k}=[{v}/{_sum}]' for k, v in temp_dict.items()])
-            ret_2 = ' | '.join(f'ORDER LEN [{len(event_dict['order_queue'])}]')
+                _ct = update_order_status(producer, event_dict)
+                done_qty, batch_ct, data_qty = done_qty + _ct, batch_ct + _ct, data_qty + _ct
 
-            logging.info(
-                f'\n[{MAIN_NAME}] 整體の概要 : '
-                f'MODE={mode} | '
-                f'ORDER_IN_PROGRESS={_order_qty} | '
-                f'DONE_QTY={done_qty} | '
-                f'DATA_QTY={data_qty} | '
-                f'當前機台の狀態 : {ret_1}\n'
-                f'等機台任領の訂單 : {ret_2}'
-            )
+                # TODO 根據 BATCH_SIZE 或 時間間隔 (30s) 提交事務
+                if batch_ct >= BATCH_SIZE or (time.time() - last_commit_time) > 30:
+                    producer.poll(0)
+                    batch_ct = 0
+                    last_commit_time = time.time()
 
-            time.sleep(1)
+                # TODO 輸出當前模擬狀態
+                _order_qty = len(event_dict['order_dict'].keys())
+                temp_dict = {}
+                for k, v in event_dict['machine_status'].items():
+                    key = v['status']
+                    if key not in temp_dict:
+                        temp_dict[key] = 0
+                    temp_dict[key] += 1
+                _sum = sum(temp_dict.values())
+                ret_1 = ' | '.join([f'{k}=[{v}/{_sum}]' for k, v in temp_dict.items()])
+                ret_2 = ' | '.join(f'ORDER LEN [{len(event_dict['order_queue'])}]')
 
-        except Exception as e:
-            logging.error('[# Other] Exception', exc_info=True)
+                logging.info(
+                    f'\n[{MAIN_NAME}] 整體の概要 : '
+                    f'MODE={mode} | '
+                    f'ORDER_IN_PROGRESS={_order_qty} | '
+                    f'DONE_QTY={done_qty} | '
+                    f'DATA_QTY={data_qty} | '
+                    f'BATCH=[{batch_ct}/{BATCH_SIZE}]\n'
+                    f'當前機台の狀態 : {ret_1}\n'
+                    f'等機台任領の訂單 : {ret_2}'
+                )
+
+                time.sleep(1)
+
+            except Exception as e:
+                logging.error('[# Other] Exception', exc_info=True)
+
+    finally:
+        producer.flush(10)
+        logging.notice(f'[{MAIN_NAME}] 已強制將緩衝區中所有尚未發送的訊息傳送到 Kafka Broker ...')
 
 
 def consumer_message(stop_event, **kwargs):
@@ -300,17 +331,13 @@ def consumer_message(stop_event, **kwargs):
     consumer = Consumer(_config)
 
     _topic_key = '/'.join(CONSUMER_ORDER_TOPIC.split('.')[1:])
-    target_partition = get_partition_id(consumer, CONSUMER_ORDER_TOPIC, f'{_topic_key}/{TARGET_MACH}')
+    target_partition = get_partition_id(
+        consumer,
+        CONSUMER_ORDER_TOPIC,
+        f'{_topic_key}/{TARGET_MACH}'
+    )
     tp = TopicPartition(CONSUMER_ORDER_TOPIC, target_partition)
     consumer.assign([tp])
-
-
-    # _config = {
-    #     'bootstrap.servers': f'{kafka['host']}:{kafka['port']}',
-    #     'compression.type': 'lz4'
-    # }
-    # producer = Producer(_config)
-
 
     try:
         while not stop_event.is_set():
@@ -336,27 +363,11 @@ def consumer_message(stop_event, **kwargs):
                 if data.get('mach_name') != TARGET_MACH:
                     continue  # 同 Partition 鄰居資料直接無視
 
-
-                # TODO 用全域 QUEUE 接收儲存即完成該業務
-
-                # # 使用 producer 發送新訊息
-                # processed_data = f"Processed: {data}"
-                # producer.produce(
-                #     topic='inst.mach-status',
-                #     key=msg.key(),  # 保持相同的 Key，確保分區一致性
-                #     value=processed_data.encode('utf-8'),
-                #     callback=producer_on_message
-                # )
-                #
-                # # 記得呼叫 poll(0) 觸發生產者的 callback
-                # producer.poll(0)
-
-
                 # TODO 處理業務邏輯
                 try:
                     # logging.info(f"[{MAIN_NAME}] 收到來自 {key}: {data}")
                     event_dict['order_queue'] += [data]
-                    event_dict['order_dict'][data['order_id']] = data['prod_id']
+                    event_dict['order_dict'][data['order_id']] = data
 
                     consumer.commit(asynchronous=False)  # TODO 處理成功，手動提交 Offset
 
@@ -370,7 +381,6 @@ def consumer_message(stop_event, **kwargs):
     finally:
         consumer.close()
         logging.notice(f'[{MAIN_NAME}] 已安全關閉 kafka consumer 連線 ...')
-        # producer.flush()
 
 
 def main():
@@ -386,17 +396,16 @@ def main():
     threads = []
     stop_event = threading.Event()
     logging.notice(f'[{MAIN_NAME}] Starting Factory Stream Simulation ...')
-
     try:
         start_service(threads, consumer_message, **{
-            'title': '「消費 mqtt_raw.cp.mach-order 訂單訊息」服務',
+            'title': '消費「mqtt_raw.cp.mach-order」訊息服務',
             'stop_event': stop_event,
         })
 
-        # start_service(threads, simulate_stream, **{
-        #     'title': '「傳送邊緣數據處理」服務',
-        #     'stop_event': stop_event,
-        # })
+        start_service(threads, producer_message, **{
+            'title': '生產「邊緣數據」訊息服務',
+            'stop_event': stop_event,
+        })
 
         while True:
             time.sleep(1)
