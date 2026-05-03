@@ -15,6 +15,7 @@ TODO
 """
 import sys, os; sys.path.insert(0, os.getcwd())
 
+from src.config.constant import *
 from src.utils.tools import *
 from src.utils.env_config import GET_PATH_ROOT, get_logger_name
 from src.utils.postgre_tools import get_conn, close_conn, table_exists

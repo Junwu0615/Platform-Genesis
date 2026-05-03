@@ -43,7 +43,7 @@ def sync_kafka_infrastructure(config_file):
                 replication_factor=t_cfg['replication_factor'],
                 config=t_cfg.get('configs', {})
             ))
-            logging.info(f"計畫建立管道: {name}")
+            logging.info(f'計畫建立管道: {name}')
 
     # TODO 4. 執行建立 (類似 Connector 的部署動作)
     if new_topics_to_create:
@@ -51,11 +51,11 @@ def sync_kafka_infrastructure(config_file):
         for topic, f in fs.items():
             try:
                 f.result()
-                logging.info(f"管道 {topic} 部署成功 ...")
+                logging.notice(f'管道 {topic} 部署成功 ...')
             except Exception as e:
                 logging.error(f"管道 {topic} 部署失敗", exc_info=True)
     else:
-        logging.info("所有管道已對齊，無需更動 ...")
+        logging.notice('所有管道已對齊，無需更動 ...')
 
 
 if __name__ == '__main__':
