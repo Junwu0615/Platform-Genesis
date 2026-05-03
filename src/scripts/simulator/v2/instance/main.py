@@ -43,6 +43,19 @@ CONSUMER_GROUP_ID = os.getenv('CONSUMER_GROUP_ID', 'iot-data-mach-processor')
 TARGET_MACH = os.getenv('TARGET_MACH', 'M-CNC-30')
 MAIN_NAME = f'#{TARGET_MACH}'
 
+event_dict = {
+    # TODO 過程不異動
+    'machine_dict': [],  # 機台字典 key: mach_id, value: mach_type
+    'product_dict': {},  # 產品字典 key: prod_id, value: prod_type
+
+    # TODO 過程會異動
+    'order_dict': {},  # 訂單字典 key: order_id, value: prod_id
+    'machine_status': {},  # 記錄機台持單狀態 # None / Not None (order_id)
+    'detail': {},  # 訂單詳情字典 key: order_id, value: dict (product_id, target_qty, produced_qty, mach_id)
+    'order_queue': collections.deque(),  # 訂單隊列
+    'order_count': 0,                    # 總訂單數 ; 已完成訂單數: 總訂單數 - 尚生產數
+}
+
 
 def update_order_status(cursor, event_dict: dict) -> int:
     """
@@ -327,8 +340,6 @@ def consumer_message(stop_event, **kwargs):
                 if data.get('mach_name') != TARGET_MACH:
                     continue  # 同 Partition 鄰居資料直接無視
 
-                logging.info(f"[{MAIN_NAME}] 收到來自 {key}: {data}")
-
 
                 # TODO 用全域 QUEUE 接收儲存即完成該業務
 
@@ -347,6 +358,8 @@ def consumer_message(stop_event, **kwargs):
 
                 # TODO 處理業務邏輯
                 try:
+                    # logging.info(f"[{MAIN_NAME}] 收到來自 {key}: {data}")
+                    event_dict['order_queue'] += [data]
                     consumer.commit(asynchronous=False)  # TODO 處理成功，手動提交 Offset
 
                 except Exception as e:

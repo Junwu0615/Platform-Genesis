@@ -44,7 +44,7 @@ TODO
     6. 清除 topic 的 payload: self.ms.clear_retained_message(topic=f'MachState/{self.machine_no}', fun=self.ms.add_content)
 """
 import queue, socket, threading
-import paho.mqtt.client as mqtt
+import paho.mqtt.client as mqtt_client
 from queue import Queue
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
@@ -155,16 +155,16 @@ class MqttServer:
 
         self.subscriber_list = subscriber_list
 
-        mqtt_client = mqtt.Client(client_id=f'{self.client_id}_SubscriberTopic')
+        mc = mqtt_client.Client(client_id=f'{self.client_id}_SubscriberTopic')
 
         if self.username is not None and self.password is not None:
-            mqtt_client.username_pw_set(username=self.username, password=self.password)
+            mc.username_pw_set(username=self.username, password=self.password)
 
-        mqtt_client.on_connect = self.on_connect_subscriber if on_connect_subscriber is None else on_connect_subscriber
-        mqtt_client.on_message = self.on_message if on_message is None else on_message
+        mc.on_connect = self.on_connect_subscriber if on_connect_subscriber is None else on_connect_subscriber
+        mc.on_message = self.on_message if on_message is None else on_message
         try:
-            mqtt_client.connect(self.broker_host, self.broker_port, KEEPALIVE_INTERVAL)
-            mqtt_client.loop_start()
+            mc.connect(self.broker_host, self.broker_port, KEEPALIVE_INTERVAL)
+            mc.loop_start()
 
             self.logging.warning(f'啟動 MQTT 訂閱執行緒...')
             # -------------------------------
@@ -186,8 +186,8 @@ class MqttServer:
             self.logging.error('執行緒發生錯誤')
 
         finally:
-            mqtt_client.loop_stop()
-            mqtt_client.disconnect()
+            mc.loop_stop()
+            mc.disconnect()
             self.logging.warning('執行緒已停止...')
 
 
@@ -379,17 +379,17 @@ class MqttServer:
         # 3.3.4) MQTT 執行緒函式
         # * 此私有方法負責從佇列中取出一則訊息並發布
         # ------------------------------------
-        mqtt_client = mqtt.Client(client_id=f'{self.client_id}_PublisherWorker_{threading.get_ident()}')
+        mc = mqtt_client.Client(client_id=f'{self.client_id}_PublisherWorker_{threading.get_ident()}')
 
         if self.username is not None and self.password is not None:
-            mqtt_client.username_pw_set(username=self.username, password=self.password)
+            mc.username_pw_set(username=self.username, password=self.password)
 
-        mqtt_client.on_connect = self.on_connect_publisher
-        mqtt_client.on_publish = self.on_publish
+        mc.on_connect = self.on_connect_publisher
+        mc.on_publish = self.on_publish
 
         try:
-            mqtt_client.connect(self.broker_host, self.broker_port, KEEPALIVE_INTERVAL)
-            mqtt_client.loop_start()
+            mc.connect(self.broker_host, self.broker_port, KEEPALIVE_INTERVAL)
+            mc.loop_start()
 
             while not self.stop_event.is_set():
                 # 讓迴圈等待，同時可以處理來自 Event 的停止訊號
@@ -397,7 +397,7 @@ class MqttServer:
                 try:
                     # 使用非阻塞方式從佇列中取值，並設置較短的逾時
                     topic, payload, qos, retain = todo_queue.get(block=False)
-                    mqtt_client.publish(topic, payload, qos=qos, retain=retain)
+                    mc.publish(topic, payload, qos=qos, retain=retain)
                     todo_queue.task_done()
 
                     if todo_queue.qsize() > 100:
@@ -422,8 +422,8 @@ class MqttServer:
             self.logging.error(f'[{worker_title}] 內部錯誤')
 
         finally:
-            mqtt_client.loop_stop()
-            mqtt_client.disconnect()
+            mc.loop_stop()
+            mc.disconnect()
 
 
     def send_to_middle(self, topic: str = 'beta/add_content/', payload: dict = None,
