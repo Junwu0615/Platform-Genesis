@@ -23,7 +23,7 @@ MONITORING_CONTENT = grafana prometheus node_exporter postgres_exporter
 POSTGRESQL_CONTENT = dev-db pgadmin
 PORTAINER_CONTENT = portainer
 MQTT_CONTENT = mqtt
-KAFKA_CONTENT = kafka kafka-connect kafka-ui
+KAFKA_CONTENT = kafka kafka-connect kafka-ui schema-registry
 
 .PHONY: build up down down-v ps rm \
 fix-sock db-wait list-configs prune get-chown-all dev-mode prod-mode kafka-chow \

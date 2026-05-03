@@ -1,19 +1,3 @@
-# SINK_MACH_STATUS_LOGS = {
-#   "schema": {
-#     "type": "struct",
-#     "fields": [
-#       { "type": "int32", "optional": True, "field": "machine_id" },
-#       { "type": "string", "optional": True, "field": "status" },
-#       { "type": "string", "optional": True, "field": "event_time" }
-#     ],
-#     "optional": False
-#   },
-#   "payload": {
-#     "machine_id": None,
-#     "status": None,
-#     "event_time": None
-#   }
-# }
 SINK_MACH_STATUS_LOGS = {
     'topic': 'inst.status-logs',
     'content': """
@@ -30,28 +14,6 @@ SINK_MACH_STATUS_LOGS = {
 }
 
 
-# SINK_PROD_ORDERS = {
-#   "schema": {
-#     "type": "struct",
-#     "fields": [
-#       { "type": "int32", "optional": False, "field": "order_id" },
-#       { "type": "int32", "optional": True, "field": "product_id" },
-#       { "type": "int32", "optional": True, "field": "quantity" },
-#       { "type": "string", "optional": True, "field": "start_at" },
-#       { "type": "string", "optional": True, "field": "end_at" },
-#       { "type": "string", "optional": True, "field": "created_at" },
-#     ],
-#     "optional": False
-#   },
-#   "payload": {
-#     "order_id": None,
-#     "product_id": None,
-#     "quantity": None,
-#     "start_at": None,
-#     "end_at": None,
-#     "created_at": None,
-#   }
-# }
 SINK_PROD_ORDERS = {
     'topic': 'inst.prod-orders',
     'content': """
@@ -60,37 +22,17 @@ SINK_PROD_ORDERS = {
   "name": "production_orders",
   "fields": [
     {"name": "order_id", "type": "int"},
-    {"name": "product_id", "type": "int"},
-    {"name": "quantity", "type": "int"},
-    {"name": "start_at", "type": "string"},
-    {"name": "end_at", "type": "string"},
-    {"name": "created_at", "type": "string"}
+    {"name": "product_id", "type": ["null", "int"], "default": null},
+    {"name": "quantity", "type": ["null", "int"], "default": null},
+    {"name": "start_at", "type": ["null", "string"], "default": null},
+    {"name": "end_at", "type": ["null", "string"], "default": null},
+    {"name": "created_at", "type": ["null", "string"], "default": null}
   ]
 }
 """,
 }
 
 
-# SINK_PROD_RECORDS = {
-#   "schema": {
-#     "type": "struct",
-#     "fields": [
-#       { "type": "int32", "optional": True, "field": "order_id" },
-#       { "type": "int32", "optional": True, "field": "machine_id" },
-#       { "type": "int32", "optional": True, "field": "product_id" },
-#       { "type": "int32", "optional": True, "field": "quantity" },
-#       { "type": "string", "optional": True, "field": "event_time" },
-#     ],
-#     "optional": False
-#   },
-#   "payload": {
-#     "order_id": None,
-#     "machine_id": None,
-#     "product_id": None,
-#     "quantity": None,
-#     "event_time": None,
-#   }
-# }
 SINK_PROD_RECORDS = {
     'topic': 'inst.prod-records',
     'content': """
