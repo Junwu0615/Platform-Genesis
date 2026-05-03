@@ -52,8 +52,6 @@ from src.utils.tools import *
 from src.config.mqtt import *
 from src.modules.log import Logger
 
-MODULE_NAME = __name__.upper()
-
 
 class MqttServer:
     def __init__(self,
@@ -96,7 +94,7 @@ class MqttServer:
 
         self.stop_event = threading.Event()
         self.threads = []  # 儲存已啟動的執行緒事件
-        self.logger = Logger(console_name=__name__) if logger is None else logger
+        self.logging = Logger(console_name=__name__) if logger is None else logger
 
 
     def start_service(self, service_function: callable, **kwargs):
@@ -104,7 +102,6 @@ class MqttServer:
         # 2.1) 後台服務啟動執行緒
         # * return thread 物件方便管理，退出時能正確關閉連線
         # --------------------------------------------
-        fun_name = 'start_service'
         service_thread = threading.Thread(
             target=service_function,
             daemon=True,  # 當主執行緒結束時，子執行緒會被強制終止
@@ -112,7 +109,7 @@ class MqttServer:
         )
         service_thread.start()
         self.threads.append(service_thread)
-        self.logger.warning(f'[{LOG_DEFAULT_NAME}] {kwargs.get('title', '服務')}已啟動...')
+        self.logging.warning(f'[{LOG_DEFAULT_NAME}] {kwargs.get('title', '服務')}已啟動...')
 
 
     def stop_all_services(self):
@@ -120,32 +117,30 @@ class MqttServer:
         # 2.2) 呼叫停止方法，讓所有執行緒優雅地停止
         # * 設定 Event 來通知所有執行緒停止
         # ------------------------------------
-        fun_name = 'stop_all_services'
-        self.logger.error(f'[{MODULE_NAME}] 正在向所有執行緒發出停止訊號...', exc_info=False)
+        self.logging.error(f'[{LOG_DEFAULT_NAME}] 正在向所有執行緒發出停止訊號...', exc_info=False)
         self.stop_event.set()  # 發出停止訊號
 
         # 等待所有執行緒結束
         for thread in self.threads:
             if thread.is_alive():
-                self.logger.info(f'[{MODULE_NAME}: {fun_name}] 等待 {thread.name} 執行緒結束...')
+                self.logging.info(f'等待 {thread.name} 執行緒結束...')
                 thread.join()
 
-        self.logger.warning('\n\n' + self.logger.title_log(f'[{MODULE_NAME}] 所有 MQTT 相關服務已確實關閉'))
+        self.logging.warning('\n\n' + self.logging.title_log(f'[{LOG_DEFAULT_NAME}] 所有相關服務已確實關閉'))
 
 
     def clear_retained_message(self, topic: str, fun: callable = None, **kwargs):
         # ------------------------------------
         # 2.3) 發布一個空的保留訊息，以清除 Broker 上的舊保留訊息。
         # ------------------------------------
-        fun_name = 'clear_retained_message'
         if fun is None:
-            raise Exception(f'[{fun_name}] fun is None')
+            raise Exception('fun is None')
         try:
             self.add_content(topic=topic, payload=None, qos=0, retain=True)
-            self.logger.info(f"[{fun_name}] 成功向 Topic '{topic}' 發布空的保留訊息，以清除舊資料")
+            self.logging.info(f"成功向 Topic '{topic}' 發布空的保留訊息，以清除舊資料")
 
         except Exception as e:
-            self.logger.error(f"[{fun_name}] 清除 Topic '{topic}' 的保留訊息時發生錯誤")
+            self.logging.error(f"清除 Topic '{topic}' 的保留訊息時發生錯誤")
 
 
     def subscriber_topic(self, subscriber_list: list = None,
@@ -155,9 +150,8 @@ class MqttServer:
         # 3.1) MQTT 執行緒函式
         # * 此執行緒負責持續從佇列中取出訊息並發布到 MQTT Broker
         # -----------------------------------------------
-        fun_name = 'subscriber_topic'
         if subscriber_list is None:
-            raise Exception(f'[{MODULE_NAME}: {fun_name}] 缺少關鍵變數 subscriber_list is None')
+            raise Exception(f'缺少關鍵變數 subscriber_list is None')
 
         self.subscriber_list = subscriber_list
 
@@ -172,7 +166,7 @@ class MqttServer:
             mqtt_client.connect(self.broker_host, self.broker_port, KEEPALIVE_INTERVAL)
             mqtt_client.loop_start()
 
-            self.logger.warning(f'[{MODULE_NAME}: {fun_name}] 啟動 MQTT 訂閱執行緒...')
+            self.logging.warning(f'啟動 MQTT 訂閱執行緒...')
             # -------------------------------
             # 使用 Event 作為停止旗標，並定期檢查
             # -------------------------------
@@ -186,15 +180,15 @@ class MqttServer:
                     pass
 
                 except Exception as e:
-                    self.logger.error(f'[{MODULE_NAME}: {fun_name}，發生錯誤]')
+                    self.logging.error('發生錯誤')
 
         except Exception as e:
-            self.logger.error(f'[{MODULE_NAME}: {fun_name}，執行緒發生錯誤]')
+            self.logging.error('執行緒發生錯誤')
 
         finally:
             mqtt_client.loop_stop()
             mqtt_client.disconnect()
-            self.logger.warning(f'[{MODULE_NAME}: {fun_name}] 執行緒已停止...')
+            self.logging.warning('執行緒已停止...')
 
 
     def add_content(self, topic: str = 'beta/add_content/', payload: dict = None,
@@ -202,7 +196,6 @@ class MqttServer:
         # ----------------------------------------------------
         # 3.2.2) 直接傳送訊息至 MQTT Broker 服務 : 增加佇列內容函式
         # ----------------------------------------------------
-        fun_name = 'add_content'
         try:
             if type(payload) == dict:
                 payload = json.dumps(payload)
@@ -212,18 +205,16 @@ class MqttServer:
             #     # ---------------------------------------------
             #     # * 當佇列長度超過 10 時，記錄警告訊息 ( 避免頻繁洗版 )
             #     # ---------------------------------------------
-            #     self.logger.info(f'[{MODULE_NAME}: 📭 {fun_name}] '
-            #                      f'Queue length：{self.to_broker_queue.qsize()}')
+            #     self.logging.info(f'Queue length：{self.to_broker_queue.qsize()}')
             #
             # elif self.to_broker_queue.qsize() == 1:
             #     # ---------------------------------------------
             #     # * 當佇列長度等於 1 時，回報檢視消耗狀態，不採用 0 是因為很容易洗版
             #     # ---------------------------------------------
-            #     self.logger.info(f'[{MODULE_NAME}: 📭 {fun_name}] '
-            #                         f'Queue length：{self.to_broker_queue.qsize()}')
+            #     self.logging.info(f'Queue length：{self.to_broker_queue.qsize()}')
 
         except Exception as e:
-            self.logger.error(f'[{MODULE_NAME}: {fun_name}，發生錯誤]')
+            self.logging.error('發生錯誤')
 
 
     def middle_server_thread(self, **kwargs):
@@ -232,8 +223,7 @@ class MqttServer:
         # * 此執行緒負責監聽 TCP 連接 + 接受新連線
         # * 透過 send_to_middle 函式傳送數據
         # -------------------------------------
-        fun_name = 'middle_server_thread'
-        self.logger.warning(f'[{MODULE_NAME} 啟動 TCP 服務 [{self.max_workers}]] '
+        self.logging.warning(f'啟動 TCP 服務 [{self.max_workers}]] '
                             f'監聽於 {self.middle_host}:{self.middle_port}')
 
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
@@ -260,15 +250,13 @@ class MqttServer:
                             # ---------------------------------------------
                             # * 當佇列長度超過 10 時，記錄警告訊息 ( 避免頻繁洗版 )
                             # ---------------------------------------------
-                            self.logger.info(f'[{MODULE_NAME}: 📭 {fun_name}] '
-                                             f'Queue length：{self.middle_queue.qsize()}')
+                            self.logging.info(f'Queue length：{self.middle_queue.qsize()}')
 
                         elif self.middle_queue.qsize() == 1:
                             # --------------------------------------------------------
                             # * 當佇列長度等於 1 時，回報檢視消耗狀態，不採用 0 是因為很容易洗版
                             # --------------------------------------------------------
-                            self.logger.info(f'[{MODULE_NAME}: 📭 {fun_name}] '
-                                             f'Queue length：{self.middle_queue.qsize()}')
+                            self.logging.info(f'Queue length：{self.middle_queue.qsize()}')
 
                     # -----------------------------------------------------
                     # * 處理 socket 逾時例外
@@ -278,13 +266,13 @@ class MqttServer:
                         continue
 
                     except Exception as e:
-                        self.logger.error(f'[{MODULE_NAME}: {fun_name}，內部發生錯誤]')
+                        self.logging.error('內部發生錯誤')
 
             except Exception as e:
-                self.logger.error(f'[{MODULE_NAME}: {fun_name}，啟動時發生錯誤]')
+                self.logging.error('啟動時發生錯誤')
 
             finally:
-                self.logger.warning(f'[{MODULE_NAME}: {fun_name}] TCP 服務準備停止，正在關閉 Socket...')
+                self.logging.warning('TCP 服務準備停止，正在關閉 Socket...')
 
                 # * 確保多執行緒關閉
                 self.executor.shutdown(wait=True)
@@ -298,8 +286,7 @@ class MqttServer:
         # 3.3.2) TCP 伺服器: 負責從單一客戶端接收數據，並將其放入佇列
         # * 背景情境下再開此執行緒: middle_server_thread -> handle_client_thread
         # -------------------------------------------------------------------
-        fun_name = '_handle_client_thread'
-        # self.logger.info(f'[{MODULE_NAME}: {fun_name}] TCP 連接來自 {addr}，啟動新執行緒開始處理...')
+        # self.logging.info(f'TCP 連接來自 {addr}，啟動新執行緒開始處理...')
         try:
             buffer = b''
             while not self.stop_event.is_set():
@@ -313,7 +300,7 @@ class MqttServer:
                 buffer += part
                 # 檢查是否超出最大長度 # 若超出則強制傳送
                 if len(buffer) > MAX_MSG_SIZE:
-                    self.logger.error("接收到的數據超過最大限制，關閉連線。")
+                    self.logging.error('接收到的數據超過最大限制，關閉連線 ...')
                     conn.close()
                     break
 
@@ -334,22 +321,20 @@ class MqttServer:
                         payload = json.dumps(payload)
 
                     if topic and payload is not None and qos is not None:
-                        # self.logger.info(f'[{MODULE_NAME} TCP 連接來自 {addr}] 接收到數據，放入佇列')
+                        # self.logging.info(f'TCP 連接來自 {addr} | 接收到數據，放入佇列')
                         self.middle_queue.put((topic, payload, qos, retain))
 
                     else:
-                        self.logger.error(f'[{MODULE_NAME}: {fun_name}] '
-                                          f'無效的 JSON 格式或缺少 topic/payload/qos 鍵', exc_info=False)
+                        self.logging.error(f'無效的 JSON 格式或缺少 topic/payload/qos 鍵', exc_info=False)
 
                 except json.JSONDecodeError:
-                    self.logger.error(f'[{MODULE_NAME}: {fun_name}] '
-                                      f'接收到無效的 JSON 數據：{buffer}')
+                    self.logging.error(f'接收到無效的 JSON 數據：{buffer}')
 
         except Exception as e:
-            self.logger.error(f'[{MODULE_NAME}: {fun_name}] 內部發生錯誤')
+            self.logging.error('內部發生錯誤')
 
         finally:
-            # self.logger.info(f'[{MODULE_NAME}: {fun_name}] TCP 連接來自 {addr} 執行緒進行關閉...')
+            # self.logging.info(f'TCP 連接來自 {addr} 執行緒進行關閉 ...')
             conn.close()
 
 
@@ -366,8 +351,7 @@ class MqttServer:
             queue_type = self.to_broker_queue
             thread_name = 'publisher'
 
-        self.logger.warning(f'[{MODULE_NAME}: {thread_name}] '
-                            f'啟動 MQTT 發布執行緒池 [{self.max_workers}] ...')
+        self.logging.warning(f'[{thread_name}] 啟動 MQTT 發布執行緒池 [{self.max_workers}] ...')
         try:
             with ThreadPoolExecutor(max_workers=self.max_workers) as executor:
                 # 提交多個任務到執行緒池，每個任務都是一個獨立的發布者
@@ -380,13 +364,13 @@ class MqttServer:
                         future.result()  # 檢查是否有任何發布者執行緒報錯
 
                     except Exception as e:
-                        self.logger.error(f'[{MODULE_NAME}: {thread_name}] 發布者執行緒發生錯誤')
+                        self.logging.error(f'[{thread_name}] 發布者執行緒發生錯誤')
 
         except Exception as e:
-            self.logger.error(f'[{MODULE_NAME}: {thread_name}，發生錯誤]')
+            self.logging.error(f'[{thread_name}，發生錯誤]')
 
         finally:
-            self.logger.warning(f'[{MODULE_NAME}: {thread_name}] 執行緒已停止...')
+            self.logging.warning(f'[{thread_name}] 執行緒已停止 ...')
 
 
     def _publisher_worker(self, todo_queue: Queue = None,
@@ -420,14 +404,14 @@ class MqttServer:
                         # ---------------------------------------------
                         # * 當佇列長度超過 50 時，記錄警告訊息 ( 避免頻繁洗版 )
                         # ---------------------------------------------
-                        self.logger.info(f'[{MODULE_NAME}: 🚀 {worker_title}] '
+                        self.logging.info(f'[🚀 {worker_title}] '
                                          f'Queue length：{todo_queue.qsize()}')
 
                     elif todo_queue.qsize() == 1:
                         # ---------------------------------------------------------
                         # * 當佇列長度等於 1 時，回報檢視消耗狀態，不採用 0 是因為很容易洗版
                         # ---------------------------------------------------------
-                        self.logger.info(f'[{MODULE_NAME}: 🚀 {worker_title}] '
+                        self.logging.info(f'[🚀 {worker_title}] '
                                          f'Queue length：{todo_queue.qsize()}')
 
                 except queue.Empty:
@@ -435,7 +419,7 @@ class MqttServer:
                     pass
 
         except Exception as e:
-            self.logger.error(f'[{MODULE_NAME}: {worker_title}] 內部錯誤')
+            self.logging.error(f'[{worker_title}] 內部錯誤')
 
         finally:
             mqtt_client.loop_stop()
@@ -447,7 +431,6 @@ class MqttServer:
         # --------------------------------------
         # 3.3.5) 傳送訊息至 'TCP 中間層監聽佇列服務'
         # --------------------------------------
-        fun_name = 'send_to_middle'
         try:
             with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
                 s.connect((self.middle_host, self.middle_port))
@@ -458,15 +441,14 @@ class MqttServer:
                     'retain': retain,
                 }).encode('utf-8'))
 
-            # self.logger.info(f'[{MODULE_NAME}: {fun_name}] '
-            #                  f'已成功將數據發送給 TCP 中間層監聽佇列服務 ({self.middle_host}:{self.middle_port})')
+            # self.logging.info(f'已成功將數據發送給 TCP 中間層監聽佇列服務 ({self.middle_host}:{self.middle_port})')
 
         except ConnectionRefusedError:
-            self.logger.error(f'[{MODULE_NAME}: {fun_name}，連接失敗] 請確認 MQTT 服務程式已啟動，'
+            self.logging.error(f'連接失敗...請確認 MQTT 服務程式已啟動，'
                               f'並運行在 {self.middle_host}:{self.middle_port}', exc_info=False)
 
         except Exception as e:
-            self.logger.error(f'[{MODULE_NAME}: {fun_name}，發生錯誤]')
+            self.logging.error('發生錯誤')
 
 
     def on_connect_publisher(self, client, userdata, flags, rc, **kwargs):
@@ -474,13 +456,10 @@ class MqttServer:
         # 4.1.1) MQTT 回呼函式
         # * 當客戶端成功連接到 MQTT Broker 時會呼叫
         # -------------------------------------
-        fun_name = 'on_connect_publisher'
         if rc == 0:
-            self.logger.warning(f'[{MODULE_NAME}: {fun_name}] '
-                                f'已成功連接到 MQTT Broker ({self.broker_host}:{self.broker_port})')
+            self.logging.warning(f'已成功連接到 MQTT Broker ({self.broker_host}:{self.broker_port})')
         else:
-            self.logger.error(f'[{MODULE_NAME}: {fun_name}] '
-                              f'連接失敗，錯誤碼: {rc}', exc_info=False)
+            self.logging.error(f'連接失敗...錯誤碼: {rc}', exc_info=False)
 
 
     def on_connect_subscriber(self, client, userdata, flags, rc, **kwargs):
@@ -488,16 +467,13 @@ class MqttServer:
         # 4.1.2) MQTT 回呼函式
         # * 當客戶端成功連接到 MQTT Broker 時會呼叫
         # --------------------------------------
-        fun_name = 'on_connect_subscriber'
         if rc == 0:
-            self.logger.warning(f'[{MODULE_NAME}: {fun_name}] '
-                                f'已成功連接到 MQTT Broker ({self.broker_host}:{self.broker_port})')
+            self.logging.warning(f'已成功連接到 MQTT Broker ({self.broker_host}:{self.broker_port})')
             for sub in self.subscriber_list:
                 client.subscribe(sub)
-                self.logger.warning(f'[{MODULE_NAME}: {fun_name}] 已訂閱 Topic: {sub}')
+                self.logging.warning(f'已訂閱 Topic: {sub}')
         else:
-            self.logger.error(f'[{MODULE_NAME}: {fun_name}] '
-                              f'連接失敗，錯誤碼: {rc}', exc_info=False)
+            self.logging.error(f'連接失敗...錯誤碼: {rc}', exc_info=False)
 
 
     def on_publish(self, client, userdata, mid, **kwargs):
@@ -505,8 +481,7 @@ class MqttServer:
         # 4.2) MQTT 回呼函式
         # * 當訊息成功發布時會呼叫
         # ----------------------
-        fun_name = 'on_publish'
-        # self.logger.info(f'[{MODULE_NAME}: on_publish] 訊息 [ID:{mid}] 已成功發布到 Broker')
+        # self.logging.info(f'訊息 [ID:{mid}] 已成功發布到 Broker')
         pass
 
 
@@ -516,14 +491,12 @@ class MqttServer:
         # * 當收到來自 Broker 的訊息時會呼叫
         # * 根據收到的訊息執行其他動作 ex: 寫入資料庫或觸發事件
         # -----------------------------------------------
-        fun_name = 'on_message'
         try:
             client = client._client_id.decode('utf-8')
             topic = msg.topic
             payload = msg.payload.decode('utf-8')
-            self.logger.warning(f'[{MODULE_NAME}: {fun_name}] '
-                                f'client: {client}, topic: {topic}, payload: {payload}')
+            self.logging.warning(f'client: {client}, topic: {topic}, payload: {payload}')
             # pass
 
         except Exception as e:
-            self.logger.error(f'[{MODULE_NAME}: {fun_name}，發生錯誤]')
+            self.logging.error('發生錯誤')

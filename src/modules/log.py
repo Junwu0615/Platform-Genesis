@@ -1,24 +1,25 @@
 # -*- coding: utf-8 -*-
-from src.utils.tools import *
+import logging
+from src.config.constant import *
 from colorlog import ColoredFormatter
 from logging.handlers import RotatingFileHandler
 
+
 MODULE_NAME = __name__.upper()
-
-SHORT_FORMAT = '%Y-%m-%d'
-LONG_FORMAT = '%Y-%m-%d %H:%M:%S'
-LONG_T_FORMAT = '%Y-%m-%dT%H:%M:%S'
-
 TITLE_SYMBOL_NUMBER = 20
 COLORS_CONFIG = {
     'INFO': 'white',
     'WARNING': 'yellow',
+    'NOTICE': 'yellow',
     'ERROR': 'red',
     'DEBUG': 'green',
     'CRITICAL': 'bold_red',
 }
+
 FILE_FMT = '[%(asctime)s] %(levelname)s: %(message)s'
-CONSOLE_FMT = '%(log_color)s[%(asctime)s] %(levelname)s: %(message)s'
+# CONSOLE_FMT = '%(log_color)s[%(asctime)s] %(levelname)s: %(message)s'
+# CONSOLE_FMT ='%(log_color)s[%(asctime)s] [%(name)s | %(funcName)s:%(lineno)d] %(levelname)s: %(message)s'
+CONSOLE_FMT ='%(log_color)s[%(asctime)s] [%(name)s:%(lineno)d] %(levelname)s: %(message)s'
 
 
 class Logger:
@@ -39,7 +40,8 @@ class Logger:
 
 
     def _console_logging_settings(self, console_name: str) -> logging.Logger:
-        logger = logging.getLogger(__name__ + console_name)
+        # logger = logging.getLogger(f'{MODULE_NAME} | {console_name.upper()}')
+        logger = logging.getLogger(f'{console_name.upper()}')
         logger.setLevel(logging.DEBUG)
 
         if logger.hasHandlers():
@@ -50,9 +52,11 @@ class Logger:
         console_handler = logging.StreamHandler()
 
         console_handler.setFormatter(
-            ColoredFormatter(fmt=CONSOLE_FMT,
-                             datefmt=LONG_FORMAT,
-                             log_colors=COLORS_CONFIG)
+            ColoredFormatter(
+                fmt=CONSOLE_FMT,
+                datefmt=LONG_FORMAT,
+                log_colors=COLORS_CONFIG
+            )
         )
 
         console_handler.setLevel(logging.DEBUG)
@@ -65,7 +69,8 @@ class Logger:
                                max_bytes: int, backup_count: int) -> logging.Logger:
         os.makedirs(str(getattr(pathlib.Path(file_path), 'parent')), exist_ok=True)
 
-        logger = logging.getLogger(__name__ + file_name)
+        # logger = logging.getLogger(f'{MODULE_NAME} | {file_name.upper()}')
+        logger = logging.getLogger(f'{file_name.upper()}')
         logger.setLevel(logging.DEBUG)
 
         if logger.hasHandlers():
@@ -73,10 +78,12 @@ class Logger:
                 handler.close()
             logger.handlers.clear()
 
-        file_handler = RotatingFileHandler(file_path,
-                                           maxBytes=max_bytes,
-                                           backupCount=backup_count,
-                                           encoding='utf-8')
+        file_handler = RotatingFileHandler(
+            file_path,
+            maxBytes=max_bytes,
+            backupCount=backup_count,
+            encoding='utf-8'
+        )
 
         file_handler.setFormatter(
             logging.Formatter(
@@ -91,42 +98,33 @@ class Logger:
 
 
     def info(self, msg: str='', console_b: bool=True, file_b: bool=True, **kwargs):
-        """
-        kwargs ...not defined, but can be used to pass additional parameters
-        """
         if console_b and self.console_log is not None:
-            getattr(self.console_log, 'info')(msg)
+            getattr(self.console_log, 'info')(msg, stacklevel=2)
 
         if file_b and self.file_log is not None:
-            getattr(self.file_log, 'info')(msg)
+            getattr(self.file_log, 'info')(msg, stacklevel=2)
 
 
     def warning(self, msg: str='', console_b: bool=True, file_b: bool=True, **kwargs):
-        """
-        kwargs ...not defined, but can be used to pass additional parameters
-        """
         if console_b and self.console_log is not None:
-            getattr(self.console_log, 'warning')(msg)
+            getattr(self.console_log, 'warning')(msg, stacklevel=2)
 
         if file_b and self.file_log is not None:
-            getattr(self.file_log, 'warning')(msg)
+            getattr(self.file_log, 'warning')(msg, stacklevel=2)
 
 
     def error(self, msg: str='', exc_info: bool=True, console_b: bool=True, file_b: bool=True, **kwargs):
-        """
-        kwargs ...not defined, but can be used to pass additional parameters
-        """
         if console_b and self.console_log is not None:
             if exc_info:
-                getattr(self.console_log, 'error')(msg, exc_info=exc_info)
+                getattr(self.console_log, 'error')(msg, exc_info=exc_info, stacklevel=2)
             else:
-                getattr(self.console_log, 'error')(msg)
+                getattr(self.console_log, 'error')(msg, stacklevel=2)
 
         if file_b and self.file_log is not None:
             if exc_info:
-                getattr(self.file_log, 'error')(msg, exc_info=exc_info)
+                getattr(self.file_log, 'error')(msg, exc_info=exc_info, stacklevel=2)
             else:
-                getattr(self.file_log, 'error')(msg)
+                getattr(self.file_log, 'error')(msg, stacklevel=2)
 
 
     def title_log(self, title_name: str) -> str:

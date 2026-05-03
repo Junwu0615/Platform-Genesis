@@ -1,17 +1,15 @@
 # -*- coding: utf-8 -*-
-
-from src.modules.log import Logger
-# from src.utils.tools import *
 from src.config import *
+from src.modules.log import Logger
+from src.utils.env_config import GET_PATH_ROOT, get_logger_name
 
-MODULE_NAME = __name__.upper()
-logging = Logger(console_name='.main')
+
+console_name = get_logger_name(__file__, GET_PATH_ROOT)
+logging = Logger(console_name=console_name)
 
 
 def kafka_murmur2(data: bytes):
-    """
-    Kafka 官方 Java 版 Murmur2 的 Python 實作
-    """
+    """Kafka 官方 Java 版 Murmur2 的 Python 實作"""
     length = len(data)
     seed = 0x9747b28c
     # 'm' and 'r' are mixing constants generated offline.
@@ -64,31 +62,7 @@ def get_partition_id(consumer, topic_name: str, topic_key: str) -> int:
 
 def producer_on_message(err, msg):
     if err is not None:
-        logging.warning(f"訊息推送失敗: {err}")
+        logging.error(f'訊息推送失敗: {err}', exc_info=False)
     else:
         # logging.info(f"訊息成功推送到 {msg.topic()} [{msg.partition()}]")
         pass
-
-
-def start_service(main_name, threads, service_function: callable, **kwargs):
-    service_thread = threading.Thread(
-        target=service_function,
-        daemon=True,  # 當主執行緒結束時，子執行緒會被強制終止
-        kwargs=kwargs,
-    )
-    service_thread.start()
-    threads.append(service_thread)
-    logging.warning(f'[{main_name}] {kwargs.get('title', '服務')}已啟動...')
-
-
-def stop_all_services(main_name, stop_event, threads: list):
-    logging.error(f'[{main_name}] 正在向所有執行緒發出停止訊號...', exc_info=False)
-    stop_event.set()  # 發出停止訊號
-
-    # 等待所有執行緒結束
-    for thread in threads:
-        if thread.is_alive():
-            logging.info(f'[{main_name}] 等待 {thread.name} 執行緒結束...')
-            thread.join()
-
-    logging.warning('\n\n' + logging.title_log(f'[{main_name}] 所有執行緒服務已確實關閉'))

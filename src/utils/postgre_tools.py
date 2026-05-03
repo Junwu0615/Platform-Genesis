@@ -9,16 +9,22 @@ TODO
                 - [壓測必開]    OFF : 不等待資料寫入磁碟就回應，提升性能，但在系統崩潰時可能會丟失最近的交易
 """
 import psycopg2
+from src.modules.log import Logger
+from src.utils.env_config import GET_PATH_ROOT, get_logger_name
 
-MODULE_NAME = __name__.upper()
 
-def get_conn(db, logging) -> psycopg2.extensions.connection:
+console_name = get_logger_name(__file__, GET_PATH_ROOT)
+logging = Logger(console_name=console_name)
+
+
+def get_conn(db) -> psycopg2.extensions.connection:
+    """建立 Postgresql 連線"""
     while True:
         try:
             conn = psycopg2.connect(**db)
             conn.autocommit = False
 
-            # 在連線建立後立刻執行 Session 等級的設定
+            # 連線建立後 立刻執行 Session 等級的設定
             with conn.cursor() as cur:
                 cur.execute('SET synchronous_commit = OFF;')
 
@@ -28,7 +34,8 @@ def get_conn(db, logging) -> psycopg2.extensions.connection:
             time.sleep(3)
 
 
-def close_conn(conn, cursor, logging):
+def close_conn(conn, cursor):
+    """安全關閉 Postgresql 連線"""
     if cursor:
         cursor.close()
         logging.warning("'cursor.close()' called ...")

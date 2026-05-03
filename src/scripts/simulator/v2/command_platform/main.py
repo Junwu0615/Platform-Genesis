@@ -5,21 +5,25 @@ TODO
     Description:
     Notice:
 """
-import os, sys
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '..', '..', '..')))
+import sys, os; sys.path.insert(0, os.getcwd())
+
+from src.config import *
+from src.config.constant import *
+from src.config.mqtt import DEFAULT_BROKER, DEFAULT_BROKER_PORT
+
+from src.utils.tools import *
+from src.utils.env_config import GET_PATH_ROOT, get_logger_name
+from src.utils.postgre_tools import get_conn, close_conn, table_exists
 
 from src.modules.log import Logger
 from src.modules.mqtt import MqttServer
-
-from src.utils.tools import *
-from src.utils.conn import get_conn, close_conn, table_exists
-
-from src.config import *
-from src.config.mqtt import DEFAULT_BROKER, DEFAULT_BROKER_PORT
-from src.config.simulator import MachineStatusSimulator
+from src.modules.simulator import MachineStatusSimulator
 
 
-logging = Logger(console_name='.main')
+console_name = get_logger_name(__file__, GET_PATH_ROOT)
+logging = Logger(console_name=console_name)
+
+
 mss = MachineStatusSimulator()
 
 YAML_VERSION = 'v2'
@@ -166,8 +170,8 @@ def simulate_stream(ms, conn, cursor, event_dict: dict):
 
         except psycopg2.InterfaceError as e:
             logging.error('[# Re-Connect] Exception', exc_info=True)
-            close_conn(conn, cursor, logging)
-            conn = get_conn(db, logging)
+            close_conn(conn, cursor)
+            conn = get_conn(db)
             cursor = conn.cursor()
 
         except psycopg2.DatabaseError as e:
@@ -191,9 +195,9 @@ def main():
             - 「建立生產訂單」
     """
     ms, conn, cursor = None, None, None
-    logging.warning('[# command_platform] Starting Factory Stream Simulation ...')
+    logging.warning('Starting Factory Stream Simulation ...')
     try:
-        conn = get_conn(db, logging)
+        conn = get_conn(db)
         cursor = conn.cursor()
 
         ms = MqttServer(
@@ -217,7 +221,7 @@ def main():
         logging.error('已落實最後一次事務提交 ...', exc_info=False)
 
     finally:
-        close_conn(conn, cursor, logging)
+        close_conn(conn, cursor)
         ms.stop_all_services()
 
 

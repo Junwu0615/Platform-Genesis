@@ -1,12 +1,15 @@
 # -*- coding: utf-8 -*-
-import os, sys
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '..', '..', '..')))
+import sys, os; sys.path.insert(0, os.getcwd())
 
-from src.modules.log import Logger
 from src.utils.tools import *
-from src.utils.conn import get_conn, close_conn, table_exists
+from src.utils.env_config import GET_PATH_ROOT, get_logger_name
+from src.utils.postgre_tools import get_conn, close_conn, table_exists
+from src.modules.log import Logger
 
-logging = Logger(console_name='.main')
+
+console_name = get_logger_name(__file__, GET_PATH_ROOT)
+logging = Logger(console_name=console_name)
+
 
 YAML_VERSION = 'v2'
 YAML_PATH = os.path.join('./src/scripts/simulator', f'{YAML_VERSION}', 'factory_config.yaml')
@@ -98,7 +101,7 @@ def main():
     conn, cursor = None, None
     logging.warning('Starting Init Factory Data ...')
     try:
-        conn = get_conn(db, logging)
+        conn = get_conn(db)
         cursor = conn.cursor()
 
         generate_machines(conn, cursor)
@@ -113,7 +116,7 @@ def main():
         logging.error('[# Other] Exception', exc_info=True)
 
     finally:
-        close_conn(conn, cursor, logging)
+        close_conn(conn, cursor)
 
 
 if __name__ == '__main__':

@@ -13,16 +13,19 @@ TODO
             - [5~50x] cursor.execute_batch : 將多筆交易一次性發送給資料庫，減少往返次數，適合批量插入，需注意記憶體使用
             - [最快] cursor.execute_values : 類似 execute_batch，但使用 VALUES 語法，對於大量插入特別有效，需注意記憶體使用
 """
-import os, sys
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
+import sys, os; sys.path.insert(0, os.getcwd())
 
 from src.modules.log import Logger
 from src.utils.tools import *
-from src.utils.conn import get_conn, close_conn, table_exists
-from src.config.simulator import MachineStatusSimulator
+from src.utils.env_config import GET_PATH_ROOT, get_logger_name
+from src.utils.postgre_tools import get_conn, close_conn, table_exists
+from src.modules.simulator import MachineStatusSimulator
 
 
-logging = Logger(console_name='.main')
+console_name = get_logger_name(__file__, GET_PATH_ROOT)
+logging = Logger(console_name=console_name)
+
+
 mss = MachineStatusSimulator()
 
 YAML_VERSION = 'v1'
@@ -407,8 +410,8 @@ def simulate_stream(conn, cursor, event_dict: dict):
         # except psycopg2.OperationalError as e:
         except psycopg2.InterfaceError as e:
             logging.error('[# Re-Connect] Exception', exc_info=True)
-            close_conn(conn, cursor, logging)
-            conn = get_conn(db, logging)
+            close_conn(conn, cursor)
+            conn = get_conn(db)
             cursor = conn.cursor()
 
         except psycopg2.DatabaseError as e:
@@ -423,7 +426,7 @@ def main():
     conn, cursor = None, None
     logging.warning('Starting Factory Stream Simulation...')
     try:
-        conn = get_conn(db, logging)
+        conn = get_conn(db)
         cursor = conn.cursor()
 
         event_dict = init_transaction_dict(conn, cursor)
@@ -437,7 +440,7 @@ def main():
         logging.error('已落實最後一次事務提交 ...', exc_info=False)
 
     finally:
-        close_conn(conn, cursor, logging)
+        close_conn(conn, cursor)
 
 
 if __name__ == '__main__':

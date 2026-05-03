@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import os, sys, time, json, copy, logging, yaml
 import re, collections, operator, random, math
 import statistics, pathlib, struct

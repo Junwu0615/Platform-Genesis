@@ -5,14 +5,17 @@ TODO
     Description:
     Notice:
 """
-import os, sys
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '..', '..', '..')))
+import sys, os; sys.path.insert(0, os.getcwd())
+
+from src.config import *
+
+from src.utils.tools import *
+from src.utils.kafka_tools import *
+from src.utils.threading_tools import *
+from src.utils.env_config import GET_PATH_ROOT, get_logger_name
 
 from src.modules.log import Logger
-from src.utils.tools import *
-from src.utils.kafka_tool import *
-from src.config import *
-from src.config.simulator import MachineStatusSimulator
+from src.modules.simulator import MachineStatusSimulator
 
 from confluent_kafka import (
     Consumer,
@@ -22,7 +25,10 @@ from confluent_kafka import (
 )
 
 
-logging = Logger(console_name='.main')
+console_name = get_logger_name(__file__, GET_PATH_ROOT)
+logging = Logger(console_name=console_name)
+
+
 mss = MachineStatusSimulator()
 
 YAML_VERSION = 'v2'
@@ -370,12 +376,12 @@ def main():
     logging.warning(f'[{MAIN_NAME}] Starting Factory Stream Simulation ...')
 
     try:
-        start_service(MAIN_NAME, threads, consumer_message, **{
+        start_service(threads, consumer_message, **{
             'title': '「消費 mqtt_raw.cp.mach-order 訂單訊息」服務',
             'stop_event': stop_event,
         })
 
-        # start_service(MAIN_NAME, threads, simulate_stream, **{
+        # start_service(threads, simulate_stream, **{
         #     'title': '「傳送邊緣數據處理」服務',
         #     'stop_event': stop_event,
         # })
@@ -387,7 +393,7 @@ def main():
         logging.error('偵測到 Ctrl+C，正在關閉連線 ...', exc_info=False)
 
     finally:
-        stop_all_services(MAIN_NAME, stop_event, threads)
+        stop_all_services(threads, stop_event)
 
 
 if __name__ == '__main__':

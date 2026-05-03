@@ -1,16 +1,19 @@
 # -*- coding: utf-8 -*-
-import os, sys
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '..', '..', '..')))
+import sys, os; sys.path.insert(0, os.getcwd())
 
-from src.modules.log import Logger
-from src.utils.tools import *
 from src.config import *
+from src.utils.tools import *
+from src.utils.env_config import GET_PATH_ROOT, get_logger_name
+from src.modules.log import Logger
 from confluent_kafka.admin import (
     AdminClient,
     NewTopic
 )
 
-logging = Logger(console_name='.main')
+
+console_name = get_logger_name(__file__, GET_PATH_ROOT)
+logging = Logger(console_name=console_name)
+
 
 YAML_VERSION = 'v2'
 YAML_PATH = os.path.join('./src/scripts/simulator', f'{YAML_VERSION}', 'factory_config.yaml')
