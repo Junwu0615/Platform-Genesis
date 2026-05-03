@@ -16,12 +16,8 @@
     "insert.mode": "insert",
     "pk.mode": "none",
 
-    "key.converter.schemas.enable": "false",
-    "value.converter": "org.apache.kafka.connect.json.JsonConverter",
-    "value.converter.schemas.enable": "true",
-
-    "transforms": "ReplaceField",
-    "transforms.ReplaceField.type": "org.apache.kafka.connect.transforms.ReplaceField$Value",
-    "transforms.ReplaceField.whitelist": "order_id,machine_id,product_id,quantity,event_time"
+    "key.converter": "org.apache.kafka.connect.storage.StringConverter",
+    "value.converter": "io.confluent.connect.avro.AvroConverter",
+    "value.converter.schema.registry.url": "http://schema-registry:8081"
   }
 }

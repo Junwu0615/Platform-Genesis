@@ -17,12 +17,8 @@
     "pk.mode": "record_value",
     "pk.fields": "order_id",
 
-    "key.converter.schemas.enable": "false",
-    "value.converter": "org.apache.kafka.connect.json.JsonConverter",
-    "value.converter.schemas.enable": "true",
-
-    "transforms": "ReplaceField",
-    "transforms.ReplaceField.type": "org.apache.kafka.connect.transforms.ReplaceField$Value",
-    "transforms.ReplaceField.whitelist": "order_id,start_at,end_at"
+    "key.converter": "org.apache.kafka.connect.storage.StringConverter",
+    "value.converter": "io.confluent.connect.avro.AvroConverter",
+    "value.converter.schema.registry.url": "http://schema-registry:8081"
   }
 }

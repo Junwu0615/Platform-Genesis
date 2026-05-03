@@ -129,6 +129,7 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
   | MQTT Broker | for `iot-platform` | [1883](http:127.0.0.1:1883) |
   | Kafka | for `iot-platform` | [9092](http:127.0.0.1:9092) |
   | Kafka UI | for `iot-platform` | [9093](http:127.0.0.1:9093) |
+  | Schema Registry | for `iot-platform` | [8081](http:127.0.0.1:8081) |
   | Grafana | for `Monitoring` | [3000](http:127.0.0.1:3000) |
   | Prometheus | for `Monitoring` | [9090](http:127.0.0.1:9090) |
   | Node Exporter | for `Monitoring` | [9100](http:127.0.0.1:9100) |

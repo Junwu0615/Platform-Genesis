@@ -1,7 +1,4 @@
 # -*- coding: utf-8 -*-
-import copy
-import json
-
 from src.config import *
 from src.modules.log import Logger
 from src.utils.env_config import GET_PATH_ROOT, get_logger_name
@@ -64,7 +61,7 @@ def get_partition_id(consumer, topic_name: str, topic_key: str) -> int:
     return target_partition
 
 
-def producer_on_message(err, msg):
+def on_delivery(err, msg):
     if err is not None:
         logging.error(f'訊息推送失敗: {err}', exc_info=False)
     else:
@@ -72,7 +69,7 @@ def producer_on_message(err, msg):
         pass
 
 
-def add_message(producer, topic, key, payload):
+def add_producer_msg(producer, topic, key, payload):
     """使用 producer 發送訊息"""
     try:
         # 確保資料格式正確
@@ -82,9 +79,9 @@ def add_message(producer, topic, key, payload):
         # 發送訊息
         producer.produce(
             topic=topic,
-            key=str(key),  # 確保 key 是字串或 bytes
+            key=str(key),
             value=payload,
-            on_delivery=producer_on_message
+            on_delivery=on_delivery
         )
 
         # 高併發環境，在外部 loop 每 N 筆呼叫一次
@@ -94,7 +91,7 @@ def add_message(producer, topic, key, payload):
     except BufferError:
         logging.warning(f'Local producer queue is full ({len(producer)} messages awaiting delivery), waiting ...')
         producer.poll(1) # 阻塞 1 秒等待緩衝釋放
-        add_message(producer, topic, key, data) # 重試
+        add_producer_msg(producer, topic, key, data) # 重試
 
     except Exception as e:
         logging.error(f'Failed to produce message to {topic} [KEY: {key}]', exc_info=True)

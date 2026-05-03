@@ -11,11 +11,14 @@ from src.config import *
 from src.config.constant import *
 from src.config.sink_format import *
 from src.utils.tools import *
-from src.utils.kafka_tools import get_partition_id, add_message, save_store_sink_data
+from src.utils.kafka_tools import get_partition_id, add_producer_msg, save_store_sink_data
 from src.utils.threading_tools import *
 from src.utils.env_config import GET_PATH_ROOT, get_logger_name
 from src.modules.log import Logger
 from src.modules.simulator import MachineStatusSimulator
+from src.modules.kafka_producer import KafkaProducerManager
+
+from confluent_kafka.serialization import StringSerializer
 from confluent_kafka import (
     Consumer,
     Producer,
@@ -64,6 +67,12 @@ event_dict = {
     'detail': {},
 }
 
+kpm = KafkaProducerManager(
+    bootstrap_servers=f'{kafka['host']}:{kafka['port']}',
+    sr_url='http://schema-registry:8081',
+    schemas_list=[SINK_MACH_STATUS_LOGS, SINK_PROD_ORDERS, SINK_PROD_RECORDS]
+)
+
 
 def update_order_status(producer, event_dict: dict) -> int:
     """
@@ -79,21 +88,30 @@ def update_order_status(producer, event_dict: dict) -> int:
                     _now_time = get_now(hours=8, tzinfo=TZ_UTC_8)
 
                     # 1. 更新訂單結束時間
-                    payload = copy.deepcopy(SINK_PROD_ORDERS)
-                    payload['payload']['order_id'] = _order_id
-                    payload['payload']['end_at'] = _now_time.isoformat()
-                    payload = save_store_sink_data(payload)
-                    add_message(producer, topic='inst.prod-orders', key=TARGET_MACH, payload=payload)
+                    # payload = copy.deepcopy(SINK_PROD_ORDERS)
+                    # payload['payload']['order_id'] = _order_id
+                    # payload['payload']['end_at'] = _now_time.isoformat()
+                    # payload = save_store_sink_data(payload)
+                    payload = {}
+                    payload['order_id'] = _order_id
+                    payload['end_at'] = _now_time.isoformat()
+                    # add_producer_msg(producer, topic='inst.prod-orders', key=TARGET_MACH, payload=payload)
+                    kpm.send_message(topic='inst.prod-orders', key=TARGET_MACH, payload=payload)
 
                     ret += 1
 
                     # 2. 更新機台狀態 : RUNNING -> IDLE
-                    payload = copy.deepcopy(SINK_MACH_STATUS_LOGS)
-                    payload['payload']['machine_id'] = event_dict['mach_id']
-                    payload['payload']['status'] = 'IDLE'
-                    payload['payload']['event_time'] = _now_time.isoformat()
-                    payload = save_store_sink_data(payload)
-                    add_message(producer, topic='inst.status-logs', key=TARGET_MACH, payload=payload)
+                    # payload = copy.deepcopy(SINK_MACH_STATUS_LOGS)
+                    # payload['payload']['machine_id'] = event_dict['mach_id']
+                    # payload['payload']['status'] = 'IDLE'
+                    # payload['payload']['event_time'] = _now_time.isoformat()
+                    # payload = save_store_sink_data(payload)
+                    payload = {}
+                    payload['machine_id'] = event_dict['mach_id']
+                    payload['status'] = 'IDLE'
+                    payload['event_time'] = _now_time.isoformat()
+                    # add_producer_msg(producer, topic='inst.status-logs', key=TARGET_MACH, payload=payload)
+                    kpm.send_message(topic='inst.status-logs', key=TARGET_MACH, payload=payload)
 
                     ret += 1
 
@@ -139,23 +157,32 @@ def insert_production_record(producer, event_dict: dict, efficiency: int) -> int
         _now_time = get_now(hours=8, tzinfo=TZ_UTC_8)
 
         # 1.1 更新訂單開始作業時間
-        payload = copy.deepcopy(SINK_PROD_ORDERS)
-        payload['payload']['order_id'] = _order_id
-        payload['payload']['start_at'] = _now_time.isoformat()
-        payload = save_store_sink_data(payload)
-        add_message(producer, topic='inst.prod-orders', key=TARGET_MACH, payload=payload)
+        # payload = copy.deepcopy(SINK_PROD_ORDERS)
+        # payload['payload']['order_id'] = _order_id
+        # payload['payload']['start_at'] = _now_time.isoformat()
+        # payload = save_store_sink_data(payload)
+        payload = {}
+        payload['order_id'] = _order_id
+        payload['start_at'] = _now_time.isoformat()
+        # add_producer_msg(producer, topic='inst.prod-orders', key=TARGET_MACH, payload=payload)
+        kpm.send_message(topic='inst.prod-orders', key=TARGET_MACH, payload=payload)
 
         ret += 1
         logging.info(f'Production Begins Based on the Order [{_order_id}].')
 
 
         # 1.2 更新機台狀態 : IDLE -> RUNNING
-        payload = copy.deepcopy(SINK_MACH_STATUS_LOGS)
-        payload['payload']['machine_id'] = event_dict['mach_id']
-        payload['payload']['status'] = _status
-        payload['payload']['event_time'] = _now_time.isoformat()
-        payload = save_store_sink_data(payload)
-        add_message(producer, topic='inst.status-logs', key=TARGET_MACH, payload=payload)
+        # payload = copy.deepcopy(SINK_MACH_STATUS_LOGS)
+        # payload['payload']['machine_id'] = event_dict['mach_id']
+        # payload['payload']['status'] = _status
+        # payload['payload']['event_time'] = _now_time.isoformat()
+        # payload = save_store_sink_data(payload)
+        payload = {}
+        payload['machine_id'] = event_dict['mach_id']
+        payload['status'] = _status
+        payload['event_time'] = _now_time.isoformat()
+        # add_producer_msg(producer, topic='inst.status-logs', key=TARGET_MACH, payload=payload)
+        kpm.send_message(topic='inst.status-logs', key=TARGET_MACH, payload=payload)
 
         ret += 1
 
@@ -185,14 +212,21 @@ def insert_production_record(producer, event_dict: dict, efficiency: int) -> int
         event_dict['detail'][_order_id]['produced_qty'] += _quantity
 
         # 6. 插入交易日誌
-        payload = copy.deepcopy(SINK_PROD_RECORDS)
-        payload['payload']['order_id'] = _order_id
-        payload['payload']['machine_id'] = event_dict['mach_id']
-        payload['payload']['product_id'] = _product_id
-        payload['payload']['quantity'] = event_dict['detail'][_order_id]['produced_qty']
-        payload['payload']['event_time'] = _now_time.isoformat()
-        payload = save_store_sink_data(payload)
-        add_message(producer, topic='inst.prod-records', key=TARGET_MACH, payload=payload)
+        # payload = copy.deepcopy(SINK_PROD_RECORDS)
+        # payload['payload']['order_id'] = _order_id
+        # payload['payload']['machine_id'] = event_dict['mach_id']
+        # payload['payload']['product_id'] = _product_id
+        # payload['payload']['quantity'] = event_dict['detail'][_order_id]['produced_qty']
+        # payload['payload']['event_time'] = _now_time.isoformat()
+        # payload = save_store_sink_data(payload)
+        payload = {}
+        payload['order_id'] = _order_id
+        payload['machine_id'] = event_dict['mach_id']
+        payload['product_id'] = _product_id
+        payload['quantity'] = event_dict['detail'][_order_id]['produced_qty']
+        payload['event_time'] = _now_time.isoformat()
+        # add_producer_msg(producer, topic='inst.prod-records', key=TARGET_MACH, payload=payload)
+        kpm.send_message(topic='inst.prod-records', key=TARGET_MACH, payload=payload)
         ret += 1
 
     return ret
@@ -228,12 +262,17 @@ def insert_machine_status(producer, event_dict: dict) -> int:
     _now_time = get_now(hours=8, tzinfo=TZ_UTC_8)
 
     # 4. 提交狀態更新
-    payload = copy.deepcopy(SINK_MACH_STATUS_LOGS)
-    payload['payload']['machine_id'] = event_dict['mach_id']
-    payload['payload']['status'] = _status
-    payload['payload']['event_time'] = _now_time.isoformat()
-    payload = save_store_sink_data(payload)
-    add_message(producer, topic='inst.status-logs', key=TARGET_MACH, payload=payload)
+    # payload = copy.deepcopy(SINK_MACH_STATUS_LOGS)
+    # payload['payload']['machine_id'] = event_dict['mach_id']
+    # payload['payload']['status'] = _status
+    # payload['payload']['event_time'] = _now_time.isoformat()
+    # payload = save_store_sink_data(payload)
+    payload = {}
+    payload['machine_id'] = event_dict['mach_id']
+    payload['status'] = _status
+    payload['event_time'] = _now_time.isoformat()
+    # add_producer_msg(producer, topic='inst.status-logs', key=TARGET_MACH, payload=payload)
+    kpm.send_message(topic='inst.status-logs', key=TARGET_MACH, payload=payload)
     return 1
 
 
@@ -241,14 +280,17 @@ def producer_message(stop_event, **kwargs):
     """
     TODO 生產者配置
     """
-    _config = {
-        'bootstrap.servers': f'{kafka['host']}:{kafka['port']}',
-        'queue.buffering.max.messages': 100000,
-        'linger.ms': 50,
-        'compression.type': 'lz4' # gzip / lz4[*] / snappy[*]
-    }
+    # _config = {
+    #     'bootstrap.servers': f'{kafka['host']}:{kafka['port']}',
+    #     'queue.buffering.max.messages': 100000,
+    #     'linger.ms': 50,
+    #     'compression.type': 'lz4', # gzip / lz4[*] / snappy[*]
+    #     'key.serializer': StringSerializer('utf_8'),
+    #     'value.serializer': avro_serializer # TODO 自動處理序列化與註冊
+    # }
+    producer = None
     # producer = Producer(_config)
-    producer = SerializingProducer(_config)
+    # producer = SerializingProducer(_config)
 
     batch_ct, done_qty = 0, 0
     last_commit_time = time.time()
