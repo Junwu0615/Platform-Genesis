@@ -13,10 +13,8 @@ from src.utils.tools import *
 from src.utils.kafka_tools import get_partition_id, add_message
 from src.utils.threading_tools import *
 from src.utils.env_config import GET_PATH_ROOT, get_logger_name
-
 from src.modules.log import Logger
 from src.modules.simulator import MachineStatusSimulator
-
 from confluent_kafka import (
     Consumer,
     Producer,
@@ -28,6 +26,7 @@ from confluent_kafka import (
 load_dotenv(dotenv_path=f'{'/'.join(__file__.split('/')[:-1])}/.env')
 console_name = get_logger_name(__file__, GET_PATH_ROOT)
 logging = Logger(console_name=console_name)
+
 
 mss = MachineStatusSimulator()
 
@@ -42,16 +41,23 @@ kafka = config['kafka']
 CONSUMER_ORDER_TOPIC = os.getenv('CONSUMER_ORDER_TOPIC', 'mqtt_raw.cp.mach-order')
 CONSUMER_GROUP_ID = os.getenv('CONSUMER_GROUP_ID', 'iot-data-mach-processor')
 TARGET_MACH = os.getenv('TARGET_MACH', 'M-CNC-30')
-MAIN_NAME = f'#{TARGET_MACH}'
 
+MAIN_NAME = f'#{TARGET_MACH}'
+BATCH_SIZE = simulate['batch_size']
+BATCH_INTERVAL = simulate['batch_interval']
 
 event_dict = {
+    # 等 consumer 拿到訂單資訊後，才會有 mach_id 資訊；初始值先放 None
+    'mach_id': None,
     # 訂單字典 key: order_id, value: prod_id
     'order_dict': {},
     # 訂單隊列
     'order_queue': collections.deque(),
-    # 記錄機台持單狀態 # None / Not None (order_id)
-    'machine_status': {},
+    # 記錄機台持單狀態
+    'machine_status': {
+        'status': 'IDLE',
+        'order_id': None, # None / not None
+    },
     # 訂單詳情字典 key: order_id, value: dict (product_id, target_qty, produced_qty, mach_id)
     'detail': {},
 }
@@ -88,10 +94,6 @@ def update_order_status(producer, event_dict: dict) -> int:
 
                     ret += 1
 
-
-                    # 取得 mach_id 資訊
-                    _machine_id = detail['mach_id']
-
                     # TODO 2. 更新機台狀態 : RUNNING -> IDLE
                     _status = 'IDLE'
                     # cursor.execute("""
@@ -100,14 +102,14 @@ def update_order_status(producer, event_dict: dict) -> int:
                     # VALUES (%s, %s, %s)
                     # """,
                     # (
-                    #     _machine_id,
+                    #     event_dict['mach_id'],
                     #     _status,
                     #     _now_time,
                     # ))
                     payload = {
                         'time': _now_time.isoformat(),
-                        "mach_id": _machine_id,
-                        "status": _status,
+                        'mach_id': event_dict['mach_id'],
+                        'status': _status,
                     }
                     add_message(producer, topic='inst.status-logs', key=TARGET_MACH, payload=payload)
 
@@ -178,13 +180,13 @@ def insert_production_record(producer, event_dict: dict, efficiency: int) -> int
         # VALUES (%s, %s, %s)
         # """,
         # (
-        #     _machine_id,
+        #     event_dict['mach_id'],
         #     _status,
         #     _now_time,
         # ))
         payload = {
             'time': _now_time.isoformat(),
-            'mach_id': _machine_id,
+            'mach_id': event_dict['mach_id'],
             'status': _status,
         }
         add_message(producer, topic='inst.status-logs', key=TARGET_MACH, payload=payload)
@@ -220,23 +222,22 @@ def insert_production_record(producer, event_dict: dict, efficiency: int) -> int
         # """,
         # (
         #     _order_id,
-        #     _machine_id,
+        #     event_dict['mach_id'],
         #     _product_id,
         #     _quantity,
         #     _now_time,
         # ))
         payload = {
             'time': _now_time.isoformat(),
-            "order_id": _order_id,
-            "mach_id": _machine_id,
-            "prod_id": _product_id,
-            "qty": _quantity,
+            'order_id': _order_id,
+            'mach_id': event_dict['mach_id'],
+            'prod_id': _product_id,
+            'produced_qty': _quantity,
         }
         add_message(producer, topic='inst.prod-records', key=TARGET_MACH, payload=payload)
 
         # TODO 7. 更新事務字典中的訂單計數狀況 + mach_id 資訊
         event_dict['detail'][_order_id]['produced_qty'] += _quantity
-        event_dict['detail'][_order_id]['mach_id'] = _machine_id
         ret += 1
 
     return ret
@@ -278,14 +279,14 @@ def insert_machine_status(producer, event_dict: dict) -> int:
     # VALUES (%s, %s, %s)
     # """,
     # (
-    #     _machine_id,
+    #     event_dict['mach_id'],
     #     _status,
     #     _now_time,
     # ))
     payload = {
         'time': _now_time.isoformat(),
-        "mach_id": _machine_id,
-        "status": _status,
+        'mach_id': event_dict['mach_id'],
+        'status': _status,
     }
     add_message(producer, topic='inst.status-logs', key=TARGET_MACH, payload=payload)
 
@@ -314,46 +315,37 @@ def producer_message(stop_event, **kwargs):
 
                 efficiency = load_setting['efficiency']
 
-                # TODO 進行判斷狀態更新
-                _ct = insert_production_record(producer, event_dict, efficiency)
-                if isinstance(_ct, int):
+                if event_dict['mach_id'] is not None:
+                    # TODO 進行判斷狀態更新
+                    _ct = insert_production_record(producer, event_dict, efficiency)
+                    if isinstance(_ct, int):
+                        batch_ct, data_qty = batch_ct + _ct, data_qty + _ct
+
+                    # TODO 隨機更新指定狀態
+                    _ct = insert_machine_status(producer, event_dict)
                     batch_ct, data_qty = batch_ct + _ct, data_qty + _ct
 
-                # TODO 隨機更新指定狀態
-                _ct = insert_machine_status(producer, event_dict)
-                batch_ct, data_qty = batch_ct + _ct, data_qty + _ct
+                    _ct = update_order_status(producer, event_dict)
+                    done_qty, batch_ct, data_qty = done_qty + _ct -1, batch_ct + _ct, data_qty + _ct
 
-                _ct = update_order_status(producer, event_dict)
-                done_qty, batch_ct, data_qty = done_qty + _ct, batch_ct + _ct, data_qty + _ct
+                    # TODO 根據 BATCH_SIZE 或 時間間隔 提交事務
+                    if batch_ct >= BATCH_SIZE or (time.time() - last_commit_time) > BATCH_INTERVAL:
+                        producer.poll(0)
+                        batch_ct = 0
+                        last_commit_time = time.time()
 
-                # TODO 根據 BATCH_SIZE 或 時間間隔 (30s) 提交事務
-                if batch_ct >= BATCH_SIZE or (time.time() - last_commit_time) > 30:
-                    producer.poll(0)
-                    batch_ct = 0
-                    last_commit_time = time.time()
-
-                # TODO 輸出當前模擬狀態
-                _order_qty = len(event_dict['order_dict'].keys())
-                temp_dict = {}
-                for k, v in event_dict['machine_status'].items():
-                    key = v['status']
-                    if key not in temp_dict:
-                        temp_dict[key] = 0
-                    temp_dict[key] += 1
-                _sum = sum(temp_dict.values())
-                ret_1 = ' | '.join([f'{k}=[{v}/{_sum}]' for k, v in temp_dict.items()])
-                ret_2 = ' | '.join(f'ORDER LEN [{len(event_dict['order_queue'])}]')
-
-                logging.info(
-                    f'\n[{MAIN_NAME}] 整體の概要 : '
-                    f'MODE={mode} | '
-                    f'ORDER_IN_PROGRESS={_order_qty} | '
-                    f'DONE_QTY={done_qty} | '
-                    f'DATA_QTY={data_qty} | '
-                    f'BATCH=[{batch_ct}/{BATCH_SIZE}]\n'
-                    f'當前機台の狀態 : {ret_1}\n'
-                    f'等機台任領の訂單 : {ret_2}'
-                )
+                    # TODO 輸出當前模擬狀態
+                    _order_id = event_dict['machine_status']['order_id']
+                    _detail = event_dict['detail'][_order_id]
+                    logging.info(
+                        f'\n[{MAIN_NAME}] 整體の概要 : '
+                        f'MODE={mode} | '
+                        f'DONE_QTY={done_qty} | '
+                        f'[PROGRESS #{_order_id}]=[{_detail['produced_qty']}/{_detail['target_qty']}] | '
+                        f'BATCH=[{batch_ct}/{BATCH_SIZE}]\n'
+                        f'當前機台の狀態 : {event_dict['machine_status']['status']}\n'
+                        f'等機台任領の訂單 : {len(event_dict['order_queue'])}'
+                    )
 
                 time.sleep(1)
 
@@ -410,8 +402,14 @@ def consumer_message(stop_event, **kwargs):
                 # TODO 處理業務邏輯
                 try:
                     # logging.info(f"[{MAIN_NAME}] 收到來自 {key}: {data}")
+                    event_dict['mach_id'] = data['mach_id']
                     event_dict['order_queue'] += [data]
                     event_dict['order_dict'][data['order_id']] = data
+                    event_dict['detail'][data['order_id']] = {
+                        'product_id': data['prod_id'],
+                        'target_qty': data['target_qty'],
+                        'produced_qty': 0
+                    }
 
                     consumer.commit(asynchronous=False) # TODO 處理成功，手動提交 Offset
 
