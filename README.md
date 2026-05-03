@@ -101,7 +101,7 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 | MQTT Logic | for `command_platform` | 2026-04-28 |
 | Kafka Connect | `source`: producer  | 2026-04-30 |
 | Kafka Connect | `sink`: consumers | - |
-| Kafka Logic | for `instance` | 2026-05-02 |
+| Kafka Logic | for `instance` | 2026-05-03 |
 | API Service Logic | - | - |
 | `v2` make Dockerfile | - | - |
 | Grafana Dashboard | update `htap_grafana.json` | - |

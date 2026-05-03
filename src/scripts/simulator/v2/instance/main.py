@@ -131,7 +131,10 @@ def update_order_status(producer, event_dict: dict) -> int:
                     f'( produced_qty: {detail['produced_qty']} >= target_qty: {detail['target_qty']} )')
 
     finally:
-        return ret
+        if ret > 0:
+            return ret, 1
+        else:
+            return ret, 0
 
 
 def insert_production_record(producer, event_dict: dict, efficiency: int) -> int:
@@ -303,7 +306,7 @@ def producer_message(stop_event, **kwargs):
     }
     producer = Producer(_config)
 
-    batch_ct, data_qty, done_qty = 0, 0, 0
+    batch_ct, done_qty = 0, 0
     last_commit_time = time.time()
 
     try:
@@ -319,14 +322,14 @@ def producer_message(stop_event, **kwargs):
                     # TODO 進行判斷狀態更新
                     _ct = insert_production_record(producer, event_dict, efficiency)
                     if isinstance(_ct, int):
-                        batch_ct, data_qty = batch_ct + _ct, data_qty + _ct
+                        batch_ct = batch_ct + _ct
 
                     # TODO 隨機更新指定狀態
                     _ct = insert_machine_status(producer, event_dict)
-                    batch_ct, data_qty = batch_ct + _ct, data_qty + _ct
+                    batch_ct = batch_ct + _ct
 
-                    _ct = update_order_status(producer, event_dict)
-                    done_qty, batch_ct, data_qty = done_qty + _ct -1, batch_ct + _ct, data_qty + _ct
+                    _ct, _ct_2 = update_order_status(producer, event_dict)
+                    done_qty, batch_ct = done_qty + _ct_2, batch_ct + _ct
 
                     # TODO 根據 BATCH_SIZE 或 時間間隔 提交事務
                     if batch_ct >= BATCH_SIZE or (time.time() - last_commit_time) > BATCH_INTERVAL:
