@@ -52,6 +52,7 @@ def sync_kafka_infrastructure(config_file):
             try:
                 f.result()
                 logging.notice(f'管道 {topic} 部署成功 ...')
+
             except Exception as e:
                 logging.error(f"管道 {topic} 部署失敗", exc_info=True)
     else:

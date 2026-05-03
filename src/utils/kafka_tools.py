@@ -50,9 +50,13 @@ def get_partition_id(consumer, topic_name: str, topic_key: str) -> int:
     """根據 Kafka 的分區邏輯，計算出給定 topic_key 對應的 Partition ID"""
 
     # 取得分區總數
-    cluster_metadata = consumer.list_topics(topic=topic_name)
-    partitions = cluster_metadata.topics[topic_name].partitions
-    num_partitions = len(partitions)
+    metadata = consumer.list_topics(topic=topic_name)
+    topic_metadata = metadata.topics.get(topic_name)
+
+    if topic_metadata is None or not topic_metadata.partitions:
+        return -1
+
+    num_partitions = len(topic_metadata.partitions)
 
     # 計算 Partition ID
     target_partition = (kafka_murmur2(topic_key.encode('utf-8')) & 0x7fffffff) % num_partitions

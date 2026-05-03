@@ -29,6 +29,16 @@
         "retention.ms": "604800000",
         "cleanup.policy": "delete"
       }
+    },
+    {
+      "name": "source.cp.mach-order",
+      "partitions": 72,
+      "replication_factor": 1,
+      "configs": {
+        "compression.type": "lz4",
+        "retention.ms": "604800000",
+        "cleanup.policy": "delete"
+      }
     }
   ]
 }

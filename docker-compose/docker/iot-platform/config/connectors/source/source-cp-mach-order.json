@@ -22,7 +22,7 @@
     "topic.creation.default.compression.type": "lz4",
 
     "mqtt.topics": "cp/mach-order/+",
-    "kafka.topic": "mqtt_raw.cp.mach-order",
+    "kafka.topic": "source.cp.mach-order",
 
     "key.converter": "org.apache.kafka.connect.storage.StringConverter",
     "value.converter": "org.apache.kafka.connect.converters.ByteArrayConverter"
