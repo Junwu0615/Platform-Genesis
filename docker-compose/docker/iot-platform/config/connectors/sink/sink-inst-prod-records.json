@@ -2,9 +2,10 @@
   "name": "sink-inst-prod-records",
   "config": {
     "connector.class": "io.confluent.connect.jdbc.JdbcSinkConnector",
-    "connection.url": "jdbc:postgresql://ooud-cluster-dev-db-1:5432/pgdatabase",
+    "connection.url": "jdbc:postgresql://dev-db:5432/pgdatabase",
     "connection.user": "olap_user",
     "connection.password": "olap_pwd",
+
     "tasks.max": "3",
 
     "topics": "inst.prod-records",

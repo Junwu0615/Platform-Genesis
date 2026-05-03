@@ -1,5 +1,5 @@
 {
-  "name": "mqtt-cp-mach-order",
+  "name": "source-cp-mach-order",
   "config": {
     "connector.class": "io.confluent.connect.mqtt.MqttSourceConnector",
 
