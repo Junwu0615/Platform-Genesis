@@ -43,17 +43,16 @@ CONSUMER_GROUP_ID = os.getenv('CONSUMER_GROUP_ID', 'iot-data-mach-processor')
 TARGET_MACH = os.getenv('TARGET_MACH', 'M-CNC-30')
 MAIN_NAME = f'#{TARGET_MACH}'
 
-event_dict = {
-    # TODO 過程不異動
-    'machine_dict': [],  # 機台字典 key: mach_id, value: mach_type
-    'product_dict': {},  # 產品字典 key: prod_id, value: prod_type
 
-    # TODO 過程會異動
-    'order_dict': {},  # 訂單字典 key: order_id, value: prod_id
-    'machine_status': {},  # 記錄機台持單狀態 # None / Not None (order_id)
-    'detail': {},  # 訂單詳情字典 key: order_id, value: dict (product_id, target_qty, produced_qty, mach_id)
-    'order_queue': collections.deque(),  # 訂單隊列
-    'order_count': 0,                    # 總訂單數 ; 已完成訂單數: 總訂單數 - 尚生產數
+event_dict = {
+    # 訂單字典 key: order_id, value: prod_id
+    'order_dict': {},
+    # 訂單隊列
+    'order_queue': collections.deque(),
+    # 記錄機台持單狀態 # None / Not None (order_id)
+    'machine_status': {},
+    # 訂單詳情字典 key: order_id, value: dict (product_id, target_qty, produced_qty, mach_id)
+    'detail': {},
 }
 
 
@@ -69,30 +68,30 @@ def update_order_status(cursor, event_dict: dict) -> int:
                 detail = event_dict['detail'][_order_id]
                 if detail['produced_qty'] >= detail['target_qty']:
                     # TODO 1. 更新訂單結束時間
-                    cursor.execute("""
-                    UPDATE oltp.production_orders
-                    SET end_at = %s
-                    WHERE order_id = %s
-                    """, (
-                        get_now(hours=8, tzinfo=TZ_UTC_8),
-                        _order_id
-                    ))
+                    # cursor.execute("""
+                    # UPDATE oltp.production_orders
+                    # SET end_at = %s
+                    # WHERE order_id = %s
+                    # """, (
+                    #     get_now(hours=8, tzinfo=TZ_UTC_8),
+                    #     _order_id
+                    # ))
                     ret += 1
 
                     # 取得 mach_id 資訊
                     _machine_id = event_dict['detail'][_order_id]['mach_id']
 
                     # TODO 2. 更新機台狀態 : RUNNING -> IDLE
-                    cursor.execute("""
-                    INSERT INTO oltp.machine_status_logs
-                    (machine_id, status, event_time)
-                    VALUES (%s, %s, %s)
-                    """,
-                    (
-                        _machine_id,
-                        'IDLE',
-                        get_now(hours=8, tzinfo=TZ_UTC_8),
-                    ))
+                    # cursor.execute("""
+                    # INSERT INTO oltp.machine_status_logs
+                    # (machine_id, status, event_time)
+                    # VALUES (%s, %s, %s)
+                    # """,
+                    # (
+                    #     _machine_id,
+                    #     'IDLE',
+                    #     get_now(hours=8, tzinfo=TZ_UTC_8),
+                    # ))
                     ret += 1
 
                     # 從訂單字典移除
@@ -102,12 +101,12 @@ def update_order_status(cursor, event_dict: dict) -> int:
                     del event_dict['detail'][_order_id]
 
                     # 清空機台持單狀態 + 狀態轉 IDLE
-                    event_dict['machine_status'][_machine_id] = {
+                    event_dict['machine_status'] = {
                         'status': 'IDLE',
                         'order_id': None,
                     }
 
-                    logging.warning(f'[order_id={_order_id}] have been completed. '
+                    logging.notice(f'[order_id={_order_id}] have been completed. '
                     f'( produced_qty: {detail['produced_qty']} >= target_qty: {detail['target_qty']} )')
 
     finally:
@@ -122,49 +121,46 @@ def insert_production_record(cursor, event_dict: dict, _machine_id: int, efficie
     """
     ret, _status = 1, None
 
-    # TODO 1. 取得機台類型
-    _machine_type = event_dict['machine_dict'].get(_machine_id)
-
     # TODO 2. 從指定機型佇列中取出第一順位訂單 (而非隨機挑選) ; 或是持續生產
-    if event_dict['order_queue'][_machine_type] and event_dict['machine_status'][_machine_id]['status'] == 'IDLE':
+    if event_dict['order_queue'] and event_dict['machine_status']['status'] == 'IDLE':
         # 須確認是否已經訂單在身，若無取新訂單
-        _order_id = event_dict['order_queue'][_machine_type].popleft()
+        _data = event_dict['order_queue'].popleft()
+        _order_id = _data['order_id']
         _status = 'RUNNING'
-        event_dict['machine_status'][_machine_id]['status'] = _status
-        event_dict['machine_status'][_machine_id]['order_id'] = _order_id
+        event_dict['machine_status']['status'] = _status
+        event_dict['machine_status']['order_id'] = _order_id
 
         # TODO 2.1 更新訂單開始作業時間
-        cursor.execute("""
-        UPDATE oltp.production_orders
-        SET start_at = %s
-        WHERE order_id = %s
-        """, (
-            get_now(hours=8, tzinfo=TZ_UTC_8),
-            _order_id
-        ))
+        # cursor.execute("""
+        # UPDATE oltp.production_orders
+        # SET start_at = %s
+        # WHERE order_id = %s
+        # """, (
+        #     get_now(hours=8, tzinfo=TZ_UTC_8),
+        #     _order_id
+        # ))
         ret += 1
-        logging.info(f'[{_machine_type}: {_machine_id}] Production Begins Based on the Order [{_order_id}].')
+        logging.info(f'Production Begins Based on the Order [{_order_id}].')
 
         # TODO 2.2 更新機台狀態 : IDLE -> RUNNING
-        cursor.execute("""
-        INSERT INTO oltp.machine_status_logs
-        (machine_id, status, event_time)
-        VALUES (%s, %s, %s)
-        """,
-        (
-            _machine_id,
-            _status,
-            get_now(hours=8, tzinfo=TZ_UTC_8),
-        ))
+        # cursor.execute("""
+        # INSERT INTO oltp.machine_status_logs
+        # (machine_id, status, event_time)
+        # VALUES (%s, %s, %s)
+        # """,
+        # (
+        #     _machine_id,
+        #     _status,
+        #     get_now(hours=8, tzinfo=TZ_UTC_8),
+        # ))
         ret += 1
 
-    elif event_dict['machine_status'][_machine_id]['order_id'] is not None:
+    elif event_dict['machine_status']['order_id'] is not None:
         # 須確認是否已經訂單在身，若有先完成既有訂單
-        _order_id = event_dict['machine_status'][_machine_id]['order_id']
-        _status = event_dict['machine_status'][_machine_id]['status']
+        _order_id = event_dict['machine_status']['order_id']
+        _status = event_dict['machine_status']['status']
 
     else:
-        # logging.warning(f'[{_machine_type}] Not Have Order in Queue, Machine [{_machine_id}] IDLE ...')
         return
 
     if _status != 'RUNNING':
@@ -179,18 +175,18 @@ def insert_production_record(cursor, event_dict: dict, _machine_id: int, efficie
         _quantity = random.randint(simulate['prod_qty_min'], simulate['prod_qty_max'])
 
         # TODO 6. 插入交易日誌
-        cursor.execute("""
-        INSERT INTO oltp.production_records
-        (order_id, machine_id, product_id, quantity, event_time)
-        VALUES (%s, %s, %s, %s, %s)
-        """,
-        (
-            _order_id,
-            _machine_id,
-            _product_id,
-            _quantity,
-            get_now(hours=8, tzinfo=TZ_UTC_8),
-        ))
+        # cursor.execute("""
+        # INSERT INTO oltp.production_records
+        # (order_id, machine_id, product_id, quantity, event_time)
+        # VALUES (%s, %s, %s, %s, %s)
+        # """,
+        # (
+        #     _order_id,
+        #     _machine_id,
+        #     _product_id,
+        #     _quantity,
+        #     get_now(hours=8, tzinfo=TZ_UTC_8),
+        # ))
 
         # TODO 7. 更新事務字典中的訂單計數狀況 + mach_id 資訊
         event_dict['detail'][_order_id]['produced_qty'] += _quantity
@@ -211,7 +207,7 @@ def insert_machine_status(cursor, event_dict: dict, _machine_id: int) -> int:
     _random = None
 
     # 1. 取得當前狀態
-    _event_status = event_dict['machine_status'][_machine_id]['status']
+    _event_status = event_dict['machine_status']['status']
 
     # 直接返回且不更新狀態
     if _event_status is None:
@@ -225,19 +221,19 @@ def insert_machine_status(cursor, event_dict: dict, _machine_id: int) -> int:
         return 0
 
     # 3. 更新當前狀態
-    event_dict['machine_status'][_machine_id]['status'] = _random
+    event_dict['machine_status']['status'] = _random
 
     # 4. 提交狀態更新
-    cursor.execute("""
-    INSERT INTO oltp.machine_status_logs
-    (machine_id, status, event_time)
-    VALUES (%s, %s, %s)
-    """,
-    (
-        _machine_id,
-        _random,
-        get_now(hours=8, tzinfo=TZ_UTC_8),
-    ))
+    # cursor.execute("""
+    # INSERT INTO oltp.machine_status_logs
+    # (machine_id, status, event_time)
+    # VALUES (%s, %s, %s)
+    # """,
+    # (
+    #     _machine_id,
+    #     _random,
+    #     get_now(hours=8, tzinfo=TZ_UTC_8),
+    # ))
     return 1
 
 
@@ -275,7 +271,7 @@ def simulate_stream(cursor, event_dict: dict):
                 temp_dict[key] += 1
             _sum = sum(temp_dict.values())
             ret_1 = ' | '.join([f'{k}=[{v}/{_sum}]' for k, v in temp_dict.items()])
-            ret_2 = ' | '.join([f'{k}[{len(v)}]' for k,v in event_dict['order_queue'].items()])
+            ret_2 = ' | '.join(f'ORDER LEN [{len(event_dict['order_queue'])}]')
 
             logging.info(
                 f'\n[{MAIN_NAME}] 整體の概要 : '
@@ -360,6 +356,8 @@ def consumer_message(stop_event, **kwargs):
                 try:
                     # logging.info(f"[{MAIN_NAME}] 收到來自 {key}: {data}")
                     event_dict['order_queue'] += [data]
+                    event_dict['order_dict'][data['order_id']] = data['prod_id']
+
                     consumer.commit(asynchronous=False)  # TODO 處理成功，手動提交 Offset
 
                 except Exception as e:
@@ -371,7 +369,7 @@ def consumer_message(stop_event, **kwargs):
 
     finally:
         consumer.close()
-        logging.warning(f'[{MAIN_NAME}] 已安全關閉 kafka consumer 連線 ...')
+        logging.notice(f'[{MAIN_NAME}] 已安全關閉 kafka consumer 連線 ...')
         # producer.flush()
 
 
@@ -387,7 +385,7 @@ def main():
     """
     threads = []
     stop_event = threading.Event()
-    logging.warning(f'[{MAIN_NAME}] Starting Factory Stream Simulation ...')
+    logging.notice(f'[{MAIN_NAME}] Starting Factory Stream Simulation ...')
 
     try:
         start_service(threads, consumer_message, **{
@@ -404,7 +402,7 @@ def main():
             time.sleep(1)
 
     except KeyboardInterrupt:
-        logging.error('偵測到 Ctrl+C，正在關閉連線 ...', exc_info=False)
+        logging.warning('偵測到 Ctrl+C，正在關閉連線 ...')
 
     finally:
         stop_all_services(threads, stop_event)

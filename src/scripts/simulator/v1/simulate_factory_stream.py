@@ -100,7 +100,7 @@ def update_order_status(cursor, event_dict: dict) -> int:
                         'order_id': None,
                     }
 
-                    logging.warning(f'[order_id={_order_id}] have been completed. '
+                    logging.notice(f'[order_id={_order_id}] have been completed. '
                     f'( produced_qty: {detail['produced_qty']} >= target_qty: {detail['target_qty']} )')
 
     finally:
@@ -197,7 +197,7 @@ def insert_production_record(cursor, event_dict: dict, _machine_id: int, efficie
         _status = event_dict['machine_status'][_machine_id]['status']
 
     else:
-        # logging.warning(f'[{_machine_type}] Not Have Order in Queue, Machine [{_machine_id}] IDLE ...')
+        # logging.notice(f'[{_machine_type}] Not Have Order in Queue, Machine [{_machine_id}] IDLE ...')
         return
 
     if _status != 'RUNNING':
@@ -290,7 +290,7 @@ def init_transaction_dict(conn, cursor) -> dict:
         'machine_status': {},  # 記錄機台持單狀態 # None / Not None (order_id)
         'detail': {}, # 訂單詳情字典 key: order_id, value: dict (product_id, target_qty, produced_qty, mach_id)
         'order_queue': {}, # 訂單隊列 # 按照順序依序給予機器運轉
-        'order_count': 0,  # 總訂單數 ; 已完成訂單數: 總訂單數 - 尚生產數
+        # 'order_count': 0,  # 總訂單數 ; 已完成訂單數: 總訂單數 - 尚生產數
     }
 
     try:
@@ -424,7 +424,7 @@ def simulate_stream(conn, cursor, event_dict: dict):
 
 def main():
     conn, cursor = None, None
-    logging.warning('Starting Factory Stream Simulation...')
+    logging.notice('Starting Factory Stream Simulation...')
     try:
         conn = get_conn(db)
         cursor = conn.cursor()
@@ -435,9 +435,9 @@ def main():
             simulate_stream(conn, cursor, event_dict)
 
     except KeyboardInterrupt:
-        logging.error('偵測到 Ctrl+C，正在關閉連線 ...', exc_info=False)
+        logging.warning('偵測到 Ctrl+C，正在關閉連線 ...')
         conn.commit()
-        logging.error('已落實最後一次事務提交 ...', exc_info=False)
+        logging.warning('已落實最後一次事務提交 ...')
 
     finally:
         close_conn(conn, cursor)

@@ -57,7 +57,7 @@ def main():
             logging.info(f'TRUNCATE TABLE DATA FROM {table} ...')
 
         conn.commit()
-        logging.warning('All data deleted successfully.')
+        logging.notice('All data deleted successfully.')
 
     except Exception as e:
         logging.error('Exception: ', exc_info=True)

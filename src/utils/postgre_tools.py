@@ -38,10 +38,10 @@ def close_conn(conn, cursor):
     """安全關閉 Postgresql 連線"""
     if cursor:
         cursor.close()
-        logging.warning("'cursor.close()' called ...")
+        logging.notice("'cursor.close()' called ...")
     if conn:
         conn.close()
-        logging.warning("'conn.close()' called ...")
+        logging.notice("'conn.close()' called ...")
 
 
 def table_exists(cursor, schema_name, table_name):

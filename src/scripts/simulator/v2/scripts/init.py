@@ -99,7 +99,7 @@ def main():
         - OLTP : 初始化「機台」,「訂單」數據
     """
     conn, cursor = None, None
-    logging.warning('Starting Init Factory Data ...')
+    logging.notice('Starting Init Factory Data ...')
     try:
         conn = get_conn(db)
         cursor = conn.cursor()

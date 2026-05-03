@@ -1,25 +1,48 @@
 # -*- coding: utf-8 -*-
 import logging
-from src.config.constant import *
 from colorlog import ColoredFormatter
 from logging.handlers import RotatingFileHandler
 
+from src.config.constant import *
+from src.utils.tools import awesome_func
 
 MODULE_NAME = __name__.upper()
+
 TITLE_SYMBOL_NUMBER = 20
 COLORS_CONFIG = {
     'INFO': 'white',
-    'WARNING': 'yellow',
     'NOTICE': 'yellow',
+    'WARNING': 'red',
     'ERROR': 'red',
     'DEBUG': 'green',
     'CRITICAL': 'bold_red',
 }
 
 FILE_FMT = '[%(asctime)s] %(levelname)s: %(message)s'
+
 # CONSOLE_FMT = '%(log_color)s[%(asctime)s] %(levelname)s: %(message)s'
 # CONSOLE_FMT ='%(log_color)s[%(asctime)s] [%(name)s | %(funcName)s:%(lineno)d] %(levelname)s: %(message)s'
 CONSOLE_FMT ='%(log_color)s[%(asctime)s] [%(name)s:%(lineno)d] %(levelname)s: %(message)s'
+
+
+NOTICE_LEVEL_NUM = 25
+
+
+def _init_logging_level_name():
+    """TODO 全域註冊 NOTICE 等級，只需執行一次"""
+    if hasattr(logging.Logger, 'notice'):
+        return # 避免重複註冊
+
+    logging.addLevelName(NOTICE_LEVEL_NUM, 'NOTICE')
+
+    def notice(self, message, *args, **kwargs):
+        if self.isEnabledFor(NOTICE_LEVEL_NUM):
+            self._log(NOTICE_LEVEL_NUM, message, args, **kwargs)
+
+    logging.Logger.notice = notice
+
+
+_init_logging_level_name()
 
 
 class Logger:
@@ -40,8 +63,10 @@ class Logger:
 
 
     def _console_logging_settings(self, console_name: str) -> logging.Logger:
+
         # logger = logging.getLogger(f'{MODULE_NAME} | {console_name.upper()}')
         logger = logging.getLogger(f'{console_name.upper()}')
+
         logger.setLevel(logging.DEBUG)
 
         if logger.hasHandlers():
@@ -65,12 +90,16 @@ class Logger:
         return logger
 
 
-    def _file_logging_settings(self, file_name: str, file_path: str,
-                               max_bytes: int, backup_count: int) -> logging.Logger:
+    def _file_logging_settings(self, file_name: str,
+                               file_path: str,
+                               max_bytes: int,
+                               backup_count: int) -> logging.Logger:
+
         os.makedirs(str(getattr(pathlib.Path(file_path), 'parent')), exist_ok=True)
 
         # logger = logging.getLogger(f'{MODULE_NAME} | {file_name.upper()}')
         logger = logging.getLogger(f'{file_name.upper()}')
+
         logger.setLevel(logging.DEBUG)
 
         if logger.hasHandlers():
@@ -98,33 +127,60 @@ class Logger:
 
 
     def info(self, msg: str='', console_b: bool=True, file_b: bool=True, **kwargs):
+        _level_name = 'info'.lower()
         if console_b and self.console_log is not None:
-            getattr(self.console_log, 'info')(msg, stacklevel=2)
+            getattr(self.console_log, _level_name)(msg, stacklevel=2)
 
         if file_b and self.file_log is not None:
-            getattr(self.file_log, 'info')(msg, stacklevel=2)
+            getattr(self.file_log, _level_name)(msg, stacklevel=2)
 
 
     def warning(self, msg: str='', console_b: bool=True, file_b: bool=True, **kwargs):
+        _level_name = 'warning'.lower()
         if console_b and self.console_log is not None:
-            getattr(self.console_log, 'warning')(msg, stacklevel=2)
+            getattr(self.console_log, _level_name)(msg, stacklevel=2)
 
         if file_b and self.file_log is not None:
-            getattr(self.file_log, 'warning')(msg, stacklevel=2)
+            getattr(self.file_log, _level_name)(msg, stacklevel=2)
 
 
     def error(self, msg: str='', exc_info: bool=True, console_b: bool=True, file_b: bool=True, **kwargs):
+        _level_name = 'error'.lower()
         if console_b and self.console_log is not None:
             if exc_info:
-                getattr(self.console_log, 'error')(msg, exc_info=exc_info, stacklevel=2)
+                getattr(self.console_log, _level_name)(msg, exc_info=exc_info, stacklevel=2)
             else:
-                getattr(self.console_log, 'error')(msg, stacklevel=2)
+                getattr(self.console_log, _level_name)(msg, stacklevel=2)
 
         if file_b and self.file_log is not None:
             if exc_info:
-                getattr(self.file_log, 'error')(msg, exc_info=exc_info, stacklevel=2)
+                getattr(self.file_log, _level_name)(msg, exc_info=exc_info, stacklevel=2)
             else:
-                getattr(self.file_log, 'error')(msg, stacklevel=2)
+                getattr(self.file_log, _level_name)(msg, stacklevel=2)
+
+
+    def log_custom(self, level_name: str, msg: str, exc_info: bool = False, **kwargs):
+        """
+        通用的日誌發送器，支援自定義標籤
+        level_name: 'notice' ... etc.
+        """
+        if kwargs.get('console_b', True) and self.console_log:
+            method = getattr(self.console_log, level_name, None)
+            if method:
+                method(msg, exc_info=exc_info, stacklevel=2)
+
+        if kwargs.get('file_b', True) and self.file_log:
+            method = getattr(self.file_log, level_name, None)
+            if method:
+                method(msg, exc_info=exc_info, stacklevel=2)
+
+
+    def notice(self, msg: str='', console_b: bool=True, file_b: bool=True, **kwargs):
+        _level_name = 'notice'.lower()
+        self.log_custom(_level_name, msg, **{
+            'console_b': console_b,
+            'file_b': file_b,
+        })
 
 
     def title_log(self, title_name: str) -> str:

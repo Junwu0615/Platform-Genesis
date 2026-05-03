@@ -33,9 +33,9 @@ def check_parameters(**kwargs) -> dict:
     dag_run = kwargs.get('dag_run').conf if kwargs.get('dag_run') is not None else {}
     parameters = {**kwargs.get('params', {}), **dag_run}
 
-    logging.warning(f'DAG_ID: {kwargs.get('DAG_ID', None)}')
-    logging.warning(f'SCHEDULE: {kwargs.get('SCHEDULE', None)}')
-    logging.warning(f'PARAMETERS: {parameters}')
+    logging.notice(f'DAG_ID: {kwargs.get('DAG_ID', None)}')
+    logging.notice(f'SCHEDULE: {kwargs.get('SCHEDULE', None)}')
+    logging.notice(f'PARAMETERS: {parameters}')
 
     return parameters
 
@@ -81,7 +81,7 @@ def get_value(key: str=None, read_bool: bool=False, **kwargs):
 
     if read_bool:
         path = Path(f'/opt/airflow/dags/sql/{parameters.get('path')}/{ret}.sql')
-        logging.warning(f'READ Path: {path}')
+        logging.notice(f'READ Path: {path}')
         return path.read_text()
 
     return ret

@@ -100,7 +100,7 @@ def generate_products(conn, cursor):
 
 def main():
     conn, cursor = None, None
-    logging.warning('Starting Init Factory Data ...')
+    logging.notice('Starting Init Factory Data ...')
     try:
         conn = get_conn(db)
         cursor = conn.cursor()

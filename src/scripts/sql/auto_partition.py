@@ -42,7 +42,7 @@ def main():
         ]:
             sql = _get_sql_script(table_name)
             cursor.execute(sql)
-            logging.warning(f"Created partition table for '{table_name}' successfully.")
+            logging.notice(f"Created partition table for '{table_name}' successfully.")
 
         conn.commit()
 

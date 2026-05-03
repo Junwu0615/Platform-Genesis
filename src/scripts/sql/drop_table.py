@@ -60,7 +60,7 @@ def main():
             -- RESET ROLE;
             """
             cursor.execute(sql)
-            logging.warning(f'#1 TRUNCATE TABLE {table} ...')
+            logging.notice(f'#1 TRUNCATE TABLE {table} ...')
 
             sql = f"""
             -- SET ROLE {schema_owner};
@@ -70,10 +70,10 @@ def main():
             -- RESET ROLE;
             """
             cursor.execute(sql)
-            logging.warning(f'#2 DROP TABLE {table} ...')
+            logging.notice(f'#2 DROP TABLE {table} ...')
 
         conn.commit()
-        logging.warning('All drop table successfully.')
+        logging.notice('All drop table successfully.')
 
     except Exception as e:
         logging.error('Exception: ', exc_info=True)

@@ -17,12 +17,12 @@ def start_service(threads: list, service_function: callable, **kwargs):
     )
     service_thread.start()
     threads.append(service_thread)
-    logging.warning(f'{kwargs.get('title', '服務')}已啟動...')
+    logging.notice(f'{kwargs.get('title', '服務')}已啟動...')
 
 
 def stop_all_services(threads: list, stop_event):
     """安全地關閉多執行緒"""
-    logging.error('正在向所有執行緒發出停止訊號...', exc_info=False)
+    logging.warning('正在向所有執行緒發出停止訊號...')
     stop_event.set() # 發出停止訊號
 
     # 等待所有執行緒結束
@@ -31,5 +31,5 @@ def stop_all_services(threads: list, stop_event):
             logging.info(f'等待 {thread.name} 執行緒結束...')
             thread.join()
 
-    logging.warning('\n\n' + logging.title_log('所有執行緒服務已確實關閉'))
+    logging.notice('\n\n' + logging.title_log('所有執行緒服務已確實關閉'))
     time.sleep(0.1)
