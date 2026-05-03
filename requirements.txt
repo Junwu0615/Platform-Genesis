@@ -5,3 +5,4 @@ paho-mqtt==2.1.0
 # mmh3==5.2.1
 confluent-kafka==2.14.0
 kafka-python-ng==2.2.3
+python-dotenv==1.2.2

@@ -24,13 +24,13 @@ from confluent_kafka import (
 )
 
 
+load_dotenv(dotenv_path=f'{'/'.join(__file__.split('/')[:-1])}/.env')
 console_name = get_logger_name(__file__, GET_PATH_ROOT)
 logging = Logger(console_name=console_name)
 
-
 mss = MachineStatusSimulator()
 
-YAML_VERSION = 'v2'
+YAML_VERSION = os.getenv('YAML_VERSION', 'v2')
 YAML_PATH = os.path.join('./src/scripts/simulator', f'{YAML_VERSION}', 'factory_config.yaml')
 config = get_yaml_config(YAML_PATH)
 
@@ -38,10 +38,10 @@ simulate = config['simulate']
 load_cfg = config['load_profile']
 kafka = config['kafka']
 
+CONSUMER_ORDER_TOPIC = os.getenv('CONSUMER_ORDER_TOPIC', 'mqtt_raw.cp.mach-order')
+CONSUMER_GROUP_ID = os.getenv('CONSUMER_GROUP_ID', 'iot-data-mach-processor')
 TARGET_MACH = os.getenv('TARGET_MACH', 'M-CNC-30')
 MAIN_NAME = f'#{TARGET_MACH}'
-ORDER_TOPIC = 'mqtt_raw.cp.mach-order'
-GROUP_ID = 'iot-data-mach-processor'
 
 
 def update_order_status(cursor, event_dict: dict) -> int:
@@ -284,14 +284,15 @@ def consumer_message(stop_event, **kwargs):
     # TODO 消費者配置
     _config = {
         'bootstrap.servers': f'{kafka['host']}:{kafka['port']}',
-        'group.id': GROUP_ID,
+        'group.id': CONSUMER_GROUP_ID,
         'auto.offset.reset': kafka['auto_offset_reset'],
         'enable.auto.commit': kafka['enable_auto_commit']
     }
     consumer = Consumer(_config)
 
-    target_partition = get_partition_id(consumer, ORDER_TOPIC, f"cp/mach-order/{TARGET_MACH}")
-    tp = TopicPartition(ORDER_TOPIC, target_partition)
+    _topic_key = '/'.join(CONSUMER_ORDER_TOPIC.split('.')[1:])
+    target_partition = get_partition_id(consumer, CONSUMER_ORDER_TOPIC, f'{_topic_key}/{TARGET_MACH}')
+    tp = TopicPartition(CONSUMER_ORDER_TOPIC, target_partition)
     consumer.assign([tp])
 
 
@@ -300,6 +301,7 @@ def consumer_message(stop_event, **kwargs):
     #     'compression.type': 'lz4'
     # }
     # producer = Producer(_config)
+
 
     try:
         while not stop_event.is_set():
