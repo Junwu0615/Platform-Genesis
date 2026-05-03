@@ -58,7 +58,7 @@ event_dict = {
         'status': 'IDLE',
         'order_id': None, # None / not None
     },
-    # 訂單詳情字典 key: order_id, value: dict (product_id, target_qty, produced_qty, mach_id)
+    # 訂單詳情字典 key: order_id, value: dict (product_id, target_qty, produced_qty)
     'detail': {},
 }
 
@@ -76,40 +76,21 @@ def update_order_status(producer, event_dict: dict) -> int:
                 if detail['produced_qty'] >= detail['target_qty']:
                     _now_time = get_now(hours=8, tzinfo=TZ_UTC_8)
 
-                    # TODO 1. 更新訂單結束時間
-                    # cursor.execute("""
-                    # UPDATE oltp.production_orders
-                    # SET end_at = %s
-                    # WHERE order_id = %s
-                    # """, (
-                    #     _now_time,
-                    #     _order_id
-                    # ))
+                    # 1. 更新訂單結束時間
                     payload = {
-                        'time': _now_time.isoformat(),
-                        'key': 'end_at',
+                        'end_at': _now_time.isoformat(),
                         'order_id': _order_id,
                     }
                     add_message(producer, topic='inst.prod-orders', key=TARGET_MACH, payload=payload)
 
                     ret += 1
 
-                    # TODO 2. 更新機台狀態 : RUNNING -> IDLE
+                    # 2. 更新機台狀態 : RUNNING -> IDLE
                     _status = 'IDLE'
-                    # cursor.execute("""
-                    # INSERT INTO oltp.machine_status_logs
-                    # (machine_id, status, event_time)
-                    # VALUES (%s, %s, %s)
-                    # """,
-                    # (
-                    #     event_dict['mach_id'],
-                    #     _status,
-                    #     _now_time,
-                    # ))
                     payload = {
-                        'time': _now_time.isoformat(),
-                        'mach_id': event_dict['mach_id'],
+                        'machine_id': event_dict['mach_id'],
                         'status': _status,
+                        'event_time': _now_time.isoformat(),
                     }
                     add_message(producer, topic='inst.status-logs', key=TARGET_MACH, payload=payload)
 
@@ -145,7 +126,7 @@ def insert_production_record(producer, event_dict: dict, efficiency: int) -> int
     """
     ret, _status = 1, None
 
-    # TODO 2. 從指定機型佇列中取出第一順位訂單 (而非隨機挑選) ; 或是持續生產
+    # 1. 從指定機型佇列中取出第一順位訂單 (而非隨機挑選) ; 或是持續生產
     if event_dict['order_queue'] and event_dict['machine_status']['status'] == 'IDLE':
         # 須確認是否已經訂單在身，若無取新訂單
         _data = event_dict['order_queue'].popleft()
@@ -156,18 +137,9 @@ def insert_production_record(producer, event_dict: dict, efficiency: int) -> int
 
         _now_time = get_now(hours=8, tzinfo=TZ_UTC_8)
 
-        # TODO 2.1 更新訂單開始作業時間
-        # cursor.execute("""
-        # UPDATE oltp.production_orders
-        # SET start_at = %s
-        # WHERE order_id = %s
-        # """, (
-        #     _now_time,
-        #     _order_id
-        # ))
+        # 1.1 更新訂單開始作業時間
         payload = {
-            'time': _now_time.isoformat(),
-            'key': 'start_at',
+            'start_at': _now_time.isoformat(),
             'order_id': _order_id,
         }
         add_message(producer, topic='inst.prod-orders', key=TARGET_MACH, payload=payload)
@@ -176,21 +148,11 @@ def insert_production_record(producer, event_dict: dict, efficiency: int) -> int
         logging.info(f'Production Begins Based on the Order [{_order_id}].')
 
 
-        # TODO 2.2 更新機台狀態 : IDLE -> RUNNING
-        # cursor.execute("""
-        # INSERT INTO oltp.machine_status_logs
-        # (machine_id, status, event_time)
-        # VALUES (%s, %s, %s)
-        # """,
-        # (
-        #     event_dict['mach_id'],
-        #     _status,
-        #     _now_time,
-        # ))
+        # 1.2 更新機台狀態 : IDLE -> RUNNING
         payload = {
-            'time': _now_time.isoformat(),
-            'mach_id': event_dict['mach_id'],
+            'machine_id': event_dict['mach_id'],
             'status': _status,
+            'event_time': _now_time.isoformat(),
         }
         add_message(producer, topic='inst.status-logs', key=TARGET_MACH, payload=payload)
 
@@ -207,42 +169,29 @@ def insert_production_record(producer, event_dict: dict, efficiency: int) -> int
     if _status != 'RUNNING':
         return 0
 
-    # TODO 3. 用訂單 ID 取得產品 ID
+    # 2. 用訂單 ID 取得產品 ID
     _product_id = event_dict['order_dict'].get(_order_id).get('prod_id')
 
-    # TODO 4. 根據效率增加生產數量
+    # 3. 根據效率增加生產數量
     for _ in range(efficiency):
 
-        # TODO 5. 隨機生產數
+        # 4. 隨機生產數
         _quantity = random.randint(simulate['prod_qty_min'], simulate['prod_qty_max'])
 
         _now_time = get_now(hours=8, tzinfo=TZ_UTC_8)
 
-        # TODO 6. 更新事務字典中的訂單計數狀況
+        # 5. 更新事務字典中的訂單計數狀況
         event_dict['detail'][_order_id]['produced_qty'] += _quantity
 
-        # TODO 7. 插入交易日誌
-        # cursor.execute("""
-        # INSERT INTO oltp.production_records
-        # (order_id, machine_id, product_id, quantity, event_time)
-        # VALUES (%s, %s, %s, %s, %s)
-        # """,
-        # (
-        #     _order_id,
-        #     event_dict['mach_id'],
-        #     _product_id,
-        #     event_dict['detail'][_order_id]['produced_qty'],
-        #     _now_time,
-        # ))
+        # 6. 插入交易日誌
         payload = {
-            'time': _now_time.isoformat(),
             'order_id': _order_id,
-            'mach_id': event_dict['mach_id'],
-            'prod_id': _product_id,
-            'produced_qty': event_dict['detail'][_order_id]['produced_qty'],
+            'machine_id': event_dict['mach_id'],
+            'product_id': _product_id,
+            'quantity': event_dict['detail'][_order_id]['produced_qty'],
+            'event_time': _now_time.isoformat(),
         }
         add_message(producer, topic='inst.prod-records', key=TARGET_MACH, payload=payload)
-
         ret += 1
 
     return ret
@@ -252,9 +201,9 @@ def insert_machine_status(producer, event_dict: dict) -> int:
     """
     TODO 插入機台狀態 : 在此實施隨機邏輯，可基於權重機率調整
         - MAINTENANCE # 1 # process: [1 -> 2]
-        - IDLE # 2 # process: [2 -> 1], [2 -> 3]
-        - RUNNING # 3 # process: [3 -> 2], [3 -> 4]
-        - ALARM # 4 # process: [4 -> 3]
+        - IDLE        # 2 # process: [2 -> 1], [2 -> 3]
+        - RUNNING     # 3 # process: [3 -> 2], [3 -> 4]
+        - ALARM       # 4 # process: [4 -> 3]
     """
     _status = None
 
@@ -278,28 +227,19 @@ def insert_machine_status(producer, event_dict: dict) -> int:
     _now_time = get_now(hours=8, tzinfo=TZ_UTC_8)
 
     # 4. 提交狀態更新
-    # cursor.execute("""
-    # INSERT INTO oltp.machine_status_logs
-    # (machine_id, status, event_time)
-    # VALUES (%s, %s, %s)
-    # """,
-    # (
-    #     event_dict['mach_id'],
-    #     _status,
-    #     _now_time,
-    # ))
     payload = {
-        'time': _now_time.isoformat(),
-        'mach_id': event_dict['mach_id'],
+        'machine_id': event_dict['mach_id'],
         'status': _status,
+        'event_time': _now_time.isoformat(),
     }
     add_message(producer, topic='inst.status-logs', key=TARGET_MACH, payload=payload)
-
     return 1
 
 
 def producer_message(stop_event, **kwargs):
-    # TODO 生產者配置
+    """
+    TODO 生產者配置
+    """
     _config = {
         'bootstrap.servers': f'{kafka['host']}:{kafka['port']}',
         'queue.buffering.max.messages': 100000,
@@ -346,13 +286,13 @@ def producer_message(stop_event, **kwargs):
                         _detail = event_dict['detail'][_order_id]
                         ret += f'{_detail['produced_qty']}/{_detail['target_qty']}'
                     logging.info(
-                        f'\n[{MAIN_NAME}] 整體の概要 : '
-                        f'MODE={mode} | '
-                        f'DONE_QTY={done_qty} | '
+                        f'[{MAIN_NAME}] 整體の概要 : '
+                        f'模式={mode} | '
+                        f'完成訂單數={done_qty}\n'
                         f'[PROGRESS #{_order_id}]=[{ret}] | '
                         f'BATCH=[{batch_ct}/{BATCH_SIZE}]\n'
-                        f'當前機台の狀態 : {event_dict['machine_status']['status']}\n'
-                        f'等機台任領の訂單 : {len(event_dict['order_queue'])}'
+                        f'機台の狀態 : {event_dict['machine_status']['status']} | '
+                        f'排隊の訂單 : {len(event_dict['order_queue'])}\n'
                     )
 
                 time.sleep(1)
@@ -366,7 +306,9 @@ def producer_message(stop_event, **kwargs):
 
 
 def consumer_message(stop_event, **kwargs):
-    # TODO 消費者配置
+    """
+    TODO 消費者配置
+    """
     _config = {
         'bootstrap.servers': f'{kafka['host']}:{kafka['port']}',
         'group.id': CONSUMER_GROUP_ID,

@@ -1,0 +1,22 @@
+{
+  "name": "sink-inst-prod-records",
+  "config": {
+    "connector.class": "io.confluent.connect.jdbc.JdbcSinkConnector",
+    "connection.url": "jdbc:postgresql://ooud-cluster-dev-db-1:5432/pgdatabase",
+    "connection.user": "olap_user",
+    "connection.password": "olap_pwd",
+    "tasks.max": "3",
+
+    "topics": "inst.prod-records",
+    "insert.mode": "upsert",
+
+    "table.name.format": "oltp.production_records",
+
+    "transforms": "",
+    "value.converter": "org.apache.kafka.connect.json.JsonConverter",
+    "value.converter.schemas.enable": "false",
+
+    "auto.create": "false",
+    "auto.evolve": "false"
+  }
+}
