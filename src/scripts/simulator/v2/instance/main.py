@@ -212,12 +212,16 @@ def insert_production_record(producer, event_dict: dict, efficiency: int) -> int
 
     # TODO 4. 根據效率增加生產數量
     for _ in range(efficiency):
+
         # TODO 5. 隨機生產數
         _quantity = random.randint(simulate['prod_qty_min'], simulate['prod_qty_max'])
 
         _now_time = get_now(hours=8, tzinfo=TZ_UTC_8)
 
-        # TODO 6. 插入交易日誌
+        # TODO 6. 更新事務字典中的訂單計數狀況
+        event_dict['detail'][_order_id]['produced_qty'] += _quantity
+
+        # TODO 7. 插入交易日誌
         # cursor.execute("""
         # INSERT INTO oltp.production_records
         # (order_id, machine_id, product_id, quantity, event_time)
@@ -227,7 +231,7 @@ def insert_production_record(producer, event_dict: dict, efficiency: int) -> int
         #     _order_id,
         #     event_dict['mach_id'],
         #     _product_id,
-        #     _quantity,
+        #     event_dict['detail'][_order_id]['produced_qty'],
         #     _now_time,
         # ))
         payload = {
@@ -235,12 +239,10 @@ def insert_production_record(producer, event_dict: dict, efficiency: int) -> int
             'order_id': _order_id,
             'mach_id': event_dict['mach_id'],
             'prod_id': _product_id,
-            'produced_qty': _quantity,
+            'produced_qty': event_dict['detail'][_order_id]['produced_qty'],
         }
         add_message(producer, topic='inst.prod-records', key=TARGET_MACH, payload=payload)
 
-        # TODO 7. 更新事務字典中的訂單計數狀況 + mach_id 資訊
-        event_dict['detail'][_order_id]['produced_qty'] += _quantity
         ret += 1
 
     return ret
@@ -338,13 +340,16 @@ def producer_message(stop_event, **kwargs):
                         last_commit_time = time.time()
 
                     # TODO 輸出當前模擬狀態
+                    ret = ''
                     _order_id = event_dict['machine_status']['order_id']
-                    _detail = event_dict['detail'][_order_id]
+                    if _order_id is not None:
+                        _detail = event_dict['detail'][_order_id]
+                        ret += f'{_detail['produced_qty']}/{_detail['target_qty']}'
                     logging.info(
                         f'\n[{MAIN_NAME}] 整體の概要 : '
                         f'MODE={mode} | '
                         f'DONE_QTY={done_qty} | '
-                        f'[PROGRESS #{_order_id}]=[{_detail['produced_qty']}/{_detail['target_qty']}] | '
+                        f'[PROGRESS #{_order_id}]=[{ret}] | '
                         f'BATCH=[{batch_ct}/{BATCH_SIZE}]\n'
                         f'當前機台の狀態 : {event_dict['machine_status']['status']}\n'
                         f'等機台任領の訂單 : {len(event_dict['order_queue'])}'
