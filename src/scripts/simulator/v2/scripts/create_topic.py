@@ -59,4 +59,7 @@ def sync_kafka_infrastructure(config_file):
 
 
 if __name__ == '__main__':
-    sync_kafka_infrastructure(os.path.join('./src/scripts/simulator', f'{YAML_VERSION}', 'scripts', 'topics_config.json'))
+    try:
+        sync_kafka_infrastructure(os.path.join('./src/scripts/simulator', f'{YAML_VERSION}', 'scripts', 'topics_config.json'))
+    finally:
+        sys.exit(0)

@@ -27,7 +27,7 @@ init_data:
 simulate:
   batch_size: 500 # commit = WAL flush，若太頻繁 IO latency ↑
 
-  orders: 50 # 第一批生產訂單數量
+  orders: 10 # 第一批生產訂單數量
 
   target_qty_min: 500 # 目標生産数の最小値
   target_qty_max: 3000 # 目標生産数の最大値

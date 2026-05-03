@@ -32,3 +32,4 @@ def stop_all_services(threads: list, stop_event):
             thread.join()
 
     logging.warning('\n\n' + logging.title_log('所有執行緒服務已確實關閉'))
+    time.sleep(0.1)

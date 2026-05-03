@@ -3,10 +3,17 @@
 Update Date: 2026-03-24
 Description: creates partition tables for machine_status_logs based on the month of log_time
 """
+import sys, os; sys.path.insert(0, os.getcwd())
+
 import psycopg2
 from src.modules.log import Logger
+from src.utils.env_config import GET_PATH_ROOT, get_logger_name
+from src.utils.postgre_tools import get_conn, close_conn, table_exists
 
-logging = Logger(console_name='.main')
+
+console_name = get_logger_name(__file__, GET_PATH_ROOT)
+logging = Logger(console_name=console_name)
+
 
 def _get_sql_script(table_name: str) -> str:
     # file_path = f'../sql/scripts/{table_name}/auto_partition.sql'
@@ -44,10 +51,9 @@ def main():
         conn.rollback()
 
     finally:
-        if conn:
-            conn.close()
-        if cursor:
-            cursor.close()
+        close_conn(conn, cursor)
+        return 0
 
 if __name__ == '__main__':
-    main()
+    exit_code = main()
+    sys.exit(exit_code)

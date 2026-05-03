@@ -15,10 +15,10 @@ TODO
 """
 import sys, os; sys.path.insert(0, os.getcwd())
 
-from src.modules.log import Logger
 from src.utils.tools import *
 from src.utils.env_config import GET_PATH_ROOT, get_logger_name
 from src.utils.postgre_tools import get_conn, close_conn, table_exists
+from src.modules.log import Logger
 from src.modules.simulator import MachineStatusSimulator
 
 
@@ -441,7 +441,8 @@ def main():
 
     finally:
         close_conn(conn, cursor)
-
+        return 0
 
 if __name__ == '__main__':
-    main()
+    exit_code = main()
+    sys.exit(exit_code)

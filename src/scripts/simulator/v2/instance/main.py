@@ -8,7 +8,6 @@ TODO
 import sys, os; sys.path.insert(0, os.getcwd())
 
 from src.config import *
-
 from src.utils.tools import *
 from src.utils.kafka_tools import *
 from src.utils.threading_tools import *
@@ -40,7 +39,7 @@ load_cfg = config['load_profile']
 kafka = config['kafka']
 
 TARGET_MACH = os.getenv('TARGET_MACH', 'M-CNC-30')
-MAIN_NAME = f'# instance: {TARGET_MACH}'
+MAIN_NAME = f'#{TARGET_MACH}'
 ORDER_TOPIC = 'mqtt_raw.cp.mach-order'
 GROUP_ID = 'iot-data-mach-processor'
 
@@ -317,7 +316,7 @@ def consumer_message(stop_event, **kwargs):
                         continue
                     else:
                         # 其他錯誤: Broker 斷線、認證失敗 ...etc.
-                        logging.error(f"[{MAIN_NAME}] consumer error: {msg.error()}", exc_info=False)
+                        logging.error(f"[{MAIN_NAME}] kafka consumer error: {msg.error()}", exc_info=False)
                         raise
 
                 key = msg.key().decode('utf-8') if msg.key() else 'N/A'
@@ -357,7 +356,7 @@ def consumer_message(stop_event, **kwargs):
 
     finally:
         consumer.close()
-        logging.warning(f'[{MAIN_NAME}] 已安全關閉 consumer 連線 ...')
+        logging.warning(f'[{MAIN_NAME}] 已安全關閉 kafka consumer 連線 ...')
         # producer.flush()
 
 
@@ -394,7 +393,9 @@ def main():
 
     finally:
         stop_all_services(threads, stop_event)
+        return 0
 
 
 if __name__ == '__main__':
-    main()
+    exit_code = main()
+    sys.exit(exit_code)
