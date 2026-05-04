@@ -263,7 +263,14 @@
     cat /proc/sys/vm/max_map_count
   ```
 
-- #### *b.　背景啟動*
+- #### *b.　生成 token 給 kibana 使用*
+  ```
+  docker exec -it ooud-cluster-elasticsearch-1 bin/elasticsearch-service-tokens create elastic/kibana kibana-token
+  
+  # 塞到 .env
+  ```
+
+- #### *c.　背景啟動*
   ```
   docker-compose up -d
   ```

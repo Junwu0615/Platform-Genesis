@@ -66,7 +66,7 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 | Kafka Connect | `source` : producer  | 2026-04-30 |
 | Kafka Logic | for `instance` | 2026-05-03 |
 | Kafka Connect | `sink` : consumers | 2026-05-04 |
-| Add `ELK` | - | - |
+| Add `ELK` | - | 2026-05-05 |
 | API Service Logic | - | - |
 | `v2` make Dockerfile | - | - |
 | Create MV | Materialized View | - |
@@ -150,7 +150,7 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 | Kafka Connect | `source` : producer  | 2026-04-30 |
 | Kafka Logic | for `instance` | 2026-05-03 |
 | Kafka Connect | `sink` : consumers | 2026-05-04 |
-| Add `ELK` | - | - |
+| Add `ELK` | - | 2026-05-05 |
 | API Service Logic | - | - |
 | `v2` make Dockerfile | - | - |
 | Grafana Dashboard | update `htap_grafana.json` | - |
