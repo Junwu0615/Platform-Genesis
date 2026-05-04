@@ -37,7 +37,7 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 ### *A.　Current Progress*
 
 <details open>
-<summary><b><i>　Simple </i></b></summary>
+<summary><b><i>　a.1.　Simple </i></b></summary>
 <ul>
 
 |**Item**|**Description**|**Time**|
@@ -54,9 +54,9 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 | Create OLAP DDL ( 5 ) | Star Schema | 2026-04-06 |
 | Add `Portainer` | By Docker | 2026-04-11 |
 | Add Makefile | for `docker-compose` | 2026-04-11 |
-| Terraform | Declaration Configuration : `Docker Provider` | 2026-04-19 |
-| Terraform | Configuration Transfer : `docker-compose` | 2026-04-19 |
-| Ansible | node `initialization` & `configuration` | 2026-04-19 |
+| Terraform | Declaration Config : `Docker Provider` | 2026-04-19 |
+| Terraform | Config Transfer : `docker-compose` | 2026-04-19 |
+| Ansible | node `init` & `config` | 2026-04-19 |
 | Add Makefile | for `terraform + ansible` | 2026-04-19 |
 | Terraform Modularization | - | 2026-04-20 |
 | Ansible Modularization | - | 2026-04-20 |
@@ -68,18 +68,18 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 | Kafka Connect | `sink` : consumers | 2026-05-04 |
 | API Service Logic | - | - |
 | `v2` make Dockerfile | - | - |
-| Create Materialized View ( MV ) | - | - |
+| Create MV | Materialized View | - |
 | Analytical Queries | - | - |
-| Kubernetes | Beginner : `Minikube` | - |
-| Kubernetes | Advanced : `K3s` + `VMware` | - |
-| Kubernetes | Bottom Layer : `Kubeadm` + `VMware` | - |
-| Kubernetes | Public Cloud : Google Kubernetes Engine ( `GKE` ) | - |
+| K8s | Beginner : `Minikube` | - |
+| K8s | Advanced : `K3s` + `VMware` | - |
+| K8s | Bottom Layer : `Kubeadm` + `VMware` | - |
+| K8s | Public Cloud : Google Kubernetes Engine ( `GKE` ) | - |
 
 </ul>
 </details>
 
 <details>
-<summary><b><i>　Details </i></b></summary>
+<summary><b><i>　a.2.　Details </i></b></summary>
 <ul>
 
 |**Item**|**Description**|**Time**|
@@ -134,12 +134,12 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 | Add Makefile | for `docker-compose` | 2026-04-11 |
 | Add Airflow Config UI | `Trigger w/ Config` | 2026-04-18 |
 | Update DAGs Coding Style | - | 2026-04-18 |
-| Terraform | Declaration Configuration : `Docker Provider` | 2026-04-19 |
-| Terraform | Configuration Transfer : `docker-compose` | 2026-04-19 |
-| Ansible | node `initialization` & `configuration` | 2026-04-19 |
+| Terraform | Declaration Config : `Docker Provider` | 2026-04-19 |
+| Terraform | Config Transfer : `docker-compose` | 2026-04-19 |
+| Ansible | node `init` & `config` | 2026-04-19 |
 | Add Makefile | for `terraform + ansible` | 2026-04-19 |
-| Terraform vs. Docker Compose | Experience : `狀態管理差異性 ; 可救回配置崩潰，提高 HA` | 2026-04-19 |
-| Terraform & Ansible | Experience : `Ansible 如何補足 Terraform 的不足` | 2026-04-19 |
+| Terraform vs. Docker Compose | Experience :<br>`狀態管理差異性 ; 可救回配置崩潰，提高 HA` | 2026-04-19 |
+| Terraform & Ansible | Experience :<br>`Ansible 如何補足 Terraform 的不足` | 2026-04-19 |
 | Terraform Modularization | - | 2026-04-20 |
 | Ansible Modularization | - | 2026-04-20 |
 | Add `iot-platform` | MQTT Broker + Apache Kafka | 2026-04-25 |
@@ -152,14 +152,14 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 | API Service Logic | - | - |
 | `v2` make Dockerfile | - | - |
 | Grafana Dashboard | update `htap_grafana.json` | - |
-| Create Materialized View ( MV ) | - | - |
+| Create MV | Materialized View | - |
 | Analytical Queries | - | - |
-| Kubernetes | Beginner : `Minikube` | - |
-| Kubernetes | Advanced : `K3s` + `VMware` | - |
-| Kubernetes | Bottom Layer : `Kubeadm` + `VMware` | - |
-| Kubernetes | Public Cloud : Google Kubernetes Engine ( `GKE` ) | - |
-| K8s | Experience : `Pod` / `Service` / `Ingress` | - |
-| K8s | Experience : `Lens` / `k9s` / `Kubernetes Dashboard` | - |
+| K8s | Beginner : `Minikube` | - |
+| K8s | Advanced : `K3s` + `VMware` | - |
+| K8s | Bottom Layer : `Kubeadm` + `VMware` | - |
+| K8s | Public Cloud : Google Kubernetes Engine ( `GKE` ) | - |
+| K8s | Experience :<br>`Pod` / `Service` / `Ingress` | - |
+| K8s | Experience :<br>`Lens` / `k9s` / `Kubernetes Dashboard` | - |
 
 </ul>
 </details>
@@ -168,7 +168,7 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 <br>
 
 ### *B.　Service*
-- #### *I.　Service List*
+- #### *b.1.　Service List*
   |**Service**|**Description**|**Port**|
   |--:|:--|:--:|
   | PostgreSQL | for `Dev` | [5432](http:127.0.0.1:5432) |
@@ -188,17 +188,17 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
   | Portainer | for `Manage Containers` | [9000](http:127.0.0.1:9000) |
 
 
-- #### *II.　[Service Startup Order](./docs/service_startup_order.md)*
-- #### *III.　[WSL2 Startup Docker Engine](./docs/wsl2_startup_docker_engine.md)*
-- #### *IV.　[Terraform & Ansible](./docs/terraform_ansible.md)*
-- #### *V.　[About K8s](./docs/k8s.md)*
+- #### *b.2.　[Service Startup Order](./docs/service_startup_order.md)*
+- #### *b.3.　[WSL2 Startup Docker Engine](./docs/wsl2_startup_docker_engine.md)*
+- #### *b.4.　[Terraform & Ansible](./docs/terraform_ansible.md)*
+- #### *b.5.　[About K8s](./docs/k8s.md)*
 
 <br>
 
 ### *C.　Command Platform ( Makefile Execute )*
 
 <details>
-<summary><b><i>　I.　Docker Compose</i></b></summary>
+<summary><b><i>　c.1.　Docker Compose</i></b></summary>
 <ul>
 
 ```bash
@@ -220,7 +220,7 @@ make down
 <br>
 
 <details>
-<summary><b><i>　II.　Terraform + Ansible + Compose </i></b></summary>
+<summary><b><i>　c.2.　Terraform + Ansible + Compose </i></b></summary>
 <ul>
 
 ```bash
@@ -250,7 +250,7 @@ make destroy
 <br>
 
 <details>
-<summary><b><i>　III.　K8s + Helm + Terraform + Ansible </i></b></summary>
+<summary><b><i>　c.3.　K8s + Helm + Terraform + Ansible </i></b></summary>
 <ul>
 
 ```bash
@@ -262,7 +262,7 @@ make destroy
 <br>
 
 <details open>
-<summary><b><i>　Other </i></b></summary>
+<summary><b><i>　c.4.　Other </i></b></summary>
 <ul>
 
 ```bash
@@ -295,10 +295,10 @@ make kafka-connect-del
 
 ### *D.　Implementation*
 - ![PNG](./assets/roadmap.PNG)
-- #### *I.　[About SQL Something Detail](./docs/sql.md)*
+- #### *d.1.　[About SQL Something Detail](./docs/sql.md)*
 
 <details>
-<summary><b><i>　II.　Project Tree </i></b></summary>
+<summary><b><i>　d.2.　Project Tree </i></b></summary>
 <ul>
 
   ```bash
@@ -503,16 +503,16 @@ make kafka-connect-del
 
 ### *F.　Notice*
 - #### *⭐ 欲真正解決 OLTP / OLAP 衝突，詳見[另一解法](https://github.com/Junwu0615/OLTP-To-OLAP-Pipeline)*
-- #### *I.　OLTP　VS.　OLAP　VS.　HTAP*
+- #### *f.1.　OLTP　VS.　OLAP　VS.　HTAP*
   | **Type** | **Core Objectives** | **Design Philosophy** | **Data Model** | **Query Features** |
   |:--:|:--|:--|:--|:--|
   | OLTP | 快速且正確地處理`交易` | 一致性優先 | [ 正規化 ]<br>3NF | 單筆查詢、低延遲 |
   | OLAP | 高效`分析`大量資料 | 查詢效率優先 | [ 非正規化 ]<br>Star Schema / Wide Table | 聚合分析、大量掃描 |
   | HTAP | 同時支援`交易`與`分析` | 負載平衡 | 混合模型 | 即時分析 + 交易 |
-- #### *II.　若 OLTP/OLAP 都在同一 DB Instance 裡，Schema 分離優劣 ?*
+- #### *f.2.　若 OLTP/OLAP 都在同一 DB Instance 裡，Schema 分離優劣 ?*
   - #### *優 : `限制權限`, `分開 Connection Pool`, `分開 Query Routing`*
   - #### *劣 : `CPU / IO 共用`，它們還是彼此搶資源*
-- #### *III.　Schema 分離 ≠ 解決 OLTP/OLAP 衝突*
+- #### *f.3.　Schema 分離 ≠ 解決 OLTP/OLAP 衝突*
   - #### *還是同一個 CPU*
   - #### *還是同一個 Disk*
   - #### *還是同一個 Buffer Cache*
