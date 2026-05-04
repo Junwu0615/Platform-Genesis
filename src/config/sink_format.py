@@ -5,7 +5,6 @@ SINK_MACH_STATUS_LOGS = {
   "type": "record",
   "name": "oltp.machine_status_logs",
   "fields": [
-    {"name": "log_id", "type": ["null", "int"], "default": null},
     {"name": "machine_id", "type": "int"},
     {"name": "status", "type": ["null", "string"], "default": null},
     {
@@ -69,7 +68,6 @@ SINK_PROD_RECORDS = {
   "type": "record",
   "name": "oltp.production_records",
   "fields": [
-    {"name": "record_id", "type": ["null", "int"], "default": null},
     {"name": "order_id", "type": ["null", "int"], "default": null},
     {"name": "machine_id", "type": ["null", "int"], "default": null},
     {"name": "product_id", "type": ["null", "int"], "default": null},
