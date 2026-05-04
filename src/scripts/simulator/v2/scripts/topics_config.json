@@ -12,7 +12,7 @@
     },
     {
       "name": "inst.prod-records",
-      "partitions": 3,
+      "partitions": 12,
       "replication_factor": 1,
       "configs": {
         "compression.type": "lz4",

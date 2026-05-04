@@ -2,13 +2,15 @@
   "name": "sink-inst-prod-records",
   "config": {
     "connector.class": "io.confluent.connect.jdbc.JdbcSinkConnector",
-    "connection.url": "jdbc:postgresql://dev-db:5432/pgdatabase",
+    "connection.url": "jdbc:postgresql://dev-db:5432/pgdatabase?reWriteBatchedInserts=true",
     "connection.user": "oltp_user",
     "connection.password": "oltp_pwd",
     "auto.create": "false",
     "auto.evolve": "false",
 
-    "tasks.max": "3",
+    "tasks.max": "12",
+    "batch.size": "3000",
+    "linger.ms": "100",
 
     "topics": "inst.prod-records",
     "table.name.format": "oltp.production_records",

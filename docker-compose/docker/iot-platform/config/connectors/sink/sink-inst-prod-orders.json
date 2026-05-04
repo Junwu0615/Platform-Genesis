@@ -9,6 +9,8 @@
     "auto.evolve": "false",
 
     "tasks.max": "3",
+    "batch.size": "3000",
+    "linger.ms": "100",
 
     "topics": "inst.prod-orders",
     "table.name.format": "oltp.production_orders",
