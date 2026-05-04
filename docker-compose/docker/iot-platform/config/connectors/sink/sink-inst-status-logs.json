@@ -11,7 +11,7 @@
     "tasks.max": "3",
 
     "topics": "inst.status-logs",
-    "table.name.format": "oltp.machine_status_logs",
+    "table.name.format": "\"oltp\".\"machine_status_logs\"",
 
     "insert.mode": "insert",
     "pk.mode": "none",

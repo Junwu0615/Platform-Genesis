@@ -45,7 +45,7 @@
   # -U : 使用已存在的使用者
   # -d : 連到對應資料庫
   
-  docker exec -it postgres_sql_container psql -U pguser -d pgdatabase
+  docker exec -it ooud-cluster-dev-db-1 psql -U pguser -d pgdatabase
   ```
 - #### *b.　創建資料庫*
   ```
@@ -62,7 +62,7 @@
 - #### *e.　驗證*
   ```
   # 確認是否連上資料庫
-  docker exec -it postgres_sql_container psql -U airflow -d airflow
+  docker exec -it ooud-cluster-dev-db-1 psql -U airflow -d airflow
   ```
 
 <br>

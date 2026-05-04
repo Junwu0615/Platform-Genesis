@@ -89,11 +89,13 @@ def update_order_status(event_dict: dict) -> int:
                 if detail['produced_qty'] >= detail['target_qty']:
                     _now_time = get_now(hours=8, tzinfo=TZ_UTC_8)
                     timestamp_ms = int(_now_time.timestamp() * 1000)
+                    event_dict['detail'][_order_id]['end_at'] = timestamp_ms
 
                     # 1. 更新訂單結束時間
                     payload = {
                         'order_id': _order_id,
-                        'end_at': timestamp_ms,
+                        'start_at': event_dict['detail'][_order_id]['start_at'],
+                        'end_at': event_dict['detail'][_order_id]['end_at'],
                     }
                     kpm.send_message(topic='inst.prod-orders', key=TARGET_MACH, payload=payload)
 
@@ -104,7 +106,7 @@ def update_order_status(event_dict: dict) -> int:
                     payload = {
                         'machine_id': event_dict['mach_id'],
                         'status': _status,
-                        'end_at': timestamp_ms,
+                        'event_time': timestamp_ms,
                     }
                     kpm.send_message(topic='inst.status-logs', key=TARGET_MACH, payload=payload)
 
@@ -148,14 +150,21 @@ def insert_production_record(event_dict: dict, efficiency: int) -> int:
         _status = 'RUNNING'
         event_dict['machine_status']['status'] = _status
         event_dict['machine_status']['order_id'] = _order_id
+        event_dict['detail'][_data['order_id']] = {
+            'product_id': _data['prod_id'],
+            'target_qty': _data['target_qty'],
+            'produced_qty': 0
+        }
 
         _now_time = get_now(hours=8, tzinfo=TZ_UTC_8)
 
         # 1.1 更新訂單開始作業時間
         timestamp_ms = int(_now_time.timestamp() * 1000)
+        event_dict['detail'][_order_id]['start_at'] = timestamp_ms
         payload = {
             'order_id': _order_id,
-            'end_at': timestamp_ms,
+            'start_at': event_dict['detail'][_order_id]['start_at'],
+            'end_at': None,
         }
         kpm.send_message(topic='inst.prod-orders', key=TARGET_MACH, payload=payload)
 
@@ -167,7 +176,7 @@ def insert_production_record(event_dict: dict, efficiency: int) -> int:
         payload = {
             'machine_id': event_dict['mach_id'],
             'status': _status,
-            'end_at': timestamp_ms,
+            'event_time': timestamp_ms,
         }
         kpm.send_message(topic='inst.status-logs', key=TARGET_MACH, payload=payload)
 
@@ -247,7 +256,7 @@ def insert_machine_status(event_dict: dict) -> int:
     payload = {
         'machine_id': event_dict['mach_id'],
         'status': _status,
-        'end_at': timestamp_ms,
+        'event_time': timestamp_ms,
     }
     kpm.send_message(topic='inst.status-logs', key=TARGET_MACH, payload=payload)
     return 1
@@ -364,11 +373,6 @@ def consumer_message(stop_event, **kwargs):
                     event_dict['mach_id'] = data['mach_id']
                     event_dict['order_queue'] += [data]
                     event_dict['order_dict'][data['order_id']] = data
-                    event_dict['detail'][data['order_id']] = {
-                        'product_id': data['prod_id'],
-                        'target_qty': data['target_qty'],
-                        'produced_qty': 0
-                    }
 
                     consumer.commit(asynchronous=False) # TODO 處理成功，手動提交 Offset
 

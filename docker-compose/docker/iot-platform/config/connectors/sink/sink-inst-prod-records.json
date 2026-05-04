@@ -11,7 +11,7 @@
     "tasks.max": "3",
 
     "topics": "inst.prod-records",
-    "table.name.format": "oltp.production_records",
+    "table.name.format": "\"oltp\".\"production_records\"",
 
     "insert.mode": "insert",
     "pk.mode": "none",
