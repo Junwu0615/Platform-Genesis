@@ -172,10 +172,10 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 - #### *b.1.　Service List*
   |**Service**|**Description**|**Port**|
   |--:|:--|:--:|
-  | PostgreSQL | for `Dev` | [5432](http:127.0.0.1:5432) |
+  | PostgreSQL | for `Common DB` | [5432](http:127.0.0.1:5432) |
   | PostgreSQL | for `Airflow` | [5433](http:127.0.0.1:5433) |
   | PostgreSQL UI Web | - | [5050](http:127.0.0.1:5050) |
-  | Airflow | - | [8100](http:127.0.0.1:8100) |
+  | Airflow | for `OLAP` | [8100](http:127.0.0.1:8100) |
   | ~~PostgreSQL~~ | for `PoWA` | [5431](http:127.0.0.1:5431) |
   | ~~PoWA UI Web~~ | for `Monitoring` | [8888](http:127.0.0.1:8888) |
   | MQTT Broker | for `IoT Platform` | [1883](http:127.0.0.1:1883) |
@@ -186,9 +186,9 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
   | Prometheus | for `Monitoring` | [9090](http:127.0.0.1:9090) |
   | Node Exporter | for `Monitoring` | [9100](http:127.0.0.1:9100) |
   | Postgres Exporter | for `Monitoring` | [9187](http:127.0.0.1:9187) |
-  | elasticsearch | for `ELK` | [9200](http:127.0.0.1:9200) |
-  | logstash | for `ELK` | [9600](http:127.0.0.1:9600) |
-  | kibana | for `ELK` | [5601](http:127.0.0.1:5601) |
+  | Elasticsearch | for `ELK` | [9200](http:127.0.0.1:9200) |
+  | Logstash | for `ELK` | [9600](http:127.0.0.1:9600) |
+  | Kibana | for `ELK` | [5601](http:127.0.0.1:5601) |
   | Portainer | for `Manage Containers` | [9000](http:127.0.0.1:9000) |
 
 
