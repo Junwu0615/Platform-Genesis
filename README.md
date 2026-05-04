@@ -60,12 +60,13 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 | Add Makefile | for `terraform + ansible` | 2026-04-19 |
 | Terraform Modularization | - | 2026-04-20 |
 | Ansible Modularization | - | 2026-04-20 |
-| Add `iot-platform` | MQTT Broker + Apache Kafka | 2026-04-25 |
+| Add `IoT Platform` | MQTT Broker + Apache Kafka | 2026-04-25 |
 | Multi-Instance Simulation | like real-edge : `v2` | 2026-04-28 |
 | MQTT Logic | for `command_platform` | 2026-04-28 |
 | Kafka Connect | `source` : producer  | 2026-04-30 |
 | Kafka Logic | for `instance` | 2026-05-03 |
 | Kafka Connect | `sink` : consumers | 2026-05-04 |
+| Add `ELK` | - | - |
 | API Service Logic | - | - |
 | `v2` make Dockerfile | - | - |
 | Create MV | Materialized View | - |
@@ -142,13 +143,14 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 | Terraform & Ansible | Experience :<br>`Ansible 如何補足 Terraform 的不足` | 2026-04-19 |
 | Terraform Modularization | - | 2026-04-20 |
 | Ansible Modularization | - | 2026-04-20 |
-| Add `iot-platform` | MQTT Broker + Apache Kafka | 2026-04-25 |
+| Add `IoT Platform` | MQTT Broker + Apache Kafka | 2026-04-25 |
 | Simple Simulation | organizing old versions : `v1` | 2026-04-28 |
 | Multi-Instance Simulation | like real-edge : `v2` | 2026-04-28 |
 | MQTT Logic | for `command_platform` | 2026-04-28 |
 | Kafka Connect | `source` : producer  | 2026-04-30 |
 | Kafka Logic | for `instance` | 2026-05-03 |
 | Kafka Connect | `sink` : consumers | 2026-05-04 |
+| Add `ELK` | - | - |
 | API Service Logic | - | - |
 | `v2` make Dockerfile | - | - |
 | Grafana Dashboard | update `htap_grafana.json` | - |
@@ -177,21 +179,22 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
   | Airflow | - | [8100](http:127.0.0.1:8100) |
   | ~~PostgreSQL~~ | for `PoWA` | [5431](http:127.0.0.1:5431) |
   | ~~PoWA UI Web~~ | for `PoWA` | [8888](http:127.0.0.1:8888) |
-  | MQTT Broker | for `iot-platform` | [1883](http:127.0.0.1:1883) |
-  | Kafka | for `iot-platform` | [9092](http:127.0.0.1:9092) |
-  | Kafka UI | for `iot-platform` | [9093](http:127.0.0.1:9093) |
-  | Schema Registry | for `iot-platform` | [8081](http:127.0.0.1:8081) |
+  | MQTT Broker | for `IoT Platform` | [1883](http:127.0.0.1:1883) |
+  | Kafka | for `IoT Platform` | [9092](http:127.0.0.1:9092) |
+  | Kafka UI | for `IoT Platform` | [9093](http:127.0.0.1:9093) |
+  | Schema Registry | for `IoT Platform` | [8081](http:127.0.0.1:8081) |
   | Grafana | for `Monitoring` | [3000](http:127.0.0.1:3000) |
   | Prometheus | for `Monitoring` | [9090](http:127.0.0.1:9090) |
   | Node Exporter | for `Monitoring` | [9100](http:127.0.0.1:9100) |
   | Postgres Exporter | for `Monitoring` | [9187](http:127.0.0.1:9187) |
   | Portainer | for `Manage Containers` | [9000](http:127.0.0.1:9000) |
+  | ELK | for `Manage Message` | [???](http:127.0.0.1:???) |
 
 
 - #### *b.2.　[Service Startup Order](./docs/service_startup_order.md)*
 - #### *b.3.　[WSL2 Startup Docker Engine](./docs/wsl2_startup_docker_engine.md)*
 - #### *b.4.　[Terraform & Ansible](./docs/terraform_ansible.md)*
-- #### *b.5.　[About K8s](./docs/k8s.md)*
+- #### *b.5.　[Kubernetes](./docs/k8s.md)*
 
 <br>
 
@@ -231,7 +234,7 @@ make init
 make build
 make setup
 
-# depends on 'Compose' service ( Postgresql + Airflow + MQTT + Kafka )
+# depends on 'Compose' service
 make postgresql
 make airflow
 make mqtt
@@ -287,6 +290,7 @@ make kafka-connect-create
 make kafka-connect-upsert
 make kafka-connect-status
 make kafka-connect-del
+make kafka-topic-clean
 ```
 </ul>
 </details>
@@ -404,6 +408,7 @@ make kafka-connect-del
       │   └── sink_format.py
       ├── modules
       │   ├── __init__.py
+      │   ├── app.py
       │   ├── kafka_producer.py
       │   ├── log.py
       │   ├── mqtt.py

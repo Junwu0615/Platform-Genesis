@@ -3,8 +3,8 @@
   "config": {
     "connector.class": "io.confluent.connect.jdbc.JdbcSinkConnector",
     "connection.url": "jdbc:postgresql://dev-db:5432/pgdatabase",
-    "connection.user": "olap_user",
-    "connection.password": "olap_pwd",
+    "connection.user": "oltp_user",
+    "connection.password": "oltp_pwd",
     "auto.create": "false",
     "auto.evolve": "false",
 
@@ -16,6 +16,7 @@
     "insert.mode": "update",
     "pk.mode": "record_value",
     "pk.fields": "order_id",
+    "fields.whitelist": "order_id,start_at,end_at",
 
     "key.converter": "org.apache.kafka.connect.storage.StringConverter",
     "value.converter": "io.confluent.connect.avro.AvroConverter",

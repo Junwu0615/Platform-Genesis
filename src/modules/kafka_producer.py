@@ -1,4 +1,11 @@
 # -*- coding: utf-8 -*-
+"""
+TODO
+    Update Date: 2026-05-04
+    Description:
+    Notice:
+        FIXME : 明文傳送應加密 + 安全性須提升 ( 認證 ... etc. )
+"""
 from confluent_kafka import Producer, SerializingProducer
 from confluent_kafka.serialization import SerializationContext, MessageField
 from confluent_kafka.schema_registry import SchemaRegistryClient

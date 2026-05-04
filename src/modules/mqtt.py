@@ -1,47 +1,52 @@
 # -*- coding: utf-8 -*-
 """
 TODO
-    1.1 啟動物件
-        - ms = MqttServer(client_id=DEFAULT_CLIENT + MQTT_CLIENT_VERSION,
-                          broker_host=BROKER,
-                          broker_port=BROKER_PORT,
-                          # middle_host=DEFAULT_MIDDLE_BROKER,
-                          # middle_port=DEFAULT_MIDDLE_PORT,
-                          logger=logger)
-    1.2 若程序停止時，都要確實關閉服務
-        - ms.stop_all_services()
+    Update Date: 2026-05-04
+    Description:
+        1.1 啟動物件
+            - ms = MqttServer(client_id=DEFAULT_CLIENT + MQTT_CLIENT_VERSION,
+                              broker_host=BROKER,
+                              broker_port=BROKER_PORT,
+                              # middle_host=DEFAULT_MIDDLE_BROKER,
+                              # middle_port=DEFAULT_MIDDLE_PORT,
+                              logger=logger)
+        1.2 若程序停止時，都要確實關閉服務
+            - ms.stop_all_services()
+        \
+        2.1.1 [單純] 訂閱 Topic 使用
+            - on_message 處理後續作業
+        \
+        2.2.2 [單純] 啟動一個 MQTT 服務
+            -     ms.start_service(ms.publisher_server, **{
+                        'title': f'推送訊息至 {BROKER}:{BROKER_PORT} 服務',
+                        'use_middle': False,
+                    })
+        2.2.3 [單純] 推送至 Broker 使用
+            - self.ms.add_content(topic=f'MachState/{self.machine_no}', payload=data, qos=1)
+        \
+        2.3.1 [複雜] 啟動一個 "TCP 中間層監聽佇列" 服務
+            -     ms.start_service(ms.middle_server_thread, **{
+                        'title': 'TCP 中間層監聽佇列服務',
+                    })
+        2.3.2 [複雜] 啟動一個 "TCP 中間層推送 MQTT" 服務
+            -     ms.start_service(ms.publisher_server, **{
+                        'title': 'TCP 中間層推送 MQTT 服務',
+                        'use_middle': True,
+                    })
+        2.3.3 [複雜] 推送訊息至中間層，該層會基於給定參數將內容推送至 Broker
+            - self.ms.send_to_middle(topic=f'MachState/{self.machine_no}', payload=data, qos=1)
+        \
+        3. [其他] 自定義函式
+            - on_message
+            - on_publish
+            - on_connect_publisher
+            - on_connect_subscriber ...etc.
+        4. qos 協定機制自行網路查詢 [0, 1, 2]
+        5. daemon=True，當主執行緒結束時，子執行緒會被強制終止
+        6. 清除 topic 的 payload: self.ms.clear_retained_message(topic=f'MachState/{self.machine_no}', fun=self.ms.add_content)
     \
-    2.1.1 [單純] 訂閱 Topic 使用
-        - on_message 處理後續作業
-    \
-    2.2.2 [單純] 啟動一個 MQTT 服務
-        -     ms.start_service(ms.publisher_server, **{
-                    'title': f'推送訊息至 {BROKER}:{BROKER_PORT} 服務',
-                    'use_middle': False,
-                })
-    2.2.3 [單純] 推送至 Broker 使用
-        - self.ms.add_content(topic=f'MachState/{self.machine_no}', payload=data, qos=1)
-    \
-    2.3.1 [複雜] 啟動一個 "TCP 中間層監聽佇列" 服務
-        -     ms.start_service(ms.middle_server_thread, **{
-                    'title': 'TCP 中間層監聽佇列服務',
-                })
-    2.3.2 [複雜] 啟動一個 "TCP 中間層推送 MQTT" 服務
-        -     ms.start_service(ms.publisher_server, **{
-                    'title': 'TCP 中間層推送 MQTT 服務',
-                    'use_middle': True,
-                })
-    2.3.3 [複雜] 推送訊息至中間層，該層會基於給定參數將內容推送至 Broker
-        - self.ms.send_to_middle(topic=f'MachState/{self.machine_no}', payload=data, qos=1)
-    \
-    3. [其他] 自定義函式
-        - on_message
-        - on_publish
-        - on_connect_publisher
-        - on_connect_subscriber ...etc.
-    4. qos 協定機制自行網路查詢 [0, 1, 2]
-    5. daemon=True，當主執行緒結束時，子執行緒會被強制終止
-    6. 清除 topic 的 payload: self.ms.clear_retained_message(topic=f'MachState/{self.machine_no}', fun=self.ms.add_content)
+    Notice:
+        FIXME : 明文傳送應加密 + 安全性須提升 ( 認證 ... etc. ) + socket 傳輸穩健性問題 (line:293)
 """
 import queue, socket, threading
 import paho.mqtt.client as mqtt_client

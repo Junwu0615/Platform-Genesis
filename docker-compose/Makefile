@@ -9,7 +9,7 @@ KAFKA_DIR = ./docker/iot-platform
 SERVICE_PATH = 127.0.0.1
 KAFKA_CONN_ALL_JSON := $(wildcard ./docker/iot-platform/config/connectors/source/*.json ./docker/iot-platform/config/connectors/sink/*.json)
 TOPIC_FILTER := __consumer_offsets|docker-connect-configs|docker-connect-offsets|docker-connect-status
-SCHEMA_FILTER :=
+SCHEMA_FILTER := template
 
 ALL_COMPOSE := $(wildcard ./docker/*/*-compose.yaml ./docker/*/*-compose.yml)
 
@@ -250,12 +250,10 @@ kafka-topic-clean:
 	@echo "* 將 kafka topic 徹底清乾淨 ..."
 	@echo "* [1/3] 正在刪除所有 Kafka Connectors ..."
 	@curl -s http://localhost:8083/connectors | jq -r '.[]' | xargs -I {} curl -s -X DELETE http://localhost:8083/connectors/{}
-
 	@sleep 3
 	@echo "\n\n";
 
 	@make kafka-connect-status
-
 	@echo "\n\n";
 
 	@echo "* [2/3] 正在清理 Kafka Topics (過濾條件: $(TOPIC_FILTER)) ..."
@@ -263,7 +261,6 @@ kafka-topic-clean:
 		echo "  -> 物理刪除 Topic: $$topic"; \
 		docker exec ooud-cluster-kafka-1 kafka-topics --bootstrap-server $(SERVICE_PATH):9092 --delete --topic $$topic; \
 	done
-
 	@echo "\n\n";
 
 	@echo "* [3/3] 正在清理 Schema Registry Subjects (過濾條件: $(SCHEMA_FILTER)) ..."
@@ -271,5 +268,4 @@ kafka-topic-clean:
 		echo "  -> 銷毀 Schema: $$subject"; \
 		curl -s -X DELETE http://$(SERVICE_PATH):8081/subjects/$$subject; \
 	done
-
 	@echo "\n\n✅ 所有的狀態已重置"

@@ -1,4 +1,12 @@
 # -*- coding: utf-8 -*-
+"""
+TODO
+    Update Date: 2026-05-04
+    Description:
+    Notice:
+        FIXME 全域設置需再嚴謹 (_init_logging_level_name)
+            ELK (ElasticSearch + Logstash + Kibana) 方案 未來恐需整合一起 取代寫入實體日誌邏輯
+"""
 import logging
 from colorlog import ColoredFormatter
 from logging.handlers import RotatingFileHandler

@@ -1,9 +1,12 @@
 # -*- coding: utf-8 -*-
 """
 TODO
-    Update Date: 2026-04-28
+    Update Date: 2026-05-04
     Description:
     Notice:
+        [加入 sqlite 提升 HA 消費訂單事務]:
+            - [thread 1] kafka -> consumer -> sqlite ( N 個實例 = N 個 sqlite 實例 ; 用 ELK 監控是否正常消費 )
+            - [thread 2] sqlite ( 每次斷掉重啟由此開始 唯一事實 ; 須建立狀態表 ) -> producer -> kafka -> kafka connection sink
 """
 import sys, os; sys.path.insert(0, os.getcwd())
 
@@ -85,20 +88,24 @@ def update_order_status(event_dict: dict) -> int:
                 detail = event_dict['detail'][_order_id]
                 if detail['produced_qty'] >= detail['target_qty']:
                     _now_time = get_now(hours=8, tzinfo=TZ_UTC_8)
+                    timestamp_ms = int(_now_time.timestamp() * 1000)
 
                     # 1. 更新訂單結束時間
-                    payload = {}
-                    payload['order_id'] = _order_id
-                    payload['end_at'] = _now_time.isoformat()
+                    payload = {
+                        'order_id': _order_id,
+                        'end_at': timestamp_ms,
+                    }
                     kpm.send_message(topic='inst.prod-orders', key=TARGET_MACH, payload=payload)
 
                     ret += 1
 
                     # 2. 更新機台狀態 : RUNNING -> IDLE
-                    payload = {}
-                    payload['machine_id'] = event_dict['mach_id']
-                    payload['status'] = 'IDLE'
-                    payload['event_time'] = _now_time.isoformat()
+                    _status = 'IDLE'
+                    payload = {
+                        'machine_id': event_dict['mach_id'],
+                        'status': _status,
+                        'end_at': timestamp_ms,
+                    }
                     kpm.send_message(topic='inst.status-logs', key=TARGET_MACH, payload=payload)
 
                     ret += 1
@@ -145,9 +152,11 @@ def insert_production_record(event_dict: dict, efficiency: int) -> int:
         _now_time = get_now(hours=8, tzinfo=TZ_UTC_8)
 
         # 1.1 更新訂單開始作業時間
-        payload = {}
-        payload['order_id'] = _order_id
-        payload['start_at'] = _now_time.isoformat()
+        timestamp_ms = int(_now_time.timestamp() * 1000)
+        payload = {
+            'order_id': _order_id,
+            'end_at': timestamp_ms,
+        }
         kpm.send_message(topic='inst.prod-orders', key=TARGET_MACH, payload=payload)
 
         ret += 1
@@ -155,10 +164,11 @@ def insert_production_record(event_dict: dict, efficiency: int) -> int:
 
 
         # 1.2 更新機台狀態 : IDLE -> RUNNING
-        payload = {}
-        payload['machine_id'] = event_dict['mach_id']
-        payload['status'] = _status
-        payload['event_time'] = _now_time.isoformat()
+        payload = {
+            'machine_id': event_dict['mach_id'],
+            'status': _status,
+            'end_at': timestamp_ms,
+        }
         kpm.send_message(topic='inst.status-logs', key=TARGET_MACH, payload=payload)
 
         ret += 1
@@ -184,17 +194,19 @@ def insert_production_record(event_dict: dict, efficiency: int) -> int:
         _quantity = random.randint(simulate['prod_qty_min'], simulate['prod_qty_max'])
 
         _now_time = get_now(hours=8, tzinfo=TZ_UTC_8)
+        timestamp_ms = int(_now_time.timestamp() * 1000)
 
         # 5. 更新事務字典中的訂單計數狀況
         event_dict['detail'][_order_id]['produced_qty'] += _quantity
 
         # 6. 插入交易日誌
-        payload = {}
-        payload['order_id'] = _order_id
-        payload['machine_id'] = event_dict['mach_id']
-        payload['product_id'] = _product_id
-        payload['quantity'] = event_dict['detail'][_order_id]['produced_qty']
-        payload['event_time'] = _now_time.isoformat()
+        payload = {
+            'order_id': _order_id,
+            'machine_id': event_dict['mach_id'],
+            'product_id': _product_id,
+            'quantity': event_dict['detail'][_order_id]['produced_qty'],
+            'event_time': timestamp_ms,
+        }
         kpm.send_message(topic='inst.prod-records', key=TARGET_MACH, payload=payload)
         ret += 1
 
@@ -229,12 +241,14 @@ def insert_machine_status(event_dict: dict) -> int:
     event_dict['machine_status']['status'] = _status
 
     _now_time = get_now(hours=8, tzinfo=TZ_UTC_8)
+    timestamp_ms = int(_now_time.timestamp() * 1000)
 
     # 4. 提交狀態更新
-    payload = {}
-    payload['machine_id'] = event_dict['mach_id']
-    payload['status'] = _status
-    payload['event_time'] = _now_time.isoformat()
+    payload = {
+        'machine_id': event_dict['mach_id'],
+        'status': _status,
+        'end_at': timestamp_ms,
+    }
     kpm.send_message(topic='inst.status-logs', key=TARGET_MACH, payload=payload)
     return 1
 

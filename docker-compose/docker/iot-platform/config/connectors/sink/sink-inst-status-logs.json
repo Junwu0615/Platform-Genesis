@@ -3,8 +3,8 @@
   "config": {
     "connector.class": "io.confluent.connect.jdbc.JdbcSinkConnector",
     "connection.url": "jdbc:postgresql://dev-db:5432/pgdatabase",
-    "connection.user": "olap_user",
-    "connection.password": "olap_pwd",
+    "connection.user": "oltp_user",
+    "connection.password": "oltp_pwd",
     "auto.create": "false",
     "auto.evolve": "false",
 
