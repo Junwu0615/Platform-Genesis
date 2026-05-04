@@ -39,7 +39,7 @@ simulate = config['simulate']
 load_cfg = config['load_profile']
 kafka = config['kafka']
 
-CONSUMER_ORDER_TOPIC = os.getenv('CONSUMER_ORDER_TOPIC', 'mqtt_raw.cp.mach-order')
+CONSUMER_ORDER_TOPIC = os.getenv('CONSUMER_ORDER_TOPIC', 'source.cp.mach-order')
 CONSUMER_GROUP_ID = os.getenv('CONSUMER_GROUP_ID', 'iot-data-mach-processor')
 TARGET_MACH = os.getenv('TARGET_MACH', 'M-CNC-30')
 
@@ -376,7 +376,7 @@ def main():
         - 實例 : N
         \
         - MQTT ( Kafka ) : 「消費」/「傳送」訊息
-            - 消費 : mqtt_raw.cp.mach-order 訂單訊息
+            - 消費 : source.cp.mach-order 訂單訊息
             - 傳送
         - Offset 儲存：Kafka 根據 Key 紀錄消費數字 ; KEY => ( group.id + Topic + Partition ID )
     """
@@ -385,7 +385,7 @@ def main():
     logging.notice(f'[{MAIN_NAME}] Starting Factory Stream Simulation ...')
     try:
         start_service(threads, consumer_message, **{
-            'title': '消費「mqtt_raw.cp.mach-order」訊息服務',
+            'title': '消費「source.cp.mach-order」訊息服務',
             'stop_event': stop_event,
         })
 

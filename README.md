@@ -35,6 +35,53 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 <br>
 
 ### *A.　Current Progress*
+
+<details open>
+<summary><b><i>　Simple </i></b></summary>
+<ul>
+
+|**Item**|**Description**|**Time**|
+|--:|:--|:--:|
+| Create Project | - | 2026-03-20 |
+| Add `PostgreSQL` | By Docker | 2026-03-20 |
+| Create OLTP DDL ( 6 ) | 3NF | 2026-03-21 |
+| Add `Airflow` | By Docker | 2026-03-21 |
+| Add `PoWA` | By Docker | 2026-03-23 |
+| Generic DB Benchmark | Docker Desktop vs WSL2 | 2026-04-04 |
+| Workload Benchmark | Design Benchmark | 2026-04-04 |
+| Add `Monitoring` | Postgres Exporter + Prometheus + Grafana | 2026-04-04 |
+| Add `Monitoring` | Node Exporter | 2026-04-05 |
+| Create OLAP DDL ( 5 ) | Star Schema | 2026-04-06 |
+| Add `Portainer` | By Docker | 2026-04-11 |
+| Add Makefile | for `docker-compose` | 2026-04-11 |
+| Terraform | Declaration Configuration : `Docker Provider` | 2026-04-19 |
+| Terraform | Configuration Transfer : `docker-compose` | 2026-04-19 |
+| Ansible | node `initialization` & `configuration` | 2026-04-19 |
+| Add Makefile | for `terraform + ansible` | 2026-04-19 |
+| Terraform Modularization | - | 2026-04-20 |
+| Ansible Modularization | - | 2026-04-20 |
+| Add `iot-platform` | MQTT Broker + Apache Kafka | 2026-04-25 |
+| Multi-Instance Simulation | like real-edge : `v2` | 2026-04-28 |
+| MQTT Logic | for `command_platform` | 2026-04-28 |
+| Kafka Connect | `source` : producer  | 2026-04-30 |
+| Kafka Logic | for `instance` | 2026-05-03 |
+| Kafka Connect | `sink` : consumers | 2026-05-04 |
+| API Service Logic | - | - |
+| `v2` make Dockerfile | - | - |
+| Create Materialized View ( MV ) | - | - |
+| Analytical Queries | - | - |
+| Kubernetes | Beginner : `Minikube` | - |
+| Kubernetes | Advanced : `K3s` + `VMware` | - |
+| Kubernetes | Bottom Layer : `Kubeadm` + `VMware` | - |
+| Kubernetes | Public Cloud : Google Kubernetes Engine ( `GKE` ) | - |
+
+</ul>
+</details>
+
+<details>
+<summary><b><i>　Details </i></b></summary>
+<ul>
+
 |**Item**|**Description**|**Time**|
 |--:|:--|:--:|
 | Create Project | - | 2026-03-20 |
@@ -57,7 +104,7 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 | Single to Batch Insert | 批次發送 | 2026-03-26 |
 | Generate Rigorous Static Data | - | 2026-03-26 |
 | Rigorous Calibration of Dynamic Data | 單一機台同時間只允許做一件事 /<br>排隊消化訂單 / 訂單生產週期戳記 | 2026-03-27 |
-| Adjusting Contextual Logic | 插入機台事件 : 🗑️ machine_events | 2026-03-28 |
+| Adjusting Contextual Logic | ~~插入機台事件 : machine_events~~ | 2026-03-28 |
 | execute -> execute_batch | 批次發送 + 批次提交 : 不適用於目前模擬方式 | X |
 | Adjusting Contextual Logic | 插入機台狀態 : machine_status_logs | 2026-03-30 |
 | Increase Data Volume Logic | - | 2026-03-30 |
@@ -83,16 +130,16 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 | DAG | Try `Param` | 2026-04-07 |
 | DAG | Try `Dataset` | 2026-04-08 |
 | Add `Portainer` | By Docker | 2026-04-11 |
-| Docker Compose Profiles | compose 模組化，整套 lab 一鍵部署 | 2026-04-11 |
+| Docker Compose Profiles | Compose Modularization | 2026-04-11 |
 | Add Makefile | for `docker-compose` | 2026-04-11 |
 | Add Airflow Config UI | `Trigger w/ Config` | 2026-04-18 |
 | Update DAGs Coding Style | - | 2026-04-18 |
-| Terraform | Docker Provider 體驗宣告式配置 | 2026-04-19 |
-| Terraform | docker-compose 配置轉移 | 2026-04-19 |
-| Ansible | 負責節點的初始化 + 設定檔 | 2026-04-19 |
+| Terraform | Declaration Configuration : `Docker Provider` | 2026-04-19 |
+| Terraform | Configuration Transfer : `docker-compose` | 2026-04-19 |
+| Ansible | node `initialization` & `configuration` | 2026-04-19 |
 | Add Makefile | for `terraform + ansible` | 2026-04-19 |
-| Terraform vs. Docker Compose | 體驗狀態管理差異性 ; 可救回配置崩潰，提高 HA | 2026-04-19 |
-| Terraform & Ansible | 體驗 Ansible 如何補足 Terraform 的不足 | 2026-04-19 |
+| Terraform vs. Docker Compose | Experience : `狀態管理差異性 ; 可救回配置崩潰，提高 HA` | 2026-04-19 |
+| Terraform & Ansible | Experience : `Ansible 如何補足 Terraform 的不足` | 2026-04-19 |
 | Terraform Modularization | - | 2026-04-20 |
 | Ansible Modularization | - | 2026-04-20 |
 | Add `iot-platform` | MQTT Broker + Apache Kafka | 2026-04-25 |
@@ -100,19 +147,23 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 | Multi-Instance Simulation | like real-edge : `v2` | 2026-04-28 |
 | MQTT Logic | for `command_platform` | 2026-04-28 |
 | Kafka Connect | `source` : producer  | 2026-04-30 |
-| Kafka Connect | `sink` : consumers | 2026-05-03 |
 | Kafka Logic | for `instance` | 2026-05-03 |
+| Kafka Connect | `sink` : consumers | 2026-05-04 |
 | API Service Logic | - | - |
 | `v2` make Dockerfile | - | - |
 | Grafana Dashboard | update `htap_grafana.json` | - |
-| Create Materialized View ( MV ) | 建立物化檢視表 | - |
+| Create Materialized View ( MV ) | - | - |
 | Analytical Queries | - | - |
-| Kubernetes | 入門 : `Minikube` | - |
-| Kubernetes | 進階 ( HA ) : `K3s` + `VMware` | - |
-| Kubernetes | 底層 ( Hard Way ) : `Kubeadm` + `VMware` | - |
-| Kubernetes | 公有雲 : Google Kubernetes Engine ( `GKE` ) | - |
-| K8s | 體驗 Pod、Service、Ingress 抽象層 | - |
-| K8s | 體驗工具 `Lens` / `k9s` / `Kubernetes Dashboard` | - |
+| Kubernetes | Beginner : `Minikube` | - |
+| Kubernetes | Advanced : `K3s` + `VMware` | - |
+| Kubernetes | Bottom Layer : `Kubeadm` + `VMware` | - |
+| Kubernetes | Public Cloud : Google Kubernetes Engine ( `GKE` ) | - |
+| K8s | Experience : `Pod` / `Service` / `Ingress` | - |
+| K8s | Experience : `Lens` / `k9s` / `Kubernetes Dashboard` | - |
+
+</ul>
+</details>
+
 
 <br>
 
@@ -256,7 +307,6 @@ make kafka-connect-del
 
   .
   ├── LICENSE
-  ├── Makefile
   ├── README.md
   ├── docker-compose
   │   ├── Makefile
@@ -285,10 +335,16 @@ make kafka-connect-del
   │   │   │   └── webserver_config.py
   │   │   ├── iot-platform
   │   │   │   ├── config
+  │   │   │   │   ├── connectors
+  │   │   │   │   │   ├── sink
+  │   │   │   │   │   │   ├── sink-inst-prod-orders.json
+  │   │   │   │   │   │   ├── sink-inst-prod-records.json
+  │   │   │   │   │   │   └── sink-inst-status-logs.json
+  │   │   │   │   │   └── source
+  │   │   │   │   │       └── source-cp-mach-order.json
   │   │   │   │   ├── mosquitto.conf
   │   │   │   │   └── passwd
   │   │   │   ├── data
-  │   │   │   │   └── kafka_data
   │   │   │   │   └── mqtt_data
   │   │   │   │       └── mosquitto.db
   │   │   │   ├── dockerfile
@@ -333,15 +389,25 @@ make kafka-connect-del
   │   │   ├── terraform.tfvars
   │   │   └── variables.tf
   │   └── wsl2
+  ├── kubernetes
+  │   ├── gke
+  │   ├── k3s
+  │   ├── kubeadm
+  │   └── minikube
   ├── requirements.txt
   └── src
       ├── __init__.py
       ├── config
       │   ├── __init__.py
-      │   └── simulator.py
+      │   ├── constant.py
+      │   ├── mqtt.py
+      │   └── sink_format.py
       ├── modules
       │   ├── __init__.py
-      │   └── log.py
+      │   ├── kafka_producer.py
+      │   ├── log.py
+      │   ├── mqtt.py
+      │   └── simulator.py
       ├── scripts
       │   ├── __init__.py
       │   ├── dags
@@ -394,15 +460,33 @@ make kafka-connect-del
       │   │   │   ├── init_factory_data.py
       │   │   │   └── simulate_factory_stream.py
       │   │   └── v2
-      │   │       └── __init__.py
+      │   │       ├── __init__.py
+      │   │       ├── api_service
+      │   │       │   └── __init__.py
+      │   │       ├── command_platform
+      │   │       │   ├── __init__.py
+      │   │       │   └── main.py
+      │   │       ├── factory_config.yaml
+      │   │       ├── instance
+      │   │       │   ├── __init__.py
+      │   │       │   └── main.py
+      │   │       └── scripts
+      │   │           ├── __init__.py
+      │   │           ├── consumers.py
+      │   │           ├── create_topic.py
+      │   │           ├── init.py
+      │   │           └── topics_config.json
       │   └── sql
       │       ├── auto_partition.py
       │       ├── delete_data.py
       │       └── drop_table.py
       └── utils
           ├── __init__.py
-          ├── conn.py
-          └── utils.py
+          ├── env_config.py
+          ├── kafka_tools.py
+          ├── postgre_tools.py
+          ├── threading_tools.py
+          └── tools.py
   ```
 </ul>
 </details>
