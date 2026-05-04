@@ -58,10 +58,10 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 | Terraform | Config Transfer : `docker-compose` | 2026-04-19 |
 | Ansible | node `init` & `config` | 2026-04-19 |
 | Add Makefile | for `terraform + ansible` | 2026-04-19 |
-| Terraform Modularization | - | 2026-04-20 |
-| Ansible Modularization | - | 2026-04-20 |
+| Terraform | Modularization | 2026-04-20 |
+| Ansible | Modularization | 2026-04-20 |
 | Add `IoT Platform` | MQTT Broker + Apache Kafka | 2026-04-25 |
-| Multi-Instance Simulation | like real-edge : `v2` | 2026-04-28 |
+| Multi-Instance | like real-edge : `v2` | 2026-04-28 |
 | MQTT Logic | for `command_platform` | 2026-04-28 |
 | Kafka Connect | `source` : producer  | 2026-04-30 |
 | Kafka Logic | for `instance` | 2026-05-03 |
@@ -141,17 +141,21 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 | Add Makefile | for `terraform + ansible` | 2026-04-19 |
 | Terraform vs. Docker Compose | Experience :<br>`狀態管理差異性 ; 可救回配置崩潰，提高 HA` | 2026-04-19 |
 | Terraform & Ansible | Experience :<br>`Ansible 如何補足 Terraform 的不足` | 2026-04-19 |
-| Terraform Modularization | - | 2026-04-20 |
-| Ansible Modularization | - | 2026-04-20 |
+| Terraform | Modularization | 2026-04-20 |
+| Ansible | Modularization | 2026-04-20 |
 | Add `IoT Platform` | MQTT Broker + Apache Kafka | 2026-04-25 |
 | Simple Simulation | organizing old versions : `v1` | 2026-04-28 |
-| Multi-Instance Simulation | like real-edge : `v2` | 2026-04-28 |
+| Multi-Instance | like real-edge : `v2` | 2026-04-28 |
 | MQTT Logic | for `command_platform` | 2026-04-28 |
 | Kafka Connect | `source` : producer  | 2026-04-30 |
 | Kafka Logic | for `instance` | 2026-05-03 |
 | Kafka Connect | `sink` : consumers | 2026-05-04 |
 | Add `ELK` | - | 2026-05-05 |
-| API Service Logic | - | - |
+| update logging logic | mix ( `ELK` + `logging` ) | - |
+| Add DAGs | init + create_topic | - |
+| Encapsulation Entry | app.py | - |
+| Security Message Transmission | encryption ( `kafka` + `mqtt` ) | - |
+| API Service Logic | - | X |
 | `v2` make Dockerfile | - | - |
 | Grafana Dashboard | update `htap_grafana.json` | - |
 | Create MV | Materialized View | - |
@@ -336,10 +340,56 @@ make kafka-topic-clean
   │   │   │   ├── airflow.cfg
   │   │   │   ├── config
   │   │   │   ├── dags
+  │   │   │   │   ├── OP_SQL.py
+  │   │   │   │   ├── WF_AUTO_PARTITION.py
+  │   │   │   │   ├── WF_A_DATASET.py
+  │   │   │   │   ├── WF_B_DATASET.py
+  │   │   │   │   ├── WF_CREATE_TABLE.py
+  │   │   │   │   ├── WF_C_DATASET.py
+  │   │   │   │   ├── config
+  │   │   │   │   │   ├── __init__.py
+  │   │   │   │   │   ├── constants.py
+  │   │   │   │   │   └── dag_config.py
+  │   │   │   │   ├── sql
+  │   │   │   │   │   ├── __init__.py
+  │   │   │   │   │   ├── auto_partition
+  │   │   │   │   │   │   ├── fact_production.sql
+  │   │   │   │   │   │   ├── machine_status_logs.sql
+  │   │   │   │   │   │   └── production_records.sql
+  │   │   │   │   │   ├── dim_date.sql
+  │   │   │   │   │   ├── dim_machine.sql
+  │   │   │   │   │   ├── dim_product.sql
+  │   │   │   │   │   ├── fact_machine_status.sql
+  │   │   │   │   │   ├── fact_production.sql
+  │   │   │   │   │   └── models
+  │   │   │   │   │       ├── olap
+  │   │   │   │   │       │   ├── dim_date.sql
+  │   │   │   │   │       │   ├── dim_machine.sql
+  │   │   │   │   │       │   ├── dim_product.sql
+  │   │   │   │   │       │   ├── fact_machine_status.sql
+  │   │   │   │   │       │   └── fact_production.sql
+  │   │   │   │   │       └── oltp
+  │   │   │   │   │           ├── machine.sql
+  │   │   │   │   │           ├── machine_events.sql
+  │   │   │   │   │           ├── machine_status_logs.sql
+  │   │   │   │   │           ├── product.sql
+  │   │   │   │   │           ├── production_orders.sql
+  │   │   │   │   │           └── production_records.sql
+  │   │   │   │   └── utils
+  │   │   │   │       ├── __init__.py
+  │   │   │   │       └── dag_tool.py
   │   │   │   ├── deploy_dags.sh
   │   │   │   ├── docker-compose.yaml
   │   │   │   ├── plugins
   │   │   │   └── webserver_config.py
+  │   │   ├── elk
+  │   │   │   ├── docker-compose.yaml
+  │   │   │   ├── elasticsearch.yaml
+  │   │   │   └── logstash
+  │   │   │       ├── logstash.yaml
+  │   │   │       ├── logstash.yml
+  │   │   │       └── pipeline
+  │   │   │           └── logstash.conf
   │   │   ├── iot-platform
   │   │   │   ├── config
   │   │   │   │   ├── connectors
