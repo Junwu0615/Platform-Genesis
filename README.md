@@ -188,7 +188,7 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
   | Node Exporter | for `Monitoring` | [9100](http:127.0.0.1:9100) |
   | Postgres Exporter | for `Monitoring` | [9187](http:127.0.0.1:9187) |
   | elasticsearch | for `ELK` | [9200](http:127.0.0.1:9200) |
-  | logstash | for `ELK` | [5044](http:127.0.0.1:5044) |
+  | logstash | for `ELK` | [9600](http:127.0.0.1:9600) |
   | kibana | for `ELK` | [5601](http:127.0.0.1:5601) |
   | Portainer | for `Manage Containers` | [9000](http:127.0.0.1:9000) |
 

@@ -71,7 +71,8 @@ down-v:
 ps:
 	# ! 不使用 | docker compose -p $(MAIN_NAME) ps | -p 指定專案名稱，或 -f 指定總控檔案
 	@echo "* 正在搜尋名稱包含 $(MAIN_NAME) 的容器..."
-	docker ps -a --filter "name=$(MAIN_NAME)"
+	#docker ps -a --filter "name=$(MAIN_NAME)"
+	docker ps -a --filter "name=$(MAIN_NAME)" --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
 
 fix-sock:
 	sudo chmod 666 /var/run/docker.sock

@@ -30,10 +30,10 @@ services:
   logstash:
     image: docker.elastic.co/logstash/logstash:${STACK_VERSION}
     ports:
-      - 5044:5044
-      - 5000:5000/tcp
-      - 5000:5000/udp
-      - 9600:9600
+      - 5044:5044 # Beats 接收埠 (數據入口 A)
+      - 5000:5000/tcp # TCP/UDP 通用接收埠 (數據入口 B)
+#      - 5000:5000/udp
+      - 9600:9600 # API 監控埠
     env_file:
       - .env
     environment:
