@@ -1,21 +1,16 @@
-<a href='https://github.com/Junwu0615/OLTP-OLAP-UNIFIED-DB'><img alt='GitHub Views' src='https://views.whatilearened.today/views/github/Junwu0615/OLTP-OLAP-UNIFIED-DB.svg'>
-[![](https://img.shields.io/badge/Operating_System-Windows_11-blue.svg?style=plastic)](https://www.microsoft.com/zh-tw/software-download/windows10) <br> 
-[![](https://img.shields.io/badge/Technology-Python-yellow.svg?style=plastic)](https://github.com/Junwu0615/OLTP-OLAP-UNIFIED-DB)
-[![](https://img.shields.io/badge/Technology-PostgreSQL-yellow.svg?style=plastic)](https://github.com/Junwu0615/OLTP-OLAP-UNIFIED-DB)
-[![](https://img.shields.io/badge/Technology-GCP-important.svg?style=plastic)](https://github.com/Junwu0615/OLTP-OLAP-UNIFIED-DB) 
-[![](https://img.shields.io/badge/Technology-Kubernetes-important.svg?style=plastic)](https://github.com/Junwu0615/OLTP-OLAP-UNIFIED-DB) 
-[![](https://img.shields.io/badge/Technology-Docker-yellow.svg?style=plastic)](https://github.com/Junwu0615/OLTP-OLAP-UNIFIED-DB) <br>
-[![](https://img.shields.io/badge/Technology-OLTP-critical.svg?style=plastic)](https://github.com/Junwu0615/OLTP-OLAP-UNIFIED-DB)
-[![](https://img.shields.io/badge/Technology-OLAP-critical.svg?style=plastic)](https://github.com/Junwu0615/OLTP-OLAP-UNIFIED-DB)
-[![](https://img.shields.io/badge/Technology-HTAP-critical.svg?style=plastic)](https://github.com/Junwu0615/OLTP-OLAP-UNIFIED-DB)
-[![](https://img.shields.io/badge/Technology-Terraform-important.svg?style=plastic)](https://github.com/Junwu0615/OLTP-OLAP-UNIFIED-DB)
-[![](https://img.shields.io/badge/Technology-Ansible-important.svg?style=plastic)](https://github.com/Junwu0615/OLTP-OLAP-UNIFIED-DB) <br>
-[![](https://img.shields.io/badge/Technology-Grafana-important.svg?style=plastic)](https://github.com/Junwu0615/OLTP-OLAP-UNIFIED-DB) 
-[![](https://img.shields.io/badge/Technology-Prometheus-important.svg?style=plastic)](https://github.com/Junwu0615/OLTP-OLAP-UNIFIED-DB) 
-[![](https://img.shields.io/badge/Technology-PoWA-inactive.svg?style=plastic)](https://github.com/Junwu0615/OLTP-OLAP-UNIFIED-DB) <br>
-[![](https://img.shields.io/badge/Technology-Apache_Kafka-important.svg?style=plastic)](https://github.com/Junwu0615/OLTP-OLAP-UNIFIED-DB)
-[![](https://img.shields.io/badge/Technology-MQTT-yellow.svg?style=plastic)](https://github.com/Junwu0615/OLTP-OLAP-UNIFIED-DB)
-[![](https://img.shields.io/badge/Technology-Apache_Airflow-yellow.svg?style=plastic)](https://github.com/Junwu0615/OLTP-OLAP-UNIFIED-DB) <br>
+<div align="center">
+
+|**Category**|**Technology Stack**|
+|--:|:--|
+|**Data Core**| ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=flat-square&logo=postgresql&logoColor=white) ![OLTP](https://img.shields.io/badge/Architecture-OLTP-red?style=flat-square) ![OLAP](https://img.shields.io/badge/Architecture-OLAP-red?style=flat-square) ![HTAP](https://img.shields.io/badge/Architecture-HTAP-red?style=flat-square) |
+|**Data Pipeline**| ![Kafka](https://img.shields.io/badge/Apache_Kafka-231F20?style=flat-square&logo=apache-kafka&logoColor=white) ![MQTT](https://img.shields.io/badge/MQTT-660066?style=flat-square&logo=mqtt&logoColor=white) ![Airflow](https://img.shields.io/badge/Apache_Airflow-017CEE?style=flat-square&logo=apache-airflow&logoColor=white) ![Python](https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white) |
+|**Data Governance**| ![Schema Registry](https://img.shields.io/badge/Tool-Schema_Registry-blue?style=flat-square&logo=confluent&logoColor=white) |
+|**Cloud & Infra**| ![GCP](https://img.shields.io/badge/GCP-4285F4?style=flat-square&logo=google-cloud&logoColor=white) ![Kubernetes](https://img.shields.io/badge/Kubernetes-326CE5?style=flat-square&logo=kubernetes&logoColor=white) ![Terraform](https://img.shields.io/badge/Terraform-7B42BC?style=flat-square&logo=terraform&logoColor=white) ![Ansible](https://img.shields.io/badge/Ansible-EE0000?style=flat-square&logo=ansible&logoColor=white) ![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white) |
+|**Monitoring**| ![Grafana](https://img.shields.io/badge/Grafana-F46800?style=flat-square&logo=grafana&logoColor=white) ![Prometheus](https://img.shields.io/badge/Prometheus-E6522C?style=flat-square&logo=prometheus&logoColor=white) ![Exporter](https://img.shields.io/badge/Node_Exporter-607D8B?style=flat-square&logo=prometheus&logoColor=white) ![Exporter](https://img.shields.io/badge/Postgres_Exporter-607D8B?style=flat-square&logo=prometheus&logoColor=white) ![PoWA](https://img.shields.io/badge/Tool-PoWA-blueviolet?style=flat-square) |
+|**Management**| ![Elasticsearch](https://img.shields.io/badge/Elasticsearch-005571?style=flat-square&logo=elasticsearch&logoColor=white) ![Logstash](https://img.shields.io/badge/Logstash-005571?style=flat-square&logo=logstash&logoColor=white) ![Kibana](https://img.shields.io/badge/Kibana-005571?style=flat-square&logo=kibana&logoColor=white) ![Portainer](https://img.shields.io/badge/Portainer-13BEFF?style=flat-square&logo=portainer&logoColor=white) |
+|**Other**| <a href='https://github.com/Junwu0615/OLTP-OLAP-UNIFIED-DB'><img alt='GitHub Views' src='https://views.whatilearened.today/views/github/Junwu0615/OLTP-OLAP-UNIFIED-DB.svg'> ![Windows 11](https://img.shields.io/badge/Windows_11-0078D4?style=flat-square&logo=windows-11&logoColor=white) |
+
+</div>
 
 <br>
 
@@ -67,7 +62,7 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 | Kafka Logic | for `instance` | 2026-05-03 |
 | Kafka Connect | `sink` : consumers | 2026-05-04 |
 | Add `ELK` | - | 2026-05-05 |
-| API Service Logic | - | - |
+| API Service Logic | - | X |
 | `v2` make Dockerfile | - | - |
 | Create MV | Materialized View | - |
 | Analytical Queries | - | - |
@@ -182,7 +177,7 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
   | PostgreSQL UI Web | - | [5050](http:127.0.0.1:5050) |
   | Airflow | - | [8100](http:127.0.0.1:8100) |
   | ~~PostgreSQL~~ | for `PoWA` | [5431](http:127.0.0.1:5431) |
-  | ~~PoWA UI Web~~ | for `PoWA` | [8888](http:127.0.0.1:8888) |
+  | ~~PoWA UI Web~~ | for `Monitoring` | [8888](http:127.0.0.1:8888) |
   | MQTT Broker | for `IoT Platform` | [1883](http:127.0.0.1:1883) |
   | Kafka | for `IoT Platform` | [9092](http:127.0.0.1:9092) |
   | Kafka UI | for `IoT Platform` | [9093](http:127.0.0.1:9093) |
