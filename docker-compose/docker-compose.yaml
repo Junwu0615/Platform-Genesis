@@ -7,4 +7,5 @@ include:
   - path: ./docker/postgresql/docker-compose.yaml
   - path: ./docker/iot-platform/mqtt-compose.yaml
   - path: ./docker/iot-platform/kafka-compose.yaml
+  - path: ./docker/elk/docker-compose.yaml
 #  - path: ./docker/powa/docker-compose.yaml

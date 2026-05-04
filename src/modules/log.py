@@ -6,6 +6,7 @@ TODO
     Notice:
         FIXME 全域設置需再嚴謹 (_init_logging_level_name)
             ELK (ElasticSearch + Logstash + Kibana) 方案 未來恐需整合一起 取代寫入實體日誌邏輯
+            DEBUG Level 硬設定 ...
 """
 import logging
 from colorlog import ColoredFormatter

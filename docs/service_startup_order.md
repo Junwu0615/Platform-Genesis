@@ -241,7 +241,36 @@
 
 <br>
 
-### *6.　Startup Monitoring*
+### *6.　Startup ELK*
+- #### *a.　settings*
+  ```
+  # vm.max_map_count => Linux 核心（Kernel）的參數，用來限制一個進程可以擁有的虛擬記憶體區域（VMA）的最大數量
+  # 預設值通常是 65530，但對於像 Elasticsearch 這樣需要大量記憶體映射的應用來說，可能會不夠用，導致啟動失敗或性能問題
+  
+  # [暫時性]
+  sudo sysctl -w vm.max_map_count=262144
+  
+  # [永久性]
+  sudo nano /etc/sysctl.conf
+  
+    # 在檔案末尾添加以下行
+    vm.max_map_count=262144
+  
+    # 儲存退出後，執行以下指令讓它立刻生效
+    sudo sysctl -p
+    
+    # 確認設定已生效
+    cat /proc/sys/vm/max_map_count
+  ```
+
+- #### *b.　背景啟動*
+  ```
+  docker-compose up -d
+  ```
+  
+<br>
+
+### *7.　Startup Monitoring*
 - #### *a.　背景啟動*
   ```
   docker-compose up -d

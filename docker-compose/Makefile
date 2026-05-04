@@ -26,6 +26,7 @@ POSTGRESQL_CONTENT = dev-db pgadmin
 PORTAINER_CONTENT = portainer
 MQTT_CONTENT = mqtt
 KAFKA_CONTENT = kafka kafka-connect kafka-ui schema-registry
+ELK_CONTENT = elasticsearch logstash kibana
 
 .PHONY: build up down down-v ps rm \
 fix-sock db-wait list-configs prune get-chown-all dev-mode prod-mode kafka-chow \
@@ -145,6 +146,11 @@ kafka: fix-sock kafka-chown
 	@echo "重新啟動 Kafka 相關服務"
 	docker compose -f $(COMPOSE_DIR) down $(KAFKA_CONTENT)
 	docker compose -f $(COMPOSE_DIR) up -d $(KAFKA_CONTENT)
+
+elk: fix-sock kafka-chown
+	@echo "重新啟動 ELK 相關服務"
+	docker compose -f $(COMPOSE_DIR) down $(ELK_CONTENT)
+	docker compose -f $(COMPOSE_DIR) up -d $(ELK_CONTENT)
 
 refresh: fix-sock
 	@echo "1. 檢查是否有定義 container 且不為空"

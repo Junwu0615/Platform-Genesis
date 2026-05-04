@@ -74,10 +74,11 @@ services:
       - monitoring_default
     restart: unless-stopped
 
-volumes:
-  grafana_data:
-  prometheus_data:
 
 networks:
     monitoring_default:
         driver: bridge
+
+volumes:
+  grafana_data:
+  prometheus_data:
