@@ -2,7 +2,7 @@
   "name": "sink-inst-prod-records",
   "config": {
     "connector.class": "io.confluent.connect.jdbc.JdbcSinkConnector",
-    "connection.url": "jdbc:postgresql://dev-db:5432/pgdatabase?reWriteBatchedInserts=true",
+    "connection.url": "jdbc:postgresql://common-db:5432/pgdatabase?reWriteBatchedInserts=true",
     "connection.user": "oltp_user",
     "connection.password": "oltp_pwd",
     "auto.create": "false",

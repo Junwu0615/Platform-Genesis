@@ -308,8 +308,11 @@ make reload
 make kafka-connect-create
 make kafka-connect-upsert
 make kafka-connect-status
+
 make kafka-connect-del
 make kafka-topic-clean
+make kafka-schema-del
+make kafka-clean-all
 ```
 </ul>
 </details>
@@ -351,45 +354,7 @@ make kafka-topic-clean
   │   │   │   ├── airflow-webserver.pid
   │   │   │   ├── airflow.cfg
   │   │   │   ├── config
-  │   │   │   ├── dags
-  │   │   │   │   ├── OP_SQL.py
-  │   │   │   │   ├── WF_AUTO_PARTITION.py
-  │   │   │   │   ├── WF_A_DATASET.py
-  │   │   │   │   ├── WF_B_DATASET.py
-  │   │   │   │   ├── WF_CREATE_TABLE.py
-  │   │   │   │   ├── WF_C_DATASET.py
-  │   │   │   │   ├── config
-  │   │   │   │   │   ├── __init__.py
-  │   │   │   │   │   ├── constants.py
-  │   │   │   │   │   └── dag_config.py
-  │   │   │   │   ├── sql
-  │   │   │   │   │   ├── __init__.py
-  │   │   │   │   │   ├── auto_partition
-  │   │   │   │   │   │   ├── fact_production.sql
-  │   │   │   │   │   │   ├── machine_status_logs.sql
-  │   │   │   │   │   │   └── production_records.sql
-  │   │   │   │   │   ├── dim_date.sql
-  │   │   │   │   │   ├── dim_machine.sql
-  │   │   │   │   │   ├── dim_product.sql
-  │   │   │   │   │   ├── fact_machine_status.sql
-  │   │   │   │   │   ├── fact_production.sql
-  │   │   │   │   │   └── models
-  │   │   │   │   │       ├── olap
-  │   │   │   │   │       │   ├── dim_date.sql
-  │   │   │   │   │       │   ├── dim_machine.sql
-  │   │   │   │   │       │   ├── dim_product.sql
-  │   │   │   │   │       │   ├── fact_machine_status.sql
-  │   │   │   │   │       │   └── fact_production.sql
-  │   │   │   │   │       └── oltp
-  │   │   │   │   │           ├── machine.sql
-  │   │   │   │   │           ├── machine_events.sql
-  │   │   │   │   │           ├── machine_status_logs.sql
-  │   │   │   │   │           ├── product.sql
-  │   │   │   │   │           ├── production_orders.sql
-  │   │   │   │   │           └── production_records.sql
-  │   │   │   │   └── utils
-  │   │   │   │       ├── __init__.py
-  │   │   │   │       └── dag_tool.py
+  │   │   │   ├── dags ( copy from `src/scripts/dags` )
   │   │   │   ├── deploy_dags.sh
   │   │   │   ├── docker-compose.yaml
   │   │   │   ├── plugins
@@ -542,7 +507,6 @@ make kafka-topic-clean
       │   │       │   └── main.py
       │   │       └── scripts
       │   │           ├── __init__.py
-      │   │           ├── consumers.py
       │   │           ├── create_topic.py
       │   │           ├── init.py
       │   │           └── topics_config.json

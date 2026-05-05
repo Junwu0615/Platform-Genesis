@@ -22,7 +22,7 @@ SUB_SERVICES = ./docker/airflow/docker-compose.yaml \
 
 AIRFLOW_CONTENT = airflow-webserver airflow-scheduler airflow-worker airflow-triggerer redis
 MONITORING_CONTENT = grafana prometheus node_exporter postgres_exporter
-POSTGRESQL_CONTENT = dev-db pgadmin
+POSTGRESQL_CONTENT = common-db pgadmin
 PORTAINER_CONTENT = portainer
 MQTT_CONTENT = mqtt
 KAFKA_CONTENT = kafka kafka-connect kafka-ui schema-registry
@@ -32,7 +32,8 @@ ELK_CONTENT = elasticsearch logstash kibana
 fix-sock db-wait list-configs prune get-chown-all dev-mode prod-mode kafka-chow \
 airflow monitoring portainer postgresql mqtt kafka \
 setup config infra all destroy graph \
-kafka-connect-create kafka-connect-upsert kafka-connect-status kafka-connect-del kafka-topic-clean
+kafka-connect-create kafka-connect-upsert kafka-connect-status \
+kafka-connect-del kafka-topic-clean kafka-schema-del kafka-clean-all
 
 init:
 	@echo "* 進行特定服務 init"
@@ -79,7 +80,7 @@ fix-sock:
 
 db-wait:
 	@echo "1. 正在啟動資料庫 ..."
-	docker compose -f $(COMPOSE_DIR) up -d dev-db --no-recreate
+	docker compose -f $(COMPOSE_DIR) up -d common-db --no-recreate
 	@echo "2. 等待資料庫就緒 ..."
 	sleep 10
 
@@ -234,18 +235,6 @@ kafka-connect-upsert:
 	@echo "\n\n";
 	@make kafka-connect-status
 
-kafka-connect-del:
-	@echo "* 根據指定路徑將 Kafka Connection 進行移除設定 ..."
-	@for file in $(KAFKA_CONN_ALL_JSON); do \
-		NAME=$$(basename $$file .json); \
-		echo "\n# 移除配置: $$NAME"; \
-		curl -s -X DELETE \
-			http://$(SERVICE_PATH):8083/connectors/$$NAME; \
-	done
-	sleep 3
-	@echo "\n\n";
-	@make kafka-connect-status
-
 kafka-connect-status:
 	@echo "* 當前 Kafka Connection 運作狀態"
 	@for name in $$(curl -s http://$(SERVICE_PATH):8083/connectors | jq -r '.[]'); do \
@@ -253,26 +242,35 @@ kafka-connect-status:
 		echo "    # Connector: [ $$name ] -> Status: [ $$STATE ]"; \
 	done
 
-kafka-topic-clean:
-	@echo "* 將 kafka topic 徹底清乾淨 ..."
-	@echo "* [1/3] 正在刪除所有 Kafka Connectors ..."
+kafka-connect-del:
+	@echo "* 移除所有 Kafka Connection 設定 ..."
 	@curl -s http://localhost:8083/connectors | jq -r '.[]' | xargs -I {} curl -s -X DELETE http://localhost:8083/connectors/{}
-	@sleep 3
+	sleep 3
 	@echo "\n\n";
-
 	@make kafka-connect-status
-	@echo "\n\n";
 
-	@echo "* [2/3] 正在清理 Kafka Topics (過濾條件: $(TOPIC_FILTER)) ..."
+kafka-topic-clean:
+	@echo "* 移除指定 Kafka Topics (過濾條件: $(TOPIC_FILTER)) ..."
 	@docker exec ooud-cluster-kafka-1 kafka-topics --bootstrap-server $(SERVICE_PATH):9092 --list | grep -vE "$(TOPIC_FILTER)" | while read -r topic; do \
 		echo "  -> 物理刪除 Topic: $$topic"; \
 		docker exec ooud-cluster-kafka-1 kafka-topics --bootstrap-server $(SERVICE_PATH):9092 --delete --topic $$topic; \
 	done
-	@echo "\n\n";
 
-	@echo "* [3/3] 正在清理 Schema Registry Subjects (過濾條件: $(SCHEMA_FILTER)) ..."
+kafka-schema-del:
+	@echo "* 移除指定 Schema Registry Subjects (過濾條件: $(SCHEMA_FILTER)) ..."
 	@curl -s http://$(SERVICE_PATH):8081/subjects | jq -r '.[]' | grep -vE "$(SCHEMA_FILTER)" | while read -r subject; do \
 		echo "  -> 銷毀 Schema: $$subject"; \
 		curl -s -X DELETE http://$(SERVICE_PATH):8081/subjects/$$subject; \
 	done
+
+kafka-clean-all:
+	@echo "* 將 kafka 一系列 [topic / sink / source / schema registry] 徹底清乾淨 ..."
+	@echo "* [1/3] 正在清理 Kafka Connectors ..."
+	@make kafka-connect-del
+	@echo "\n\n";
+	@echo "* [2/3] 正在清理 Kafka Topics ..."
+	@make kafka-topic-clean
+	@echo "\n\n";
+	@echo "* [3/3] 正在清理 Schema Registry Subjects ..."
+	@make kafka-schema-del
 	@echo "\n\n✅ 所有的狀態已重置"

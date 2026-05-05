@@ -1,5 +1,6 @@
 services:
-  dev-db:
+  common-db:
+    image: postgres-common-db:${POSTGRES_VERSION:-latest}
     build:
       context: .
       dockerfile: Dockerfile
