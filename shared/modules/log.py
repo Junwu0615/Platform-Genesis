@@ -64,6 +64,9 @@ class Logger:
             ERROR    40  錯誤     發生 Exception，特定功能失效但主程式未崩潰
             CRITICAL 50  嚴重     系統災難、無法繼續運行（如：資料庫連不上）
         """
+
+        # FIXME 這邊好像可以大幅優化 ? 整併 ( _add_logstash_handler + _console_logging_settings + _file_logging_settings )
+
         self.logging_level = logging_level
         self.symbol_tag = {**kwargs}
 
@@ -85,7 +88,7 @@ class Logger:
             2. 封裝 Adapter 以攜帶自定義標籤
         """
         logger.addHandler(logstash.TCPLogstashHandler(ELK_HOST, LOGSTASH_PORT, version=1))
-        logging.LoggerAdapter(logger, extra=self.symbol_tag)
+        return logging.LoggerAdapter(logger, extra=self.symbol_tag)
 
 
     def _console_logging_settings(self, console_name: str, **kwargs) -> logging.Logger:
@@ -111,7 +114,7 @@ class Logger:
         console_handler.setLevel(getattr(logging, self.logging_level))
 
         logger.addHandler(console_handler)
-        self._add_logstash_handler(logger)
+        logger = self._add_logstash_handler(logger)
         return logger
 
 
@@ -147,7 +150,7 @@ class Logger:
         file_handler.setLevel(getattr(logging, self.logging_level))
 
         logger.addHandler(file_handler)
-        self._add_logstash_handler(logger)
+        logger = self._add_logstash_handler(logger)
         return logger
 
 
