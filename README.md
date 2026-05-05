@@ -57,12 +57,12 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 | Ansible | Modularization | 2026-04-20 |
 | Add `IoT Platform` | MQTT Broker + Apache Kafka | 2026-04-25 |
 | Multi-Instance | like real-edge : `v2` | 2026-04-28 |
-| MQTT Logic | for `command_platform` | 2026-04-28 |
+| MQTT logic | for `command_platform` | 2026-04-28 |
 | Kafka Connect | `source` : producer  | 2026-04-30 |
-| Kafka Logic | for `instance` | 2026-05-03 |
+| Kafka logic | for `instance` | 2026-05-03 |
 | Kafka Connect | `sink` : consumers | 2026-05-04 |
 | Add `ELK` | - | 2026-05-05 |
-| API Service Logic | - | X |
+| API Service logic | - | X |
 | make `v2` Dockerfile | - | - |
 | Create MV | Materialized View | - |
 | Analytical Queries | - | - |
@@ -107,15 +107,15 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 | Single to Batch Insert | 批次發送 | 2026-03-26 |
 | Generate Rigorous<br>Static Data | - | 2026-03-26 |
 | Rigorous Calibration<br>of Dynamic Data | 單一機台同時間只允許做一件事 /<br>排隊消化訂單 / 訂單生產週期戳記 | 2026-03-27 |
-| Adjusting Contextual Logic | ~~插入機台事件 : machine_events~~ | 2026-03-28 |
+| Adjusting Contextual | ~~插入機台事件 : machine_events~~ | 2026-03-28 |
 | execute -> execute_batch | 批次發送 + 批次提交 : 不適用於目前模擬方式 | X |
-| Adjusting Contextual Logic | 插入機台狀態 : machine_status_logs | 2026-03-30 |
-| Increase Data Volume Logic | - | 2026-03-30 |
+| Adjusting Contextual | 插入機台狀態 : machine_status_logs | 2026-03-30 |
+| Increase Data Volume | - | 2026-03-30 |
 | PoWA( Running Normally ) | - | 2026-03-30 |
 | Try Again PoWA Web | ⚠️very difficult to deal with | 2026-03-30 |
 | Generic DB Benchmark | Design Benchmark-1 | 2026-03-31 |
 | Generic DB Benchmark | 64MB | 2026-03-31 |
-| Fine-tuning<br>PostgreSQL Docker Settings | `shm-size` | 2026-04-01 |
+| Fine-tuning<br>PostgreSQL Settings | `shm-size` | 2026-04-01 |
 | Docker Engine | for `WSL2` | 2026-04-03 |
 | Generic DB Benchmark | Design Benchmark-2 | 2026-04-03 |
 | Generic DB Benchmark | Docker Desktop ( 64MB )<br>vs<br>WSL2 ( 16GB ) | 2026-04-04 |
@@ -148,9 +148,9 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 | Add `IoT Platform` | MQTT Broker + Apache Kafka | 2026-04-25 |
 | Simple Simulation | organizing old versions : `v1` | 2026-04-28 |
 | Multi-Instance | like real-edge : `v2` | 2026-04-28 |
-| MQTT Logic | for `command_platform` | 2026-04-28 |
+| MQTT logic | for `command_platform` | 2026-04-28 |
 | Kafka Connect | `source` : producer  | 2026-04-30 |
-| Kafka Logic | for `instance` | 2026-05-03 |
+| Kafka logic | for `instance` | 2026-05-03 |
 | Kafka Connect | `sink` : consumers | 2026-05-04 |
 | Add `ELK` | - | 2026-05-05 |
 | ELK | Experience : `ELK` | 2026-05-05 |
@@ -160,7 +160,7 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 | Encapsulation Entry | app.py | - |
 | Add `SQLite`<br>to Edge scripts  | 提升消費事務可用性 | - |
 | Security Message<br>Transmission | encryption ( `kafka` + `mqtt` ) | - |
-| API Service Logic | - | X |
+| API Service logic | - | X |
 | make `v2` Dockerfile | - | - |
 | Grafana Dashboard | update `htap_grafana.json` | - |
 | Create MV | Materialized View | - |

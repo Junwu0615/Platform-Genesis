@@ -1,4 +1,5 @@
-FROM postgres:16
+ARG POWA_POSTGRES_VERSION=16
+FROM postgres:${POWA_POSTGRES_VERSION}
 
 RUN apt-get update \
  && apt-get install -y \

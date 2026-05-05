@@ -1,8 +1,8 @@
 services:
   kafka: # KRaft 模式
-    image: confluentinc/cp-kafka:7.6.1
+    image: confluentinc/cp-kafka:${KAFKA_VERSION:-latest}
     ports:
-      - "9092:9092"
+      - '9092:9092'
     env_file:
       - .env
     environment:
@@ -30,12 +30,12 @@ services:
       start_period: 60s  # 60 秒的緩衝時間啟動，期間失敗不計入 retries
 
   kafka-connect:
-    image: iot-platform-kafka-connect:latest
+    image: iot-platform-kafka-connect:${KAFKA_CONNECT_VERSION:-latest}
     build:
       context: ./dockerfile
       dockerfile: ./Dockerfile.kafka
     ports:
-      - "8083:8083" # Connect REST API
+      - '8083:8083'
     environment:
       CONNECT_BOOTSTRAP_SERVERS: 'kafka:29092'
       CONNECT_REST_ADVERTISED_HOST_NAME: kafka-connect
@@ -66,7 +66,7 @@ services:
         condition: service_healthy
 
   kafka-ui:
-    image: provectuslabs/kafka-ui:latest
+    image: provectuslabs/kafka-ui:${KAFKA_UI_VERSION:-latest}
     ports:
       - '9093:8080'
     environment:
@@ -80,10 +80,10 @@ services:
       - ooud-cluster_default
 
   schema-registry:
-    image: confluentinc/cp-schema-registry:7.6.1
+    image: confluentinc/cp-schema-registry:${SCHEMA_REGISTRY_VERSION:-latest}
     hostname: schema-registry
     ports:
-      - "8081:8081"
+      - '8081:8081'
     environment:
       SCHEMA_REGISTRY_HOST_NAME: schema-registry
       SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: 'kafka:29092'

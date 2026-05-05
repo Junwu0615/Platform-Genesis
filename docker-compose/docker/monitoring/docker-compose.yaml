@@ -1,8 +1,10 @@
 services:
   postgres_exporter:
-    image: prometheuscommunity/postgres-exporter:latest
+    image: prometheuscommunity/postgres-exporter:${POSTGRES_EXPORTER_VERSION:-latest}
     ports:
       - '9187:9187'
+    env_file:
+      - .env
     environment:
       DATA_SOURCE_NAME: 'postgresql://postgres_exporter:exporter@host.docker.internal:5432/postgres?sslmode=disable'
     command:
@@ -22,9 +24,11 @@ services:
     restart: unless-stopped
 
   node_exporter:
-    image: prom/node-exporter:latest
+    image: prom/node-exporter:${NODE_EXPORTER_VERSION:-latest}
     ports:
       - '9100:9100'
+    env_file:
+      - .env
     pid: host
     volumes:
       - '/proc:/host/proc:ro'
@@ -48,9 +52,11 @@ services:
     restart: unless-stopped
 
   prometheus:
-    image: prom/prometheus:latest
+    image: prom/prometheus:${PROMETHEUS_VERSION:-latest}
     ports:
       - '9090:9090'
+    env_file:
+      - .env
     volumes:
       - ./prometheus.yaml:/etc/prometheus/prometheus.yml
       - prometheus_data:/prometheus
@@ -63,9 +69,11 @@ services:
     restart: unless-stopped
 
   grafana:
-    image: grafana/grafana:latest
+    image: grafana/grafana:${GRAFANA_VERSION:-latest}
     ports:
       - '3000:3000'
+    env_file:
+      - .env
     environment:
       - GF_SECURITY_ADMIN_PASSWORD=admin
     volumes:

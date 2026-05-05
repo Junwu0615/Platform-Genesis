@@ -1,11 +1,12 @@
 services:
   powa-postgres:
-#    image: postgres:16
     build:
       context: .
       dockerfile: Dockerfile
     ports:
       - '5431:5432'
+    env_file:
+      - .env
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
@@ -25,9 +26,11 @@ services:
     restart: unless-stopped
 
   powa-web:
-    image: powateam/powa-web:latest
+    image: powateam/powa-web:${POWA_UI_VERSION:-latest}
     ports:
       - '8888:8888'
+    env_file:
+      - .env
     environment:
       POWA_DB_HOST: powa-postgres
       POWA_DB_PORT: 5432
@@ -43,6 +46,7 @@ services:
     networks:
       - powa-net
     restart: unless-stopped
+
 
 volumes:
   powa_data:

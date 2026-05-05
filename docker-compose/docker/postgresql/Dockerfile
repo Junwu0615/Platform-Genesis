@@ -1,4 +1,5 @@
-FROM postgres:16.2-alpine
+ARG POSTGRES_VERSION=16.2-alpine
+FROM postgres:${POSTGRES_VERSION}
 
 # 安裝編譯與下載工具
 RUN apk add --no-cache --virtual .build-deps \

@@ -1,4 +1,5 @@
-FROM confluentinc/cp-kafka-connect:7.6.1
+ARG KAFKA_CONNECT_VERSION=7.6.1
+FROM confluentinc/cp-kafka-connect:${KAFKA_CONNECT_VERSION}
 
 # 1. 安裝 MQTT 插件
 RUN confluent-hub install --no-prompt confluentinc/kafka-connect-mqtt:latest
