@@ -12,13 +12,13 @@ import sys, os; sys.path.insert(0, os.getcwd())
 
 from src.config import *
 from src.config.constant import *
-from src.config.sink_format import *
 from src.utils.tools import *
 from src.utils.kafka_tools import get_partition_id
 from src.utils.threading_tools import *
 from src.utils.env_config import GET_PATH_ROOT, get_logger_name
 from src.modules.log import Logger
-from src.modules.simulator import MachineStatusSimulator
+from src.scripts.simulator.models.sink_format import *
+from src.scripts.simulator.models import MachineStatusSimulator
 from src.modules.kafka_producer import KafkaProducerManager
 from confluent_kafka import (
     Consumer,

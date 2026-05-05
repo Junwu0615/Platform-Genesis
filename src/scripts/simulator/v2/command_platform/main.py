@@ -17,7 +17,7 @@ from src.utils.postgre_tools import get_conn, close_conn, table_exists
 
 from src.modules.log import Logger
 from src.modules.mqtt import MqttServer
-from src.modules.simulator import MachineStatusSimulator
+from src.scripts.simulator.models import MachineStatusSimulator
 
 
 console_name = get_logger_name(__file__, GET_PATH_ROOT)
