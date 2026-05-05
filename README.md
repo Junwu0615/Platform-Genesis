@@ -2,13 +2,13 @@
 
 |**Category**|**Technology Stack**|
 |--:|:--|
-|**Data Core**| ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=flat-square&logo=postgresql&logoColor=white) ![OLTP](https://img.shields.io/badge/Architecture-OLTP-red?style=flat-square) ![OLAP](https://img.shields.io/badge/Architecture-OLAP-red?style=flat-square) ![HTAP](https://img.shields.io/badge/Architecture-HTAP-red?style=flat-square) |
-|**Data Pipeline**| ![Kafka](https://img.shields.io/badge/Apache_Kafka-231F20?style=flat-square&logo=apache-kafka&logoColor=white) ![MQTT](https://img.shields.io/badge/MQTT-660066?style=flat-square&logo=mqtt&logoColor=white) ![Airflow](https://img.shields.io/badge/Apache_Airflow-017CEE?style=flat-square&logo=apache-airflow&logoColor=white) ![Python](https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white) |
-|**Data Governance**| ![Schema Registry](https://img.shields.io/badge/Tool-Schema_Registry-blue?style=flat-square&logo=confluent&logoColor=white) |
-|**Cloud & Infra**| ![GCP](https://img.shields.io/badge/GCP-4285F4?style=flat-square&logo=google-cloud&logoColor=white) ![Kubernetes](https://img.shields.io/badge/Kubernetes-326CE5?style=flat-square&logo=kubernetes&logoColor=white) ![Terraform](https://img.shields.io/badge/Terraform-7B42BC?style=flat-square&logo=terraform&logoColor=white) ![Ansible](https://img.shields.io/badge/Ansible-EE0000?style=flat-square&logo=ansible&logoColor=white) ![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white) |
-|**Monitoring**| ![Grafana](https://img.shields.io/badge/Grafana-F46800?style=flat-square&logo=grafana&logoColor=white) ![Prometheus](https://img.shields.io/badge/Prometheus-E6522C?style=flat-square&logo=prometheus&logoColor=white) ![Exporter](https://img.shields.io/badge/Node_Exporter-607D8B?style=flat-square&logo=prometheus&logoColor=white) ![Exporter](https://img.shields.io/badge/Postgres_Exporter-607D8B?style=flat-square&logo=prometheus&logoColor=white) ![PoWA](https://img.shields.io/badge/Tool-PoWA-blueviolet?style=flat-square) |
-|**Management**| ![Elasticsearch](https://img.shields.io/badge/Elasticsearch-005571?style=flat-square&logo=elasticsearch&logoColor=white) ![Logstash](https://img.shields.io/badge/Logstash-005571?style=flat-square&logo=logstash&logoColor=white) ![Kibana](https://img.shields.io/badge/Kibana-005571?style=flat-square&logo=kibana&logoColor=white) ![Portainer](https://img.shields.io/badge/Portainer-13BEFF?style=flat-square&logo=portainer&logoColor=white) |
-|**Other**| <a href='https://github.com/Junwu0615/OLTP-OLAP-UNIFIED-DB'><img alt='GitHub Views' src='https://views.whatilearened.today/views/github/Junwu0615/OLTP-OLAP-UNIFIED-DB.svg'> ![Windows 11](https://img.shields.io/badge/Windows_11-0078D4?style=flat-square&logo=windows-11&logoColor=white) |
+|*Data Core*| ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=flat-square&logo=postgresql&logoColor=white) ![OLTP](https://img.shields.io/badge/Architecture-OLTP-red?style=flat-square) ![OLAP](https://img.shields.io/badge/Architecture-OLAP-red?style=flat-square) ![HTAP](https://img.shields.io/badge/Architecture-HTAP-red?style=flat-square) |
+|*Data Pipeline*| ![Kafka](https://img.shields.io/badge/Apache_Kafka-231F20?style=flat-square&logo=apache-kafka&logoColor=white) ![MQTT](https://img.shields.io/badge/MQTT-660066?style=flat-square&logo=mqtt&logoColor=white) ![Airflow](https://img.shields.io/badge/Apache_Airflow-017CEE?style=flat-square&logo=apache-airflow&logoColor=white) ![Python](https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white) |
+|*Data Governance*| ![Schema Registry](https://img.shields.io/badge/Tool-Schema_Registry-blue?style=flat-square&logo=confluent&logoColor=white) |
+|*Cloud & Infra*| ![GCP](https://img.shields.io/badge/GCP-4285F4?style=flat-square&logo=google-cloud&logoColor=white) ![Kubernetes](https://img.shields.io/badge/Kubernetes-326CE5?style=flat-square&logo=kubernetes&logoColor=white) ![Terraform](https://img.shields.io/badge/Terraform-7B42BC?style=flat-square&logo=terraform&logoColor=white) ![Ansible](https://img.shields.io/badge/Ansible-EE0000?style=flat-square&logo=ansible&logoColor=white) ![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white) |
+|*Monitoring*| ![Grafana](https://img.shields.io/badge/Grafana-F46800?style=flat-square&logo=grafana&logoColor=white) ![Prometheus](https://img.shields.io/badge/Prometheus-E6522C?style=flat-square&logo=prometheus&logoColor=white) ![Exporter](https://img.shields.io/badge/Node_Exporter-607D8B?style=flat-square&logo=prometheus&logoColor=white) ![Exporter](https://img.shields.io/badge/Postgres_Exporter-607D8B?style=flat-square&logo=prometheus&logoColor=white) ![PoWA](https://img.shields.io/badge/Tool-PoWA-blueviolet?style=flat-square) |
+|*Management*| ![Elasticsearch](https://img.shields.io/badge/Elasticsearch-005571?style=flat-square&logo=elasticsearch&logoColor=white) ![Logstash](https://img.shields.io/badge/Logstash-005571?style=flat-square&logo=logstash&logoColor=white) ![Kibana](https://img.shields.io/badge/Kibana-005571?style=flat-square&logo=kibana&logoColor=white) ![Portainer](https://img.shields.io/badge/Portainer-13BEFF?style=flat-square&logo=portainer&logoColor=white) |
+|*Other*| <a href='https://github.com/Junwu0615/OLTP-OLAP-UNIFIED-DB'><img alt='GitHub Views' src='https://views.whatilearened.today/views/github/Junwu0615/OLTP-OLAP-UNIFIED-DB.svg'> ![Windows 11](https://img.shields.io/badge/Windows_11-0078D4?style=flat-square&logo=windows-11&logoColor=white) |
 
 </div>
 
@@ -63,7 +63,7 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 | Kafka Connect | `sink` : consumers | 2026-05-04 |
 | Add `ELK` | - | 2026-05-05 |
 | API Service Logic | - | X |
-| `v2` make Dockerfile | - | - |
+| make `v2` Dockerfile | - | - |
 | Create MV | Materialized View | - |
 | Analytical Queries | - | - |
 | Add `Gitlab` | - | - |
@@ -105,7 +105,7 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 | Script | init_factory_data.py | 2026-03-24 |
 | Script | simulate_factory_stream.py | 2026-03-24 |
 | Single to Batch Insert | 批次發送 | 2026-03-26 |
-| Generate Rigorous Static Data | - | 2026-03-26 |
+| Generate Rigorous<br>Static Data | - | 2026-03-26 |
 | Rigorous Calibration<br>of Dynamic Data | 單一機台同時間只允許做一件事 /<br>排隊消化訂單 / 訂單生產週期戳記 | 2026-03-27 |
 | Adjusting Contextual Logic | ~~插入機台事件 : machine_events~~ | 2026-03-28 |
 | execute -> execute_batch | 批次發送 + 批次提交 : 不適用於目前模擬方式 | X |
@@ -116,7 +116,7 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 | Generic DB Benchmark | Design Benchmark-1 | 2026-03-31 |
 | Generic DB Benchmark | 64MB | 2026-03-31 |
 | Fine-tuning<br>PostgreSQL Docker Settings | `shm-size` | 2026-04-01 |
-| WSL2 Startup Docker Engine | - | 2026-04-03 |
+| Docker Engine | for `WSL2` | 2026-04-03 |
 | Generic DB Benchmark | Design Benchmark-2 | 2026-04-03 |
 | Generic DB Benchmark | Docker Desktop ( 64MB )<br>vs<br>WSL2 ( 16GB ) | 2026-04-04 |
 | Workload Benchmark | Design Benchmark | 2026-04-04 |
@@ -128,7 +128,7 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 | Partition Settings | `default_partition` | 2026-04-06 |
 | Auto Partition | `dags/sql/auto_partition/*` | 2026-04-06 |
 | OLTP to OLAP | `dags/sql/*` | 2026-04-06 |
-| Build DAGs Coding Style | - | 2026-04-06 |
+| DAG | Build Coding Style | 2026-04-06 |
 | DAG ETL Script | Fan-out Queue Pattern | 2026-04-06 |
 | DAG | Try `Param` | 2026-04-07 |
 | DAG | Try `Dataset` | 2026-04-08 |
@@ -136,7 +136,7 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 | Docker Compose | Compose Modularization | 2026-04-11 |
 | Add Makefile | for `docker-compose` | 2026-04-11 |
 | Add Airflow Config UI | `Trigger w/ Config` | 2026-04-18 |
-| Update DAGs Coding Style | - | 2026-04-18 |
+| DAG | Update Coding Style | 2026-04-18 |
 | Terraform | Declaration Config : `Docker Provider` | 2026-04-19 |
 | Terraform | Config Transfer : `docker-compose` | 2026-04-19 |
 | Ansible | node `init` & `config` | 2026-04-19 |
@@ -156,12 +156,12 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 | ELK | Experience : `ELK` | 2026-05-05 |
 | Define the Version Number<br>of each service  | settings to `.env` | 2026-05-05 |
 | update logging logic | mixed ( `ELK` + `logging` ) | - |
-| Add DAGs | init + create_topic | - |
+| DAG | init.py / create_topic.py | - |
 | Encapsulation Entry | app.py | - |
-| Add `SQLite` to Edge scripts  | 提升消費事務可用性 | - |
-| Security Message Transmission | encryption ( `kafka` + `mqtt` ) | - |
+| Add `SQLite`<br>to Edge scripts  | 提升消費事務可用性 | - |
+| Security Message<br>Transmission | encryption ( `kafka` + `mqtt` ) | - |
 | API Service Logic | - | X |
-| `v2` make Dockerfile | - | - |
+| make `v2` Dockerfile | - | - |
 | Grafana Dashboard | update `htap_grafana.json` | - |
 | Create MV | Materialized View | - |
 | Analytical Queries | - | - |
