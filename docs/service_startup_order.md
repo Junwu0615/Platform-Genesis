@@ -184,8 +184,9 @@
   ```
   # 設定 MQTT 密碼 # 建立一個 admin 的帳號，並基於密碼生成 Hash
   touch ./config/passwd
-  docker run --rm -ti -v $(pwd)/config:/mosquitto/config eclipse-mosquitto mosquitto_passwd -b /mosquitto/config/passwd admin 123456789
-
+  sudo chown root:root ./config/passwd
+  docker exec -it ooud-cluster-mqtt-1 mosquitto_passwd -b /mosquitto/config/passwd admin 123456789
+  
   # 1. 建立共享網路
   docker network create iot_network
   
@@ -199,10 +200,10 @@
 - #### *b.　[ MQTT ] 測試 Broker 是否認得帳密*
   ```
   # 故意不用密碼 => 失敗
-  docker exec -it mqtt_broker mosquitto_sub -t "test/topic"
+  docker exec -it ooud-cluster-mqtt-1  mosquitto_sub -t "test/topic"
   
   # 使用帳號密碼 => 成功，進入等待訊息狀態
-  docker exec -it mqtt_broker mosquitto_sub -t "test/topic" -u admin -P 123456789
+  docker exec -it ooud-cluster-mqtt-1  mosquitto_sub -t "test/topic" -u admin -P 123456789
   ```
   
 - #### *c.　[ Kafka ] 設定 Kafka-Connect*

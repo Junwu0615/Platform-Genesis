@@ -175,12 +175,12 @@ class Logger:
         if kwargs.get('console_b', True) and self.console_log:
             method = getattr(self.console_log, level_name, None)
             if method:
-                method(msg, exc_info=exc_info, stacklevel=3)
+                method(msg, exc_info=exc_info, stacklevel=4)
 
         if kwargs.get('file_b', True) and self.file_log:
             method = getattr(self.file_log, level_name, None)
             if method:
-                method(msg, exc_info=exc_info, stacklevel=3)
+                method(msg, exc_info=exc_info, stacklevel=4)
 
 
     def notice(self, msg: str='', console_b: bool=True, file_b: bool=True, **kwargs):

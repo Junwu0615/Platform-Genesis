@@ -17,7 +17,7 @@ console_name = get_logger_name(__file__, GET_PATH_ROOT)
 logging = Logger(console_name=console_name)
 
 YAML_VERSION = 'v2'
-YAML_PATH = os.path.join('./src/scripts/simulator', f'{YAML_VERSION}', 'factory_config.yaml')
+YAML_PATH = os.path.join('./src/core', f'{YAML_VERSION}', 'factory_config.yaml')
 config = get_yaml_config(YAML_PATH)
 kafka = config['kafka']
 
@@ -105,6 +105,6 @@ if __name__ == '__main__':
     try:
         logging.notice('開始 Kafka 基礎建設同步腳本')
         time.sleep(3)
-        sync_kafka_infrastructure(os.path.join('./src/scripts/simulator', f'{YAML_VERSION}', 'scripts', 'topics_config.json'))
+        sync_kafka_infrastructure(os.path.join('./src/core', f'{YAML_VERSION}', 'scripts', 'topics_config.json'))
     finally:
         sys.exit(0)

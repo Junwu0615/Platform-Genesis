@@ -17,7 +17,7 @@ logging = Logger(console_name=console_name)
 
 
 YAML_VERSION = 'v1'
-with open(os.path.join('./src/scripts/simulator', f'{YAML_VERSION}', 'factory_config.yaml')) as f:
+with open(os.path.join('./src/core', f'{YAML_VERSION}', 'factory_config.yaml')) as f:
     config = yaml.safe_load(f)
 
 db = config['database']
