@@ -14,7 +14,7 @@ from shared.utils.env_config import GET_PATH_ROOT, get_logger_name
 from shared.utils.postgres_tools import get_conn, close_conn
 from shared.modules.log import Logger
 from shared.modules.mqtt import MqttServer, DEFAULT_BROKER, DEFAULT_BROKER_PORT
-from src.scripts.simulator.models.simulator import MachineStatusSimulator
+from src.scripts.core.models.simulator import MachineStatusSimulator
 
 
 console_name = get_logger_name(__file__, GET_PATH_ROOT)
