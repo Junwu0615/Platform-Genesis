@@ -12,3 +12,4 @@ authlib==1.7.0
 cachetools==7.1.0
 attrs==26.1.0
 fastavro==1.12.2
+python-logstash==0.4.8

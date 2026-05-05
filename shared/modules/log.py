@@ -8,15 +8,13 @@ TODO
             ELK (ElasticSearch + Logstash + Kibana) 方案 未來恐需整合一起 取代寫入實體日誌邏輯
             DEBUG Level 硬設定 ...
 """
-import logging
+import logging, logstash
 from colorlog import ColoredFormatter
 from logging.handlers import RotatingFileHandler
-
 from shared.config.constant import *
+from shared.config.settings import ELK_HOST, LOGSTASH_PORT
 
-MODULE_NAME = __name__.upper()
 
-TITLE_SYMBOL_NUMBER = 20
 COLORS_CONFIG = {
     'INFO': 'white',
     'NOTICE': 'yellow',
@@ -25,14 +23,14 @@ COLORS_CONFIG = {
     'DEBUG': 'green',
     'CRITICAL': 'bold_red',
 }
-
 FILE_FMT = '[%(asctime)s] %(levelname)s: %(message)s'
-
 # CONSOLE_FMT = '%(log_color)s[%(asctime)s] %(levelname)s: %(message)s'
 # CONSOLE_FMT ='%(log_color)s[%(asctime)s] [%(name)s | %(funcName)s:%(lineno)d] %(levelname)s: %(message)s'
 CONSOLE_FMT ='%(log_color)s[%(asctime)s] [%(name)s:%(lineno)d] %(levelname)s: %(message)s'
 
 
+TITLE_SYMBOL_NUMBER = 20
+SET_LEVEL = 'DEBUG' # 'INFO'
 NOTICE_LEVEL_NUM = 25
 
 
@@ -70,12 +68,15 @@ class Logger:
             self.file_log = self._file_logging_settings(file_name, file_path, max_bytes, backup_count)
 
 
+    def _add_logstash_handler(self, logger: logging.Logger):
+        """TODO 增加 Logstash Handler，將日誌直接發送到 Logstash 進行集中管理"""
+        logger.addHandler(logstash.TCPLogstashHandler(ELK_HOST, LOGSTASH_PORT, version=1))
+
+
     def _console_logging_settings(self, console_name: str) -> logging.Logger:
 
-        # logger = logging.getLogger(f'{MODULE_NAME} | {console_name.upper()}')
         logger = logging.getLogger(f'{console_name.upper()}')
-
-        logger.setLevel(logging.DEBUG)
+        logger.setLevel(getattr(logging, SET_LEVEL))
 
         if logger.hasHandlers():
             for handler in logger.handlers:
@@ -92,9 +93,10 @@ class Logger:
             )
         )
 
-        console_handler.setLevel(logging.DEBUG)
+        console_handler.setLevel(getattr(logging, SET_LEVEL))
 
         logger.addHandler(console_handler)
+        self._add_logstash_handler(logger)
         return logger
 
 
@@ -105,10 +107,8 @@ class Logger:
 
         os.makedirs(str(getattr(pathlib.Path(file_path), 'parent')), exist_ok=True)
 
-        # logger = logging.getLogger(f'{MODULE_NAME} | {file_name.upper()}')
         logger = logging.getLogger(f'{file_name.upper()}')
-
-        logger.setLevel(logging.DEBUG)
+        logger.setLevel(getattr(logging, SET_LEVEL))
 
         if logger.hasHandlers():
             for handler in logger.handlers:
@@ -128,9 +128,10 @@ class Logger:
                 datefmt=LONG_FORMAT)
         )
 
-        file_handler.setLevel(logging.DEBUG)
+        file_handler.setLevel(getattr(logging, SET_LEVEL))
 
         logger.addHandler(file_handler)
+        self._add_logstash_handler(logger)
         return logger
 
 
