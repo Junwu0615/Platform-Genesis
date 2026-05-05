@@ -9,8 +9,8 @@ TODO
                 - [壓測必開]    OFF : 不等待資料寫入磁碟就回應，提升性能，但在系統崩潰時可能會丟失最近的交易
 """
 import psycopg2
-from src.modules.log import Logger
-from src.utils.env_config import GET_PATH_ROOT, get_logger_name
+from shared.modules.log import Logger
+from shared.utils.env_config import GET_PATH_ROOT, get_logger_name
 
 
 console_name = get_logger_name(__file__, GET_PATH_ROOT)

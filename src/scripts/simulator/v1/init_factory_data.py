@@ -6,10 +6,10 @@ TODO
 """
 import sys, os; sys.path.insert(0, os.getcwd())
 
-from src.modules.log import Logger
-from src.utils.tools import *
-from src.utils.env_config import GET_PATH_ROOT, get_logger_name
-from src.utils.postgre_tools import get_conn, close_conn, table_exists
+from shared.modules.log import Logger
+from shared.utils.tools import *
+from shared.utils.env_config import GET_PATH_ROOT, get_logger_name
+from shared.utils.postgres_tools import get_conn, close_conn, table_exists
 
 
 console_name = get_logger_name(__file__, GET_PATH_ROOT)

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from src.config import *
+from shared.config import *
 
 
 def get_now(hours: int=None,

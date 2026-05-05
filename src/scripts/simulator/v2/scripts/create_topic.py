@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 import sys, os; sys.path.insert(0, os.getcwd())
 
-from src.config import *
-from src.utils.tools import *
-from src.utils.env_config import GET_PATH_ROOT, get_logger_name
-from src.modules.log import Logger
+from shared.config import *
+from shared.utils.tools import *
+from shared.utils.env_config import GET_PATH_ROOT, get_logger_name
+from shared.modules.log import Logger
 from confluent_kafka.admin import (
     AdminClient,
     NewTopic,

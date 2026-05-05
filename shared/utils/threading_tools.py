@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-from src.config import *
-from src.modules.log import Logger
-from src.utils.env_config import GET_PATH_ROOT, get_logger_name
+from shared.config import *
+from shared.modules.log import Logger
+from shared.utils.env_config import GET_PATH_ROOT, get_logger_name
 
 
 console_name = get_logger_name(__file__, GET_PATH_ROOT)

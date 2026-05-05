@@ -6,10 +6,9 @@ Description: deletes all data from the specified tables
 import sys, os; sys.path.insert(0, os.getcwd())
 
 import psycopg2
-from src.modules.log import Logger
-from src.utils.env_config import GET_PATH_ROOT, get_logger_name
-from src.utils.postgre_tools import get_conn, close_conn, table_exists
-
+from shared.modules.log import Logger
+from shared.utils.env_config import GET_PATH_ROOT, get_logger_name
+from shared.utils.postgres_tools import close_conn
 
 console_name = get_logger_name(__file__, GET_PATH_ROOT)
 logging = Logger(console_name=console_name)

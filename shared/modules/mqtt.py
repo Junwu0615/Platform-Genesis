@@ -53,7 +53,7 @@ import paho.mqtt.client as mqtt_client
 from queue import Queue
 from concurrent.futures import ThreadPoolExecutor, as_completed
 # from src.config import *
-from src.modules.log import Logger
+from shared.modules.log import Logger
 
 
 KEEPALIVE_INTERVAL = 300 # timeout (300s = 5min)
