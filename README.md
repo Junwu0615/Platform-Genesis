@@ -66,10 +66,17 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 | `v2` make Dockerfile | - | - |
 | Create MV | Materialized View | - |
 | Analytical Queries | - | - |
+| Add `Gitlab` | - | - |
+| Add `Jenkins` | - | - |
+| Add `Docker-Registry` | - | - |
+| Add `Debezium` | Change Data Capture | - |
+| Add `Apache Iceberg` | Data Lake | - |
+| Add `Apache Flink` | consumer of CDC | - |
+| Build `Lakehouse` | - | - |
 | K8s | Beginner : `Minikube` | - |
 | K8s | Advanced : `K3s` + `VMware` | - |
 | K8s | Bottom Layer : `Kubeadm` + `VMware` | - |
-| K8s | Public Cloud : Google Kubernetes Engine ( `GKE` ) | - |
+| K8s | Public Cloud : `GKE` | - |
 
 </ul>
 </details>
@@ -99,12 +106,12 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 | Script | simulate_factory_stream.py | 2026-03-24 |
 | Single to Batch Insert | 批次發送 | 2026-03-26 |
 | Generate Rigorous Static Data | - | 2026-03-26 |
-| Rigorous Calibration of Dynamic Data | 單一機台同時間只允許做一件事 /<br>排隊消化訂單 / 訂單生產週期戳記 | 2026-03-27 |
+| Rigorous Calibration<br>of Dynamic Data | 單一機台同時間只允許做一件事 /<br>排隊消化訂單 / 訂單生產週期戳記 | 2026-03-27 |
 | Adjusting Contextual Logic | ~~插入機台事件 : machine_events~~ | 2026-03-28 |
 | execute -> execute_batch | 批次發送 + 批次提交 : 不適用於目前模擬方式 | X |
 | Adjusting Contextual Logic | 插入機台狀態 : machine_status_logs | 2026-03-30 |
 | Increase Data Volume Logic | - | 2026-03-30 |
-| PoWA ( Running Normally ) | - | 2026-03-30 |
+| PoWA( Running Normally ) | - | 2026-03-30 |
 | Try Again PoWA Web | ⚠️very difficult to deal with | 2026-03-30 |
 | Generic DB Benchmark | Design Benchmark-1 | 2026-03-31 |
 | Generic DB Benchmark | 64MB | 2026-03-31 |
@@ -126,7 +133,7 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 | DAG | Try `Param` | 2026-04-07 |
 | DAG | Try `Dataset` | 2026-04-08 |
 | Add `Portainer` | By Docker | 2026-04-11 |
-| Docker Compose Profiles | Compose Modularization | 2026-04-11 |
+| Docker Compose | Compose Modularization | 2026-04-11 |
 | Add Makefile | for `docker-compose` | 2026-04-11 |
 | Add Airflow Config UI | `Trigger w/ Config` | 2026-04-18 |
 | Update DAGs Coding Style | - | 2026-04-18 |
@@ -134,7 +141,7 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 | Terraform | Config Transfer : `docker-compose` | 2026-04-19 |
 | Ansible | node `init` & `config` | 2026-04-19 |
 | Add Makefile | for `terraform + ansible` | 2026-04-19 |
-| Terraform vs. Docker Compose | Experience :<br>`狀態管理差異性 ; 可救回配置崩潰，提高 HA` | 2026-04-19 |
+| Terraform vs. Compose | Experience :<br>`狀態管理差異性 ; 可救回配置崩潰，提高 HA` | 2026-04-19 |
 | Terraform & Ansible | Experience :<br>`Ansible 如何補足 Terraform 的不足` | 2026-04-19 |
 | Terraform | Modularization | 2026-04-20 |
 | Ansible | Modularization | 2026-04-20 |
@@ -146,19 +153,29 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 | Kafka Logic | for `instance` | 2026-05-03 |
 | Kafka Connect | `sink` : consumers | 2026-05-04 |
 | Add `ELK` | - | 2026-05-05 |
-| update logging logic | mix ( `ELK` + `logging` ) | - |
+| ELK | Experience : `ELK` | 2026-05-05 |
+| Define the Version Number<br>of each service  | settings to `.env` | 2026-05-05 |
+| update logging logic | mixed ( `ELK` + `logging` ) | - |
 | Add DAGs | init + create_topic | - |
 | Encapsulation Entry | app.py | - |
+| Add `SQLite` to Edge scripts  | 提升消費事務可用性 | - |
 | Security Message Transmission | encryption ( `kafka` + `mqtt` ) | - |
 | API Service Logic | - | X |
 | `v2` make Dockerfile | - | - |
 | Grafana Dashboard | update `htap_grafana.json` | - |
 | Create MV | Materialized View | - |
 | Analytical Queries | - | - |
+| Add `Gitlab` | - | - |
+| Add `Jenkins` | - | - |
+| Add `Docker-Registry` | - | - |
+| Add `Debezium` | Change Data Capture | - |
+| Add `Apache Iceberg` | Data Lake | - |
+| Add `Apache Flink` | consumer of CDC | - |
+| Build `Lakehouse` | - | - |
 | K8s | Beginner : `Minikube` | - |
 | K8s | Advanced : `K3s` + `VMware` | - |
 | K8s | Bottom Layer : `Kubeadm` + `VMware` | - |
-| K8s | Public Cloud : Google Kubernetes Engine ( `GKE` ) | - |
+| K8s | Public Cloud : `GKE` | - |
 | K8s | Experience :<br>`Pod` / `Service` / `Ingress` | - |
 | K8s | Experience :<br>`Lens` / `k9s` / `Kubernetes Dashboard` | - |
 
@@ -555,7 +572,6 @@ make kafka-topic-clean
 <br>
 
 ### *F.　Notice*
-- #### *⭐ 欲真正解決 OLTP / OLAP 衝突，詳見[另一解法](https://github.com/Junwu0615/OLTP-To-OLAP-Pipeline)*
 - #### *f.1.　OLTP　VS.　OLAP　VS.　HTAP*
   | **Type** | **Core Objectives** | **Design Philosophy** | **Data Model** | **Query Features** |
   |:--:|:--|:--|:--|:--|
