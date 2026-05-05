@@ -57,9 +57,9 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 | Ansible | Modularization | 2026-04-20 |
 | Add `IoT Platform` | MQTT Broker + Apache Kafka | 2026-04-25 |
 | Multi-Instance | like real-edge : `v2` | 2026-04-28 |
-| MQTT logic | for `command_platform` | 2026-04-28 |
+| MQTT logic | for `cp` | 2026-04-28 |
 | Kafka Connect | `source` : producer  | 2026-04-30 |
-| Kafka logic | for `instance` | 2026-05-03 |
+| Kafka logic | for `inst` | 2026-05-03 |
 | Kafka Connect | `sink` : consumers | 2026-05-04 |
 | Add `ELK` | - | 2026-05-05 |
 | API Service logic | - | X |
@@ -149,9 +149,9 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 | Add `IoT Platform` | MQTT Broker + Apache Kafka | 2026-04-25 |
 | Simple Simulation | organizing old versions : `v1` | 2026-04-28 |
 | Multi-Instance | like real-edge : `v2` | 2026-04-28 |
-| MQTT logic | for `command_platform` | 2026-04-28 |
+| MQTT logic | for `cp` | 2026-04-28 |
 | Kafka Connect | `source` : producer  | 2026-04-30 |
-| Kafka logic | for `instance` | 2026-05-03 |
+| Kafka logic | for `inst` | 2026-05-03 |
 | Kafka Connect | `sink` : consumers | 2026-05-04 |
 | Add `ELK` | - | 2026-05-05 |
 | ELK | Experience : `ELK` | 2026-05-05 |
@@ -357,7 +357,7 @@ make kafka-all-clean
   │   │   │   ├── airflow-webserver.pid
   │   │   │   ├── airflow.cfg
   │   │   │   ├── config
-  │   │   │   ├── dags ( copy from `src/scripts/dags` )
+  │   │   │   ├── dags ( copy from `src/dags` )
   │   │   │   ├── deploy_dags.sh
   │   │   │   ├── docker-compose.yaml
   │   │   │   ├── plugins
@@ -432,98 +432,102 @@ make kafka-all-clean
   │   ├── kubeadm
   │   └── minikube
   ├── requirements.txt
+  ├── shared
+  │   ├── __init__.py
+  │   ├── config
+  │   │   ├── __init__.py
+  │   │   └── constant.py
+  │   ├── modules
+  │   │   ├── __init__.py
+  │   │   ├── app.py
+  │   │   ├── kafka_producer.py
+  │   │   ├── log.py
+  │   │   └── mqtt.py
+  │   └── utils
+  │       ├── __init__.py
+  │       ├── env_config.py
+  │       ├── kafka_tools.py
+  │       ├── postgres_tools.py
+  │       ├── threading_tools.py
+  │       └── tools.py
   └── src
       ├── __init__.py
-      ├── config
+      ├── core
       │   ├── __init__.py
-      │   ├── constant.py
-      │   ├── mqtt.py
-      │   └── sink_format.py
-      ├── modules
-      │   ├── __init__.py
-      │   ├── app.py
-      │   ├── kafka_producer.py
-      │   ├── log.py
-      │   ├── mqtt.py
-      │   └── simulator.py
-      ├── scripts
-      │   ├── __init__.py
-      │   ├── dags
-      │   │   ├── OP_SQL.py
-      │   │   ├── WF_AUTO_PARTITION.py
-      │   │   ├── WF_A_DATASET.py
-      │   │   ├── WF_B_DATASET.py
-      │   │   ├── WF_CREATE_TABLE.py
-      │   │   ├── WF_C_DATASET.py
-      │   │   ├── config
-      │   │   │   ├── __init__.py
-      │   │   │   ├── constants.py
-      │   │   │   └── dag_config.py
-      │   │   ├── sql
-      │   │   │   ├── __init__.py
-      │   │   │   ├── auto_partition
-      │   │   │   │   ├── fact_production.sql
-      │   │   │   │   ├── machine_status_logs.sql
-      │   │   │   │   └── production_records.sql
-      │   │   │   ├── dim_date.sql
-      │   │   │   ├── dim_machine.sql
-      │   │   │   ├── dim_product.sql
-      │   │   │   ├── fact_machine_status.sql
-      │   │   │   ├── fact_production.sql
-      │   │   │   └── models
-      │   │   │       ├── olap
-      │   │   │       │   ├── dim_date.sql
-      │   │   │       │   ├── dim_machine.sql
-      │   │   │       │   ├── dim_product.sql
-      │   │   │       │   ├── fact_machine_status.sql
-      │   │   │       │   └── fact_production.sql
-      │   │   │       └── oltp
-      │   │   │           ├── machine.sql
-      │   │   │           ├── machine_events.sql
-      │   │   │           ├── machine_status_logs.sql
-      │   │   │           ├── product.sql
-      │   │   │           ├── production_orders.sql
-      │   │   │           └── production_records.sql
-      │   │   └── utils
-      │   │       ├── __init__.py
-      │   │       └── dag_tool.py
-      │   ├── generic_benchmark
-      │   │   ├── dashboard_benchmark.sql
-      │   │   └── olap_benchmark.sql
-      │   ├── simulator
+      │   ├── models
       │   │   ├── __init__.py
-      │   │   ├── v1
-      │   │   │   ├── __init__.py
-      │   │   │   ├── factory_config.yaml
-      │   │   │   ├── init_factory_data.py
-      │   │   │   └── simulate_factory_stream.py
-      │   │   └── v2
-      │   │       ├── __init__.py
-      │   │       ├── api_service
-      │   │       │   └── __init__.py
-      │   │       ├── command_platform
-      │   │       │   ├── __init__.py
-      │   │       │   └── main.py
-      │   │       ├── factory_config.yaml
-      │   │       ├── instance
-      │   │       │   ├── __init__.py
-      │   │       │   └── main.py
-      │   │       └── scripts
-      │   │           ├── __init__.py
-      │   │           ├── create_topic.py
-      │   │           ├── init.py
-      │   │           └── topics_config.json
-      │   └── sql
-      │       ├── auto_partition.py
-      │       ├── delete_data.py
-      │       └── drop_table.py
-      └── utils
+      │   │   ├── simulator.py
+      │   │   └── sink_format.py
+      │   ├── v1
+      │   │   ├── __init__.py
+      │   │   ├── factory_config.yaml
+      │   │   ├── init_factory_data.py
+      │   │   └── simulate_factory_stream.py
+      │   └── v2
+      │       ├── __init__.py
+      │       ├── api
+      │       │   └── __init__.py
+      │       ├── cp
+      │       │   ├── __init__.py
+      │       │   └── main.py
+      │       ├── factory_config.yaml
+      │       ├── inst
+      │       │   ├── __init__.py
+      │       │   └── main.py
+      │       └── scripts
+      │           ├── __init__.py
+      │           ├── create_topic.py
+      │           ├── init.py
+      │           └── topics_config.json
+      ├── dags
+      │   ├── OP_SQL.py
+      │   ├── WF_AUTO_PARTITION.py
+      │   ├── WF_A_DATASET.py
+      │   ├── WF_B_DATASET.py
+      │   ├── WF_CREATE_TABLE.py
+      │   ├── WF_C_DATASET.py
+      │   ├── __init__.py
+      │   ├── config
+      │   │   ├── __init__.py
+      │   │   ├── constants.py
+      │   │   └── dag_config.py
+      │   ├── sql
+      │   │   ├── __init__.py
+      │   │   ├── auto_partition
+      │   │   │   ├── fact_production.sql
+      │   │   │   ├── machine_status_logs.sql
+      │   │   │   └── production_records.sql
+      │   │   ├── dim_date.sql
+      │   │   ├── dim_machine.sql
+      │   │   ├── dim_product.sql
+      │   │   ├── fact_machine_status.sql
+      │   │   ├── fact_production.sql
+      │   │   └── models
+      │   │       ├── olap
+      │   │       │   ├── dim_date.sql
+      │   │       │   ├── dim_machine.sql
+      │   │       │   ├── dim_product.sql
+      │   │       │   ├── fact_machine_status.sql
+      │   │       │   └── fact_production.sql
+      │   │       └── oltp
+      │   │           ├── machine.sql
+      │   │           ├── machine_events.sql
+      │   │           ├── machine_status_logs.sql
+      │   │           ├── product.sql
+      │   │           ├── production_orders.sql
+      │   │           └── production_records.sql
+      │   └── utils
+      │       ├── __init__.py
+      │       └── dag_tool.py
+      └── scripts
           ├── __init__.py
-          ├── env_config.py
-          ├── kafka_tools.py
-          ├── postgre_tools.py
-          ├── threading_tools.py
-          └── tools.py
+          ├── generic_benchmark
+          │   ├── dashboard_benchmark.sql
+          │   └── olap_benchmark.sql
+          └── sql
+              ├── auto_partition.py
+              ├── delete_data.py
+              └── drop_table.py
   ```
 </ul>
 </details>
