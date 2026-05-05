@@ -105,11 +105,11 @@ prod-mode:
 	sudo chown -R 50000:0 $(AIRFLOW_DIR)
 	sudo chmod -R 775 $(AIRFLOW_DIR)
 
-kafka-chown:
-	@echo "設定 kafka 擁有顯式持久化資料權限"
-	mkdir -p $(IoT_DIR)/data/kafka_data
-	sudo chown -R 1000:0 $(IoT_DIR)/data/kafka_data
-	sudo chmod -R 775 $(IoT_DIR)/data/kafka_data
+#kafka-chown:
+#	@echo "設定 kafka 擁有顯式持久化資料權限"
+#	mkdir -p $(IoT_DIR)/data/kafka_data
+#	sudo chown -R 1000:0 $(IoT_DIR)/data/kafka_data
+#	sudo chmod -R 775 $(IoT_DIR)/data/kafka_data
 
 copy-dag:
 	@echo "將開發 DAGs 複製到 Airflow 容器中的 DAGs 對應資料夾 | 先刪除目錄下所有內容 | 執行複製"
@@ -121,37 +121,38 @@ copy-dag:
 
 airflow: fix-sock copy-dag
 	@echo "重新啟動 Airflow 相關服務"
-	docker compose -f $(COMPOSE_DIR) down $(AIRFLOW_CONTENT)
+	docker compose -f $(COMPOSE_DIR) down $(AIRFLOW_CONTENT) --remove-orphans
 	docker compose -f $(COMPOSE_DIR) up -d $(AIRFLOW_CONTENT)
 
 monitoring: fix-sock
 	@echo "重新啟動 Monitoring 相關服務"
-	docker compose -f $(COMPOSE_DIR) down $(MONITORING_CONTENT)
+	docker compose -f $(COMPOSE_DIR) down $(MONITORING_CONTENT) --remove-orphans
 	docker compose -f $(COMPOSE_DIR) up -d $(MONITORING_CONTENT)
 
 postgresql: fix-sock
 	@echo "重新啟動 Postgresql 相關服務"
-	docker compose -f $(COMPOSE_DIR) down $(POSTGRESQL_CONTENT)
+	docker compose -f $(COMPOSE_DIR) down $(POSTGRESQL_CONTENT) --remove-orphans
 	docker compose -f $(COMPOSE_DIR) up -d $(POSTGRESQL_CONTENT)
 
 portainer: fix-sock
 	@echo "重新啟動 Portainer 相關服務"
-	docker compose -f $(COMPOSE_DIR) down $(PORTAINER_CONTENT)
+	docker compose -f $(COMPOSE_DIR) down $(PORTAINER_CONTENT) --remove-orphans
 	docker compose -f $(COMPOSE_DIR) up -d $(PORTAINER_CONTENT)
 
 mqtt: fix-sock
 	@echo "重新啟動 MQTT 相關服務"
-	docker compose -f $(COMPOSE_DIR) down $(MQTT_CONTENT)
+	docker compose -f $(COMPOSE_DIR) down $(MQTT_CONTENT) --remove-orphans
 	docker compose -f $(COMPOSE_DIR) up -d $(MQTT_CONTENT)
 
-kafka: fix-sock kafka-chown
+kafka: fix-sock
 	@echo "重新啟動 Kafka 相關服務"
-	docker compose -f $(COMPOSE_DIR) down $(KAFKA_CONTENT)
+	@#make kafka-chown
+	docker compose -f $(COMPOSE_DIR) down $(KAFKA_CONTENT) --remove-orphans
 	docker compose -f $(COMPOSE_DIR) up -d $(KAFKA_CONTENT)
 
-elk: fix-sock kafka-chown
+elk: fix-sock
 	@echo "重新啟動 ELK 相關服務"
-	docker compose -f $(COMPOSE_DIR) down $(ELK_CONTENT)
+	docker compose -f $(COMPOSE_DIR) down $(ELK_CONTENT) --remove-orphans
 	docker compose -f $(COMPOSE_DIR) up -d $(ELK_CONTENT)
 
 refresh: fix-sock

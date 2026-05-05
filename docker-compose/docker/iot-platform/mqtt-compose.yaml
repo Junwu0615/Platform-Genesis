@@ -8,10 +8,14 @@ services:
     volumes:
       - ./config/mosquitto.conf:/mosquitto/config/mosquitto.conf
       - ./config/passwd:/mosquitto/config/passwd  # 掛載密碼檔
-      - ./data/mqtt_data:/mosquitto/data
+      - mqtt_data:/mosquitto/data
     networks:
       - ooud-cluster_iot_network
 
 networks:
   ooud-cluster_iot_network:
     external: true
+
+volumes:
+  mqtt_data:
+    driver: local

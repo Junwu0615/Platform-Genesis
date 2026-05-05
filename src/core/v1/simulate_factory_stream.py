@@ -126,7 +126,7 @@ def insert_production_order(cursor, event_dict: dict) -> int:
         VALUES (%s, %s, %s)
         RETURNING order_id
         """, (
-            _product_id,
+            _prod_id,
             _target_qty,
             get_now(hours=8, tzinfo=TZ_UTC_8),
         ))
@@ -134,12 +134,12 @@ def insert_production_order(cursor, event_dict: dict) -> int:
         _order_id = cursor.fetchone()[0]
 
         # 取得訂單後 塞入佇列
-        event_dict['order_queue'][_product_type] += [_order_id]
+        event_dict['order_queue'][_prod_type] += [_order_id]
 
         # 建立訂單 ID 對照產品 ID
-        event_dict['order_dict'][_order_id] = _product_id
+        event_dict['order_dict'][_order_id] = _prod_id
         event_dict['detail'][_order_id] = {
-            'product_id': _product_id,
+            'product_id': _prod_id,
             'target_qty': _target_qty,
             'produced_qty': 0
         }

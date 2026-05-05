@@ -17,8 +17,7 @@ services:
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       CLUSTER_ID: ${CLUSTER_ID}
     volumes:
-      - ./data/kafka_data:/var/lib/kafka/data
-#      - kafka_data:/var/lib/kafka/data
+      - kafka_data:/var/lib/kafka/data
     networks:
       - ooud-cluster_iot_network
       - ooud-cluster_default
@@ -107,6 +106,6 @@ networks:
   ooud-cluster_iot_network:
     external: true
 
-#volumes:
-#  kafka_data:
-#    driver: local
+volumes:
+  kafka_data:
+    driver: local
