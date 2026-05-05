@@ -19,8 +19,8 @@ from shared.utils.env_config import GET_PATH_ROOT, get_logger_name
 from shared.modules.log import Logger
 from shared.modules.kafka_producer import KafkaProducerManager
 
-from src.scripts.core.models.sink_format import *
-from src.scripts.core.models.simulator import MachineStatusSimulator
+from src.core.models.sink_format import *
+from src.core.models.simulator import MachineStatusSimulator
 
 from confluent_kafka import (
     Consumer,

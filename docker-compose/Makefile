@@ -4,7 +4,7 @@ COMPOSE_DIR = ./docker-compose.yaml
 TERRAFORM_DIR = ./terraform
 ANSIBLE_DIR = ./ansible
 AIRFLOW_DIR = ./docker/airflow
-KAFKA_DIR = ./docker/iot-platform
+IoT_DIR = ./docker/iot-platform
 
 SERVICE_PATH = 127.0.0.1
 KAFKA_CONN_ALL_JSON := $(wildcard ./docker/iot-platform/config/connectors/source/*.json ./docker/iot-platform/config/connectors/sink/*.json)
@@ -107,15 +107,15 @@ prod-mode:
 
 kafka-chown:
 	@echo "設定 kafka 擁有顯式持久化資料權限"
-	mkdir -p $(KAFKA_DIR)/data/kafka_data
-	sudo chown -R 1000:0 $(KAFKA_DIR)/data/kafka_data
-	sudo chmod -R 775 $(KAFKA_DIR)/data/kafka_data
+	mkdir -p $(IoT_DIR)/data/kafka_data
+	sudo chown -R 1000:0 $(IoT_DIR)/data/kafka_data
+	sudo chmod -R 775 $(IoT_DIR)/data/kafka_data
 
 copy-dag:
 	@echo "將開發 DAGs 複製到 Airflow 容器中的 DAGs 對應資料夾 | 先刪除目錄下所有內容 | 執行複製"
 	@make dev-mode
 	sudo rm -rf $(AIRFLOW_DIR)/dags/*
-	cp -ra ../src/scripts/dags $(AIRFLOW_DIR)
+	cp -ra ../src/dags $(AIRFLOW_DIR)
 	@make prod-mode
 	@echo "DAGs 同步完成並已校正權限 ..."
 
