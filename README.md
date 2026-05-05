@@ -66,13 +66,14 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 | make `v2` Dockerfile | - | - |
 | Create MV | Materialized View | - |
 | Analytical Queries | - | - |
-| Add `Gitlab` | - | - |
-| Add `Jenkins` | - | - |
+| Add `Gitlab` | for `CI / CD` | - |
+| Add `Jenkins` | for `CI / CD` | - |
 | Add `Docker-Registry` | - | - |
 | Add `Debezium` | Change Data Capture | - |
 | Add `Apache Iceberg` | Data Lake | - |
 | Add `Apache Flink` | consumer of CDC | - |
 | Build `Lakehouse` | - | - |
+| Project Breakdown | `4` major categories | - |
 | K8s | Beginner : `Minikube` | - |
 | K8s | Advanced : `K3s` + `VMware` | - |
 | K8s | Bottom Layer : `Kubeadm` + `VMware` | - |
@@ -165,13 +166,14 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 | Grafana Dashboard | update `htap_grafana.json` | - |
 | Create MV | Materialized View | - |
 | Analytical Queries | - | - |
-| Add `Gitlab` | - | - |
-| Add `Jenkins` | - | - |
+| Add `Gitlab` | for `CI / CD` | - |
+| Add `Jenkins` | for `CI / CD` | - |
 | Add `Docker-Registry` | - | - |
 | Add `Debezium` | Change Data Capture | - |
 | Add `Apache Iceberg` | Data Lake | - |
 | Add `Apache Flink` | consumer of CDC | - |
 | Build `Lakehouse` | - | - |
+| Project Breakdown | `4` major categories | - |
 | K8s | Beginner : `Minikube` | - |
 | K8s | Advanced : `K3s` + `VMware` | - |
 | K8s | Bottom Layer : `Kubeadm` + `VMware` | - |
@@ -309,10 +311,11 @@ make kafka-connect-create
 make kafka-connect-upsert
 make kafka-connect-status
 
-make kafka-connect-del
+# Kafka Cleanup
+make kafka-connect-clean
 make kafka-topic-clean
-make kafka-schema-del
-make kafka-clean-all
+make kafka-schema-clean
+make kafka-all-clean
 ```
 </ul>
 </details>
