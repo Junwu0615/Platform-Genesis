@@ -18,12 +18,18 @@ from src.core.models.simulator import MachineStatusSimulator
 
 
 console_name = get_logger_name(__file__, GET_PATH_ROOT)
-logging = Logger(console_name=console_name)
+logging = Logger(
+    console_name=console_name,
+    # logging_level='DEBUG',
+    **{
+        'app_name': 'ooud',
+        'service_type': 'command platform',
+    }
+)
 
+load_dotenv(dotenv_path=f'{'/'.join(__file__.split('/')[:-1])}/.env')
+YAML_VERSION = os.getenv('YAML_VERSION', 'v2')
 
-mss = MachineStatusSimulator()
-
-YAML_VERSION = 'v2'
 YAML_PATH = os.path.join('./src/core', f'{YAML_VERSION}', 'factory_config.yaml')
 config = get_yaml_config(YAML_PATH)
 
@@ -34,7 +40,7 @@ load_cfg = config['load_profile']
 BATCH_SIZE = simulate['batch_size']
 NUM_ORDERS = simulate['orders']
 
-
+mss = MachineStatusSimulator()
 conn = get_conn(db)
 cursor = conn.cursor()
 

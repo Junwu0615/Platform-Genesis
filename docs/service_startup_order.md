@@ -276,6 +276,20 @@
   docker-compose up -d
   ```
   
+- #### *d.　使用細節*
+  ```
+  # 查看 Logstash 的熱重啟狀態
+  http://localhost:9600/_node/stats/pipelines?pretty
+    # 找關鍵字 "last_success_timestamp" 確認重啟時間
+  
+  # 查看 Elasticsearch 的 Cluster Health 狀態
+  http://localhost:9200/_cat/indices?v
+  
+  # 查看 Logstash 的實時日誌輸出，確認是否有錯誤或警告訊息
+  # 因為有設置: stdout { codec => rubydebug }
+  docker logs -f ooud-cluster-logstash-1
+  ```
+  
 <br>
 
 ### *7.　Startup Monitoring*

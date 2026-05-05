@@ -30,11 +30,25 @@ from confluent_kafka import (
 
 
 load_dotenv(dotenv_path=f'{'/'.join(__file__.split('/')[:-1])}/.env')
-console_name = get_logger_name(__file__, GET_PATH_ROOT)
-logging = Logger(console_name=console_name)
-
 
 YAML_VERSION = os.getenv('YAML_VERSION', 'v2')
+CONSUMER_ORDER_TOPIC = os.getenv('CONSUMER_ORDER_TOPIC', 'source.cp.mach-order')
+CONSUMER_GROUP_ID = os.getenv('CONSUMER_GROUP_ID', 'iot-data-mach-processor')
+TARGET_MACH = os.getenv('TARGET_MACH', 'M-CNC-30')
+
+MAIN_NAME = f'#{TARGET_MACH}'
+
+console_name = get_logger_name(__file__, GET_PATH_ROOT)
+logging = Logger(
+    console_name=console_name,
+    # logging_level='DEBUG',
+    **{
+        'app_name': 'ooud',
+        'service_type': 'instance',
+        'inst_id': TARGET_MACH,
+    }
+)
+
 YAML_PATH = os.path.join('./src/core', f'{YAML_VERSION}', 'factory_config.yaml')
 config = get_yaml_config(YAML_PATH)
 
@@ -42,11 +56,6 @@ simulate = config['simulate']
 load_cfg = config['load_profile']
 kafka = config['kafka']
 
-CONSUMER_ORDER_TOPIC = os.getenv('CONSUMER_ORDER_TOPIC', 'source.cp.mach-order')
-CONSUMER_GROUP_ID = os.getenv('CONSUMER_GROUP_ID', 'iot-data-mach-processor')
-TARGET_MACH = os.getenv('TARGET_MACH', 'M-CNC-30')
-
-MAIN_NAME = f'#{TARGET_MACH}'
 BATCH_SIZE = simulate['batch_size']
 BATCH_INTERVAL = simulate['batch_interval']
 
