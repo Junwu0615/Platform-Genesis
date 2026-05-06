@@ -63,14 +63,14 @@ class Logger:
         self.symbol_tag = {**kwargs}
 
         # 1. 建立唯一 Logger 實體
-        logger = logging.getLogger(console_name.upper())
-        logger.setLevel(getattr(logging, self.logging_level))
+        self.raw_logger = logging.getLogger(console_name.upper())
+        self.raw_logger.setLevel(getattr(logging, self.logging_level))
 
         # 2. 清除舊的 Handler 避免重複
-        if logger.hasHandlers():
-            for handler in logger.handlers:
+        if self.raw_logger.hasHandlers():
+            for handler in self.raw_logger.handlers:
                 handler.close()
-            logger.handlers.clear()
+            self.raw_logger.handlers.clear()
 
         # 3. 設定 console 輸出設定
         if console_name:
@@ -82,7 +82,7 @@ class Logger:
                     log_colors=COLORS_CONFIG
                 )
             )
-            logger.addHandler(c_handler)
+            self.raw_logger.addHandler(c_handler)
 
 
         # 4. 設定實體 log 輸出設定
@@ -103,16 +103,16 @@ class Logger:
                     fmt=FILE_FMT,
                     datefmt=LONG_FORMAT)
             )
-            logger.addHandler(f_handler)
+            self.raw_logger.addHandler(f_handler)
 
 
         # TODO 5. 設定 Logstash 輸出設定
         ls_handler = logstash.TCPLogstashHandler(ELK_HOST, LOGSTASH_PORT, version=1)
-        logger.addHandler(ls_handler)
+        self.raw_logger.addHandler(ls_handler)
 
 
         # 6. 封裝通用記錄器 Adapter ( 自定義標籤 )
-        self.logging = logging.LoggerAdapter(logger, extra=self.symbol_tag)
+        self.logging = logging.LoggerAdapter(self.raw_logger, extra=self.symbol_tag)
 
 
     def log_custom(self, level_name: str, msg: str, stack_level: int=1, **kwargs):

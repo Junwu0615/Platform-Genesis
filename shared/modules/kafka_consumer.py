@@ -91,7 +91,7 @@ class KafkaConsumerManager:
         # 計算 Partition ID
         target_partition = (self._kafka_murmur2(topic_key.encode('utf-8')) & 0x7fffffff) % num_partitions
 
-        logging.info(f"[{topic_key}] 對應 Partition 分區 ID 為: [{target_partition}]")
+        self.logging.info(f"[{topic_key}] 對應 Partition 分區 ID 為: [{target_partition}]")
         return target_partition
 
 

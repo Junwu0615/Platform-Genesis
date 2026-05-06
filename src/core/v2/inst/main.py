@@ -42,9 +42,10 @@ class Application(EntryPoint):
         self.mach_name = os.getenv('TARGET_MACH', 'M-CNC-30')
         _MAIN_NAME = f'#{self.mach_name}'
 
-        logging = Logger(
+        base_logging = Logger(
             # logging_level='DEBUG',
             console_name=get_logger_name(__file__, GET_PATH_ROOT),
+            # console_name=self.__class__.__module__,
             file_name=self.mach_name,
             file_path=f'logs/INSTANCE/{self.mach_name}.logs',
             backup_count=10,
@@ -55,7 +56,7 @@ class Application(EntryPoint):
             }
         )
 
-        self.configure_setting(logging=logging) # TODO 完成 EntryPoint 必要後續初始化
+        self.configure_setting(logging_instance=base_logging) # TODO 完成 EntryPoint 必要後續初始化
 
         config = parsing_yaml(_YAML_PATH)
         _SIMULATE = config['simulate']

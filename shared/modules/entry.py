@@ -15,6 +15,7 @@ TODO
 """
 import signal
 from shared.config import *
+from shared.utils.env_config import GET_PATH_ROOT, get_logger_name
 
 STACK_LEVEL = 2
 
@@ -68,7 +69,7 @@ class EntryPoint:
         self._initialized = None
 
 
-    def configure_setting(self, logging, **kwargs):
+    def configure_setting(self, logging_instance, **kwargs):
         """必要工具初始化"""
 
         # 1. 註冊 threading 物件，供子模塊使用
@@ -79,8 +80,10 @@ class EntryPoint:
         # 2. 註冊系統訊號 (Docker rm 發送的是 SIGTERM)
         self._setup_signals()
 
-        # 3. 取得 main.py 傳遞的日誌設定
-        self.logging = logging
+        # 3. 取得 main.py 傳遞的日誌設定 + 顯示出正確的模組位置
+        # logging_instance.raw_logger.name = self.__class__.__module__.upper()
+        logging_instance.raw_logger.name = get_logger_name(__file__, GET_PATH_ROOT)
+        self.logging = logging_instance
 
         # 4. 初始化完成標記
         self._initialized = True
