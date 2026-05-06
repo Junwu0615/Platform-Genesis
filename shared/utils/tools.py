@@ -31,7 +31,7 @@ def get_now(hours: int=None,
     return target_time
 
 
-def get_yaml_config(file_path: str) -> dict:
+def parsing_yaml(file_path: str) -> dict:
     with open(file_path, 'r') as f:
         config = yaml.safe_load(f)
     return config

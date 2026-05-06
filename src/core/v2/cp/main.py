@@ -31,7 +31,7 @@ load_dotenv(dotenv_path=f'{'/'.join(__file__.split('/')[:-1])}/.env')
 YAML_VERSION = os.getenv('YAML_VERSION', 'v2')
 
 YAML_PATH = os.path.join('./src/core', f'{YAML_VERSION}', 'factory_config.yaml')
-config = get_yaml_config(YAML_PATH)
+config = parsing_yaml(YAML_PATH)
 
 db = config['database']
 simulate = config['simulate']

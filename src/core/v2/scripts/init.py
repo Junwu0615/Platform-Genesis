@@ -13,7 +13,7 @@ logging = Logger(console_name=console_name)
 
 YAML_VERSION = 'v2'
 YAML_PATH = os.path.join('./src/core', f'{YAML_VERSION}', 'factory_config.yaml')
-config = get_yaml_config(YAML_PATH)
+config = parsing_yaml(YAML_PATH)
 
 db = config['database']
 init_data = config['init_data']
