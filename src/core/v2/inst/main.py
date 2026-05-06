@@ -42,10 +42,9 @@ class Application(EntryPoint):
         self.mach_name = os.getenv('TARGET_MACH', 'M-CNC-30')
         _MAIN_NAME = f'#{self.mach_name}'
 
-        base_logging = Logger(
+        logging = Logger(
             # logging_level='DEBUG',
             console_name=get_logger_name(__file__, GET_PATH_ROOT),
-            # console_name=self.__class__.__module__,
             file_name=self.mach_name,
             file_path=f'logs/INSTANCE/{self.mach_name}.logs',
             backup_count=10,
@@ -56,7 +55,7 @@ class Application(EntryPoint):
             }
         )
 
-        self.configure_setting(logging_instance=base_logging) # TODO 完成 EntryPoint 必要後續初始化
+        self.configure_setting(logging=logging) # TODO 完成 EntryPoint 必要後續初始化
 
         config = parsing_yaml(_YAML_PATH)
         _SIMULATE = config['simulate']
@@ -326,15 +325,15 @@ class Application(EntryPoint):
 
                     if self.event_dict['mach_id'] is not None:
                         # TODO 進行判斷狀態更新
-                        _ct = insert_production_record(self.event_dict, efficiency)
+                        _ct = self.insert_production_record(efficiency)
                         if isinstance(_ct, int):
                             batch_ct = batch_ct + _ct
 
                         # TODO 隨機更新指定狀態
-                        _ct = insert_machine_status(self.event_dict)
+                        _ct = self.insert_machine_status()
                         batch_ct = batch_ct + _ct
 
-                        _ct, _ct_2 = update_order_status(self.event_dict)
+                        _ct, _ct_2 = self.update_order_status()
                         done_qty, batch_ct = done_qty + _ct_2, batch_ct + _ct
 
                         # TODO 根據 BATCH_SIZE 或 時間間隔 提交事務
@@ -366,7 +365,8 @@ class Application(EntryPoint):
 
         finally:
             self.kpm.flush(sec=10)
-            self.logging.notice(f'[{self.env['_MAIN_NAME']}] 已強制將緩衝區中所有尚未發送的訊息傳送到 Kafka Broker ...')
+            self.logging.notice(f'[{self.env['_MAIN_NAME']}] '
+                f'已強制將緩衝區中所有尚未發送的訊息傳送到 Kafka Broker ...', stack_level=0)
 
 
     def consumer_message(self, **kwargs):

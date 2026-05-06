@@ -22,8 +22,7 @@ COLORS_CONFIG = {
     'CRITICAL': 'bold_red',
 }
 FILE_FMT = '[%(asctime)s] %(levelname)s: %(message)s'
-CONSOLE_FMT ='%(log_color)s[%(asctime)s] [%(name)s:%(lineno)d] %(levelname)s: %(message)s'
-
+CONSOLE_FMT ='%(log_color)s[%(asctime)s] [%(pathname)s:%(lineno)d] %(levelname)s: %(message)s'
 
 TITLE_SYMBOL_NUMBER = 20
 NOTICE_LEVEL_NUM = 25
@@ -39,6 +38,16 @@ def _init_logging_level_name():
 
 
 _init_logging_level_name()
+
+
+class RelativePathFilter(logging.Filter):
+    """TODO 自動將絕對路徑轉換為相對路徑的過濾器"""
+    def filter(self, record):
+        # 取得專案根目錄 (假設你已經定義好 GET_PATH_ROOT)
+        # 這裡動態修改 record.pathname，這樣格式化工具就會用到縮短後的路徑
+        project_root = os.getcwd()
+        record.pathname = ''.join(os.path.relpath(record.pathname, project_root).upper().split('.')[:-1])
+        return True
 
 
 class Logger:
@@ -111,11 +120,16 @@ class Logger:
         self.raw_logger.addHandler(ls_handler)
 
 
-        # 6. 封裝通用記錄器 Adapter ( 自定義標籤 )
+        # TODO 6. 建立一個 Filter 辨識路徑
+        path_filter = RelativePathFilter()
+        self.raw_logger.addFilter(path_filter)
+
+
+        # 7. 封裝通用記錄器 Adapter ( 自定義標籤 )
         self.logging = logging.LoggerAdapter(self.raw_logger, extra=self.symbol_tag)
 
 
-    def log_custom(self, level_name: str, msg: str, stack_level: int=1, **kwargs):
+    def log_custom(self, level_name: str, msg: str, stack_level: int=2, **kwargs):
         """
         通用日誌記錄器
         """
@@ -126,28 +140,28 @@ class Logger:
                 method(msg, exc_info=exc_info, stacklevel=stack_level + 1)
 
 
-    def debug(self, msg: str='', stack_level: int=1, **kwargs):
+    def debug(self, msg: str='', stack_level: int=2, **kwargs):
         _level_name = 'debug'.lower()
         self.log_custom(_level_name, msg, **{
             'stack_level': stack_level,
         })
 
 
-    def info(self, msg: str='', stack_level: int=1, **kwargs):
+    def info(self, msg: str='', stack_level: int=2, **kwargs):
         _level_name = 'info'.lower()
         self.log_custom(_level_name, msg, **{
             'stack_level': stack_level,
         })
 
 
-    def warning(self, msg: str='', stack_level: int=1, **kwargs):
+    def warning(self, msg: str='', stack_level: int=2, **kwargs):
         _level_name = 'warning'.lower()
         self.log_custom(_level_name, msg, **{
             'stack_level': stack_level,
         })
 
 
-    def error(self, msg: str='', exc_info: bool=True, stack_level: int=1, **kwargs):
+    def error(self, msg: str='', exc_info: bool=True, stack_level: int=2, **kwargs):
         _level_name = 'error'.lower()
         self.log_custom(_level_name, msg, **{
             'stack_level': stack_level,
@@ -155,7 +169,7 @@ class Logger:
         })
 
 
-    def critical(self, msg: str='', exc_info: bool=True, stack_level: int=1, **kwargs):
+    def critical(self, msg: str='', exc_info: bool=True, stack_level: int=2, **kwargs):
         _level_name = 'critical'.lower()
         self.log_custom(_level_name, msg, **{
             'stack_level': stack_level,
@@ -163,11 +177,11 @@ class Logger:
         })
 
 
-    def notice(self, msg: str='', stack_level: int=1, **kwargs):
+    def notice(self, msg: str='', stack_level: int=2, **kwargs):
         """使用底層的 log(level_num, msg) 避開全域方法的依賴"""
         _level_name = 'notice'.lower()
         if self.logging:
-            self.logging.log(NOTICE_LEVEL_NUM, msg, stacklevel=stack_level + 1)
+            self.logging.log(NOTICE_LEVEL_NUM, msg, stacklevel=stack_level + 2)
 
 
     def title_log(self, title_name: str, **kwargs) -> str:

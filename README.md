@@ -159,8 +159,9 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 | ELK | Experience : `ELK` | 2026-05-05 |
 | Define the Version Number<br>of each service  | settings to `.env` | 2026-05-05 |
 | logging logic | mixed ( `ELK` + `logging` ) | 2026-05-06 |
-| DAG | init.py + create_topic.py | - |
 | Encapsulation Entry | app.py | 2026-05-06 |
+| logging logic | Logs Correct Paths<br>>Based on Module Calls | 2026-05-07 |
+| DAG | init.py + create_topic.py | - |
 | Add `SQLite`<br>to Edge scripts  | Improve the HA<br>of Consumer Transactions | - |
 | Security Message<br>Transmission | encryption ( `kafka` + `mqtt` ) | - |
 | API Service logic | - | X |

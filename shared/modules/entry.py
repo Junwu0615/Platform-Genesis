@@ -15,9 +15,7 @@ TODO
 """
 import signal
 from shared.config import *
-from shared.utils.env_config import GET_PATH_ROOT, get_logger_name
 
-STACK_LEVEL = 2
 
 class EntryPoint:
     _instance: Optional['EntryPoint'] = None
@@ -40,16 +38,16 @@ class EntryPoint:
 
     # def __enter__(self, **kwargs):
     #     """上下文管理器，確保資源正確初始化與釋放"""
-    #     # self.logging.info('Entering Context Manager...', stack_level=STACK_LEVEL)
+    #     # self.logging.info('Entering Context Manager...', stack_level=0)
     #     return self
 
 
     # def __exit__(self, exc_type, exc_val, exc_tb):
     #     """[安全關閉程序] 統一資源回收"""
     #     if exc_type:
-    #         self.logging.error(f'Context Exited with Error: {exc_val}', exc_info=True, stack_level=STACK_LEVEL)
+    #         self.logging.error(f'Context Exited with Error: {exc_val}', exc_info=True, stack_level=0)
     #     self.stop_all_services()
-    #     self.logging.info('Context Resources Cleaned Up.', stack_level=STACK_LEVEL)
+    #     self.logging.info('Context Resources Cleaned Up.', stack_level=0)
 
 
     def __init__(self, dotenv_path: Optional[str] = None, **kwargs):
@@ -69,7 +67,7 @@ class EntryPoint:
         self._initialized = None
 
 
-    def configure_setting(self, logging_instance, **kwargs):
+    def configure_setting(self, logging, **kwargs):
         """必要工具初始化"""
 
         # 1. 註冊 threading 物件，供子模塊使用
@@ -80,14 +78,12 @@ class EntryPoint:
         # 2. 註冊系統訊號 (Docker rm 發送的是 SIGTERM)
         self._setup_signals()
 
-        # 3. 取得 main.py 傳遞的日誌設定 + 顯示出正確的模組位置
-        # logging_instance.raw_logger.name = self.__class__.__module__.upper()
-        logging_instance.raw_logger.name = get_logger_name(__file__, GET_PATH_ROOT)
-        self.logging = logging_instance
+        # 3. 取得 main.py 傳遞的日誌設定
+        self.logging = logging
 
         # 4. 初始化完成標記
         self._initialized = True
-        self.logging.notice(f'[{self.env['APP_ENV']} MODE] EntryPoint Initialized ...', stack_level=STACK_LEVEL)
+        self.logging.notice(f'[{self.env['APP_ENV']} MODE] EntryPoint Initialized ...', stack_level=0)
 
 
     def start_service(self, func: callable, **kwargs):
@@ -100,24 +96,24 @@ class EntryPoint:
         )
         service_thread.start()
         self._threads.append(service_thread)
-        self.logging.notice(f'{_title}已啟動...', stack_level=STACK_LEVEL)
+        self.logging.info(f'{_title} ... 已啟動')
 
 
     def stop_all_services(self, **kwargs):
         """TODO 安全地關閉多執行緒"""
         if self._threads:
-            self.logging.notice('正在向所有執行緒發出停止訊號...', stack_level=STACK_LEVEL)
+            self.logging.notice('正在向所有執行緒發出停止訊號...', stack_level=0)
             self._stop_event.set() # 發出停止訊號
 
             # 等待所有執行緒結束
             for thread in self._threads:
                 if thread.is_alive():
-                    self.logging.info(f'[{thread.name}] 等待執行緒結束...', stack_level=STACK_LEVEL)
+                    self.logging.info(f'[{thread.name}] 等待執行緒結束...')
                     thread.join(timeout=10.0)
                     if thread.is_alive():
-                        self.logging.error(f'[{thread.name}] 執行緒超時未結束，強制繼續程序 ...', stack_level=STACK_LEVEL)
+                        self.logging.error(f'[{thread.name}] 執行緒超時未結束，強制繼續程序 ...')
 
-            self.logging.notice('\n\n' + self.logging.title_log('所有執行緒服務已確實關閉'), stack_level=STACK_LEVEL)
+            self.logging.notice('\n\n' + self.logging.title_log('所有執行緒服務已確實關閉'), stack_level=0)
             time.sleep(0.1)
 
 
@@ -130,7 +126,7 @@ class EntryPoint:
     def _handle_exit(self, signum, frame, **kwargs):
         """TODO 安全關閉程序"""
         self.stop_all_services()
-        self.logging.warning(f'Received signal {signum}. Graceful Shutdown ...', stack_level=STACK_LEVEL)
+        self.logging.warning(f'Received signal {signum}. Graceful Shutdown ...', stack_level=2)
         self._finalize()
 
 
@@ -149,7 +145,10 @@ class EntryPoint:
             self.run()
 
         except Exception as e:
-            self.logging.critical(f'Unhandled Exception', exc_info=True, stack_level=STACK_LEVEL)
+            self.logging.critical(f'Unhandled Exception', exc_info=True, stack_level=0)
+
+        finally:
+            self._finalize()
 
 
     def run(self, **kwargs):
