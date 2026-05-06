@@ -278,7 +278,7 @@ def insert_machine_status(cursor, event_dict: dict, _machine_id: int) -> int:
 
 def init_transaction_dict(conn, cursor) -> dict:
     """
-    TODO 初始化事務字典 : 用字典記錄必要變數，包含機台列表、產品列表、訂單列表 ... etc.
+    TODO 初始化事務字典 : 用字典記錄必要變數，包含機台列表、產品列表、訂單列表 ...etc.
         - 從資料庫讀取產品資訊
         - 產品完成後 移除訂單索引
     """

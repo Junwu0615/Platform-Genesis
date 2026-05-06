@@ -105,7 +105,7 @@ def insert_production_order(ms, event_dict: dict) -> int:
 
 def init_transaction_dict(ms) -> dict:
     """
-    TODO 初始化事務字典 : 用字典記錄必要變數，包含機台列表、產品列表、訂單列表 ... etc.
+    TODO 初始化事務字典 : 用字典記錄必要變數，包含機台列表、產品列表、訂單列表 ...etc.
         - 從資料庫讀取產品資訊
         - 產品完成後 移除訂單索引
     """

@@ -46,7 +46,7 @@ TODO
         6. 清除 topic 的 payload: self.ms.clear_retained_message(topic=f'MachState/{self.machine_no}', fun=self.ms.add_content)
     \
     Notice:
-        FIXME : 明文傳送應加密 + 安全性須提升 ( 認證 ... etc. ) + socket 傳輸穩健性問題 (line:293)
+        FIXME : 明文傳送應加密 + 安全性須提升 ( 認證 ...etc. ) + socket 傳輸穩健性問題 (line:293)
 """
 import queue, socket, threading
 import paho.mqtt.client as mqtt_client

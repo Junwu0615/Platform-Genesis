@@ -82,7 +82,7 @@
     - #### *2.2.　Snowflake Schema*
       - #### *Fact Table*
       - #### *Dimension Table*
-      - #### *Sub-Dimension Table ... etc.*
+      - #### *Sub-Dimension Table ...etc.*
     - #### *2.3.　Wide Table*
 - #### *b.　Check Define Table List*
   - #### *1.　OLTP*

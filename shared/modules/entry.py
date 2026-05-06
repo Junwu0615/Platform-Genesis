@@ -15,7 +15,6 @@ TODO
 """
 import signal
 from shared.config import *
-from shared.modules.log import Logger
 
 
 class EntryPoint:
@@ -68,7 +67,7 @@ class EntryPoint:
         self._initialized = None
 
 
-    def configure_setting(self, logging: Logger, **kwargs):
+    def configure_setting(self, logging, **kwargs):
         # 1. 註冊 threading 物件，供子模塊使用
         # 工具支援 : mqtt / kafka producer
         self._stop_event = threading.Event()
@@ -100,17 +99,18 @@ class EntryPoint:
 
     def stop_all_services(self, **kwargs):
         """安全地關閉多執行緒"""
-        logging.notice('正在向所有執行緒發出停止訊號...')
-        self._stop_event.set() # 發出停止訊號
+        if self._threads:
+            logging.notice('正在向所有執行緒發出停止訊號...')
+            self._stop_event.set() # 發出停止訊號
 
-        # 等待所有執行緒結束
-        for thread in self._threads:
-            if thread.is_alive():
-                logging.info(f'等待 {thread.name} 執行緒結束...')
-                thread.join()
+            # 等待所有執行緒結束
+            for thread in self._threads:
+                if thread.is_alive():
+                    logging.info(f'等待 {thread.name} 執行緒結束...')
+                    thread.join()
 
-        logging.notice('\n\n' + logging.title_log('所有執行緒服務已確實關閉'))
-        time.sleep(0.1)
+            logging.notice('\n\n' + logging.title_log('所有執行緒服務已確實關閉'))
+            time.sleep(0.1)
 
 
     def _setup_signals(self, **kwargs):
@@ -121,12 +121,11 @@ class EntryPoint:
 
     def _handle_exit(self, signum, frame, **kwargs):
         self.logging.info(f"Received signal {signum}. Integrating graceful shutdown...")
-        self.stop()
+        self.stop_all_services()
 
 
     def _finalize(self, **kwargs):
         """最後資源釋放"""
-        self.stop_all_services()
         self.logging.info('Application shut down gracefully.')
         sys.exit(0)
 
@@ -139,8 +138,11 @@ class EntryPoint:
             - 供 main.py 以 EntryPoint.main 使用，並觸發 run
         """
         try:
-            self.logging.info('Starting Lifecycle ...')
+            self.logging.notice('Starting Lifecycle ...')
             self.run()
+
+        except KeyboardInterrupt:
+            logging.warning('偵測到 Ctrl+C，正在關閉連線 ...')
 
         except Exception as e:
             self.logging.critical(f'Unhandled Exception', exc_info=True)

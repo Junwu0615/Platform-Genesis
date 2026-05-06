@@ -13,20 +13,14 @@ import sys, os; sys.path.insert(0, os.getcwd())
 from shared.config import *
 from shared.config.constant import *
 from shared.utils.tools import *
-from shared.utils.kafka_tools import get_partition_id
 from shared.utils.env_config import GET_PATH_ROOT, get_logger_name
 from shared.modules.log import Logger
 from shared.modules.entry import EntryPoint
+from shared.modules.kafka_consumer import KafkaConsumerManager
 from shared.modules.kafka_producer import KafkaProducerManager
-
 from src.core.models.sink_format import *
 from src.core.models.simulator import MachineStatusSimulator
-
-from confluent_kafka import (
-    Consumer,
-    KafkaError,
-    TopicPartition
-)
+from confluent_kafka import KafkaError
 
 
 class Application(EntryPoint):
@@ -37,9 +31,14 @@ class Application(EntryPoint):
         _YAML_VERSION = os.getenv('YAML_VERSION', 'v2')
         _CONSUMER_ORDER_TOPIC = os.getenv('CONSUMER_ORDER_TOPIC', 'source.cp.mach-order')
         _CONSUMER_GROUP_ID = os.getenv('CONSUMER_GROUP_ID', 'iot-data-mach-processor')
+
         _KAFKA_HOST = os.getenv('KAFKA_HOST', '127.0.0.1:9092')
+        _KAFKA_AUTO_OFFSET_RESET = os.getenv('KAFKA_AUTO_OFFSET_RESET', 'earliest')
+        _KAFKA_ENABLE_AUTO_COMMIT = os.getenv('KAFKA_ENABLE_AUTO_COMMIT', False)
+
         _KAFKA_SCHEMA_REGISTRY_HOST = os.getenv('KAFKA_SCHEMA_REGISTRY_HOST', '127.0.0.1:8081')
-        _YAML_PATH = os.path.join('./src/core', f'{YAML_VERSION}', 'factory_config.yaml')
+
+        _YAML_PATH = os.path.join('./src/core', f'{_YAML_VERSION}', 'factory_config.yaml')
 
         self.mach_name = os.getenv('TARGET_MACH', 'M-CNC-30')
         _MAIN_NAME = f'#{self.mach_name}'
@@ -62,8 +61,6 @@ class Application(EntryPoint):
         config = parsing_yaml(_YAML_PATH)
         _SIMULATE = config['simulate']
         _LOAD_CFG = config['load_profile']
-        _KAFKA = config['kafka']
-
         _BATCH_SIZE = _SIMULATE['batch_size']
         _BATCH_INTERVAL = _SIMULATE['batch_interval']
 
@@ -88,21 +85,39 @@ class Application(EntryPoint):
         }
 
         self.mss = MachineStatusSimulator()
+
+        _config = {
+            'bootstrap.servers': _KAFKA_HOST,
+            'group.id': _CONSUMER_GROUP_ID,
+            'auto.offset.reset': _KAFKA_AUTO_OFFSET_RESET,
+            'enable.auto.commit': _KAFKA_ENABLE_AUTO_COMMIT
+        }
+        _topic_key = '/'.join(_CONSUMER_ORDER_TOPIC.split('.')[1:])
+        self.kcm = KafkaConsumerManager(
+            logging=self.logging,
+            log_main_name=_MAIN_NAME,
+            config=_config,
+            topic=_CONSUMER_ORDER_TOPIC,
+            topic_key=f'{_topic_key}/{self.mach_name}',
+        )
+
         self.kpm = KafkaProducerManager(
-            bootstrap_servers=f'{_KAFKA_HOST}',
+            logging=self.logging,
+            log_main_name=_MAIN_NAME,
+            bootstrap_servers=_KAFKA_HOST,
             sr_url=_KAFKA_SCHEMA_REGISTRY_HOST,
             schemas_list=[SINK_MACH_STATUS_LOGS, SINK_PROD_ORDERS, SINK_PROD_RECORDS]
         )
 
-        self.env['YAML_VERSION'] = _YAML_VERSION
-        self.env['CONSUMER_ORDER_TOPIC'] = _CONSUMER_ORDER_TOPIC
-        self.env['CONSUMER_GROUP_ID'] = _CONSUMER_GROUP_ID
-        self.env['KAFKA_HOST'] = _KAFKA_HOST
-        self.env['KAFKA_SCHEMA_REGISTRY_HOST'] = _KAFKA_SCHEMA_REGISTRY_HOST
-        self.env['YAML_PATH'] = _YAML_PATH
+        # self.env['YAML_VERSION'] = _YAML_VERSION
+        # self.env['CONSUMER_ORDER_TOPIC'] = _CONSUMER_ORDER_TOPIC
+        # self.env['CONSUMER_GROUP_ID'] = _CONSUMER_GROUP_ID
+        # self.env['KAFKA_HOST'] = _KAFKA_HOST
+        # self.env['KAFKA_SCHEMA_REGISTRY_HOST'] = _KAFKA_SCHEMA_REGISTRY_HOST
+        # self.env['YAML_PATH'] = _YAML_PATH
         self.env['SIMULATE'] = _SIMULATE
         self.env['LOAD_CFG'] = _LOAD_CFG
-        self.env['KAFKA'] = _KAFKA
+        # self.env['KAFKA'] = _KAFKA
         self.env['BATCH_SIZE'] = _BATCH_SIZE
         self.env['BATCH_INTERVAL'] = _BATCH_INTERVAL
 
@@ -155,7 +170,7 @@ class Application(EntryPoint):
                             'order_id': None,
                         }
 
-                        logging.notice(f'[order_id={_order_id}] have been completed. '
+                        self.logging.notice(f'[order_id={_order_id}] have been completed. '
                         f'( produced_qty: {detail['produced_qty']} >= target_qty: {detail['target_qty']} )')
 
         finally:
@@ -200,7 +215,7 @@ class Application(EntryPoint):
             self.kpm.send_message(topic='inst.prod-orders', key=self.mach_name, payload=payload)
 
             ret += 1
-            logging.info(f'Production Begins Based on the Order [{_order_id}].')
+            self.logging.info(f'Production Begins Based on the Order [{_order_id}].')
 
 
             # 1.2 更新機台狀態 : IDLE -> RUNNING
@@ -333,7 +348,7 @@ class Application(EntryPoint):
                         if _order_id is not None:
                             _detail = self.event_dict['detail'][_order_id]
                             ret += f'{_detail['produced_qty']}/{_detail['target_qty']}'
-                        logging.info(
+                        self.logging.info(
                             f'[{MAIN_NAME}] 整體の概要 : '
                             f'MODE={mode} | '
                             f'訂單完成={done_qty}\n'
@@ -346,50 +361,25 @@ class Application(EntryPoint):
                     time.sleep(1)
 
                 except Exception as e:
-                    logging.error('[# Other] Exception', exc_info=True)
+                    self.logging.error('[# Other] Exception', exc_info=True)
 
         finally:
             self.kpm.flush(sec=10)
-            logging.notice(f'[{MAIN_NAME}] 已強制將緩衝區中所有尚未發送的訊息傳送到 Kafka Broker ...')
+            self.logging.notice(f'[{MAIN_NAME}] 已強制將緩衝區中所有尚未發送的訊息傳送到 Kafka Broker ...')
 
 
     def consumer_message(self, **kwargs):
         """
         TODO 消費者配置
         """
-        _config = {
-            'bootstrap.servers': self.env['KAFKA_HOST'],
-            'group.id': self.env['CONSUMER_GROUP_ID'],
-            'auto.offset.reset': self.env['KAFKA']['auto_offset_reset'],
-            'enable.auto.commit': self.env['KAFKA']['enable_auto_commit']
-        }
-        consumer = Consumer(_config)
-        consumer_order_topic = self.env['CONSUMER_ORDER_TOPIC']
-        _topic_key = '/'.join(consumer_order_topic.split('.')[1:])
-        target_partition = get_partition_id(
-            consumer,
-            consumer_order_topic,
-            f'{_topic_key}/{self.mach_name}'
-        )
-        tp = TopicPartition(consumer_order_topic, target_partition)
-        consumer.assign([tp])
-
         try:
             while not self._stop_event.is_set():
                 try:
                     self._stop_event.wait(timeout=0.1)
-                    msg = consumer.poll(1.0) # 等待 1 秒
 
-                    if msg is None: continue
-                    if msg.error():
-                        if msg.error().code() == KafkaError._PARTITION_EOF:
-                            # 當前消費完畢 => 目前沒新訊息，繼續等待
-                            logging.info(f"[{MAIN_NAME}] topic: {msg.topic()} | partition: {msg.partition()}")
-                            continue
-                        else:
-                            # 其他錯誤: Broker 斷線、認證失敗 ...etc.
-                            logging.error(f"[{MAIN_NAME}] kafka consumer error: {msg.error()}", exc_info=False)
-                            raise
+                    msg = self.kcm.poll(1.0)
+                    if msg is None:
+                        continue
 
                     key = msg.key().decode('utf-8') if msg.key() else 'N/A'
                     data = json.loads(msg.value().decode('utf-8'))
@@ -399,23 +389,22 @@ class Application(EntryPoint):
 
                     # TODO 處理業務邏輯
                     try:
-                        # logging.info(f"[{MAIN_NAME}] 收到來自 {key}: {data}")
+                        # self.logging.info(f"[{MAIN_NAME}] 收到來自 {key}: {data}")
                         self.event_dict['mach_id'] = data['mach_id']
                         self.event_dict['order_queue'] += [data]
                         self.event_dict['order_dict'][data['order_id']] = data
 
-                        consumer.commit(asynchronous=False) # TODO 處理成功，手動提交 Offset
+                        self.kcm.commit(asynchronous=False) # TODO 處理成功，手動提交 Offset
 
                     except Exception as e:
-                        logging.error(f"[{MAIN_NAME}] 消費失敗不提交，下次從 offset 繼續開始 ...", exc_info=True)
+                        self.logging.error(f"[{MAIN_NAME}] 消費失敗不提交，下次從 offset 繼續開始 ...", exc_info=True)
 
 
                 except Exception as e:
-                    logging.error('Exception', exc_info=True)
+                    self.logging.error('Exception', exc_info=True)
 
         finally:
-            consumer.close()
-            logging.notice(f'[{MAIN_NAME}] 已安全關閉 kafka consumer 連線 ...')
+            self.kcm.close()
 
 
     def run(self):
@@ -428,24 +417,15 @@ class Application(EntryPoint):
                 - 傳送
             - Offset 儲存：Kafka 根據 Key 紀錄消費數字 ; KEY => ( group.id + Topic + Partition ID )
         """
-        logging.notice(f'[{MAIN_NAME}] Starting Factory Stream Simulation ...')
-        try:
-            self.start_service(self.consumer_message, **{
-                'title': '消費「source.cp.mach-order」訊息服務',
-            })
-
-            self.start_service(self.producer_message, **{
-                'title': '生產「邊緣數據」訊息服務',
-            })
-
-            while True:
-                time.sleep(1)
-
-        except KeyboardInterrupt:
-            logging.warning('偵測到 Ctrl+C，正在關閉連線 ...')
-
-        finally:
-            return 0
+        self.logging.notice(f'[{MAIN_NAME}] Starting Factory Stream Simulation ...')
+        self.start_service(self.consumer_message, **{
+            'title': '消費「source.cp.mach-order」訊息服務',
+        })
+        self.start_service(self.producer_message, **{
+            'title': '生產「邊緣數據」訊息服務',
+        })
+        while True:
+            time.sleep(1)
 
 
 if __name__ == '__main__':
