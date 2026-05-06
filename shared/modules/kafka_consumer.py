@@ -56,12 +56,12 @@ class KafkaConsumerManager:
         if msg.error():
             if msg.error().code() == KafkaError._PARTITION_EOF:
                 # 當前消費完畢 => 目前沒新訊息，繼續等待 ...
-                logging.info(f"[{self.main_name}] topic: {msg.topic()} | partition: {msg.partition()}")
+                self.logging.info(f"[{self.main_name}] topic: {msg.topic()} | partition: {msg.partition()}")
                 return None
 
             else:
                 # 其他錯誤: Broker 斷線、認證失敗 ...etc.
-                logging.error(f"[{self.main_name}] kafka consumer error: {msg.error()}", exc_info=False)
+                self.logging.error(f"[{self.main_name}] kafka consumer error: {msg.error()}", exc_info=False)
                 raise
 
         return msg.value()
@@ -73,4 +73,4 @@ class KafkaConsumerManager:
 
     def close(self):
         self.consumer.close()
-        logging.notice(f'[{self.main_name}] 已安全關閉 kafka consumer 連線 ...')
+        self.logging.notice(f'[{self.main_name}] 已安全關閉 kafka consumer 連線 ...')

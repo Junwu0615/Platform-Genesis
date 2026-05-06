@@ -38,16 +38,17 @@ class EntryPoint:
 
     def __enter__(self, **kwargs):
         """上下文管理器，確保資源正確初始化與釋放"""
-        logging.info('Entering Context Manager...')
+        # self.logging.info('Entering Context Manager...', stack_level=10)
         return self
 
 
     def __exit__(self, exc_type, exc_val, exc_tb):
-        """處理例外與資源回收"""
+        """TODO [安全關閉程序 2] 統一資源回收"""
         if exc_type:
-            logging.error(f'Context Exited with Error: {exc_val}', exc_info=True)
-        self.stop()
-        logging.info('Context Resources Cleaned Up.')
+            self.logging.error(f'Context Exited with Error: {exc_val}', exc_info=True, stack_level=10)
+
+        self.stop_all_services()
+        self.logging.info('Context Resources Cleaned Up.', stack_level=10)
 
 
     def __init__(self, dotenv_path: Optional[str] = None, **kwargs):
@@ -81,7 +82,7 @@ class EntryPoint:
 
         # 4. 初始化完成標記
         self._initialized = True
-        self.logging.notice(f'[{self.env['APP_ENV']} MODE] EntryPoint Initialized ...')
+        self.logging.notice(f'[{self.env['APP_ENV']} MODE] EntryPoint Initialized ...', stack_level=10)
 
 
     def start_service(self, func: callable, **kwargs):
@@ -89,27 +90,29 @@ class EntryPoint:
         _title = kwargs.get('title', 'UNKNOWN SERVICE')
         service_thread = threading.Thread(
             target=func,
-            daemon=True,  # 當主執行緒結束時，子執行緒會被強制終止
+            daemon=False,
             kwargs=kwargs,
         )
         service_thread.start()
         self._threads.append(service_thread)
-        logging.notice(f'{_title}已啟動...')
+        self.logging.notice(f'{_title}已啟動...', stack_level=10)
 
 
     def stop_all_services(self, **kwargs):
         """安全地關閉多執行緒"""
         if self._threads:
-            logging.notice('正在向所有執行緒發出停止訊號...')
+            self.logging.notice('正在向所有執行緒發出停止訊號...', stack_level=10)
             self._stop_event.set() # 發出停止訊號
 
             # 等待所有執行緒結束
             for thread in self._threads:
                 if thread.is_alive():
-                    logging.info(f'等待 {thread.name} 執行緒結束...')
-                    thread.join()
+                    self.logging.info(f'[{thread.name}] 等待執行緒結束...', stack_level=10)
+                    thread.join(timeout=10.0)
+                    if thread.is_alive():
+                        self.logging.error(f'[{thread.name}] 執行緒超時未結束，強制繼續程序 ...', stack_level=10)
 
-            logging.notice('\n\n' + logging.title_log('所有執行緒服務已確實關閉'))
+            self.logging.notice('\n\n' + self.logging.title_log('所有執行緒服務已確實關閉'), stack_level=10)
             time.sleep(0.1)
 
 
@@ -120,32 +123,33 @@ class EntryPoint:
 
 
     def _handle_exit(self, signum, frame, **kwargs):
-        self.logging.info(f"Received signal {signum}. Integrating graceful shutdown...")
-        self.stop_all_services()
+        """TODO [安全關閉程序 1] 只負責通知，不負責執行耗時操作"""
+        self.logging.warning(f'Received signal {signum}. Graceful Shutdown ...', stack_level=10)
 
 
     def _finalize(self, **kwargs):
         """最後資源釋放"""
-        self.logging.info('Application shut down gracefully.')
+        self.logging.info('Application shut down gracefully.', stack_level=10)
         sys.exit(0)
 
 
     def main(self, **kwargs):
         """
         TODO 所有事物在此進行完整生態週期
-            - 程式啟動
-            - 優雅關閉
+            - 程式啟動 + 優雅關閉
+            - 使用 with 觸發 __enter__ 與 __exit__
             - 供 main.py 以 EntryPoint.main 使用，並觸發 run
         """
         try:
-            self.logging.notice('Starting Lifecycle ...')
-            self.run()
+            with self:
+                self.logging.notice('Starting Lifecycle ...', stack_level=10)
+                self.run()
 
         except KeyboardInterrupt:
-            logging.warning('偵測到 Ctrl+C，正在關閉連線 ...')
+            self.logging.warning('偵測到 Ctrl+C，正在關閉連線 ...', stack_level=10)
 
         except Exception as e:
-            self.logging.critical(f'Unhandled Exception', exc_info=True)
+            self.logging.critical(f'Unhandled Exception', exc_info=True, stack_level=10)
 
         finally:
             self._finalize()

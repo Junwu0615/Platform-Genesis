@@ -120,6 +120,7 @@ class Application(EntryPoint):
         # self.env['KAFKA'] = _KAFKA
         self.env['BATCH_SIZE'] = _BATCH_SIZE
         self.env['BATCH_INTERVAL'] = _BATCH_INTERVAL
+        self.env['_MAIN_NAME'] = _MAIN_NAME
 
 
     def update_order_status(self) -> int:
@@ -349,7 +350,7 @@ class Application(EntryPoint):
                             _detail = self.event_dict['detail'][_order_id]
                             ret += f'{_detail['produced_qty']}/{_detail['target_qty']}'
                         self.logging.info(
-                            f'[{MAIN_NAME}] 整體の概要 : '
+                            f'[{self.env['_MAIN_NAME']}] 整體の概要 : '
                             f'MODE={mode} | '
                             f'訂單完成={done_qty}\n'
                             f'[PROGRESS #{_order_id}]=[{ret}] | '
@@ -365,7 +366,7 @@ class Application(EntryPoint):
 
         finally:
             self.kpm.flush(sec=10)
-            self.logging.notice(f'[{MAIN_NAME}] 已強制將緩衝區中所有尚未發送的訊息傳送到 Kafka Broker ...')
+            self.logging.notice(f'[{self.env['_MAIN_NAME']}] 已強制將緩衝區中所有尚未發送的訊息傳送到 Kafka Broker ...')
 
 
     def consumer_message(self, **kwargs):
@@ -389,7 +390,7 @@ class Application(EntryPoint):
 
                     # TODO 處理業務邏輯
                     try:
-                        # self.logging.info(f"[{MAIN_NAME}] 收到來自 {key}: {data}")
+                        # self.logging.info(f"[{self.env['_MAIN_NAME']}] 收到來自 {key}: {data}")
                         self.event_dict['mach_id'] = data['mach_id']
                         self.event_dict['order_queue'] += [data]
                         self.event_dict['order_dict'][data['order_id']] = data
@@ -397,7 +398,7 @@ class Application(EntryPoint):
                         self.kcm.commit(asynchronous=False) # TODO 處理成功，手動提交 Offset
 
                     except Exception as e:
-                        self.logging.error(f"[{MAIN_NAME}] 消費失敗不提交，下次從 offset 繼續開始 ...", exc_info=True)
+                        self.logging.error(f"[{self.env['_MAIN_NAME']}] 消費失敗不提交，下次從 offset 繼續開始 ...", exc_info=True)
 
 
                 except Exception as e:
@@ -417,7 +418,7 @@ class Application(EntryPoint):
                 - 傳送
             - Offset 儲存：Kafka 根據 Key 紀錄消費數字 ; KEY => ( group.id + Topic + Partition ID )
         """
-        self.logging.notice(f'[{MAIN_NAME}] Starting Factory Stream Simulation ...')
+        self.logging.notice(f'[{self.env['_MAIN_NAME']}] Starting Factory Stream Simulation ...')
         self.start_service(self.consumer_message, **{
             'title': '消費「source.cp.mach-order」訊息服務',
         })

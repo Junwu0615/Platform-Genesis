@@ -115,7 +115,7 @@ class Logger:
         self.logging = logging.LoggerAdapter(logger, extra=self.symbol_tag)
 
 
-    def log_custom(self, level_name: str, msg: str, **kwargs):
+    def log_custom(self, level_name: str, msg: str, stack_level: int=2, **kwargs):
         """
         通用日誌記錄器
         """
@@ -123,56 +123,51 @@ class Logger:
         if self.logging:
             method = getattr(self.logging, level_name, None)
             if method:
-                method(msg, exc_info=exc_info, stacklevel=4)
+                method(msg, exc_info=exc_info, stacklevel=stack_level)
 
 
-    def debug(self, msg: str='', console_b: bool=True, file_b: bool=True, **kwargs):
+    def debug(self, msg: str='', stack_level: int=2, **kwargs):
         _level_name = 'debug'.lower()
         self.log_custom(_level_name, msg, **{
-            'console_b': console_b,
-            'file_b': file_b,
+            'stack_level': stack_level,
         })
 
 
-    def info(self, msg: str='', console_b: bool=True, file_b: bool=True, **kwargs):
+    def info(self, msg: str='', stack_level: int=2, **kwargs):
         _level_name = 'info'.lower()
         self.log_custom(_level_name, msg, **{
-            'console_b': console_b,
-            'file_b': file_b,
+            'stack_level': stack_level,
         })
 
 
-    def warning(self, msg: str='', console_b: bool=True, file_b: bool=True, **kwargs):
+    def warning(self, msg: str='', stack_level: int=2, **kwargs):
         _level_name = 'warning'.lower()
         self.log_custom(_level_name, msg, **{
-            'console_b': console_b,
-            'file_b': file_b,
+            'stack_level': stack_level,
         })
 
 
-    def error(self, msg: str='', exc_info: bool=True, console_b: bool=True, file_b: bool=True, **kwargs):
+    def error(self, msg: str='', exc_info: bool=True, stack_level: int=2, **kwargs):
         _level_name = 'error'.lower()
         self.log_custom(_level_name, msg, **{
-            'console_b': console_b,
-            'file_b': file_b,
+            'stack_level': stack_level,
             'exc_info': exc_info,
         })
 
 
-    def critical(self, msg: str='', exc_info: bool=True, console_b: bool=True, file_b: bool=True, **kwargs):
+    def critical(self, msg: str='', exc_info: bool=True, stack_level: int=2, **kwargs):
         _level_name = 'critical'.lower()
         self.log_custom(_level_name, msg, **{
-            'console_b': console_b,
-            'file_b': file_b,
+            'stack_level': stack_level,
             'exc_info': exc_info,
         })
 
 
-    def notice(self, msg: str = '', console_b: bool = True, file_b: bool = True, **kwargs):
+    def notice(self, msg: str='', stack_level: int=2, **kwargs):
         """使用底層的 log(level_num, msg) 避開全域方法的依賴"""
         _level_name = 'notice'.lower()
         if self.logging:
-            self.logging.log(NOTICE_LEVEL_NUM, msg, stacklevel=2)
+            self.logging.log(NOTICE_LEVEL_NUM, msg, stacklevel=stack_level)
 
 
     def title_log(self, title_name: str, **kwargs) -> str:
