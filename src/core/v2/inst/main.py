@@ -40,8 +40,11 @@ MAIN_NAME = f'#{TARGET_MACH}'
 
 console_name = get_logger_name(__file__, GET_PATH_ROOT)
 logging = Logger(
-    console_name=console_name,
     # logging_level='DEBUG',
+    console_name=console_name,
+    file_name=TARGET_MACH,
+    file_path=f'logs/INSTANCE/{TARGET_MACH}.logs',
+    backup_count=10,
     **{
         'app_name': 'ooud',
         'service_type': 'instance',
