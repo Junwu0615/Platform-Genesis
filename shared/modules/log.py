@@ -115,7 +115,7 @@ class Logger:
         self.logging = logging.LoggerAdapter(logger, extra=self.symbol_tag)
 
 
-    def log_custom(self, level_name: str, msg: str, stack_level: int=2, **kwargs):
+    def log_custom(self, level_name: str, msg: str, stack_level: int=1, **kwargs):
         """
         通用日誌記錄器
         """
@@ -123,31 +123,31 @@ class Logger:
         if self.logging:
             method = getattr(self.logging, level_name, None)
             if method:
-                method(msg, exc_info=exc_info, stacklevel=stack_level)
+                method(msg, exc_info=exc_info, stacklevel=stack_level + 1)
 
 
-    def debug(self, msg: str='', stack_level: int=2, **kwargs):
+    def debug(self, msg: str='', stack_level: int=1, **kwargs):
         _level_name = 'debug'.lower()
         self.log_custom(_level_name, msg, **{
             'stack_level': stack_level,
         })
 
 
-    def info(self, msg: str='', stack_level: int=2, **kwargs):
+    def info(self, msg: str='', stack_level: int=1, **kwargs):
         _level_name = 'info'.lower()
         self.log_custom(_level_name, msg, **{
             'stack_level': stack_level,
         })
 
 
-    def warning(self, msg: str='', stack_level: int=2, **kwargs):
+    def warning(self, msg: str='', stack_level: int=1, **kwargs):
         _level_name = 'warning'.lower()
         self.log_custom(_level_name, msg, **{
             'stack_level': stack_level,
         })
 
 
-    def error(self, msg: str='', exc_info: bool=True, stack_level: int=2, **kwargs):
+    def error(self, msg: str='', exc_info: bool=True, stack_level: int=1, **kwargs):
         _level_name = 'error'.lower()
         self.log_custom(_level_name, msg, **{
             'stack_level': stack_level,
@@ -155,7 +155,7 @@ class Logger:
         })
 
 
-    def critical(self, msg: str='', exc_info: bool=True, stack_level: int=2, **kwargs):
+    def critical(self, msg: str='', exc_info: bool=True, stack_level: int=1, **kwargs):
         _level_name = 'critical'.lower()
         self.log_custom(_level_name, msg, **{
             'stack_level': stack_level,
@@ -163,11 +163,11 @@ class Logger:
         })
 
 
-    def notice(self, msg: str='', stack_level: int=2, **kwargs):
+    def notice(self, msg: str='', stack_level: int=1, **kwargs):
         """使用底層的 log(level_num, msg) 避開全域方法的依賴"""
         _level_name = 'notice'.lower()
         if self.logging:
-            self.logging.log(NOTICE_LEVEL_NUM, msg, stacklevel=stack_level)
+            self.logging.log(NOTICE_LEVEL_NUM, msg, stacklevel=stack_level + 1)
 
 
     def title_log(self, title_name: str, **kwargs) -> str:

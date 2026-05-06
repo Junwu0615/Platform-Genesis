@@ -20,7 +20,6 @@ from shared.modules.kafka_consumer import KafkaConsumerManager
 from shared.modules.kafka_producer import KafkaProducerManager
 from src.core.models.sink_format import *
 from src.core.models.simulator import MachineStatusSimulator
-from confluent_kafka import KafkaError
 
 
 class Application(EntryPoint):

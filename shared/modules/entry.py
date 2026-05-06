@@ -16,6 +16,7 @@ TODO
 import signal
 from shared.config import *
 
+STACK_LEVEL = 2
 
 class EntryPoint:
     _instance: Optional['EntryPoint'] = None
@@ -38,16 +39,16 @@ class EntryPoint:
 
     # def __enter__(self, **kwargs):
     #     """上下文管理器，確保資源正確初始化與釋放"""
-    #     # self.logging.info('Entering Context Manager...', stack_level=10)
+    #     # self.logging.info('Entering Context Manager...', stack_level=STACK_LEVEL)
     #     return self
 
 
     # def __exit__(self, exc_type, exc_val, exc_tb):
     #     """[安全關閉程序] 統一資源回收"""
     #     if exc_type:
-    #         self.logging.error(f'Context Exited with Error: {exc_val}', exc_info=True, stack_level=10)
+    #         self.logging.error(f'Context Exited with Error: {exc_val}', exc_info=True, stack_level=STACK_LEVEL)
     #     self.stop_all_services()
-    #     self.logging.info('Context Resources Cleaned Up.', stack_level=10)
+    #     self.logging.info('Context Resources Cleaned Up.', stack_level=STACK_LEVEL)
 
 
     def __init__(self, dotenv_path: Optional[str] = None, **kwargs):
@@ -68,6 +69,8 @@ class EntryPoint:
 
 
     def configure_setting(self, logging, **kwargs):
+        """必要工具初始化"""
+
         # 1. 註冊 threading 物件，供子模塊使用
         # 工具支援 : mqtt / kafka producer
         self._stop_event = threading.Event()
@@ -81,11 +84,11 @@ class EntryPoint:
 
         # 4. 初始化完成標記
         self._initialized = True
-        self.logging.notice(f'[{self.env['APP_ENV']} MODE] EntryPoint Initialized ...', stack_level=10)
+        self.logging.notice(f'[{self.env['APP_ENV']} MODE] EntryPoint Initialized ...', stack_level=STACK_LEVEL)
 
 
     def start_service(self, func: callable, **kwargs):
-        """多執行緒啟動統一途徑"""
+        """TODO 多執行緒啟動統一途徑"""
         _title = kwargs.get('title', 'UNKNOWN SERVICE')
         service_thread = threading.Thread(
             target=func,
@@ -94,29 +97,29 @@ class EntryPoint:
         )
         service_thread.start()
         self._threads.append(service_thread)
-        self.logging.notice(f'{_title}已啟動...', stack_level=10)
+        self.logging.notice(f'{_title}已啟動...', stack_level=STACK_LEVEL)
 
 
     def stop_all_services(self, **kwargs):
-        """安全地關閉多執行緒"""
+        """TODO 安全地關閉多執行緒"""
         if self._threads:
-            self.logging.notice('正在向所有執行緒發出停止訊號...', stack_level=10)
+            self.logging.notice('正在向所有執行緒發出停止訊號...', stack_level=STACK_LEVEL)
             self._stop_event.set() # 發出停止訊號
 
             # 等待所有執行緒結束
             for thread in self._threads:
                 if thread.is_alive():
-                    self.logging.info(f'[{thread.name}] 等待執行緒結束...', stack_level=10)
+                    self.logging.info(f'[{thread.name}] 等待執行緒結束...', stack_level=STACK_LEVEL)
                     thread.join(timeout=10.0)
                     if thread.is_alive():
-                        self.logging.error(f'[{thread.name}] 執行緒超時未結束，強制繼續程序 ...', stack_level=10)
+                        self.logging.error(f'[{thread.name}] 執行緒超時未結束，強制繼續程序 ...', stack_level=STACK_LEVEL)
 
-            self.logging.notice('\n\n' + self.logging.title_log('所有執行緒服務已確實關閉'), stack_level=10)
+            self.logging.notice('\n\n' + self.logging.title_log('所有執行緒服務已確實關閉'), stack_level=STACK_LEVEL)
             time.sleep(0.1)
 
 
     def _setup_signals(self, **kwargs):
-        """偵測系統關閉訊號"""
+        """TODO 偵測系統關閉訊號"""
         for sig in (signal.SIGTERM, signal.SIGINT):
             signal.signal(sig, self._handle_exit)
 
@@ -124,7 +127,7 @@ class EntryPoint:
     def _handle_exit(self, signum, frame, **kwargs):
         """TODO 安全關閉程序"""
         self.stop_all_services()
-        self.logging.warning(f'Received signal {signum}. Graceful Shutdown ...', stack_level=10)
+        self.logging.warning(f'Received signal {signum}. Graceful Shutdown ...', stack_level=STACK_LEVEL)
         self._finalize()
 
 
@@ -135,7 +138,6 @@ class EntryPoint:
     def main(self, **kwargs):
         """
         TODO 所有事物在此進行完整生態週期
-            - 程式啟動 + 優雅關閉
             # - 使用 with 觸發 __enter__ 與 __exit__
             - 供 main.py 以 EntryPoint.main 使用，並觸發 run
         """
@@ -144,7 +146,7 @@ class EntryPoint:
             self.run()
 
         except Exception as e:
-            self.logging.critical(f'Unhandled Exception', exc_info=True, stack_level=10)
+            self.logging.critical(f'Unhandled Exception', exc_info=True, stack_level=STACK_LEVEL)
 
 
     def run(self, **kwargs):
