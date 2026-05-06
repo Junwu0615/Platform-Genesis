@@ -73,11 +73,13 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 | Add `Apache Iceberg` | Data Lake | - |
 | Add `Apache Flink` | consumer of CDC | - |
 | Build `Lakehouse` | - | - |
+| Redefine Project Name | `OLTP-OLAP-Unified-DB`<br>to `Platform Genesis` | - |
 | Project Breakdown | `4` major categories | - |
 | K8s | Beginner : `Minikube` | - |
 | K8s | Advanced : `K3s` + `VMware` | - |
 | K8s | Bottom Layer : `Kubeadm` + `VMware` | - |
 | K8s | Public Cloud : `GKE` | - |
+| Summary | - | - |
 
 </ul>
 </details>
@@ -137,7 +139,7 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 | Docker Compose | Compose Modularization | 2026-04-11 |
 | Add Makefile | for `docker-compose` | 2026-04-11 |
 | Add Airflow Config UI | `Trigger w/ Config` | 2026-04-18 |
-| DAG | Update Coding Style | 2026-04-18 |
+| DAG | update Coding Style | 2026-04-18 |
 | Terraform | Declaration Config : `Docker Provider` | 2026-04-19 |
 | Terraform | Config Transfer : `docker-compose` | 2026-04-19 |
 | Ansible | node `init` & `config` | 2026-04-19 |
@@ -156,14 +158,14 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 | Add `ELK` | - | 2026-05-05 |
 | ELK | Experience : `ELK` | 2026-05-05 |
 | Define the Version Number<br>of each service  | settings to `.env` | 2026-05-05 |
-| update logging logic | mixed ( `ELK` + `logging` ) | 2026-05-06 |
-| DAG | init.py / create_topic.py | - |
+| logging logic | mixed ( `ELK` + `logging` ) | 2026-05-06 |
+| DAG | init.py + create_topic.py | - |
 | Encapsulation Entry | app.py | - |
-| Add `SQLite`<br>to Edge scripts  | 提升消費事務可用性 | - |
+| Add `SQLite`<br>to Edge scripts  | Improve the HA<br>of Consumer Transactions | - |
 | Security Message<br>Transmission | encryption ( `kafka` + `mqtt` ) | - |
 | API Service logic | - | X |
 | make `v2` Dockerfile | - | - |
-| Grafana Dashboard | update `htap_grafana.json` | - |
+| Grafana Dashboard | `htap_grafana.json` | - |
 | Create MV | Materialized View | - |
 | Analytical Queries | - | - |
 | Add `Gitlab` | for `CI / CD` | - |
@@ -173,6 +175,7 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 | Add `Apache Iceberg` | Data Lake | - |
 | Add `Apache Flink` | consumer of CDC | - |
 | Build `Lakehouse` | - | - |
+| Redefine Project Name | `OLTP-OLAP-Unified-DB`<br>to `Platform Genesis` | - |
 | Project Breakdown | `4` major categories | - |
 | K8s | Beginner : `Minikube` | - |
 | K8s | Advanced : `K3s` + `VMware` | - |
@@ -180,6 +183,7 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 | K8s | Public Cloud : `GKE` | - |
 | K8s | Experience :<br>`Pod` / `Service` / `Ingress` | - |
 | K8s | Experience :<br>`Lens` / `k9s` / `Kubernetes Dashboard` | - |
+| Summary | - | - |
 
 </ul>
 </details>

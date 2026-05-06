@@ -24,14 +24,12 @@ COLORS_CONFIG = {
     'CRITICAL': 'bold_red',
 }
 FILE_FMT = '[%(asctime)s] %(levelname)s: %(message)s'
-# CONSOLE_FMT = '%(log_color)s[%(asctime)s] %(levelname)s: %(message)s'
-# CONSOLE_FMT ='%(log_color)s[%(asctime)s] [%(name)s | %(funcName)s:%(lineno)d] %(levelname)s: %(message)s'
 CONSOLE_FMT ='%(log_color)s[%(asctime)s] [%(name)s:%(lineno)d] %(levelname)s: %(message)s'
 
 
 TITLE_SYMBOL_NUMBER = 20
-LOGGING_LEVEL_SET = 'INFO'
 NOTICE_LEVEL_NUM = 25
+LOGGING_LEVEL_SET = 'INFO'
 
 
 def _init_logging_level_name():
@@ -59,7 +57,7 @@ class Logger:
         TODO 日誌等級說明：
             DEBUG    10  追蹤細節  開發除錯、檢視 TCP 連線過程、模組內部運作
             INFO     20  一般確認  程式正常運行的關鍵節點（如：API 啟動）
-            NOTICE   25  重要通知  [自定義的等級] 用於比 INFO 重要但非錯誤的事件（如：模擬開始）
+            NOTICE   25  重要通知  [自定義] 用於比 INFO 重要但非錯誤的事件（如：模擬開始）
             WARNING  30  警告     潛在問題但不影響運行（如：硬碟空間即將不足）
             ERROR    40  錯誤     發生 Exception，特定功能失效但主程式未崩潰
             CRITICAL 50  嚴重     系統災難、無法繼續運行（如：資料庫連不上）
