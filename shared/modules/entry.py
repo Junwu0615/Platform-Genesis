@@ -8,7 +8,7 @@ TODO
         - [優雅關閉服務] 偵測 docker rm : SIGTERM
         - [處理例外] exception handling
         - [影響併行可能性] 唯一實例註冊 : __new__
-        - [上下文管理器] __enter__ + __exit__
+        # - [上下文管理器] __enter__ + __exit__
         - [依賴注入代碼設計]
         - [硬編碼拉到外部 .env 設置]
     Notice:
@@ -36,19 +36,18 @@ class EntryPoint:
         return cls._instance
 
 
-    def __enter__(self, **kwargs):
-        """上下文管理器，確保資源正確初始化與釋放"""
-        # self.logging.info('Entering Context Manager...', stack_level=10)
-        return self
+    # def __enter__(self, **kwargs):
+    #     """上下文管理器，確保資源正確初始化與釋放"""
+    #     # self.logging.info('Entering Context Manager...', stack_level=10)
+    #     return self
 
 
-    def __exit__(self, exc_type, exc_val, exc_tb):
-        """TODO [安全關閉程序 2] 統一資源回收"""
-        if exc_type:
-            self.logging.error(f'Context Exited with Error: {exc_val}', exc_info=True, stack_level=10)
-
-        self.stop_all_services()
-        self.logging.info('Context Resources Cleaned Up.', stack_level=10)
+    # def __exit__(self, exc_type, exc_val, exc_tb):
+    #     """[安全關閉程序] 統一資源回收"""
+    #     if exc_type:
+    #         self.logging.error(f'Context Exited with Error: {exc_val}', exc_info=True, stack_level=10)
+    #     self.stop_all_services()
+    #     self.logging.info('Context Resources Cleaned Up.', stack_level=10)
 
 
     def __init__(self, dotenv_path: Optional[str] = None, **kwargs):
@@ -123,13 +122,13 @@ class EntryPoint:
 
 
     def _handle_exit(self, signum, frame, **kwargs):
-        """TODO [安全關閉程序 1] 只負責通知，不負責執行耗時操作"""
+        """TODO 安全關閉程序"""
+        self.stop_all_services()
         self.logging.warning(f'Received signal {signum}. Graceful Shutdown ...', stack_level=10)
+        self._finalize()
 
 
     def _finalize(self, **kwargs):
-        """最後資源釋放"""
-        self.logging.info('Application shut down gracefully.', stack_level=10)
         sys.exit(0)
 
 
@@ -137,22 +136,15 @@ class EntryPoint:
         """
         TODO 所有事物在此進行完整生態週期
             - 程式啟動 + 優雅關閉
-            - 使用 with 觸發 __enter__ 與 __exit__
+            # - 使用 with 觸發 __enter__ 與 __exit__
             - 供 main.py 以 EntryPoint.main 使用，並觸發 run
         """
         try:
-            with self:
-                self.logging.notice('Starting Lifecycle ...', stack_level=10)
-                self.run()
-
-        except KeyboardInterrupt:
-            self.logging.warning('偵測到 Ctrl+C，正在關閉連線 ...', stack_level=10)
+            # with self:
+            self.run()
 
         except Exception as e:
             self.logging.critical(f'Unhandled Exception', exc_info=True, stack_level=10)
-
-        finally:
-            self._finalize()
 
 
     def run(self, **kwargs):
