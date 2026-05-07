@@ -10,7 +10,7 @@ from confluent_kafka import Producer, SerializingProducer
 from confluent_kafka.serialization import SerializationContext, MessageField
 from confluent_kafka.schema_registry import SchemaRegistryClient
 from confluent_kafka.schema_registry.avro import AvroSerializer
-from shared.config import *
+from shared.configs import *
 
 
 class KafkaProducerManager:

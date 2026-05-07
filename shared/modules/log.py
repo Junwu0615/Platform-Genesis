@@ -8,9 +8,9 @@ TODO
 import logging, logstash
 from colorlog import ColoredFormatter
 from logging.handlers import RotatingFileHandler
-from shared.config import *
-from shared.config.constant import *
-from shared.config.settings import ELK_HOST, LOGSTASH_PORT
+from shared.configs import *
+from shared.configs.constant import *
+from shared.configs.settings import ELK_HOST, LOGSTASH_PORT
 
 
 COLORS_CONFIG = {

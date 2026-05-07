@@ -14,7 +14,7 @@ TODO
     Notice:
 """
 import signal
-from shared.config import *
+from shared.configs import *
 
 
 class EntryPoint:

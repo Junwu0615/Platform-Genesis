@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import sys, os; sys.path.insert(0, os.getcwd())
 
-from shared.config import *
+from shared.configs import *
 from shared.utils.tools import *
 from shared.utils.env_config import GET_PATH_ROOT, get_logger_name
 from shared.modules.log import Logger

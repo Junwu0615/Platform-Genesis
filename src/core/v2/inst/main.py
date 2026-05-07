@@ -10,8 +10,8 @@ TODO
 """
 import sys, os; sys.path.insert(0, os.getcwd())
 
-from shared.config import *
-from shared.config.constant import *
+from shared.configs import *
+from shared.configs.constant import *
 from shared.utils.tools import *
 from shared.utils.env_config import GET_PATH_ROOT, get_logger_name
 from shared.modules.log import Logger
@@ -120,6 +120,10 @@ class Application(EntryPoint):
         self.env['BATCH_SIZE'] = _BATCH_SIZE
         self.env['BATCH_INTERVAL'] = _BATCH_INTERVAL
         self.env['_MAIN_NAME'] = _MAIN_NAME
+        
+    
+    def _load_configs(self):
+        pass
 
 
     def update_order_status(self) -> int:

@@ -6,7 +6,7 @@ TODO
     Notice:
         FIXME : 明文傳送應加密 + 安全性須提升 ( 認證 ...etc. )
 """
-from shared.config import *
+from shared.configs import *
 from confluent_kafka import (
     Consumer,
     TopicPartition,

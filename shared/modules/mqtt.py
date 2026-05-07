@@ -53,7 +53,7 @@ import queue, socket, threading
 import paho.mqtt.client as mqtt_client
 from queue import Queue
 from concurrent.futures import ThreadPoolExecutor, as_completed
-from shared.config import *
+from shared.configs import *
 from shared.modules.log import Logger
 
 
