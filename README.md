@@ -16,7 +16,7 @@
 
 ## *⭐ Platform Genesis ⭐*
 
----
+
 ### *A.　Current Progress*
 
 <details open>
@@ -166,12 +166,12 @@
 | Add `Gitlab` | for `CI` & `Manage Projects` | - |
 | Add `Jenkins` | for `CD` | - |
 | Add `Docker-Registry` | for `CI / CD` & `Manage Images` | - |
-| Quantitative Results 2 | 自動化部署邊緣 :<br>`Manual` vs. `CD -> Ansible` | - |
+| Quantitative Results 2 | Automated Deployment of the Edge :<br>`Manual` vs. `CD -> Ansible` | - |
 | Add `Debezium` | Change Data Capture | - |
 | Add `Apache Iceberg` | Data Lake | - |
 | Add `Apache Flink` | consumer of CDC | - |
 | Build `Lakehouse` | - | - |
-| Quantitative Results 3 | 業務衝突解套演進 :<br>`Direct Read` vs. `MV` vs. `CDC` | - |
+| Quantitative Results 3 | OLTP vs OLAP 核心業務解套演進 :<br>`Direct Read` vs. `MV` vs. `CDC` | - |
 | Add `HashiCorp Vault` | Enterprise Key Management System | - |
 | Add `Superset` | for `OLAP` | - |
 | K8s | Beginner : `Minikube` | - |
@@ -179,7 +179,7 @@
 | K8s | Bottom Layer : `Kubeadm` + `VMware` | - |
 | K8s | Experience :<br>`Pod` / `Service` / `Ingress` | - |
 | K8s | Experience :<br>`Lens` / `k9s` / `Kubernetes Dashboard` | - |
-| Quantitative Results 5 | `Compose` vs. `K8s` 高可用性比較 | - |
+| Quantitative Results 4 | `Compose` vs. `K8s` 高可用性比較測試 | - |
 | K8s | Public Cloud : `GKE` | - |
 | Summary | - | - |
 
@@ -189,7 +189,7 @@
 
 <br>
 
----
+
 
 ### *B.　Service Architecture*
 - #### *b.1.　Data Core & Orchestration*
@@ -243,7 +243,7 @@
 
 <br>
 
----
+
 
 ### *C.　Command Platform ( Makefile Execute )*
 
@@ -349,7 +349,7 @@ make kafka-all-clean
 
 <br>
 
----
+
 
 ### *D.　Implementation*
 - ![PNG](./assets/roadmap.PNG)
@@ -365,6 +365,7 @@ make kafka-all-clean
   .
   ├── LICENSE
   ├── README.md
+  ├── config
   ├── docker-compose
   │   ├── Makefile
   │   ├── ansible
@@ -395,7 +396,6 @@ make kafka-all-clean
   │   │   │   ├── elasticsearch.yaml
   │   │   │   └── logstash
   │   │   │       ├── logstash.yaml
-  │   │   │       ├── logstash.yml
   │   │   │       └── pipeline
   │   │   │           └── logstash.conf
   │   │   ├── iot-platform
@@ -409,9 +409,6 @@ make kafka-all-clean
   │   │   │   │   │       └── source-cp-mach-order.json
   │   │   │   │   ├── mosquitto.conf
   │   │   │   │   └── passwd
-  │   │   │   ├── data
-  │   │   │   │   └── mqtt_data
-  │   │   │   │       └── mosquitto.db
   │   │   │   ├── dockerfile
   │   │   │   │   └── Dockerfile.kafka
   │   │   │   ├── kafka-compose.yaml
@@ -462,21 +459,21 @@ make kafka-all-clean
   ├── requirements.txt
   ├── shared
   │   ├── __init__.py
-  │   ├── config
+  │   ├── configs
   │   │   ├── __init__.py
-  │   │   └── constant.py
+  │   │   ├── constant.py
+  │   │   └── settings.py
   │   ├── modules
   │   │   ├── __init__.py
-  │   │   ├── app.py
+  │   │   ├── entry.py
+  │   │   ├── kafka_consumer.py
   │   │   ├── kafka_producer.py
   │   │   ├── log.py
   │   │   └── mqtt.py
   │   └── utils
   │       ├── __init__.py
   │       ├── env_config.py
-  │       ├── kafka_tools.py
   │       ├── postgres_tools.py
-  │       ├── threading_tools.py
   │       └── tools.py
   └── src
       ├── __init__.py
@@ -562,24 +559,24 @@ make kafka-all-clean
 
 <br>
 
----
 
-### *E.　Benchmark*
-|**Type**|**Objective**|**Methods**|
-|:--:|:--:|:--:|
-|*[Generic Benchmark](./docs/generic_benchmark.md)* | 資料庫極限 | 內建工具 |
-|*[Workload Benchmark](./docs/workload_benchmark.md)* | 系統瓶頸 | 自訂腳本 |
+Summary
+### *E.　Summary*
+- #### *e.1.　[OLTP-OLAP-Unified-DB](./docs/oltp-olap-unified-db.md)*
+- #### *e.2.　Automated Deployment of the Edge*
+- #### *e.3.　OLTP vs OLAP 核心業務解套演進*
+- #### *e.4.　Compose vs. K8s 高可用性比較測試*
+
 
 <br>
 
----
+
 
 ### *F.　Notice*
 - #### *f.1.　[Service Startup Order](./docs/service_startup_order.md)*
 - #### *f.2.　[WSL2 Startup Docker Engine](./docs/wsl2_startup_docker_engine.md)*
 - #### *f.3.　[Terraform & Ansible](./docs/terraform_ansible.md)*
 - #### *f.4.　[Kubernetes](./docs/k8s.md)*
-- #### *f.5.　[OLTP-OLAP-Unified-DB](./docs/oltp-olap-unified-db.md)*
 - #### *f.6.　[About SQL Something Detail](./docs/sql.md)*
 
 
