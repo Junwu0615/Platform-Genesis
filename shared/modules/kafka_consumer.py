@@ -124,7 +124,7 @@ class KafkaConsumerManager:
                 self.logging.error(f"[{self.main_name}] kafka consumer error: {msg.error()}", exc_info=False)
                 raise
 
-        return msg.value()
+        return msg
 
 
     def commit(self, asynchronous=False):

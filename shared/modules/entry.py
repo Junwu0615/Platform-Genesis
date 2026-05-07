@@ -123,14 +123,15 @@ class EntryPoint:
 
 
     def _handle_exit(self, signum, frame, **kwargs):
-        """TODO 安全關閉程序"""
+        """安全關閉程序 1"""
         self.stop_all_services()
-        time.sleep(5)
-        self.logging.warning(f'Received signal {signum}. Graceful Shutdown ...', stack_level=2)
-        self._finalize()
+        time.sleep(1)
+        self.logging.warning(f'[Graceful Shutdown # 1] Received signal [{signum}] ...', stack_level=2)
 
 
     def _finalize(self, **kwargs):
+        """安全關閉程序 2"""
+        self.logging.warning(f'[Graceful Shutdown # 2] sys.exit(0)', stack_level=2)
         sys.exit(0)
 
 
@@ -146,6 +147,9 @@ class EntryPoint:
 
         except Exception as e:
             self.logging.critical(f'Unhandled Exception', exc_info=True, stack_level=0)
+
+        finally:
+            self._finalize()
 
 
     def run(self, **kwargs):
