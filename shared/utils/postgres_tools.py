@@ -37,11 +37,11 @@ def close_conn(conn, cursor, logging=None):
     if cursor:
         cursor.close()
         if logging is not None:
-            logging.notice("'cursor.close()' called ...")
+            logging.notice('<cursor.close()> called ...')
     if conn:
         conn.close()
         if logging is not None:
-            logging.notice("'conn.close()' called ...")
+            logging.notice('<conn.close()> called ...')
 
 
 def table_exists(cursor, schema_name, table_name):

@@ -82,6 +82,7 @@ class MqttServer:
     def __init__(self,
                  logging,
                  log_main_name: str,
+                 stop_event=threading.Event(),
                  client_id: str = DEFAULT_CLIENT,
                  broker_host: str = DEFAULT_BROKER,
                  broker_port: int = DEFAULT_BROKER_PORT,
@@ -94,6 +95,7 @@ class MqttServer:
 
         self.logging = logging
         self.main_name = log_main_name
+        self.stop_event = stop_event
 
         # ---------------------
         # 1.1) MQTT BROKER 設定
@@ -101,13 +103,13 @@ class MqttServer:
         # 連線設定
         self.client_id = client_id
         self.broker_host = broker_host
-        self.broker_port = broker_port
+        self.broker_port = int(broker_port)
         self.username = username
         self.password = password
 
         # 提供任意程式提快速啟用中間層監聽佇列服務 # 通常是地端
         self.middle_host = middle_host
-        self.middle_port = middle_port
+        self.middle_port = int(middle_port)
         self.middle_queue = queue.Queue()  # 建立中間層訊息佇列
 
         # 直接傳送訊息至 MQTT
@@ -119,7 +121,7 @@ class MqttServer:
         # -------------
         # 1.2) 其他設定
         # -------------
-        self.max_workers = max_workers
+        self.max_workers = int(max_workers)
         self.executor = ThreadPoolExecutor(max_workers=self.max_workers) # middle_server 專用
 
 

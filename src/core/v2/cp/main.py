@@ -38,7 +38,7 @@ class Application(EntryPoint):
             'port': os.getenv('POSTGRES_PORT', None),
             'database': os.getenv('POSTGRES_DATABASE', None),
             'user': os.getenv('POSTGRES_USER', None),
-            'password': os.getenv('POSTGRES_PASSWORD', None),
+            'password': os.getenv('POSTGRES_PWD', None),
         }
 
         self.env['NUM_ORDERS'] = _NUM_ORDERS
@@ -70,28 +70,29 @@ class Application(EntryPoint):
         self.ms = MqttServer(
             logging=self.logging,
             log_main_name=self.env['_MAIN_NAME'],
-            broker_host=DEFAULT_BROKER,
-            broker_port=DEFAULT_BROKER_PORT,
+            stop_event=self._stop_event,
+            broker_host=os.getenv('MQTT_HOST', None),
+            broker_port=os.getenv('MQTT_PORT', None),
             max_workers=1,
-            username=str(config['mqtt']['acc']),
-            password=str(config['mqtt']['pwd']),
+            username=os.getenv('MQTT_USER', None),
+            password=os.getenv('MQTT_PWD', None),
         )
         self.mss = MachineStatusSimulator()
         self.conn = get_conn(self.env['DB'], self.logging)
-        self.cursor = conn.cursor()
+        self.cursor = self.conn.cursor()
 
 
-    def check_is_create_order(self, prob: float) -> int:
+    def _check_is_create_order(self, prob: float, **kwargs) -> int:
         """
         TODO 基於機率檢查是否要新增生產訂單
         """
         if random.random() < prob:
-            ret = self.insert_production_order()
+            ret = self._insert_production_order()
             return ret
         return 0
 
 
-    def insert_production_order(self) -> int:
+    def _insert_production_order(self, **kwargs) -> int:
         """
         TODO 建立生產訂單:
             1. 若是命中，則瞬間生成大量訂單
@@ -139,7 +140,7 @@ class Application(EntryPoint):
             return ret
 
 
-    def init_transaction_dict(self):
+    def _init_transaction_dict(self, **kwargs):
         """
         TODO 初始化事務字典 : 用字典記錄必要變數，包含機台列表、產品列表、訂單列表 ...etc.
             - 從資料庫讀取產品資訊
@@ -177,19 +178,19 @@ class Application(EntryPoint):
             } for i in products if i[2] == 'CNC'} # FIXME DEV
 
             # 初始化第一批訂單
-            _ct = self.insert_production_order()
+            _ct = self._insert_production_order()
 
             self.conn.commit()
 
         except psycopg2.DatabaseError as e:
-            logging.error(f'[# Rollback] Exception [Code: {e.pgcode}]', exc_info=True)
+            self.logging.error(f'[# Rollback] Exception [Code: {e.pgcode}]', exc_info=True)
             self.conn.rollback()
 
         except Exception as e:
-            logging.error('[# Other] Exception', exc_info=True)
+            self.logging.error('[# Other] Exception', exc_info=True)
 
 
-    def command_platform_stream(self):
+    def _command_platform_stream(self, **kwargs):
         batch_ct = 0
         last_commit_time = time.time()
         while not self._stop_event.is_set():
@@ -199,7 +200,7 @@ class Application(EntryPoint):
                 load_setting = self.env['LOAD_CFG'][mode]
                 prob = load_setting['prob']
 
-                _ct = self.check_is_create_order(prob)
+                _ct = self._check_is_create_order(prob)
                 batch_ct += _ct
 
                 # TODO 根據 BATCH_SIZE 或 時間間隔 提交事務
@@ -211,17 +212,17 @@ class Application(EntryPoint):
                 time.sleep(1)
 
             except psycopg2.InterfaceError as e:
-                logging.error('[# Re-Connect] Exception', exc_info=True)
+                self.logging.error('[# Re-Connect] Exception', exc_info=True)
                 close_conn(self.conn, self.cursor)
                 self.conn = get_conn(self.env['DB'])
                 self.cursor = self.conn.cursor()
 
             except psycopg2.DatabaseError as e:
-                logging.error(f'[# Rollback] Exception [Code: {e.pgcode}]', exc_info=True)
+                self.logging.error(f'[# Rollback] Exception [Code: {e.pgcode}]', exc_info=True)
                 self.conn.rollback()
 
             except Exception as e:
-                logging.error('[# Other] Exception', exc_info=True)
+                self.logging.error('[# Other] Exception', exc_info=True)
 
 
     def run(self):
@@ -239,11 +240,11 @@ class Application(EntryPoint):
         """
         try:
             self.logging.notice(f'[{self.env['_MAIN_NAME']}] Starting Factory Stream Simulation ...')
-            self.init_transaction_dict()
+            self._init_transaction_dict()
             self.start_service(self.ms.publisher_server, **{
                 'title': f'推送訊息至 {DEFAULT_BROKER}:{DEFAULT_BROKER_PORT} 服務',
             })
-            self.start_service(self.command_platform_stream, **{
+            self.start_service(self._command_platform_stream, **{
                 'title': '主控台串流服務',
             })
             while not self._stop_event.is_set():
@@ -251,7 +252,7 @@ class Application(EntryPoint):
 
         finally:
             self.conn.commit()
-            logging.warning('已落實最後一次事務提交 ...')
+            self.logging.warning('已落實最後一次事務提交 ...')
             close_conn(self.conn, self.cursor)
 
 

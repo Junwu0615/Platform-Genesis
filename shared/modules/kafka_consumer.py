@@ -16,7 +16,9 @@ from confluent_kafka import (
 
 class KafkaConsumerManager:
     def __init__(self, logging, log_main_name: str,
-                 config: dict, topic: str, topic_key: str):
+                 config: dict,
+                 topic: str,
+                 topic_key: str):
 
         self.logging = logging
         self.main_name = log_main_name
@@ -26,6 +28,8 @@ class KafkaConsumerManager:
             'auto.offset.reset': 'earliest',
             'enable.auto.commit': False
         }
+        if not isinstance(config, dict):
+            raise
         config = {**_config, **config}
         self.consumer = Consumer(config)
 

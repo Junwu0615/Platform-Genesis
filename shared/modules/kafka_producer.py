@@ -15,7 +15,9 @@ from shared.configs import *
 
 class KafkaProducerManager:
     def __init__(self, logging, log_main_name: str,
-                 bootstrap_servers, sr_url, schemas_list: list):
+                 bootstrap_servers: str,
+                 sr_url: str,
+                 schemas_list: list):
 
         self.logging = logging
         self.main_name = log_main_name

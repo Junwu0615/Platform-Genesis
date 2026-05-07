@@ -108,7 +108,7 @@ class Application(EntryPoint):
         )
 
 
-    def update_order_status(self) -> int:
+    def _update_order_status(self, **kwargs) -> int:
         """
         TODO 檢查是否有訂單完成，若完成則更新訂單狀態並從訂單列表移除
         """
@@ -166,7 +166,7 @@ class Application(EntryPoint):
                 return ret, 0
 
 
-    def insert_production_record(self, efficiency: int) -> int:
+    def _insert_production_record(self, efficiency: int, **kwargs) -> int:
         """
         TODO 插入實時生產記錄
             - 狀況 1 : 第一次生產匹配
@@ -254,7 +254,7 @@ class Application(EntryPoint):
         return ret
 
 
-    def insert_machine_status(self) -> int:
+    def _insert_machine_status(self, **kwargs) -> int:
         """
         TODO 插入機台狀態 : 在此實施隨機邏輯，可基於權重機率調整
             - MAINTENANCE # 1 # process: [1 -> 2]
@@ -294,7 +294,7 @@ class Application(EntryPoint):
         return 1
 
 
-    def producer_message(self, **kwargs):
+    def _producer_message(self, **kwargs):
         """
         TODO 生產者配置
         """
@@ -311,15 +311,15 @@ class Application(EntryPoint):
 
                     if self.event_dict['mach_id'] is not None:
                         # TODO 進行判斷狀態更新
-                        _ct = self.insert_production_record(efficiency)
+                        _ct = self._insert_production_record(efficiency)
                         if isinstance(_ct, int):
                             batch_ct = batch_ct + _ct
 
                         # TODO 隨機更新指定狀態
-                        _ct = self.insert_machine_status()
+                        _ct = self._insert_machine_status()
                         batch_ct = batch_ct + _ct
 
-                        _ct, _ct_2 = self.update_order_status()
+                        _ct, _ct_2 = self._update_order_status()
                         done_qty, batch_ct = done_qty + _ct_2, batch_ct + _ct
 
                         # TODO 根據 BATCH_SIZE 或 時間間隔 提交事務
@@ -355,7 +355,7 @@ class Application(EntryPoint):
                 f'已強制將緩衝區中所有尚未發送的訊息傳送到 Kafka Broker ...', stack_level=0)
 
 
-    def consumer_message(self, **kwargs):
+    def _consumer_message(self, **kwargs):
         """
         TODO 消費者配置
         """
@@ -405,10 +405,10 @@ class Application(EntryPoint):
             - Offset 儲存：Kafka 根據 Key 紀錄消費數字 ; KEY => ( group.id + Topic + Partition ID )
         """
         self.logging.notice(f'[{self.env['_MAIN_NAME']}] Starting Factory Stream Simulation ...')
-        self.start_service(self.consumer_message, **{
+        self.start_service(self._consumer_message, **{
             'title': '消費「主控訂單」訊息服務',
         })
-        self.start_service(self.producer_message, **{
+        self.start_service(self._producer_message, **{
             'title': '生產「邊緣數據」訊息服務',
         })
         while not self._stop_event.is_set():
