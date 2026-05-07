@@ -61,8 +61,8 @@
 | Kafka logic | for `inst` | 2026-05-03 |
 | Kafka Connect | `sink` : consumers | 2026-05-04 |
 | Add `ELK` | - | 2026-05-05 |
-| Redefine Project Name | `OLTP-OLAP-Unified-DB`<br>to `Platform Genesis` | - |
-| Project Breakdown | `6` major categories | - |
+| Redefine Project Name | `OLTP-OLAP-Unified-DB`<br>to `Platform Genesis` | 2026-05-08 |
+| Project Breakdown | `5` Major Categories | 2026-05-08 |
 | API Service logic | - | X |
 | make `v2` Dockerfile | - | - |
 | Create MV | Materialized View | - |
@@ -163,8 +163,8 @@
 | Encapsulation Entry | app.py | 2026-05-06 |
 | logging logic | Logs Correct Paths<br>Based on Module Calls | 2026-05-07 |
 | update `v2` logic | Apply the<br>New Underlying Module | 2026-05-07 |
-| Redefine Project Name | `OLTP-OLAP-Unified-DB`<br>to `Platform Genesis` | - |
-| Project Breakdown | `6` major categories | - |
+| Redefine Project Name | `OLTP-OLAP-Unified-DB`<br>to `Platform Genesis` | 2026-05-08 |
+| Project Breakdown | `5` Major Categories | 2026-05-08 |
 | Quantitative Results 1 | OLTP Query Efficiency<br>Optimization ( Index / Partition ) | - |
 | DAG | init.py + create_topic.py | - |
 | Add `SQLite`<br>to Edge scripts  | Improve the HA<br>of Consumer Transactions | - |
