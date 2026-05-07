@@ -8,13 +8,13 @@
 |*Cloud & Infra*| ![GCP](https://img.shields.io/badge/GCP-4285F4?style=flat-square&logo=google-cloud&logoColor=white) ![Kubernetes](https://img.shields.io/badge/Kubernetes-326CE5?style=flat-square&logo=kubernetes&logoColor=white) ![Terraform](https://img.shields.io/badge/Terraform-7B42BC?style=flat-square&logo=terraform&logoColor=white) ![Ansible](https://img.shields.io/badge/Ansible-EE0000?style=flat-square&logo=ansible&logoColor=white) ![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white) |
 |*Monitoring*| ![Grafana](https://img.shields.io/badge/Grafana-F46800?style=flat-square&logo=grafana&logoColor=white) ![Prometheus](https://img.shields.io/badge/Prometheus-E6522C?style=flat-square&logo=prometheus&logoColor=white) ![Exporter](https://img.shields.io/badge/Node_Exporter-607D8B?style=flat-square&logo=prometheus&logoColor=white) ![Exporter](https://img.shields.io/badge/Postgres_Exporter-607D8B?style=flat-square&logo=prometheus&logoColor=white) ![PoWA](https://img.shields.io/badge/Tool-PoWA-blueviolet?style=flat-square) |
 |*Management*| ![Elasticsearch](https://img.shields.io/badge/Elasticsearch-005571?style=flat-square&logo=elasticsearch&logoColor=white) ![Logstash](https://img.shields.io/badge/Logstash-005571?style=flat-square&logo=logstash&logoColor=white) ![Kibana](https://img.shields.io/badge/Kibana-005571?style=flat-square&logo=kibana&logoColor=white) ![Portainer](https://img.shields.io/badge/Portainer-13BEFF?style=flat-square&logo=portainer&logoColor=white) |
-|*Other*| <a href='https://github.com/Junwu0615/OLTP-OLAP-UNIFIED-DB'><img alt='GitHub Views' src='https://views.whatilearened.today/views/github/Junwu0615/OLTP-OLAP-UNIFIED-DB.svg'> ![Windows 11](https://img.shields.io/badge/Windows_11-0078D4?style=flat-square&logo=windows-11&logoColor=white) |
+|*Other*| <a href='https://github.com/Junwu0615/Platform Genesis'><img alt='GitHub Views' src='https://views.whatilearened.today/views/github/Junwu0615/Platform Genesis.svg'> ![Windows 11](https://img.shields.io/badge/Windows_11-0078D4?style=flat-square&logo=windows-11&logoColor=white) |
 
 </div>
 
 <br>
 
-## *⭐ OLTP-OLAP-Unified-DB ⭐*
+## *⭐ Platform Genesis ⭐*
 
 Simulating HTAP workload using a single PostgreSQL instance with schema isolation, analyzing contention between transactional and analytical queries.
 ```
@@ -42,7 +42,7 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 | Create OLTP DDL ( 6 ) | 3NF | 2026-03-21 |
 | Add `Airflow` | for `OLAP` | 2026-03-21 |
 | Add `PoWA` | for `Monitoring` | 2026-03-23 |
-| Generic DB Benchmark | Docker Desktop vs WSL2 | 2026-04-04 |
+| Generic DB Benchmark | Docker Desktop vs. WSL2 | 2026-04-04 |
 | Workload Benchmark | Design Benchmark | 2026-04-04 |
 | Add `Monitoring` | `Postgres Exporter` + `Prometheus` + `Grafana` | 2026-04-04 |
 | Add `Monitoring` | `Node Exporter` | 2026-04-05 |
@@ -68,7 +68,7 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 | make `v2` Dockerfile | - | - |
 | Create MV | Materialized View | - |
 | Analytical Queries | - | - |
-| Add `Gitlab` | for `CI` & `Manage Project` | - |
+| Add `Gitlab` | for `CI` & `Manage Projects` | - |
 | Add `Jenkins` | for `CD` | - |
 | Add `Docker-Registry` | for `CI / CD` & `Manage Images` | - |
 | Add `Debezium` | Change Data Capture | - |
@@ -109,12 +109,12 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 | Script | factory_config.yaml | 2026-03-24 |
 | Script | init_factory_data.py | 2026-03-24 |
 | Script | simulate_factory_stream.py | 2026-03-24 |
-| Single to Batch Insert | 批次發送 | 2026-03-26 |
+| Single to Batch Insert | batch sending | 2026-03-26 |
 | Generate Rigorous<br>Static Data | - | 2026-03-26 |
 | Rigorous Calibration<br>of Dynamic Data | 單一機台同時間只允許做一件事 /<br>排隊消化訂單 / 訂單生產週期戳記 | 2026-03-27 |
-| Adjusting Contextual | ~~插入機台事件 : machine_events~~ | 2026-03-28 |
-| execute -> execute_batch | 批次發送 + 批次提交 : 不適用於目前模擬方式 | X |
-| Adjusting Contextual | 插入機台狀態 : machine_status_logs | 2026-03-30 |
+| Adjusting Contextual | ~~insert machine event :<br>machine_events~~ | 2026-03-28 |
+| execute -> execute_batch | batch sending + batch submission :<br>不適用於目前模擬方式 | X |
+| Adjusting Contextual | insert machine status :<br>machine_status_logs | 2026-03-30 |
 | Increase Data Volume | - | 2026-03-30 |
 | PoWA( Running Normally ) | - | 2026-03-30 |
 | Try Again PoWA Web | ⚠️very difficult to deal with | 2026-03-30 |
@@ -123,7 +123,7 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 | Fine-tuning<br>PostgreSQL Settings | `shm-size` | 2026-04-01 |
 | Docker Engine | for `WSL2` | 2026-04-03 |
 | Generic DB Benchmark | Design Benchmark-2 | 2026-04-03 |
-| Generic DB Benchmark | Docker Desktop ( 64MB )<br>vs<br>WSL2 ( 16GB ) | 2026-04-04 |
+| Generic DB Benchmark | Docker Desktop ( 64MB )<br>vs. WSL2 ( 16GB ) | 2026-04-04 |
 | Workload Benchmark | Design Benchmark | 2026-04-04 |
 | Add `Monitoring` | `Postgres Exporter` + `Prometheus` + `Grafana` | 2026-04-04 |
 | Add `Monitoring` | `Node Exporter` | 2026-04-05 |
@@ -146,7 +146,7 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 | Terraform | Config Transfer : `docker-compose` | 2026-04-19 |
 | Ansible | node `init` & `config` | 2026-04-19 |
 | Add Makefile | for `terraform + ansible` | 2026-04-19 |
-| Terraform vs. Compose | Experience :<br>`狀態管理差異性 ; 可救回配置崩潰，提高 HA` | 2026-04-19 |
+| Terraform vs. Compose | Experience :<br>`狀態管理差異性 ; 復原配置崩潰 ; 提高 HA` | 2026-04-19 |
 | Terraform & Ansible | Experience :<br>`Ansible 如何補足 Terraform 的不足` | 2026-04-19 |
 | Terraform | Modularization | 2026-04-20 |
 | Ansible | Modularization | 2026-04-20 |
@@ -166,24 +166,24 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 | update v2 logic | Apply the<br>New Underlying Module | 2026-05-07 |
 | Redefine Project Name | `OLTP-OLAP-Unified-DB`<br>to `Platform Genesis` | - |
 | Project Breakdown | `6` major categories | - |
-| Quantitative Results 1 | OLTP 查詢效率優化 ( Index / ... ) | - |
+| Quantitative Results 1 | OLTP Query Efficiency<br>Optimization ( Index / Partition ) | - |
 | DAG | init.py + create_topic.py | - |
 | Add `SQLite`<br>to Edge scripts  | Improve the HA<br>of Consumer Transactions | - |
-| Security Message<br>Transmission | encryption ( `kafka` + `mqtt` ) | - |
+| Security Message<br>Transmission | Encryption ( `kafka` + `mqtt` ) | - |
 | API Service logic | - | X |
 | make `v2` Dockerfile | - | - |
 | Grafana Dashboard | `htap_grafana.json` | - |
 | Create MV | Materialized View | - |
 | Analytical Queries | - | - |
-| Add `Gitlab` | for `CI` & `Manage Project` | - |
+| Add `Gitlab` | for `CI` & `Manage Projects` | - |
 | Add `Jenkins` | for `CD` | - |
 | Add `Docker-Registry` | for `CI / CD` & `Manage Images` | - |
-| Quantitative Results 2 | 自動化部署邊緣 :<br>`Manual` vs `CD -> Ansible` | - |
+| Quantitative Results 2 | 自動化部署邊緣 :<br>`Manual` vs. `CD -> Ansible` | - |
 | Add `Debezium` | Change Data Capture | - |
 | Add `Apache Iceberg` | Data Lake | - |
 | Add `Apache Flink` | consumer of CDC | - |
 | Build `Lakehouse` | - | - |
-| Quantitative Results 3 | 業務衝突解套演進 :<br>`Direct Read` vs `MV` vs `CDC` | - |
+| Quantitative Results 3 | 業務衝突解套演進 :<br>`Direct Read` vs. `MV` vs. `CDC` | - |
 | Add `HashiCorp Vault` | Enterprise Key Management System | - |
 | Add `Superset` | for `OLAP` | - |
 | K8s | Beginner : `Minikube` | - |
@@ -191,7 +191,7 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 | K8s | Bottom Layer : `Kubeadm` + `VMware` | - |
 | K8s | Experience :<br>`Pod` / `Service` / `Ingress` | - |
 | K8s | Experience :<br>`Lens` / `k9s` / `Kubernetes Dashboard` | - |
-| Quantitative Results 5 | `Compose` vs `K8s` 高可用性比較 | - |
+| Quantitative Results 5 | `Compose` vs. `K8s` 高可用性比較 | - |
 | K8s | Public Cloud : `GKE` | - |
 | Summary | - | - |
 
@@ -201,43 +201,59 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 
 <br>
 
-### *B.　Service*
-- #### *b.1.　Service List*
-  |**Service**|**Description**|**Port**|
-  |--:|:--|:--:|
-  | PostgreSQL | for `Common DB` | [5432](http:127.0.0.1:5432) |
-  | PostgreSQL | for `Airflow` | [5433](http:127.0.0.1:5433) |
-  | PostgreSQL UI Web | - | [5050](http:127.0.0.1:5050) |
-  | MQTT Broker | for `IoT Platform` | [1883](http:127.0.0.1:1883) |
-  | Apache Kafka | for `IoT Platform` | [9092](http:127.0.0.1:9092) |
-  | Kafka UI | for `IoT Platform` | [9093](http:127.0.0.1:9093) |
-  | Schema Registry | for `IoT Platform` | [8081](http:127.0.0.1:8081) |
-  | Debezium | for `Lakehouse` | [???](http:127.0.0.1:???) |
-  | Apache Iceberg | for `Lakehouse` | [???](http:127.0.0.1:???) |
-  | Apache Flink | for `Lakehouse` | [???](http:127.0.0.1:???) |
-  | Apache Airflow | for `OLAP` | [8100](http:127.0.0.1:8100) |
-  | Superset | for `OLAP` | [???](http:127.0.0.1:???) |
-  | ~~PostgreSQL~~ | for `Monitoring` | [5431](http:127.0.0.1:5431) |
-  | ~~PoWA UI Web~~ | for `Monitoring` | [8888](http:127.0.0.1:8888) |
-  | Grafana | for `Monitoring` | [3000](http:127.0.0.1:3000) |
-  | Prometheus | for `Monitoring` | [9090](http:127.0.0.1:9090) |
-  | Node Exporter | for `Monitoring` | [9100](http:127.0.0.1:9100) |
-  | Postgres Exporter | for `Monitoring` | [9187](http:127.0.0.1:9187) |
-  | Gitlab | for `CI` & `Manage Project` | [???](http:127.0.0.1:???) |
-  | Jenkins | for `CD` | [???](http:127.0.0.1:???) |
-  | Docker-Registry | for `CI / CD` & `Manage Images` | [???](http:127.0.0.1:???) |
-  | Elasticsearch | for `ELK` | [9200](http:127.0.0.1:9200) |
-  | Logstash | for `ELK` | [9600](http:127.0.0.1:9600) |
-  | Kibana | for `ELK` | [5601](http:127.0.0.1:5601) |
-  | Portainer | for `Manage Containers` | [9000](http:127.0.0.1:9000) |
-  | HashiCorp Vault | for `KMS` | [???](http:127.0.0.1:???) |
+### *B.　Service Architecture*
+#### *b.1.　Data Core & Orchestration*
+|**Service**|**Description**|**Port**|
+|:--:|:--|:--:|
+| **PostgreSQL** | `Business DB` | [5432](http://127.0.0.1:5432) |
+| **PostgreSQL** | Metadata DB for Airflow | [5433](http://127.0.0.1:5433) |
+| **PostgreSQL UI** | Web Management | [5050](http://127.0.0.1:5050) |
+| **Apache Airflow** | Workflow Orchestration ( `OLAP` ) | [8100](http://127.0.0.1:8100) |
+| **Superset** | BI Visualization Dashboard ( `OLAP` ) | `TBD` |
 
+---
 
+#### *b.2.　Event Streaming & IoT Platform*
+|**Service**|**Description**|**Port**|
+|:--:|:--|:--:|
+| **MQTT Broker** | Message Ingestion ( `IoT` ) | [1883](http://127.0.0.1:1883) |
+| **Apache Kafka** | `Distributed Event Streaming` | [9092](http://127.0.0.1:9092) |
+| **Kafka UI** | Topic & Cluster Management | [9093](http://127.0.0.1:9093) |
+| **Schema Registry** | Kafka `Schema Governance` | [8081](http://127.0.0.1:8081) |
 
-- #### *b.2.　[Service Startup Order](./docs/service_startup_order.md)*
-- #### *b.3.　[WSL2 Startup Docker Engine](./docs/wsl2_startup_docker_engine.md)*
-- #### *b.4.　[Terraform & Ansible](./docs/terraform_ansible.md)*
-- #### *b.5.　[Kubernetes](./docs/k8s.md)*
+---
+
+#### *b.3.　Lakehouse Architecture*
+|**Service**|**Description**|**Port**|
+|:--:|:--|:--:|
+| **Debezium** | Change Data Capture ( `CDC` ) | `TBD` |
+| **Apache Iceberg** | Open Table Format ( `Data Lake` ) | `TBD` |
+| **Apache Flink** | Stream Processing Engine | `TBD` |
+
+---
+
+#### *b.4.　Monitoring & Logging*
+|**Service**|**Description**|**Port**|
+|:--:|:--|:--:|
+| **Grafana** | Dashboard | [3000](http://127.0.0.1:3000) |
+| **Prometheus** | Metrics Time-Series DB | [9090](http://127.0.0.1:9090) |
+| **Node Exporter** | Host Resource Metrics | [9100](http://127.0.0.1:9100) |
+| **Postgres Exporter** | Database Performance Metrics | [9187](http://127.0.0.1:9187) |
+| **Elasticsearch** | Distributed Search Engine ( `ELK` ) | [9200](http://127.0.0.1:9200) |
+| **Logstash** | Log Processing Pipeline ( `ELK` ) | [9600](http://127.0.0.1:9600) |
+| **Kibana** | Log Exploration UI ( `ELK` ) | [5601](http://127.0.0.1:5601) |
+
+---
+
+#### *b.5.　DevOps & Security*
+|**Service**|**Description**|**Port**|
+|:--|:--|:--|
+| **Gitlab** | `SCM` & `CI` & `PM` | `TBD` |
+| **Jenkins** | `CD` | `TBD` |
+| **Docker-Registry** | `Private Image Repository` | `TBD` |
+| **Portainer** | `Container Management` UI | [9000](http://127.0.0.1:9000) |
+| **HashiCorp Vault** | Secret & Key Management ( `KMS` ) | `TBD` |
+
 
 <br>
 
@@ -558,24 +574,28 @@ make kafka-all-clean
 <br>
 
 ### *E.　Benchmark*
-| **Type** | **Objective** | **Methods** |
-| :--: | :--: | :--: |
-| *[Generic Benchmark](./docs/generic_benchmark.md)* | 資料庫極限 | 內建工具 |
-| *[Workload Benchmark](./docs/workload_benchmark.md)* | 系統瓶頸 | 自訂腳本 |
+|**Type**|**Objective**|**Methods**|
+|:--:|:--:|:--:|
+|*[Generic Benchmark](./docs/generic_benchmark.md)* | 資料庫極限 | 內建工具 |
+|*[Workload Benchmark](./docs/workload_benchmark.md)* | 系統瓶頸 | 自訂腳本 |
 
 <br>
 
 ### *F.　Notice*
-- #### *f.1.　OLTP　VS.　OLAP　VS.　HTAP*
+- #### *f.1.　[Service Startup Order](./docs/service_startup_order.md)*
+- #### *f.2.　[WSL2 Startup Docker Engine](./docs/wsl2_startup_docker_engine.md)*
+- #### *f.3.　[Terraform & Ansible](./docs/terraform_ansible.md)*
+- #### *f.4.　[Kubernetes](./docs/k8s.md)*
+- #### *f.5.　OLTP　VS.　OLAP　VS.　HTAP*
   | **Type** | **Core Objectives** | **Design Philosophy** | **Data Model** | **Query Features** |
   |:--:|:--|:--|:--|:--|
   | OLTP | 快速且正確地處理`交易` | 一致性優先 | [ 正規化 ]<br>3NF | 單筆查詢、低延遲 |
   | OLAP | 高效`分析`大量資料 | 查詢效率優先 | [ 非正規化 ]<br>Star Schema / Wide Table | 聚合分析、大量掃描 |
   | HTAP | 同時支援`交易`與`分析` | 負載平衡 | 混合模型 | 即時分析 + 交易 |
-- #### *f.2.　若 OLTP/OLAP 都在同一 DB Instance 裡，Schema 分離優劣 ?*
-  - #### *優 : `限制權限`, `分開 Connection Pool`, `分開 Query Routing`*
-  - #### *劣 : `CPU / IO 共用`，它們還是彼此搶資源*
-- #### *f.3.　Schema 分離 ≠ 解決 OLTP/OLAP 衝突*
-  - #### *還是同一個 CPU*
-  - #### *還是同一個 Disk*
-  - #### *還是同一個 Buffer Cache*
+  - #### *f.5.1　若 OLTP/OLAP 都在同一 DB Instance 裡，Schema 分離優劣 ?*
+    - #### *優 : `限制權限`, `分開 Connection Pool`, `分開 Query Routing`*
+    - #### *劣 : `CPU / IO 共用`，它們還是彼此搶資源*
+  - #### *f.5.2　Schema 分離 ≠ 解決 OLTP/OLAP 衝突*
+    - #### *還是同一個 CPU*
+    - #### *還是同一個 Disk*
+    - #### *還是同一個 Buffer Cache*
