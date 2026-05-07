@@ -16,19 +16,7 @@
 
 ## *⭐ Platform Genesis ⭐*
 
-Simulating HTAP workload using a single PostgreSQL instance with schema isolation, analyzing contention between transactional and analytical queries.
-```
-* Database architecture should be driven by workload.
- ↪︎ * Workload defines query patterns.
- ↪︎ * Query patterns define schema design.
- ↪︎ * Schema design defines indexing and storage strategy.
-
-
-OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載 】； Schema 設計只是為了【 服務該負載 】的結果。
-```
-
-<br>
-
+---
 ### *A.　Current Progress*
 
 <details open>
@@ -201,6 +189,8 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 
 <br>
 
+---
+
 ### *B.　Service Architecture*
 - #### *b.1.　Data Core & Orchestration*
   |**Service**|**Description**|**Port**|
@@ -252,6 +242,8 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 
 
 <br>
+
+---
 
 ### *C.　Command Platform ( Makefile Execute )*
 
@@ -357,12 +349,13 @@ make kafka-all-clean
 
 <br>
 
+---
+
 ### *D.　Implementation*
 - ![PNG](./assets/roadmap.PNG)
-- #### *d.1.　[About SQL Something Detail](./docs/sql.md)*
 
 <details>
-<summary><b><i>　d.2.　Project Tree </i></b></summary>
+<summary><b><i>　Project Tree </i></b></summary>
 <ul>
 
   ```bash
@@ -569,6 +562,8 @@ make kafka-all-clean
 
 <br>
 
+---
+
 ### *E.　Benchmark*
 |**Type**|**Objective**|**Methods**|
 |:--:|:--:|:--:|
@@ -577,21 +572,15 @@ make kafka-all-clean
 
 <br>
 
+---
+
 ### *F.　Notice*
 - #### *f.1.　[Service Startup Order](./docs/service_startup_order.md)*
 - #### *f.2.　[WSL2 Startup Docker Engine](./docs/wsl2_startup_docker_engine.md)*
 - #### *f.3.　[Terraform & Ansible](./docs/terraform_ansible.md)*
 - #### *f.4.　[Kubernetes](./docs/k8s.md)*
-- #### *f.5.　OLTP　VS.　OLAP　VS.　HTAP*
-  | **Type** | **Core Objectives** | **Design Philosophy** | **Data Model** | **Query Features** |
-  |--:|:--|:--|:--|:--|
-  | OLTP | 快速且正確地處理`交易` | 一致性優先 | [ 正規化 ]<br>3NF | 單筆查詢、低延遲 |
-  | OLAP | 高效`分析`大量資料 | 查詢效率優先 | [ 非正規化 ]<br>Star Schema / Wide Table | 聚合分析、大量掃描 |
-  | HTAP | 同時支援`交易`與`分析` | 負載平衡 | 混合模型 | 即時分析 + 交易 |
-  - #### *f.5.1　若 OLTP/OLAP 都在同一 DB Instance 裡，Schema 分離優劣 ?*
-    - #### *優 : `限制權限`, `分開 Connection Pool`, `分開 Query Routing`*
-    - #### *劣 : `CPU / IO 共用`，它們還是彼此搶資源*
-  - #### *f.5.2　Schema 分離 ≠ 解決 OLTP/OLAP 衝突*
-    - #### *還是同一個 CPU*
-    - #### *還是同一個 Disk*
-    - #### *還是同一個 Buffer Cache*
+- #### *f.5.　[OLTP-OLAP-Unified-DB](./docs/oltp-olap-unified-db.md)*
+- #### *f.6.　[About SQL Something Detail](./docs/sql.md)*
+
+
+<br><br><br>
