@@ -59,8 +59,8 @@ class Application(EntryPoint):
 
         logging = Logger(
             console_name=get_logger_name(__file__, GET_PATH_ROOT),
-            file_name=self.mach_name,
-            file_path=f'logs/INSTANCE/{self.mach_name}.logs',
+            # file_name=self.mach_name,
+            # file_path=f'logs/INSTANCE/{self.mach_name}.logs',
             backup_count=10,
             **{
                 'app_name': 'ooud',

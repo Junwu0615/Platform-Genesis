@@ -13,8 +13,9 @@ TODO
         - [硬編碼拉到外部 .env 設置]
     Notice:
 """
+import signal
 from shared.configs import (
-    os, sys, signal, time, load_dotenv, threading,
+    os, sys, time, load_dotenv, threading,
     Callable, Iterator, Tuple, Any, Dict, List, Optional,
 )
 

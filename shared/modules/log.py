@@ -8,8 +8,8 @@ TODO
 import logging, logstash
 from colorlog import ColoredFormatter
 from logging.handlers import RotatingFileHandler
-from shared.configs import *
-from shared.configs.constant import *
+from shared.configs import os
+from shared.configs.constant import LONG_FORMAT
 from shared.configs.settings import ELK_HOST, LOGSTASH_PORT
 
 
@@ -55,6 +55,7 @@ class Logger:
                  console_name: str=None,
                  file_name: str=None,
                  file_path: str=None,
+                 is_logstash: bool=True,
                  max_bytes: int=(15 * 1024 * 1024),
                  backup_count: int=100,
                  logging_level: str='INFO',
@@ -116,8 +117,9 @@ class Logger:
 
 
         # TODO 5. 設定 Logstash 輸出設定
-        ls_handler = logstash.TCPLogstashHandler(ELK_HOST, LOGSTASH_PORT, version=1)
-        self.raw_logger.addHandler(ls_handler)
+        if is_logstash:
+            ls_handler = logstash.TCPLogstashHandler(ELK_HOST, LOGSTASH_PORT, version=1)
+            self.raw_logger.addHandler(ls_handler)
 
 
         # TODO 6. 建立一個 Filter 辨識路徑

@@ -48,6 +48,7 @@ TODO
     Notice:
         FIXME : 明文傳送應加密 + 安全性須提升 ( 認證 ...etc. ) + socket 傳輸穩健性問題 (line:293)
 """
+import socket, queue
 import paho.mqtt.client as mqtt_client
 from queue import Queue
 from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -55,7 +56,6 @@ from shared.configs import (
     json,
     time,
     queue,
-    socket,
     threading,
 )
 

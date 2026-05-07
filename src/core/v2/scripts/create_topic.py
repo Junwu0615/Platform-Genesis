@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import sys, os; sys.path.insert(0, os.getcwd())
 
-from shared.configs import *
+from shared.configs import os, time, json, load_dotenv
 from shared.utils.tools import *
 from shared.utils.env_config import GET_PATH_ROOT, get_logger_name
 from shared.modules.log import Logger
@@ -14,19 +14,17 @@ from confluent_kafka.admin import (
 )
 
 console_name = get_logger_name(__file__, GET_PATH_ROOT)
-logging = Logger(console_name=console_name)
-
-YAML_VERSION = 'v2'
-YAML_PATH = os.path.join('./src/core', f'{YAML_VERSION}', 'factory_config.yaml')
-config = parsing_yaml(YAML_PATH)
-kafka = config['kafka']
+logging = Logger(console_name=console_name, is_logstash=False)
+load_dotenv(dotenv_path=f'{'/'.join(__file__.split('/')[:-1])}/.env')
+KAFKA_HOST = os.getenv('KAFKA_HOST', '127.0.0.1:9092')
+JSON_PATH = os.path.join('./src/core', f'{os.getenv('YAML_VERSION', 'v2')}', 'scripts', 'topics_config.json')
 
 
 def sync_kafka_infrastructure(config_file):
     with open(config_file, 'r') as f:
         target_cfg = json.load(f)
 
-    admin_client = AdminClient({'bootstrap.servers': f"{kafka['host']}:{kafka['port']}"})
+    admin_client = AdminClient({'bootstrap.servers': KAFKA_HOST})
 
 
     # 1. 取得目前 Kafka 存在的 Topic
@@ -104,7 +102,11 @@ def sync_kafka_infrastructure(config_file):
 if __name__ == '__main__':
     try:
         logging.notice('開始 Kafka 基礎建設同步腳本')
-        time.sleep(3)
-        sync_kafka_infrastructure(os.path.join('./src/core', f'{YAML_VERSION}', 'scripts', 'topics_config.json'))
+        time.sleep(1)
+        sync_kafka_infrastructure(JSON_PATH)
+
+    except Exception as e:
+        logging.error('Exception', exc_info=True)
+
     finally:
         sys.exit(0)

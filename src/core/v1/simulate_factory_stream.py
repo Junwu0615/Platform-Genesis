@@ -15,7 +15,7 @@ TODO
 """
 import sys, os; sys.path.insert(0, os.getcwd())
 
-from shared.configs import *
+from shared.configs import time, random, collections, psycopg2
 from shared.configs.constant import *
 from shared.utils.tools import *
 from shared.utils.env_config import GET_PATH_ROOT, get_logger_name
@@ -25,8 +25,7 @@ from src.core.models.simulator import MachineStatusSimulator
 
 
 console_name = get_logger_name(__file__, GET_PATH_ROOT)
-logging = Logger(console_name=console_name)
-
+logging = Logger(console_name=console_name, is_logstash=False)
 
 mss = MachineStatusSimulator()
 
@@ -440,6 +439,9 @@ def main():
         logging.warning('偵測到 Ctrl+C，正在關閉連線 ...')
         conn.commit()
         logging.warning('已落實最後一次事務提交 ...')
+
+    except Exception as e:
+        logging.error('Exception', exc_info=True)
 
     finally:
         close_conn(conn, cursor, logging)

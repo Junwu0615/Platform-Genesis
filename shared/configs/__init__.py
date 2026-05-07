@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-import os, sys, time, copy, signal
+import os, sys, time, copy
 import json, yaml
 import re, collections, operator, random, math
 import statistics, inspect, pathlib, struct
-import queue, threading, socket
+import threading
 
 import psycopg2
 
