@@ -425,7 +425,7 @@ class Application(EntryPoint):
         self.start_service(self.producer_message, **{
             'title': '生產「邊緣數據」訊息服務',
         })
-        while True:
+        while not self._stop_event.is_set():
             time.sleep(1)
 
 

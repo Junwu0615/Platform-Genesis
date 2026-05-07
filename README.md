@@ -204,7 +204,7 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 ### *B.　Service Architecture*
 - #### *b.1.　Data Core & Orchestration*
   |**Service**|**Description**|**Port**|
-  |:--:|:--|:--:|
+  |--:|:--|:--:|
   | **PostgreSQL** | `Business DB` | [5432](http://127.0.0.1:5432) |
   | **PostgreSQL** | Metadata DB for Airflow | [5433](http://127.0.0.1:5433) |
   | **PostgreSQL UI** | Web Management | [5050](http://127.0.0.1:5050) |
@@ -214,7 +214,7 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 
 - #### *b.2.　Event Streaming & IoT Platform*
   |**Service**|**Description**|**Port**|
-  |:--:|:--|:--:|
+  |--:|:--|:--:|
   | **MQTT Broker** | Message Ingestion `IoT` | [1883](http://127.0.0.1:1883) |
   | **Apache Kafka** | `Distributed Event Streaming` | [9092](http://127.0.0.1:9092) |
   | **Kafka UI** | Topic & Cluster Management | [9093](http://127.0.0.1:9093) |
@@ -223,7 +223,7 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 
 - #### *b.3.　Lakehouse Architecture*
   |**Service**|**Description**|**Port**|
-  |:--:|:--|:--:|
+  |--:|:--|:--:|
   | **Debezium** | Change Data Capture `CDC` | `TBD` |
   | **Apache Iceberg** | Open Table Format `Data Lake` | `TBD` |
   | **Apache Flink** | Stream Processing Engine | `TBD` |
@@ -231,7 +231,7 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 
 - #### *b.4.　Monitoring & Logging*
   |**Service**|**Description**|**Port**|
-  |:--:|:--|:--:|
+  |--:|:--|:--:|
   | **Grafana** | Dashboard | [3000](http://127.0.0.1:3000) |
   | **Prometheus** | Metrics Time-Series DB | [9090](http://127.0.0.1:9090) |
   | **Node Exporter** | Host Resource Metrics | [9100](http://127.0.0.1:9100) |
@@ -243,9 +243,9 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 
 - #### *b.5.　DevOps & Security*
   |**Service**|**Description**|**Port**|
-  |:--|:--|:--|
-  | **Gitlab** | `SCM` & `CI` & `PM` | `TBD` |
-  | **Jenkins** | `CD` | `TBD` |
+  |--:|:--|:--:|
+  | **Gitlab** | `Continuous Integration` `SCM` `PM` | `TBD` |
+  | **Jenkins** | `Continuous Delivery` | `TBD` |
   | **Docker-Registry** | `Private Image Repository` | `TBD` |
   | **Portainer** | `Container Management` UI | [9000](http://127.0.0.1:9000) |
   | **HashiCorp Vault** | Secret & Key Management `KMS` | `TBD` |
@@ -584,7 +584,7 @@ make kafka-all-clean
 - #### *f.4.　[Kubernetes](./docs/k8s.md)*
 - #### *f.5.　OLTP　VS.　OLAP　VS.　HTAP*
   | **Type** | **Core Objectives** | **Design Philosophy** | **Data Model** | **Query Features** |
-  |:--:|:--|:--|:--|:--|
+  |--:|:--|:--|:--|:--|
   | OLTP | 快速且正確地處理`交易` | 一致性優先 | [ 正規化 ]<br>3NF | 單筆查詢、低延遲 |
   | OLAP | 高效`分析`大量資料 | 查詢效率優先 | [ 非正規化 ]<br>Star Schema / Wide Table | 聚合分析、大量掃描 |
   | HTAP | 同時支援`交易`與`分析` | 負載平衡 | 混合模型 | 即時分析 + 交易 |

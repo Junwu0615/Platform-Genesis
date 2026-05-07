@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 """
 TODO
-    Update Date: 2026-05-06
+    Update Date: 2026-05-07
     Description: 所有 APP 通用底層入口
         - [統一初始化 + 分發給子模塊] logging
         - [統一註冊 + 關閉] 採用 threading 而非 asyncio
         - [優雅關閉服務] 偵測 docker rm : SIGTERM
         - [處理例外] exception handling
         - [影響併行可能性] 唯一實例註冊 : __new__
-        # - [上下文管理器] __enter__ + __exit__
+        - [上下文管理器] __enter__ + __exit__
         - [依賴注入代碼設計]
         - [硬編碼拉到外部 .env 設置]
     Notice:
@@ -19,6 +19,7 @@ from shared.config import *
 
 class EntryPoint:
     _instance: Optional['EntryPoint'] = None
+    _initialized: Optional['EntryPoint'] = None
     _lock: threading.Lock = threading.Lock()
 
     def __new__(cls, *args, **kwargs):
@@ -33,21 +34,18 @@ class EntryPoint:
                 if cls._instance is None:
                     cls._instance = super(EntryPoint, cls).__new__(cls)
                     cls._instance._initialized = False
+                    cls._initialized = False
         return cls._instance
 
 
-    # def __enter__(self, **kwargs):
-    #     """上下文管理器，確保資源正確初始化與釋放"""
-    #     # self.logging.info('Entering Context Manager...', stack_level=0)
-    #     return self
+    def __enter__(self, **kwargs):
+        """上下文管理器 : 開始"""
+        return self
 
 
-    # def __exit__(self, exc_type, exc_val, exc_tb):
-    #     """[安全關閉程序] 統一資源回收"""
-    #     if exc_type:
-    #         self.logging.error(f'Context Exited with Error: {exc_val}', exc_info=True, stack_level=0)
-    #     self.stop_all_services()
-    #     self.logging.info('Context Resources Cleaned Up.', stack_level=0)
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        """上下文管理器 : 結束"""
+        return False
 
 
     def __init__(self, dotenv_path: Optional[str] = None, **kwargs):
@@ -64,7 +62,6 @@ class EntryPoint:
         self._stop_event = None
         self._threads = None
         self.logging = None
-        self._initialized = None
 
 
     def configure_setting(self, logging, **kwargs):
@@ -113,7 +110,7 @@ class EntryPoint:
                     if thread.is_alive():
                         self.logging.error(f'[{thread.name}] 執行緒超時未結束，強制繼續程序 ...')
 
-            self.logging.notice('\n\n' + self.logging.title_log('所有執行緒服務已確實關閉'), stack_level=0)
+            self.logging.title_log('notice', '所有執行緒服務已確實關閉', stack_level=0)
             time.sleep(0.1)
 
 
@@ -137,18 +134,15 @@ class EntryPoint:
     def main(self, **kwargs):
         """
         TODO 所有事物在此進行完整生態週期
-            # - 使用 with 觸發 __enter__ 與 __exit__
+            - 使用 with 觸發 __enter__ 與 __exit__
             - 供 main.py 以 EntryPoint.main 使用，並觸發 run
         """
         try:
-            # with self:
-            self.run()
+            with self:
+                self.run()
 
         except Exception as e:
             self.logging.critical(f'Unhandled Exception', exc_info=True, stack_level=0)
-
-        finally:
-            self._finalize()
 
 
     def run(self, **kwargs):

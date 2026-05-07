@@ -129,4 +129,4 @@ class KafkaConsumerManager:
 
     def close(self):
         self.consumer.close()
-        self.logging.notice(f'[{self.main_name}] 已安全關閉 kafka consumer 連線 ...', stack_level=0)
+        self.logging.notice(f'[{self.main_name}] 已安全關閉連線 ...', stack_level=0)

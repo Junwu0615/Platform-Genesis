@@ -184,5 +184,15 @@ class Logger:
             self.logging.log(NOTICE_LEVEL_NUM, msg, stacklevel=stack_level + 2)
 
 
-    def title_log(self, title_name: str, **kwargs) -> str:
-        return f"\n{'='*TITLE_SYMBOL_NUMBER} {title_name} {'='*TITLE_SYMBOL_NUMBER}\n"
+    def title_log(self, level_name: str, msg: str, exc_info: bool=False, stack_level: int=2, **kwargs) -> str:
+        _level_name = level_name.lower()
+        msg = f"\n\n\n{'=' * TITLE_SYMBOL_NUMBER} {msg} {'=' * TITLE_SYMBOL_NUMBER}\n"
+
+        if _level_name == 'notice':
+            self.logging.log(NOTICE_LEVEL_NUM, msg, stacklevel=stack_level + 2)
+        else:
+
+            self.log_custom(_level_name, msg, **{
+                'stack_level': stack_level,
+                'exc_info': exc_info,
+            })
