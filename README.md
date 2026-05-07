@@ -202,57 +202,53 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 <br>
 
 ### *B.　Service Architecture*
-#### *b.1.　Data Core & Orchestration*
-|**Service**|**Description**|**Port**|
-|:--:|:--|:--:|
-| **PostgreSQL** | `Business DB` | [5432](http://127.0.0.1:5432) |
-| **PostgreSQL** | Metadata DB for Airflow | [5433](http://127.0.0.1:5433) |
-| **PostgreSQL UI** | Web Management | [5050](http://127.0.0.1:5050) |
-| **Apache Airflow** | Workflow Orchestration ( `OLAP` ) | [8100](http://127.0.0.1:8100) |
-| **Superset** | BI Visualization Dashboard ( `OLAP` ) | `TBD` |
+- #### *b.1.　Data Core & Orchestration*
+  |**Service**|**Description**|**Port**|
+  |:--:|:--|:--:|
+  | **PostgreSQL** | `Business DB` | [5432](http://127.0.0.1:5432) |
+  | **PostgreSQL** | Metadata DB for Airflow | [5433](http://127.0.0.1:5433) |
+  | **PostgreSQL UI** | Web Management | [5050](http://127.0.0.1:5050) |
+  | **Apache Airflow** | Workflow Orchestration `OLAP` | [8100](http://127.0.0.1:8100) |
+  | **Superset** | BI Visualization Dashboard `OLAP` | `TBD` |
 
----
 
-#### *b.2.　Event Streaming & IoT Platform*
-|**Service**|**Description**|**Port**|
-|:--:|:--|:--:|
-| **MQTT Broker** | Message Ingestion ( `IoT` ) | [1883](http://127.0.0.1:1883) |
-| **Apache Kafka** | `Distributed Event Streaming` | [9092](http://127.0.0.1:9092) |
-| **Kafka UI** | Topic & Cluster Management | [9093](http://127.0.0.1:9093) |
-| **Schema Registry** | Kafka `Schema Governance` | [8081](http://127.0.0.1:8081) |
+- #### *b.2.　Event Streaming & IoT Platform*
+  |**Service**|**Description**|**Port**|
+  |:--:|:--|:--:|
+  | **MQTT Broker** | Message Ingestion `IoT` | [1883](http://127.0.0.1:1883) |
+  | **Apache Kafka** | `Distributed Event Streaming` | [9092](http://127.0.0.1:9092) |
+  | **Kafka UI** | Topic & Cluster Management | [9093](http://127.0.0.1:9093) |
+  | **Schema Registry** | Kafka `Schema Governance` | [8081](http://127.0.0.1:8081) |
 
----
 
-#### *b.3.　Lakehouse Architecture*
-|**Service**|**Description**|**Port**|
-|:--:|:--|:--:|
-| **Debezium** | Change Data Capture ( `CDC` ) | `TBD` |
-| **Apache Iceberg** | Open Table Format ( `Data Lake` ) | `TBD` |
-| **Apache Flink** | Stream Processing Engine | `TBD` |
+- #### *b.3.　Lakehouse Architecture*
+  |**Service**|**Description**|**Port**|
+  |:--:|:--|:--:|
+  | **Debezium** | Change Data Capture `CDC` | `TBD` |
+  | **Apache Iceberg** | Open Table Format `Data Lake` | `TBD` |
+  | **Apache Flink** | Stream Processing Engine | `TBD` |
 
----
 
-#### *b.4.　Monitoring & Logging*
-|**Service**|**Description**|**Port**|
-|:--:|:--|:--:|
-| **Grafana** | Dashboard | [3000](http://127.0.0.1:3000) |
-| **Prometheus** | Metrics Time-Series DB | [9090](http://127.0.0.1:9090) |
-| **Node Exporter** | Host Resource Metrics | [9100](http://127.0.0.1:9100) |
-| **Postgres Exporter** | Database Performance Metrics | [9187](http://127.0.0.1:9187) |
-| **Elasticsearch** | Distributed Search Engine ( `ELK` ) | [9200](http://127.0.0.1:9200) |
-| **Logstash** | Log Processing Pipeline ( `ELK` ) | [9600](http://127.0.0.1:9600) |
-| **Kibana** | Log Exploration UI ( `ELK` ) | [5601](http://127.0.0.1:5601) |
+- #### *b.4.　Monitoring & Logging*
+  |**Service**|**Description**|**Port**|
+  |:--:|:--|:--:|
+  | **Grafana** | Dashboard | [3000](http://127.0.0.1:3000) |
+  | **Prometheus** | Metrics Time-Series DB | [9090](http://127.0.0.1:9090) |
+  | **Node Exporter** | Host Resource Metrics | [9100](http://127.0.0.1:9100) |
+  | **Postgres Exporter** | Database Performance Metrics | [9187](http://127.0.0.1:9187) |
+  | **Elasticsearch** | Distributed Search Engine `ELK` | [9200](http://127.0.0.1:9200) |
+  | **Logstash** | Log Processing Pipeline `ELK` | [9600](http://127.0.0.1:9600) |
+  | **Kibana** | Log Exploration UI `ELK` | [5601](http://127.0.0.1:5601) |
 
----
 
-#### *b.5.　DevOps & Security*
-|**Service**|**Description**|**Port**|
-|:--|:--|:--|
-| **Gitlab** | `SCM` & `CI` & `PM` | `TBD` |
-| **Jenkins** | `CD` | `TBD` |
-| **Docker-Registry** | `Private Image Repository` | `TBD` |
-| **Portainer** | `Container Management` UI | [9000](http://127.0.0.1:9000) |
-| **HashiCorp Vault** | Secret & Key Management ( `KMS` ) | `TBD` |
+- #### *b.5.　DevOps & Security*
+  |**Service**|**Description**|**Port**|
+  |:--|:--|:--|
+  | **Gitlab** | `SCM` & `CI` & `PM` | `TBD` |
+  | **Jenkins** | `CD` | `TBD` |
+  | **Docker-Registry** | `Private Image Repository` | `TBD` |
+  | **Portainer** | `Container Management` UI | [9000](http://127.0.0.1:9000) |
+  | **HashiCorp Vault** | Secret & Key Management `KMS` | `TBD` |
 
 
 <br>
