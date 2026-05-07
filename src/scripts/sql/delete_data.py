@@ -63,7 +63,7 @@ def main():
         conn.rollback()
 
     finally:
-        close_conn(conn, cursor)
+        close_conn(conn, cursor, logging)
         return 0
 
 if __name__ == '__main__':

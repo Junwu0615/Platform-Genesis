@@ -101,7 +101,7 @@ def main():
     conn, cursor = None, None
     logging.notice('Starting Init Factory Data ...')
     try:
-        conn = get_conn(db)
+        conn = get_conn(db, logging)
         cursor = conn.cursor()
 
         generate_machines(conn, cursor)
@@ -116,7 +116,7 @@ def main():
         logging.error('[# Other] Exception', exc_info=True)
 
     finally:
-        close_conn(conn, cursor)
+        close_conn(conn, cursor, logging)
         return 0
 
 

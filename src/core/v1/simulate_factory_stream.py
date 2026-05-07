@@ -412,8 +412,8 @@ def simulate_stream(conn, cursor, event_dict: dict):
         # except psycopg2.OperationalError as e:
         except psycopg2.InterfaceError as e:
             logging.error('[# Re-Connect] Exception', exc_info=True)
-            close_conn(conn, cursor)
-            conn = get_conn(db)
+            close_conn(conn, cursor, logging)
+            conn = get_conn(db, logging)
             cursor = conn.cursor()
 
         except psycopg2.DatabaseError as e:
@@ -428,7 +428,7 @@ def main():
     conn, cursor = None, None
     logging.notice('Starting Factory Stream Simulation...')
     try:
-        conn = get_conn(db)
+        conn = get_conn(db, logging)
         cursor = conn.cursor()
 
         event_dict = init_transaction_dict(conn, cursor)
@@ -442,7 +442,7 @@ def main():
         logging.warning('已落實最後一次事務提交 ...')
 
     finally:
-        close_conn(conn, cursor)
+        close_conn(conn, cursor, logging)
         return 0
 
 if __name__ == '__main__':

@@ -31,7 +31,7 @@ class Application(EntryPoint):
         _LOAD_CFG = _YAML_CONFIGS['load_profile']
         _BATCH_SIZE = _SIMULATE['batch_size']
         _BATCH_INTERVAL = _SIMULATE['batch_interval']
-        _NUM_ORDERS = _SIMULATE['ORDERS']
+        _NUM_ORDERS = _SIMULATE['orders']
 
         self.env['DB'] = {
             'host': os.getenv('POSTGRES_HOST', None),
@@ -60,15 +60,13 @@ class Application(EntryPoint):
 
         self.configure_setting(logging=logging)  # TODO 完成 EntryPoint 必要後續初始化
 
+        self.event_dict = None
         self.conn = None
         self.cursor = None
         self._load_configs()  # 冗長設定
 
 
     def _load_configs(self):
-        self.event_dict = {
-
-        }
         self.ms = MqttServer(
             logging=self.logging,
             log_main_name=self.env['_MAIN_NAME'],
