@@ -17,7 +17,18 @@
 ## *⭐ Platform Genesis ⭐*
 
 
-### *A.　Current Progress*
+### *A.　System Structure*
+|**Project Name**|**Description**|
+|--:|:--|
+| PG-Infrastructure | `All Services` 部署設定 |
+| PG-APP-Core | 應用原始碼 |
+| PG-Share-Lib | 通用底層依賴庫 |
+| PG-Instance | 邊緣部署程式 |
+| PG-Airflow-DAGs | `OLAP` 開發 DAG 環境 |
+
+<br>
+
+### *B.　Current Progress*
 
 <details open>
 <summary><b><i>　a.1.　Simple </i></b></summary>
@@ -190,9 +201,8 @@
 <br>
 
 
-
-### *B.　Service Architecture*
-- #### *b.1.　Data Core & Orchestration*
+### *C.　Service Architecture*
+- #### *c.1.　Data Core & Orchestration*
   |**Service**|**Description**|**Port**|
   |--:|:--|:--:|
   | **PostgreSQL** | `Business DB` | [5432](http://127.0.0.1:5432) |
@@ -202,7 +212,7 @@
   | **Superset** | BI Visualization Dashboard `OLAP` | `TBD` |
 
 
-- #### *b.2.　Event Streaming & IoT Platform*
+- #### *c.2.　Event Streaming & IoT Platform*
   |**Service**|**Description**|**Port**|
   |--:|:--|:--:|
   | **MQTT Broker** | Message Ingestion `IoT` | [1883](http://127.0.0.1:1883) |
@@ -211,7 +221,7 @@
   | **Schema Registry** | Kafka `Schema Governance` | [8081](http://127.0.0.1:8081) |
 
 
-- #### *b.3.　Lakehouse Architecture*
+- #### *c.3.　Lakehouse Architecture*
   |**Service**|**Description**|**Port**|
   |--:|:--|:--:|
   | **Debezium** | Change Data Capture `CDC` | `TBD` |
@@ -219,7 +229,7 @@
   | **Apache Flink** | Stream Processing Engine | `TBD` |
 
 
-- #### *b.4.　Monitoring & Logging*
+- #### *c.4.　Monitoring & Logging*
   |**Service**|**Description**|**Port**|
   |--:|:--|:--:|
   | **Grafana** | Dashboard | [3000](http://127.0.0.1:3000) |
@@ -231,7 +241,7 @@
   | **Kibana** | Log Exploration UI `ELK` | [5601](http://127.0.0.1:5601) |
 
 
-- #### *b.5.　DevOps & Security*
+- #### *c.5.　DevOps & Security*
   |**Service**|**Description**|**Port**|
   |--:|:--|:--:|
   | **Gitlab** | `Continuous Integration` `SCM` `PM` | `TBD` |
@@ -350,8 +360,7 @@ make kafka-all-clean
 <br>
 
 
-
-### *D.　Implementation*
+### *D.　Roadmap*
 - ![PNG](./assets/roadmap.PNG)
 
 <details>
@@ -560,24 +569,23 @@ make kafka-all-clean
 <br>
 
 
-Summary
-### *E.　Summary*
-- #### *e.1.　[OLTP-OLAP-Unified-DB](./docs/oltp-olap-unified-db.md)*
-- #### *e.2.　Automated Deployment of the Edge*
-- #### *e.3.　OLTP vs OLAP 核心業務解套演進*
-- #### *e.4.　Compose vs. K8s 高可用性比較測試*
+### *D.　Summary*
+- #### *d.1.　[OLTP-OLAP-Unified-DB](./docs/oltp-olap-unified-db.md)*
+- #### *d.2.　Automated Deployment of the Edge*
+- #### *d.3.　OLTP vs OLAP 核心業務解套演進*
+- #### *d.4.　Compose vs. K8s 高可用性比較測試*
 
 
 <br>
 
 
 
-### *F.　Notice*
-- #### *f.1.　[Service Startup Order](./docs/service_startup_order.md)*
-- #### *f.2.　[WSL2 Startup Docker Engine](./docs/wsl2_startup_docker_engine.md)*
-- #### *f.3.　[Terraform & Ansible](./docs/terraform_ansible.md)*
-- #### *f.4.　[Kubernetes](./docs/k8s.md)*
-- #### *f.6.　[About SQL Something Detail](./docs/sql.md)*
+### *E.　Notice*
+- #### *e.1.　[Service Startup Order](./docs/service_startup_order.md)*
+- #### *e.2.　[WSL2 Startup Docker Engine](./docs/wsl2_startup_docker_engine.md)*
+- #### *e.3.　[Terraform & Ansible](./docs/terraform_ansible.md)*
+- #### *e.4.　[Kubernetes](./docs/k8s.md)*
+- #### *e.5.　[About SQL Something Detail](./docs/sql.md)*
 
 
 <br><br><br>
