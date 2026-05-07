@@ -1,14 +1,16 @@
 <div align="left">
 
-|**Category**|**Technology Stack**|
+|*Category*| *Service & Tech Stack*|
 |--:|:--|
-|*Data Core*| ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=flat-square&logo=postgresql&logoColor=white) ![OLTP](https://img.shields.io/badge/Architecture-OLTP-red?style=flat-square) ![OLAP](https://img.shields.io/badge/Architecture-OLAP-red?style=flat-square) ![HTAP](https://img.shields.io/badge/Architecture-HTAP-red?style=flat-square) |
-|*Data Pipeline*| ![Kafka](https://img.shields.io/badge/Apache_Kafka-231F20?style=flat-square&logo=apache-kafka&logoColor=white) ![MQTT](https://img.shields.io/badge/MQTT-660066?style=flat-square&logo=mqtt&logoColor=white) ![Airflow](https://img.shields.io/badge/Apache_Airflow-017CEE?style=flat-square&logo=apache-airflow&logoColor=white) ![Python](https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white) |
-|*Data Governance*| ![Schema Registry](https://img.shields.io/badge/Tool-Schema_Registry-blue?style=flat-square&logo=confluent&logoColor=white) |
+|*Data Core*| ![OLTP](https://img.shields.io/badge/Architecture-OLTP-red?style=flat-square) ![OLAP](https://img.shields.io/badge/Architecture-OLAP-red?style=flat-square) ![HTAP](https://img.shields.io/badge/Architecture-HTAP-red?style=flat-square)<br>![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=flat-square&logo=postgresql&logoColor=white) ![pgAdmin](https://img.shields.io/badge/pgAdmin4-336791?style=flat-square&logo=postgresql&logoColor=white) ![Python](https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white) |
+|*Orchestration* | ![Apache Airflow](https://img.shields.io/badge/Apache_Airflow-017CEE?style=flat-square&logo=apache-airflow&logoColor=white) ![Apache Superset](https://img.shields.io/badge/Apache_Superset-00A699?style=flat-square&logo=apache-superset&logoColor=white) |
+|*Event Streaming* | ![Kafka](https://img.shields.io/badge/Apache_Kafka-231F20?style=flat-square&logo=apache-kafka&logoColor=white) ![MQTT](https://img.shields.io/badge/MQTT-660066?style=flat-square&logo=mqtt&logoColor=white) ![Schema Registry](https://img.shields.io/badge/Schema_Registry-blue?style=flat-square&logo=confluent&logoColor=white) |
+|*Lakehouse* | ![Debezium](https://img.shields.io/badge/Debezium-9400D3?style=flat-square&logo=red-hat&logoColor=white) ![Apache Iceberg](https://img.shields.io/badge/Apache_Iceberg-000080?style=flat-square&logo=apache&logoColor=white) ![Apache Flink](https://img.shields.io/badge/Apache_Flink-E6522C?style=flat-square&logo=apache-flink&logoColor=white) |
+|*Monitoring* | ![Grafana](https://img.shields.io/badge/Grafana-F46800?style=flat-square&logo=grafana&logoColor=white) ![Prometheus](https://img.shields.io/badge/Prometheus-E6522C?style=flat-square&logo=prometheus&logoColor=white) ![Exporter](https://img.shields.io/badge/Node_Exporter-607D8B?style=flat-square&logo=prometheus&logoColor=white) ![Exporter](https://img.shields.io/badge/Postgres_Exporter-607D8B?style=flat-square&logo=prometheus&logoColor=white) ![PoWA](https://img.shields.io/badge/Tool-PoWA-blueviolet?style=flat-square) |
+|*Log Management*| ![Elasticsearch](https://img.shields.io/badge/Elasticsearch-005571?style=flat-square&logo=elasticsearch&logoColor=white) ![Logstash](https://img.shields.io/badge/Logstash-005571?style=flat-square&logo=logstash&logoColor=white) ![Kibana](https://img.shields.io/badge/Kibana-005571?style=flat-square&logo=kibana&logoColor=white) |
 |*Cloud & Infra*| ![GCP](https://img.shields.io/badge/GCP-4285F4?style=flat-square&logo=google-cloud&logoColor=white) ![Kubernetes](https://img.shields.io/badge/Kubernetes-326CE5?style=flat-square&logo=kubernetes&logoColor=white) ![Terraform](https://img.shields.io/badge/Terraform-7B42BC?style=flat-square&logo=terraform&logoColor=white) ![Ansible](https://img.shields.io/badge/Ansible-EE0000?style=flat-square&logo=ansible&logoColor=white) ![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white) |
-|*Monitoring*| ![Grafana](https://img.shields.io/badge/Grafana-F46800?style=flat-square&logo=grafana&logoColor=white) ![Prometheus](https://img.shields.io/badge/Prometheus-E6522C?style=flat-square&logo=prometheus&logoColor=white) ![Exporter](https://img.shields.io/badge/Node_Exporter-607D8B?style=flat-square&logo=prometheus&logoColor=white) ![Exporter](https://img.shields.io/badge/Postgres_Exporter-607D8B?style=flat-square&logo=prometheus&logoColor=white) ![PoWA](https://img.shields.io/badge/Tool-PoWA-blueviolet?style=flat-square) |
-|*Management*| ![Elasticsearch](https://img.shields.io/badge/Elasticsearch-005571?style=flat-square&logo=elasticsearch&logoColor=white) ![Logstash](https://img.shields.io/badge/Logstash-005571?style=flat-square&logo=logstash&logoColor=white) ![Kibana](https://img.shields.io/badge/Kibana-005571?style=flat-square&logo=kibana&logoColor=white) ![Portainer](https://img.shields.io/badge/Portainer-13BEFF?style=flat-square&logo=portainer&logoColor=white) |
-|*Other*| <a href='https://github.com/Junwu0615/Platform Genesis'><img alt='GitHub Views' src='https://views.whatilearened.today/views/github/Junwu0615/Platform Genesis.svg'> ![Windows 11](https://img.shields.io/badge/Windows_11-0078D4?style=flat-square&logo=windows-11&logoColor=white) |
+|*DevOps & Security* | ![Gitlab](https://img.shields.io/badge/Gitlab-FC6D26?style=flat-square&logo=gitlab&logoColor=white) ![Jenkins](https://img.shields.io/badge/Jenkins-D24939?style=flat-square&logo=jenkins&logoColor=white) ![Vault](https://img.shields.io/badge/HashiCorp_Vault-6070E1?style=flat-square&logo=hashicorp&logoColor=white) ![Portainer](https://img.shields.io/badge/Portainer-13BEFF?style=flat-square&logo=portainer&logoColor=white) |
+|*Other*| <a href='https://github.com/Junwu0615/Platform Genesis'><img alt='GitHub Views' src='https://views.whatilearened.today/views/github/Junwu0615/Platform Genesis.svg'> ![WSL2](https://img.shields.io/badge/WSL2-0078D4?style=flat-square&logo=windows&logoColor=white) ![Windows 11](https://img.shields.io/badge/Windows_11-0078D4?style=flat-square&logo=windows-11&logoColor=white) |
 
 </div>
 
@@ -205,9 +207,9 @@
 - #### *c.1.　Data Core & Orchestration*
   |**Service**|**Description**|**Port**|
   |--:|:--|:--:|
-  | **PostgreSQL** | `Business DB` | [5432](http://127.0.0.1:5432) |
+  | **PostgreSQL** | Primary Business DB `OLTP` | [5432](http://127.0.0.1:5432) |
   | **PostgreSQL** | Metadata DB for Airflow | [5433](http://127.0.0.1:5433) |
-  | **PostgreSQL UI** | Web Management | [5050](http://127.0.0.1:5050) |
+  | **PgAdmin** | PostgreSQL Web Management UI | [5050](http://127.0.0.1:5050) |
   | **Apache Airflow** | Workflow Orchestration `OLAP` | [8100](http://127.0.0.1:8100) |
   | **Superset** | BI Visualization Dashboard `OLAP` | `TBD` |
 
@@ -215,18 +217,18 @@
 - #### *c.2.　Event Streaming & IoT Platform*
   |**Service**|**Description**|**Port**|
   |--:|:--|:--:|
-  | **MQTT Broker** | Message Ingestion `IoT` | [1883](http://127.0.0.1:1883) |
-  | **Apache Kafka** | `Distributed Event Streaming` | [9092](http://127.0.0.1:9092) |
-  | **Kafka UI** | Topic & Cluster Management | [9093](http://127.0.0.1:9093) |
-  | **Schema Registry** | Kafka `Schema Governance` | [8081](http://127.0.0.1:8081) |
+  | **MQTT Broker** | High-concurrency `IoT` Message Ingestion | [1883](http://127.0.0.1:1883) |
+  | **Apache Kafka** | Distributed Streaming Platform `Backbone` | [9092](http://127.0.0.1:9092) |
+  | **Kafka UI** | Topic & Cluster & Consumer Management | [9093](http://127.0.0.1:9093) |
+  | **Schema Registry** | Centralized Schema Governance `Avro/JSON` | [8081](http://127.0.0.1:8081) |
 
 
 - #### *c.3.　Lakehouse Architecture*
   |**Service**|**Description**|**Port**|
   |--:|:--|:--:|
-  | **Debezium** | Change Data Capture `CDC` | `TBD` |
-  | **Apache Iceberg** | Open Table Format `Data Lake` | `TBD` |
-  | **Apache Flink** | Stream Processing Engine | `TBD` |
+  | **Debezium** | `CDC` ( Change Data Capture ) from Postgres | `TBD` |
+  | **Apache Iceberg** | High-performance Table Format `Data Lake` | `TBD` |
+  | **Apache Flink** | Stateful Computations over Data Streams | `TBD` |
 
 
 - #### *c.4.　Monitoring & Logging*
@@ -244,11 +246,11 @@
 - #### *c.5.　DevOps & Security*
   |**Service**|**Description**|**Port**|
   |--:|:--|:--:|
-  | **Gitlab** | `Continuous Integration` `SCM` `PM` | `TBD` |
+  | **Gitlab** | `Self-hosted SCM` `CI/CD` `Project Management` | `TBD` |
   | **Jenkins** | `Continuous Delivery` | `TBD` |
   | **Docker-Registry** | `Private Image Repository` | `TBD` |
   | **Portainer** | `Container Management` UI | [9000](http://127.0.0.1:9000) |
-  | **HashiCorp Vault** | Secret & Key Management `KMS` | `TBD` |
+  | **HashiCorp Vault** | Advanced Secret & Key Management `KMS` | `TBD` |
 
 
 <br>
