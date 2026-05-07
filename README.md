@@ -18,6 +18,13 @@
 
 ## *⭐ Platform Genesis ⭐*
 
+```
+* A Cloud-Native Infrastructure Project Focused on Automated Data Platform Engineering. 
+* It Leverages IaC ( Terraform / Ansible ) to Orchestrate a Full-Stack Ecosystem.
+* From IoT Ingestion ( Kafka / MQTT ) to HTAP Database Optimization .
+* Full-Stack Observability ( ELK / Grafana / Prometheus / Superset ).
+```
+
 
 ### *A.　System Structure*
 |*Project Name*|*Role & Responsibilities*|*Key Tech Stack*|
