@@ -38,16 +38,16 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 |**Item**|**Description**|**Time**|
 |--:|:--|:--:|
 | Create Project | - | 2026-03-20 |
-| Add `PostgreSQL` | By Docker | 2026-03-20 |
+| Add `PostgreSQL` | - | 2026-03-20 |
 | Create OLTP DDL ( 6 ) | 3NF | 2026-03-21 |
-| Add `Airflow` | By Docker | 2026-03-21 |
-| Add `PoWA` | By Docker | 2026-03-23 |
+| Add `Airflow` | for `OLAP` | 2026-03-21 |
+| Add `PoWA` | for `Monitoring` | 2026-03-23 |
 | Generic DB Benchmark | Docker Desktop vs WSL2 | 2026-04-04 |
 | Workload Benchmark | Design Benchmark | 2026-04-04 |
-| Add `Monitoring` | Postgres Exporter + Prometheus + Grafana | 2026-04-04 |
-| Add `Monitoring` | Node Exporter | 2026-04-05 |
+| Add `Monitoring` | `Postgres Exporter` + `Prometheus` + `Grafana` | 2026-04-04 |
+| Add `Monitoring` | `Node Exporter` | 2026-04-05 |
 | Create OLAP DDL ( 5 ) | Star Schema | 2026-04-06 |
-| Add `Portainer` | By Docker | 2026-04-11 |
+| Add `Portainer` | for `Manage Containers` | 2026-04-11 |
 | Add Makefile | for `docker-compose` | 2026-04-11 |
 | Terraform | Declaration Config : `Docker Provider` | 2026-04-19 |
 | Terraform | Config Transfer : `docker-compose` | 2026-04-19 |
@@ -55,26 +55,28 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 | Add Makefile | for `terraform + ansible` | 2026-04-19 |
 | Terraform | Modularization | 2026-04-20 |
 | Ansible | Modularization | 2026-04-20 |
-| Add `IoT Platform` | MQTT Broker + Apache Kafka | 2026-04-25 |
+| Add `IoT Platform` | `MQTT Broker` + `Apache Kafka` | 2026-04-25 |
 | Multi-Instance | like real-edge : `v2` | 2026-04-28 |
 | MQTT logic | for `cp` | 2026-04-28 |
 | Kafka Connect | `source` : producer  | 2026-04-30 |
 | Kafka logic | for `inst` | 2026-05-03 |
 | Kafka Connect | `sink` : consumers | 2026-05-04 |
 | Add `ELK` | - | 2026-05-05 |
+| Redefine Project Name | `OLTP-OLAP-Unified-DB`<br>to `Platform Genesis` | - |
+| Project Breakdown | `6` major categories | - |
 | API Service logic | - | X |
 | make `v2` Dockerfile | - | - |
 | Create MV | Materialized View | - |
 | Analytical Queries | - | - |
-| Add `Gitlab` | for `CI / CD` | - |
-| Add `Jenkins` | for `CI / CD` | - |
-| Add `Docker-Registry` | - | - |
+| Add `Gitlab` | for `CI` & `Manage Project` | - |
+| Add `Jenkins` | for `CD` | - |
+| Add `Docker-Registry` | for `CI / CD` & `Manage Images` | - |
 | Add `Debezium` | Change Data Capture | - |
 | Add `Apache Iceberg` | Data Lake | - |
 | Add `Apache Flink` | consumer of CDC | - |
 | Build `Lakehouse` | - | - |
-| Redefine Project Name | `OLTP-OLAP-Unified-DB`<br>to `Platform Genesis` | - |
-| Project Breakdown | `4` major categories | - |
+| Add `HashiCorp Vault` | Enterprise Key Management System | - |
+| Add `Superset` | for `OLAP` | - |
 | K8s | Beginner : `Minikube` | - |
 | K8s | Advanced : `K3s` + `VMware` | - |
 | K8s | Bottom Layer : `Kubeadm` + `VMware` | - |
@@ -91,15 +93,15 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 |**Item**|**Description**|**Time**|
 |--:|:--|:--:|
 | Create Project | - | 2026-03-20 |
-| Add `PostgreSQL` | By Docker | 2026-03-20 |
+| Add `PostgreSQL` | - | 2026-03-20 |
 | Define Process | - | 2026-03-20 |
 | Define Event Story | - | 2026-03-21 |
 | Define Project Directory | - | 2026-03-21 |
 | Define Table DDL | - | 2026-03-21 |
 | Create OLTP DDL ( 6 ) | 3NF | 2026-03-21 |
-| Add `Airflow` | By Docker | 2026-03-21 |
+| Add `Airflow` | for `OLAP` | 2026-03-21 |
 | DB Settings | Permission Settings | 2026-03-23 |
-| Add `PoWA` | By Docker | 2026-03-23 |
+| Add `PoWA` | for `Monitoring` | 2026-03-23 |
 | PoWA Web Login Failed | ⚠️no reason found yet | 2026-03-23 |
 | New Role | Migration User | 2026-03-24 |
 | Script | delete_data.py | 2026-03-24 |
@@ -123,8 +125,8 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 | Generic DB Benchmark | Design Benchmark-2 | 2026-04-03 |
 | Generic DB Benchmark | Docker Desktop ( 64MB )<br>vs<br>WSL2 ( 16GB ) | 2026-04-04 |
 | Workload Benchmark | Design Benchmark | 2026-04-04 |
-| Add `Monitoring` | Postgres Exporter + Prometheus + Grafana | 2026-04-04 |
-| Add `Monitoring` | Node Exporter | 2026-04-05 |
+| Add `Monitoring` | `Postgres Exporter` + `Prometheus` + `Grafana` | 2026-04-04 |
+| Add `Monitoring` | `Node Exporter` | 2026-04-05 |
 | Grafana Dashboard | Organize Observation Indicators | 2026-04-05 |
 | WSL2 Settings | `.wslconfig` | 2026-04-06 |
 | Create OLAP DDL ( 5 ) | Star Schema | 2026-04-06 |
@@ -135,7 +137,7 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 | DAG ETL Script | Fan-out Queue Pattern | 2026-04-06 |
 | DAG | Try `Param` | 2026-04-07 |
 | DAG | Try `Dataset` | 2026-04-08 |
-| Add `Portainer` | By Docker | 2026-04-11 |
+| Add `Portainer` | for `Manage Containers` | 2026-04-11 |
 | Docker Compose | Compose Modularization | 2026-04-11 |
 | Add Makefile | for `docker-compose` | 2026-04-11 |
 | Add Airflow Config UI | `Trigger w/ Config` | 2026-04-18 |
@@ -148,7 +150,7 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 | Terraform & Ansible | Experience :<br>`Ansible 如何補足 Terraform 的不足` | 2026-04-19 |
 | Terraform | Modularization | 2026-04-20 |
 | Ansible | Modularization | 2026-04-20 |
-| Add `IoT Platform` | MQTT Broker + Apache Kafka | 2026-04-25 |
+| Add `IoT Platform` | `MQTT Broker` + `Apache Kafka` | 2026-04-25 |
 | Simple Simulation | organizing old versions : `v1` | 2026-04-28 |
 | Multi-Instance | like real-edge : `v2` | 2026-04-28 |
 | MQTT logic | for `cp` | 2026-04-28 |
@@ -160,7 +162,11 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 | Define the Version Number<br>of each service  | settings to `.env` | 2026-05-05 |
 | logging logic | mixed ( `ELK` + `logging` ) | 2026-05-06 |
 | Encapsulation Entry | app.py | 2026-05-06 |
-| logging logic | Logs Correct Paths<br>>Based on Module Calls | 2026-05-07 |
+| logging logic | Logs Correct Paths<br>Based on Module Calls | 2026-05-07 |
+| update v2 logic | Apply the<br>New Underlying Module | 2026-05-07 |
+| Redefine Project Name | `OLTP-OLAP-Unified-DB`<br>to `Platform Genesis` | - |
+| Project Breakdown | `6` major categories | - |
+| Quantitative Results 1 | OLTP 查詢效率優化 ( Index / ... ) | - |
 | DAG | init.py + create_topic.py | - |
 | Add `SQLite`<br>to Edge scripts  | Improve the HA<br>of Consumer Transactions | - |
 | Security Message<br>Transmission | encryption ( `kafka` + `mqtt` ) | - |
@@ -169,21 +175,24 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 | Grafana Dashboard | `htap_grafana.json` | - |
 | Create MV | Materialized View | - |
 | Analytical Queries | - | - |
-| Add `Gitlab` | for `CI / CD` | - |
-| Add `Jenkins` | for `CI / CD` | - |
-| Add `Docker-Registry` | - | - |
+| Add `Gitlab` | for `CI` & `Manage Project` | - |
+| Add `Jenkins` | for `CD` | - |
+| Add `Docker-Registry` | for `CI / CD` & `Manage Images` | - |
+| Quantitative Results 2 | 自動化部署邊緣 :<br>`Manual` vs `CD -> Ansible` | - |
 | Add `Debezium` | Change Data Capture | - |
 | Add `Apache Iceberg` | Data Lake | - |
 | Add `Apache Flink` | consumer of CDC | - |
 | Build `Lakehouse` | - | - |
-| Redefine Project Name | `OLTP-OLAP-Unified-DB`<br>to `Platform Genesis` | - |
-| Project Breakdown | `4` major categories | - |
+| Quantitative Results 3 | 業務衝突解套演進 :<br>`Direct Read` vs `MV` vs `CDC` | - |
+| Add `HashiCorp Vault` | Enterprise Key Management System | - |
+| Add `Superset` | for `OLAP` | - |
 | K8s | Beginner : `Minikube` | - |
 | K8s | Advanced : `K3s` + `VMware` | - |
 | K8s | Bottom Layer : `Kubeadm` + `VMware` | - |
-| K8s | Public Cloud : `GKE` | - |
 | K8s | Experience :<br>`Pod` / `Service` / `Ingress` | - |
 | K8s | Experience :<br>`Lens` / `k9s` / `Kubernetes Dashboard` | - |
+| Quantitative Results 5 | `Compose` vs `K8s` 高可用性比較 | - |
+| K8s | Public Cloud : `GKE` | - |
 | Summary | - | - |
 
 </ul>
@@ -199,21 +208,30 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
   | PostgreSQL | for `Common DB` | [5432](http:127.0.0.1:5432) |
   | PostgreSQL | for `Airflow` | [5433](http:127.0.0.1:5433) |
   | PostgreSQL UI Web | - | [5050](http:127.0.0.1:5050) |
-  | Airflow | for `OLAP` | [8100](http:127.0.0.1:8100) |
-  | ~~PostgreSQL~~ | for `PoWA` | [5431](http:127.0.0.1:5431) |
-  | ~~PoWA UI Web~~ | for `Monitoring` | [8888](http:127.0.0.1:8888) |
   | MQTT Broker | for `IoT Platform` | [1883](http:127.0.0.1:1883) |
-  | Kafka | for `IoT Platform` | [9092](http:127.0.0.1:9092) |
+  | Apache Kafka | for `IoT Platform` | [9092](http:127.0.0.1:9092) |
   | Kafka UI | for `IoT Platform` | [9093](http:127.0.0.1:9093) |
   | Schema Registry | for `IoT Platform` | [8081](http:127.0.0.1:8081) |
+  | Debezium | for `Lakehouse` | [???](http:127.0.0.1:???) |
+  | Apache Iceberg | for `Lakehouse` | [???](http:127.0.0.1:???) |
+  | Apache Flink | for `Lakehouse` | [???](http:127.0.0.1:???) |
+  | Apache Airflow | for `OLAP` | [8100](http:127.0.0.1:8100) |
+  | Superset | for `OLAP` | [???](http:127.0.0.1:???) |
+  | ~~PostgreSQL~~ | for `Monitoring` | [5431](http:127.0.0.1:5431) |
+  | ~~PoWA UI Web~~ | for `Monitoring` | [8888](http:127.0.0.1:8888) |
   | Grafana | for `Monitoring` | [3000](http:127.0.0.1:3000) |
   | Prometheus | for `Monitoring` | [9090](http:127.0.0.1:9090) |
   | Node Exporter | for `Monitoring` | [9100](http:127.0.0.1:9100) |
   | Postgres Exporter | for `Monitoring` | [9187](http:127.0.0.1:9187) |
+  | Gitlab | for `CI` & `Manage Project` | [???](http:127.0.0.1:???) |
+  | Jenkins | for `CD` | [???](http:127.0.0.1:???) |
+  | Docker-Registry | for `CI / CD` & `Manage Images` | [???](http:127.0.0.1:???) |
   | Elasticsearch | for `ELK` | [9200](http:127.0.0.1:9200) |
   | Logstash | for `ELK` | [9600](http:127.0.0.1:9600) |
   | Kibana | for `ELK` | [5601](http:127.0.0.1:5601) |
   | Portainer | for `Manage Containers` | [9000](http:127.0.0.1:9000) |
+  | HashiCorp Vault | for `KMS` | [???](http:127.0.0.1:???) |
+
 
 
 - #### *b.2.　[Service Startup Order](./docs/service_startup_order.md)*

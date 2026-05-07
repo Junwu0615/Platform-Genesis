@@ -415,12 +415,12 @@ class Application(EntryPoint):
             \
             - MQTT ( Kafka ) : 「消費」/「傳送」訊息
                 - 消費 : source.cp.mach-order 訂單訊息
-                - 傳送
+                - 傳送 : ...
             - Offset 儲存：Kafka 根據 Key 紀錄消費數字 ; KEY => ( group.id + Topic + Partition ID )
         """
         self.logging.notice(f'[{self.env['_MAIN_NAME']}] Starting Factory Stream Simulation ...')
         self.start_service(self.consumer_message, **{
-            'title': '消費「source.cp.mach-order」訊息服務',
+            'title': '消費「主控訂單」訊息服務',
         })
         self.start_service(self.producer_message, **{
             'title': '生產「邊緣數據」訊息服務',
