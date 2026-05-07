@@ -1,27 +1,25 @@
 __pycache__
 .idea
 .ipynb_checkpoints
-
 .venv
 venv
-
 logs
 
 *.tfstate
 *.tfstate.backup
 
-docker-compose/terraform/.terraform
-docker-compose/terraform/.terraform.lock.hcl
+infra/docker-compose/terraform/.terraform
+infra/docker-compose/terraform/.terraform.lock.hcl
 
-docker-compose/docker/portainer/data
+infra/docker-compose/docker/portainer/data
 
-docker-compose/docker/iot-platform/data/*
-docker-compose/docker/iot-platform/config/passwd
+infra/docker-compose/docker/iot-platform/data/*
+infra/docker-compose/docker/iot-platform/config/passwd
 
-docker-compose/docker/airflow/config
-docker-compose/docker/airflow/dags
-docker-compose/docker/airflow/logs
-docker-compose/docker/airflow/plugins
-docker-compose/docker/airflow/airflow.cfg
-docker-compose/docker/airflow/airflow-webserver.pid
-docker-compose/docker/airflow/webserver_config.py
+infra/docker-compose/docker/airflow/config
+infra/docker-compose/docker/airflow/dags
+infra/docker-compose/docker/airflow/logs
+infra/docker-compose/docker/airflow/plugins
+infra/docker-compose/docker/airflow/airflow.cfg
+infra/docker-compose/docker/airflow/airflow-webserver.pid
+infra/docker-compose/docker/airflow/webserver_config.py

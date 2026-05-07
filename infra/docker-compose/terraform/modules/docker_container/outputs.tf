@@ -1,4 +1,4 @@
-# terraform/modules/generic_docker_container/outputs.tf
+# terraform/modules/docker_container/outputs.tf
 
 
 output "containers" {

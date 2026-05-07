@@ -15,7 +15,7 @@ data "docker_registry_image" "portainer" {
 }
 
 module "generic_worker" {
-  source       = "../generic_docker_container"
+  source       = "../docker_container"
   main_name    = var.main_name
   network_name = var.network_name
   app_configs  = local.apps # TODO 把定義清單丟進去

@@ -1,4 +1,4 @@
-# terraform/modules/generic_docker_container/main.tf
+# terraform/modules/docker_container/main.tf
 
 
 terraform {

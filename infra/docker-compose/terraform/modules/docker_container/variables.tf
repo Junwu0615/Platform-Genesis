@@ -1,4 +1,4 @@
-# terraform/modules/generic_docker_container/variables.tf
+# terraform/modules/docker_container/variables.tf
 
 
 variable "main_name" {}
