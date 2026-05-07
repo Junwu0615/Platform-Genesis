@@ -375,6 +375,46 @@ make kafka-all-clean
   ├── LICENSE
   ├── README.md
   ├── config
+  ├── dags
+  │   ├── OP_SQL.py
+  │   ├── WF_AUTO_PARTITION.py
+  │   ├── WF_A_DATASET.py
+  │   ├── WF_B_DATASET.py
+  │   ├── WF_CREATE_TABLE.py
+  │   ├── WF_C_DATASET.py
+  │   ├── __init__.py
+  │   ├── config
+  │   │   ├── __init__.py
+  │   │   ├── constants.py
+  │   │   └── dag_config.py
+  │   ├── sql
+  │   │   ├── __init__.py
+  │   │   ├── auto_partition
+  │   │   │   ├── fact_production.sql
+  │   │   │   ├── machine_status_logs.sql
+  │   │   │   └── production_records.sql
+  │   │   ├── dim_date.sql
+  │   │   ├── dim_machine.sql
+  │   │   ├── dim_product.sql
+  │   │   ├── fact_machine_status.sql
+  │   │   ├── fact_production.sql
+  │   │   └── models
+  │   │       ├── olap
+  │   │       │   ├── dim_date.sql
+  │   │       │   ├── dim_machine.sql
+  │   │       │   ├── dim_product.sql
+  │   │       │   ├── fact_machine_status.sql
+  │   │       │   └── fact_production.sql
+  │   │       └── oltp
+  │   │           ├── machine.sql
+  │   │           ├── machine_events.sql
+  │   │           ├── machine_status_logs.sql
+  │   │           ├── product.sql
+  │   │           ├── production_orders.sql
+  │   │           └── production_records.sql
+  │   └── utils
+  │       ├── __init__.py
+  │       └── dag_tool.py
   ├── docker-compose
   │   ├── Makefile
   │   ├── ansible
@@ -395,7 +435,7 @@ make kafka-all-clean
   │   │   │   ├── airflow-webserver.pid
   │   │   │   ├── airflow.cfg
   │   │   │   ├── config
-  │   │   │   ├── dags ( copy from `dags` )
+  │   │   │   ├── dags ( copy `dags` )
   │   │   │   ├── deploy_dags.sh
   │   │   │   ├── docker-compose.yaml
   │   │   │   ├── plugins
@@ -513,46 +553,6 @@ make kafka-all-clean
       │           ├── create_topic.py
       │           ├── init.py
       │           └── topics_config.json
-      ├── dags
-      │   ├── OP_SQL.py
-      │   ├── WF_AUTO_PARTITION.py
-      │   ├── WF_A_DATASET.py
-      │   ├── WF_B_DATASET.py
-      │   ├── WF_CREATE_TABLE.py
-      │   ├── WF_C_DATASET.py
-      │   ├── __init__.py
-      │   ├── config
-      │   │   ├── __init__.py
-      │   │   ├── constants.py
-      │   │   └── dag_config.py
-      │   ├── sql
-      │   │   ├── __init__.py
-      │   │   ├── auto_partition
-      │   │   │   ├── fact_production.sql
-      │   │   │   ├── machine_status_logs.sql
-      │   │   │   └── production_records.sql
-      │   │   ├── dim_date.sql
-      │   │   ├── dim_machine.sql
-      │   │   ├── dim_product.sql
-      │   │   ├── fact_machine_status.sql
-      │   │   ├── fact_production.sql
-      │   │   └── models
-      │   │       ├── olap
-      │   │       │   ├── dim_date.sql
-      │   │       │   ├── dim_machine.sql
-      │   │       │   ├── dim_product.sql
-      │   │       │   ├── fact_machine_status.sql
-      │   │       │   └── fact_production.sql
-      │   │       └── oltp
-      │   │           ├── machine.sql
-      │   │           ├── machine_events.sql
-      │   │           ├── machine_status_logs.sql
-      │   │           ├── product.sql
-      │   │           ├── production_orders.sql
-      │   │           └── production_records.sql
-      │   └── utils
-      │       ├── __init__.py
-      │       └── dag_tool.py
       └── scripts
           ├── __init__.py
           ├── generic_benchmark

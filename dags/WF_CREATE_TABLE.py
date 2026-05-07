@@ -5,7 +5,7 @@ TODO
     # from airflow.operators.python import PythonOperator
     # from airflow.operators.trigger_dagrun import TriggerDagRunOperator
 """
-from config import *
+from configs import *
 from utils.dag_tool import create_dag, check_parameters
 
 

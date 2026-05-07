@@ -5,8 +5,8 @@ TODO
     # from airflow.operators.python import PythonOperator
     # from airflow.operators.trigger_dagrun import TriggerDagRunOperator
 """
-from config import *
-from config.constants import WF_A_STATUS
+from configs import *
+from configs.constants import WF_A_STATUS
 from utils.dag_tool import create_dag, check_parameters, update_dataset_status
 
 
