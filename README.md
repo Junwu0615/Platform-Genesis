@@ -20,9 +20,9 @@
 ### *A.　System Structure*
 |*Project Name*|*Role & Responsibilities*|*Key Tech Stack*|
 |--:|:--|:--|
-| PG-Infrastructure | **基礎設施即代碼 ( IaC ) 中心 :** 負責整個平台的生命週期管理，包含...<br>所有容器化服務配置、自動化網路架構、跨環境的部署邏輯 | `GCP` `K8s` `Terraform` `Ansible` `Docker` `Makefile` |
+| PG-Infrastructure | **基礎設施即代碼 ( IaC ) 中心 :** 負責整個平台的生命週期管理，包含...<br>所有容器化服務配置、自動化網路架構、跨環境的部署邏輯 | `GCP` `K8s` `Terraform` `Ansible`<br>`Docker` `Makefile` |
 | PG-APP-Core | **核心業務邏輯 ( 工廠情境 )** | `Python` |
-| PG-Share-Lib | **跨模組通用底層庫 :** 封裝高度複用的邏輯，確保各組件間的標準化 | `EntryPoint` `KafkaConsumerManager` `KafkaProducerManager` `MqttServer` `Logger` |
+| PG-Share-Lib | **跨模組通用底層庫 :** 封裝高度複用的邏輯，確保各組件間的標準化 | `EntryPoint` `KafkaConsumerManager` `KafkaProducerManager`<br>`MqttServer` `Logger` |
 | PG-Instance | **邊緣裝置部署程式 :** 部署於邊緣端 ( Real-edge/IoT ) 輕量化執行單元<br>負責數據採集、本地事務處理 ( MQTT / SQLite HA )、即時傳輸 | `MQTT` `SQLite` |
 | PG-Airflow-DAGs | **數據分析與調度中心 :** 定義 ETL 流程與數據血緣<br>負責 OLTP 到 OLAP 轉化、Auto Partition、OLAP 業務開發 | `Airflow` `DAGs` |
 
