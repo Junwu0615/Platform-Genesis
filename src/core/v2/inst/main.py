@@ -26,24 +26,36 @@ class Application(EntryPoint):
     def __init__(self):
         super().__init__(dotenv_path=f'{'/'.join(__file__.split('/')[:-1])}/.env')
 
-        # 導入外部參數
         _YAML_VERSION = os.getenv('YAML_VERSION', 'v2')
         _CONSUMER_ORDER_TOPIC = os.getenv('CONSUMER_ORDER_TOPIC', 'source.cp.mach-order')
         _CONSUMER_GROUP_ID = os.getenv('CONSUMER_GROUP_ID', 'iot-data-mach-processor')
-
         _KAFKA_HOST = os.getenv('KAFKA_HOST', '127.0.0.1:9092')
         _KAFKA_AUTO_OFFSET_RESET = os.getenv('KAFKA_AUTO_OFFSET_RESET', 'earliest')
         _KAFKA_ENABLE_AUTO_COMMIT = os.getenv('KAFKA_ENABLE_AUTO_COMMIT', False)
-
         _KAFKA_SCHEMA_REGISTRY_HOST = os.getenv('KAFKA_SCHEMA_REGISTRY_HOST', '127.0.0.1:8081')
 
-        _YAML_PATH = os.path.join('./src/core', f'{_YAML_VERSION}', 'factory_config.yaml')
+        _YAML_CONFIGS = parsing_yaml(os.path.join('./src/core', f'{_YAML_VERSION}', 'factory_config.yaml'))
+        _SIMULATE = _YAML_CONFIGS['simulate']
+        _LOAD_CFG = _YAML_CONFIGS['load_profile']
+        _BATCH_SIZE = _SIMULATE['batch_size']
+        _BATCH_INTERVAL = _SIMULATE['batch_interval']
 
         self.mach_name = os.getenv('TARGET_MACH', 'M-CNC-30')
         _MAIN_NAME = f'#{self.mach_name}'
 
+        self.env['CONSUMER_ORDER_TOPIC'] = _CONSUMER_ORDER_TOPIC
+        self.env['CONSUMER_GROUP_ID'] = _CONSUMER_GROUP_ID
+        self.env['KAFKA_HOST'] = _KAFKA_HOST
+        self.env['KAFKA_SCHEMA_REGISTRY_HOST'] = _KAFKA_SCHEMA_REGISTRY_HOST
+        self.env['KAFKA_AUTO_OFFSET_RESET'] = _KAFKA_AUTO_OFFSET_RESET
+        self.env['KAFKA_ENABLE_AUTO_COMMIT'] = _KAFKA_ENABLE_AUTO_COMMIT
+        self.env['SIMULATE'] = _SIMULATE
+        self.env['LOAD_CFG'] = _LOAD_CFG
+        self.env['BATCH_SIZE'] = _BATCH_SIZE
+        self.env['BATCH_INTERVAL'] = _BATCH_INTERVAL
+        self.env['_MAIN_NAME'] = _MAIN_NAME
+
         logging = Logger(
-            # logging_level='DEBUG',
             console_name=get_logger_name(__file__, GET_PATH_ROOT),
             file_name=self.mach_name,
             file_path=f'logs/INSTANCE/{self.mach_name}.logs',
@@ -56,74 +68,42 @@ class Application(EntryPoint):
         )
 
         self.configure_setting(logging=logging) # TODO 完成 EntryPoint 必要後續初始化
-
-        config = parsing_yaml(_YAML_PATH)
-        _SIMULATE = config['simulate']
-        _LOAD_CFG = config['load_profile']
-        _BATCH_SIZE = _SIMULATE['batch_size']
-        _BATCH_INTERVAL = _SIMULATE['batch_interval']
-
-        self.event_dict = {
-            # 等 consumer 拿到訂單資訊後，才會有 mach_id 資訊；初始值先放 None
-            'mach_id': None,
-
-            # 訂單字典 key: order_id, value: prod_id
-            'order_dict': {},
-
-            # 訂單隊列
-            'order_queue': collections.deque(),
-
-            # 記錄機台持單狀態
-            'machine_status': {
-                'status': 'IDLE',
-                'order_id': None, # None / not None
-            },
-
-            # 訂單詳情字典 key: order_id, value: dict (product_id, target_qty, produced_qty)
-            'detail': {},
-        }
-
-        self.mss = MachineStatusSimulator()
-
-        _config = {
-            'bootstrap.servers': _KAFKA_HOST,
-            'group.id': _CONSUMER_GROUP_ID,
-            'auto.offset.reset': _KAFKA_AUTO_OFFSET_RESET,
-            'enable.auto.commit': _KAFKA_ENABLE_AUTO_COMMIT
-        }
-        _topic_key = '/'.join(_CONSUMER_ORDER_TOPIC.split('.')[1:])
-        self.kcm = KafkaConsumerManager(
-            logging=self.logging,
-            log_main_name=_MAIN_NAME,
-            config=_config,
-            topic=_CONSUMER_ORDER_TOPIC,
-            topic_key=f'{_topic_key}/{self.mach_name}',
-        )
-
-        self.kpm = KafkaProducerManager(
-            logging=self.logging,
-            log_main_name=_MAIN_NAME,
-            bootstrap_servers=_KAFKA_HOST,
-            sr_url=_KAFKA_SCHEMA_REGISTRY_HOST,
-            schemas_list=[SINK_MACH_STATUS_LOGS, SINK_PROD_ORDERS, SINK_PROD_RECORDS]
-        )
-
-        # self.env['YAML_VERSION'] = _YAML_VERSION
-        # self.env['CONSUMER_ORDER_TOPIC'] = _CONSUMER_ORDER_TOPIC
-        # self.env['CONSUMER_GROUP_ID'] = _CONSUMER_GROUP_ID
-        # self.env['KAFKA_HOST'] = _KAFKA_HOST
-        # self.env['KAFKA_SCHEMA_REGISTRY_HOST'] = _KAFKA_SCHEMA_REGISTRY_HOST
-        # self.env['YAML_PATH'] = _YAML_PATH
-        self.env['SIMULATE'] = _SIMULATE
-        self.env['LOAD_CFG'] = _LOAD_CFG
-        # self.env['KAFKA'] = _KAFKA
-        self.env['BATCH_SIZE'] = _BATCH_SIZE
-        self.env['BATCH_INTERVAL'] = _BATCH_INTERVAL
-        self.env['_MAIN_NAME'] = _MAIN_NAME
+        self._load_configs() # 冗長設定
         
     
     def _load_configs(self):
-        pass
+        self.event_dict = {
+            'mach_id': None, # FIXME 應該初始就要有 ID 而非拿值 ; 等 consumer 拿到訂單資訊後，才會有 mach_id 資訊 ; 初始值 None
+            'order_dict': {}, # 訂單字典 | key: order_id, value: prod_id
+            'order_queue': collections.deque(), # 訂單隊列
+            'detail': {},  # 訂單詳情字典 | key: order_id, value: dict (product_id, target_qty, produced_qty)
+            # 記錄機台持單狀態
+            'machine_status': {
+                'status': 'IDLE',
+                'order_id': None,  # None / not None
+            },
+        }
+
+        self.mss = MachineStatusSimulator()
+        self.kcm = KafkaConsumerManager(
+            logging=self.logging,
+            log_main_name=self.env['_MAIN_NAME'],
+            topic=self.env['CONSUMER_ORDER_TOPIC'],
+            topic_key=f'{'/'.join(self.env['CONSUMER_ORDER_TOPIC'].split('.')[1:])}/{self.mach_name}',
+            config={
+                'bootstrap.servers': self.env['KAFKA_HOST'],
+                'group.id': self.env['CONSUMER_GROUP_ID'],
+                'auto.offset.reset': self.env['KAFKA_AUTO_OFFSET_RESET'],
+                'enable.auto.commit': self.env['KAFKA_ENABLE_AUTO_COMMIT']
+            },
+        )
+        self.kpm = KafkaProducerManager(
+            logging=self.logging,
+            log_main_name=self.env['_MAIN_NAME'],
+            bootstrap_servers=self.env['KAFKA_HOST'],
+            sr_url=self.env['KAFKA_SCHEMA_REGISTRY_HOST'],
+            schemas_list=[SINK_MACH_STATUS_LOGS, SINK_PROD_ORDERS, SINK_PROD_RECORDS],
+        )
 
 
     def update_order_status(self) -> int:
