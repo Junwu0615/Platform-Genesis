@@ -88,7 +88,7 @@
   sudo chown -R $USER:$USER ~/OLTP-OLAP-Unified-DB/docker/airflow/dags
   
   # 2.　從 Windows 路徑複製 DAGs 到 Airflow 容器的對應資料夾
-  cp -ra /mnt/c/Users/PC/Code/Python/Publish-To-Git/OLTP-OLAP-Unified-DB/src/dags ~/OLTP-OLAP-Unified-DB/docker/airflow/dags
+  cp -ra /mnt/c/Users/PC/Code/Python/Publish-To-Git/OLTP-OLAP-Unified-DB/dags ~/OLTP-OLAP-Unified-DB/docker/airflow/dags
   
   # 3. 校正為 Airflow 容器需要的權限
   sudo chown -R 50000:0 ~/OLTP-OLAP-Unified-DB/docker/airflow/dags

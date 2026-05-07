@@ -348,8 +348,8 @@ CREATE SCHEMA IF NOT EXISTS olap;
   olap.fact_production
 
   ### 懶人建表指令 ###
-  docker cp "src/scripts/dags/sql/models/oltp" ooud-cluster-dev-db-1:/tmp
-  docker cp "src/scripts/dags/sql/models/olap" ooud-cluster-dev-db-1:/tmp
+  docker cp "dags/sql/models/oltp" ooud-cluster-dev-db-1:/tmp
+  docker cp "dags/sql/models/olap" ooud-cluster-dev-db-1:/tmp
   
   docker exec -it ooud-cluster-dev-db-1 psql -U migration_user -d pgdatabase
   

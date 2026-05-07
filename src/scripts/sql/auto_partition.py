@@ -16,7 +16,7 @@ logging = Logger(console_name=console_name)
 
 def _get_sql_script(table_name: str) -> str:
     # file_path = f'../sql/scripts/{table_name}/auto_partition.sql'
-    file_path = f'src/scripts/dags/sql/auto_partition/{table_name}.sql'
+    file_path = f'dags/sql/auto_partition/{table_name}.sql'
 
     with open(file_path, 'r', encoding='utf-8') as f:
         sql_script = f.read()
