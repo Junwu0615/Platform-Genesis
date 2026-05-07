@@ -3,7 +3,7 @@ import os, sys, time, copy
 import json, yaml
 import re, collections, operator, random, math
 import statistics, inspect, pathlib, struct
-import threading
+import queue, threading, socket
 
 import psycopg2
 

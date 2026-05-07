@@ -10,7 +10,9 @@ TODO
 """
 import sys, os; sys.path.insert(0, os.getcwd())
 
-from shared.configs import *
+from shared.configs import (
+    load_dotenv,
+)
 from shared.configs.constant import *
 from shared.utils.tools import *
 from shared.utils.env_config import GET_PATH_ROOT, get_logger_name

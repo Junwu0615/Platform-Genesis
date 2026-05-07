@@ -129,59 +129,55 @@ class Logger:
         self.logging = logging.LoggerAdapter(self.raw_logger, extra=self.symbol_tag)
 
 
-    def log_custom(self, level_name: str, msg: str, stack_level: int=2, **kwargs):
-        """
-        通用日誌記錄器
-        """
-        exc_info = kwargs.get('exc_info', False)
-        if self.logging:
-            method = getattr(self.logging, level_name, None)
-            if method:
-                method(msg, exc_info=exc_info, stacklevel=stack_level + 1)
-
-
     def debug(self, msg: str='', stack_level: int=2, **kwargs):
-        _level_name = 'debug'.lower()
-        self.log_custom(_level_name, msg, **{
+        self.log_custom('debug'.lower(), msg, **{
             'stack_level': stack_level,
         })
 
 
     def info(self, msg: str='', stack_level: int=2, **kwargs):
-        _level_name = 'info'.lower()
-        self.log_custom(_level_name, msg, **{
+        self.log_custom('info'.lower(), msg, **{
             'stack_level': stack_level,
         })
 
 
     def warning(self, msg: str='', stack_level: int=2, **kwargs):
-        _level_name = 'warning'.lower()
-        self.log_custom(_level_name, msg, **{
+        self.log_custom('warning'.lower(), msg, **{
             'stack_level': stack_level,
         })
 
 
     def error(self, msg: str='', exc_info: bool=True, stack_level: int=2, **kwargs):
-        _level_name = 'error'.lower()
-        self.log_custom(_level_name, msg, **{
+        self.log_custom('error'.lower(), msg, **{
             'stack_level': stack_level,
             'exc_info': exc_info,
         })
 
 
     def critical(self, msg: str='', exc_info: bool=True, stack_level: int=2, **kwargs):
-        _level_name = 'critical'.lower()
-        self.log_custom(_level_name, msg, **{
+        self.log_custom('critical'.lower(), msg, **{
             'stack_level': stack_level,
             'exc_info': exc_info,
         })
 
 
+    def log_custom(self, level_name: str, msg: str, stack_level: int=2, **kwargs):
+        """
+        通用日誌記錄器
+        """
+        _exc_info = kwargs.get('exc_info', False)
+        _extra = kwargs.pop('extra_tags', {})
+        if self.logging:
+            method = getattr(self.logging, level_name, None)
+            if method:
+                method(msg, exc_info=_exc_info, stacklevel=stack_level + 1, extra=_extra)
+
+
     def notice(self, msg: str='', stack_level: int=2, **kwargs):
         """使用底層的 log(level_num, msg) 避開全域方法的依賴"""
-        _level_name = 'notice'.lower()
+        _extra = kwargs.pop('extra_tags', {})
         if self.logging:
-            self.logging.log(NOTICE_LEVEL_NUM, msg, stacklevel=stack_level + 2)
+            self.logging.log(NOTICE_LEVEL_NUM, msg, stacklevel=stack_level + 2, extra=_extra)
 
 
     def title_log(self, level_name: str, msg: str, exc_info: bool=False, stack_level: int=2, **kwargs) -> str:
@@ -191,7 +187,6 @@ class Logger:
         if _level_name == 'notice':
             self.logging.log(NOTICE_LEVEL_NUM, msg, stacklevel=stack_level + 2)
         else:
-
             self.log_custom(_level_name, msg, **{
                 'stack_level': stack_level,
                 'exc_info': exc_info,

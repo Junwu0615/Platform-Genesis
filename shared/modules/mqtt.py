@@ -47,14 +47,17 @@ TODO
     \
     Notice:
         FIXME : 明文傳送應加密 + 安全性須提升 ( 認證 ...etc. ) + socket 傳輸穩健性問題 (line:293)
-        FIXME : 待與主通道的 thread 物件整合
 """
-import queue, socket, threading
 import paho.mqtt.client as mqtt_client
 from queue import Queue
 from concurrent.futures import ThreadPoolExecutor, as_completed
-from shared.configs import *
-from shared.modules.log import Logger
+from shared.configs import (
+    json,
+    time,
+    queue,
+    socket,
+    threading,
+)
 
 
 KEEPALIVE_INTERVAL = 300 # timeout (300s = 5min)
@@ -77,6 +80,8 @@ MAX_MSG_SIZE = 8192
 
 class MqttServer:
     def __init__(self,
+                 logging,
+                 log_main_name: str,
                  client_id: str = DEFAULT_CLIENT,
                  broker_host: str = DEFAULT_BROKER,
                  broker_port: int = DEFAULT_BROKER_PORT,
@@ -85,8 +90,11 @@ class MqttServer:
                  max_workers: int = MAX_WORKERS,
                  username: str = None,
                  password: str = None,
-                 logger: Logger = None
                  ):
+
+        self.logging = logging
+        self.main_name = log_main_name
+
         # ---------------------
         # 1.1) MQTT BROKER 設定
         # ---------------------
@@ -112,43 +120,7 @@ class MqttServer:
         # 1.2) 其他設定
         # -------------
         self.max_workers = max_workers
-        self.executor = ThreadPoolExecutor(max_workers=self.max_workers)
-
-        self.stop_event = threading.Event()
-        self.threads = []  # 儲存已啟動的執行緒事件
-        self.logging = Logger(console_name=__name__) if logger is None else logger
-
-
-    def start_service(self, service_function: callable, **kwargs):
-        # --------------------------------------------
-        # 2.1) 後台服務啟動執行緒
-        # * return thread 物件方便管理，退出時能正確關閉連線
-        # --------------------------------------------
-        service_thread = threading.Thread(
-            target=service_function,
-            daemon=True,  # 當主執行緒結束時，子執行緒會被強制終止
-            kwargs=kwargs,
-        )
-        service_thread.start()
-        self.threads.append(service_thread)
-        self.logging.notice(f'[{LOG_DEFAULT_NAME}] {kwargs.get('title', '服務')}已啟動...')
-
-
-    def stop_all_services(self):
-        # ------------------------------------
-        # 2.2) 呼叫停止方法，讓所有執行緒優雅地停止
-        # * 設定 Event 來通知所有執行緒停止
-        # ------------------------------------
-        self.logging.warning(f'[{LOG_DEFAULT_NAME}] 正在向所有執行緒發出停止訊號...')
-        self.stop_event.set()  # 發出停止訊號
-
-        # 等待所有執行緒結束
-        for thread in self.threads:
-            if thread.is_alive():
-                self.logging.info(f'等待 {thread.name} 執行緒結束...')
-                thread.join()
-
-        self.logging.notice('\n\n' + self.logging.title_log(f'[{LOG_DEFAULT_NAME}] 所有相關服務已確實關閉'))
+        self.executor = ThreadPoolExecutor(max_workers=self.max_workers) # middle_server 專用
 
 
     def clear_retained_message(self, topic: str, fun: callable = None, **kwargs):

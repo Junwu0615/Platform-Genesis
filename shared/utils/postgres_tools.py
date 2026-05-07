@@ -8,16 +8,12 @@ TODO
                 - [真實業務保持] ON  : 等待資料寫入磁碟後才回應，確保資料安全，但恐增加延遲
                 - [壓測必開]    OFF : 不等待資料寫入磁碟就回應，提升性能，但在系統崩潰時可能會丟失最近的交易
 """
-import psycopg2
-from shared.modules.log import Logger
-from shared.utils.env_config import GET_PATH_ROOT, get_logger_name
+from shared.configs import (
+    psycopg2,
+)
 
 
-console_name = get_logger_name(__file__, GET_PATH_ROOT)
-logging = Logger(console_name=console_name)
-
-
-def get_conn(db) -> psycopg2.extensions.connection:
+def get_conn(db, logging=None) -> psycopg2.extensions.connection:
     """建立 Postgresql 連線"""
     while True:
         try:
@@ -29,19 +25,23 @@ def get_conn(db) -> psycopg2.extensions.connection:
                 cur.execute('SET synchronous_commit = OFF;')
 
             return conn
+
         except Exception as e:
-            logging.error('Connect Failed Retrying...', exc_info=True)
-            time.sleep(3)
+            if logging is not None:
+                logging.error('Connect Failed Retrying...', exc_info=True)
+                time.sleep(3)
 
 
-def close_conn(conn, cursor):
+def close_conn(conn, cursor, logging=None):
     """安全關閉 Postgresql 連線"""
     if cursor:
         cursor.close()
-        logging.notice("'cursor.close()' called ...")
+        if logging is not None:
+            logging.notice("'cursor.close()' called ...")
     if conn:
         conn.close()
-        logging.notice("'conn.close()' called ...")
+        if logging is not None:
+            logging.notice("'conn.close()' called ...")
 
 
 def table_exists(cursor, schema_name, table_name):

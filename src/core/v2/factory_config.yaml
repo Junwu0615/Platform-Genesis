@@ -1,22 +1,3 @@
-#mqtt:
-#  host: 127.0.0.1
-#  port: 1883
-#  acc: admin
-#  pwd: 123456789
-
-#kafka:
-#  host: 127.0.0.1
-#  port: 9092
-#  auto_offset_reset: earliest
-#  enable_auto_commit: false
-
-#database:
-#  host: 127.0.0.1
-#  port: 5432
-#  database: pgdatabase
-#  user: oltp_user
-#  password: oltp_pwd
-
 init_data:
   products: 1 # 自動化生成訂單 ( 初始化 + 每周期機率 )
   machine_layout: # 建立已知機台訊息

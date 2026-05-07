@@ -7,234 +7,256 @@ TODO
 """
 import sys, os; sys.path.insert(0, os.getcwd())
 
-from shared.configs import *
+from shared.configs import (
+    load_dotenv,
+    psycopg2,
+)
 from shared.configs.constant import *
 from shared.utils.tools import *
 from shared.utils.env_config import GET_PATH_ROOT, get_logger_name
 from shared.utils.postgres_tools import get_conn, close_conn
 from shared.modules.log import Logger
+from shared.modules.entry import EntryPoint
 from shared.modules.mqtt import MqttServer, DEFAULT_BROKER, DEFAULT_BROKER_PORT
 from src.core.models.simulator import MachineStatusSimulator
 
 
-console_name = get_logger_name(__file__, GET_PATH_ROOT)
-logging = Logger(
-    console_name=console_name,
-    # logging_level='DEBUG',
-    **{
-        'app_name': 'ooud',
-        'service_type': 'command platform',
-    }
-)
+class Application(EntryPoint):
+    def __init__(self):
+        super().__init__(dotenv_path=f'{'/'.join(__file__.split('/')[:-1])}/.env')
 
-load_dotenv(dotenv_path=f'{'/'.join(__file__.split('/')[:-1])}/.env')
-YAML_VERSION = os.getenv('YAML_VERSION', 'v2')
+        _YAML_VERSION = os.getenv('YAML_VERSION', 'v2')
+        _YAML_CONFIGS = parsing_yaml(os.path.join('./src/core', f'{_YAML_VERSION}', 'factory_config.yaml'))
+        _SIMULATE = _YAML_CONFIGS['simulate']
+        _LOAD_CFG = _YAML_CONFIGS['load_profile']
+        _BATCH_SIZE = _SIMULATE['batch_size']
+        _BATCH_INTERVAL = _SIMULATE['batch_interval']
+        _NUM_ORDERS = _SIMULATE['ORDERS']
 
-YAML_PATH = os.path.join('./src/core', f'{YAML_VERSION}', 'factory_config.yaml')
-config = parsing_yaml(YAML_PATH)
-
-db = config['database']
-simulate = config['simulate']
-load_cfg = config['load_profile']
-
-BATCH_SIZE = simulate['batch_size']
-NUM_ORDERS = simulate['orders']
-
-mss = MachineStatusSimulator()
-conn = get_conn(db)
-cursor = conn.cursor()
-
-
-def check_is_create_order(ms, event_dict: dict, prob: float) -> int:
-    """
-    TODO 基於機率檢查是否要新增生產訂單
-    """
-    if random.random() < prob:
-        ret = insert_production_order(ms, event_dict)
-        return ret
-    return 0
-
-
-def insert_production_order(ms, event_dict: dict) -> int:
-    """
-    TODO 建立生產訂單:
-        1. 若是命中，則瞬間生成大量訂單
-        2. 要把訂單訊息發佈到 Kafka ( MQTT )，而非入 DB 供查詢
-    """
-    ret = 0
-    for _ in range(NUM_ORDERS):
-        _prod_name = random.choice(list(event_dict['product_dict'].keys()))
-        _prod_id = event_dict['product_dict'][_prod_name]['prod_id']
-        _prod_type = event_dict['product_dict'][_prod_name]['prod_type']
-        _target_qty = event_dict['product_dict'][_prod_name]['target_qty']
-
-        _mach_name = random.choice(list(
-            k for k,v in event_dict['machine_dict'].items() if v['mach_type'] == _prod_type
-        ))
-        _now_time = get_now(hours=8, tzinfo=TZ_UTC_8)
-
-        cursor.execute("""
-        INSERT INTO oltp.production_orders (product_id, quantity, created_at)
-        VALUES (%s, %s, %s)
-        RETURNING order_id
-        """, (
-            _prod_id,
-            _target_qty,
-            _now_time,
-        ))
-
-        _order_id = cursor.fetchone()[0]
-
-        payload = {
-            'time': _now_time.isoformat(),
-            'mach_name': _mach_name,
-            'mach_id': event_dict['machine_dict'][_mach_name]['mach_id'],
-            # 'mach_type': event_dict['machine_dict'][_mach_name]['mach_type'],
-            'order_id': _order_id,
-            'prod_name': _prod_name,
-            'prod_id': _prod_id,
-            # 'prod_type': _prod_type,
-            'target_qty': _target_qty,
+        self.env['DB'] = {
+            'host': os.getenv('POSTGRES_HOST', None),
+            'port': os.getenv('POSTGRES_PORT', None),
+            'database': os.getenv('POSTGRES_DATABASE', None),
+            'user': os.getenv('POSTGRES_USER', None),
+            'password': os.getenv('POSTGRES_PASSWORD', None),
         }
-        ms.add_content(topic=f'cp/mach-order/{_mach_name}', payload=payload, qos=1)
 
-        ret += 1
-    else:
-        return ret
+        self.env['NUM_ORDERS'] = _NUM_ORDERS
+        self.env['LOAD_CFG'] = _LOAD_CFG
+        self.env['BATCH_SIZE'] = _BATCH_SIZE
+        self.env['BATCH_INTERVAL'] = _BATCH_INTERVAL
+        self.env['_MAIN_NAME'] = f'# CP'
 
+        logging = Logger(
+            console_name=get_logger_name(__file__, GET_PATH_ROOT),
+            file_name='main',
+            file_path=f'logs/CP/main.logs',
+            backup_count=10,
+            **{
+                'app_name': 'ooud',
+                'service_type': 'command platform',
+            }
+        )
 
-def init_transaction_dict(ms) -> dict:
-    """
-    TODO 初始化事務字典 : 用字典記錄必要變數，包含機台列表、產品列表、訂單列表 ...etc.
-        - 從資料庫讀取產品資訊
-        - 產品完成後 移除訂單索引
-    """
-    event_dict = {
-        # TODO 過程不異動
-        'machine_dict': [],  # 機台字典 key: mach_id, value: mach_type
-        'product_dict': {},  # 產品字典 key: prod_id, value: prod_type
-    }
-    try:
-        # 取得機台列表
-        cursor.execute("""
-        SELECT machine_name, machine_id, machine_type
-        FROM oltp.machine
-        """)
-        machines = cursor.fetchall()
-        event_dict['machine_dict'] = {i[0]:{
-            'mach_id': i[1],
-            'mach_type': i[2],
-        # } for i in machines}
-        } for i in machines if i[0] == 'M-CNC-30'} # FIXME DEV
+        self.configure_setting(logging=logging)  # TODO 完成 EntryPoint 必要後續初始化
 
-        # 取得產品列表
-        cursor.execute("""
-        SELECT product_name, product_id, product_type, target_qty
-        FROM oltp.product
-        """)
-        products = cursor.fetchall()
-        event_dict['product_dict'] = {i[0]:{
-            'prod_id': i[1],
-            'prod_type': i[2],
-            'target_qty': i[3],
-        # } for i in products}
-        } for i in products if i[2] == 'CNC'} # FIXME DEV
-
-        # 初始化第一批訂單
-        _ct = insert_production_order(ms, event_dict)
-
-        conn.commit()
-
-    except psycopg2.DatabaseError as e:
-        logging.error(f'[# Rollback] Exception [Code: {e.pgcode}]', exc_info=True)
-        conn.rollback()
-
-    except Exception as e:
-        logging.error('[# Other] Exception', exc_info=True)
-
-    return event_dict
+        self.conn = None
+        self.cursor = None
+        self._load_configs()  # 冗長設定
 
 
-def simulate_stream(ms, event_dict: dict):
-    global conn, cursor
+    def _load_configs(self):
+        self.event_dict = {
 
-    batch_ct = 0
-    last_commit_time = time.time()
-    while True:
-        try:
-            now = get_now(hours=8, tzinfo=TZ_UTC_8)
-            mode = mss.get_load_profile(now.hour)
-            load_setting = load_cfg[mode]
-            prob = load_setting['prob']
-
-            _ct = check_is_create_order(ms, event_dict, prob)
-            batch_ct += _ct
-
-            # 根據 BATCH_SIZE 或 時間間隔 (30s) 提交事務
-            if batch_ct >= BATCH_SIZE or (time.time() - last_commit_time) > 30:
-                conn.commit()
-                batch_ct = 0
-                last_commit_time = time.time()
-
-            time.sleep(1)
-
-        except psycopg2.InterfaceError as e:
-            logging.error('[# Re-Connect] Exception', exc_info=True)
-            close_conn(conn, cursor)
-            conn = get_conn(db)
-            cursor = conn.cursor()
-
-        except psycopg2.DatabaseError as e:
-            logging.error(f'[# Rollback] Exception [Code: {e.pgcode}]', exc_info=True)
-            conn.rollback()
-
-        except Exception as e:
-            logging.error('[# Other] Exception', exc_info=True)
-
-
-def main():
-    """
-    TODO 動作事項
-        - 實例 : 1
-        \
-        - MQTT ( Kafka ) : 「傳送」訊息
-            - 生產訂單
-        - OLTP R (僅初始化):
-            - 「機台規格」
-            - 「產品規格」
-        - OLTP W (Real-time) :
-            - 「生產訂單」
-    """
-    ms = None
-    logging.notice('Starting Factory Stream Simulation ...')
-
-    try:
-        ms = MqttServer(
+        }
+        self.ms = MqttServer(
+            logging=self.logging,
+            log_main_name=self.env['_MAIN_NAME'],
             broker_host=DEFAULT_BROKER,
             broker_port=DEFAULT_BROKER_PORT,
             max_workers=1,
             username=str(config['mqtt']['acc']),
             password=str(config['mqtt']['pwd']),
         )
-        ms.start_service(ms.publisher_server, **{
-            'title': f'推送訊息至 {DEFAULT_BROKER}:{DEFAULT_BROKER_PORT} 服務',
-            'use_middle': False,
-        })
+        self.mss = MachineStatusSimulator()
+        self.conn = get_conn(self.env['DB'], self.logging)
+        self.cursor = conn.cursor()
 
-        event_dict = init_transaction_dict(ms)
-        simulate_stream(ms, event_dict)
 
-    except KeyboardInterrupt:
-        logging.warning('偵測到 Ctrl+C，正在關閉連線 ...')
-        conn.commit()
-        logging.warning('已落實最後一次事務提交 ...')
-
-    finally:
-        close_conn(conn, cursor)
-        ms.stop_all_services()
+    def check_is_create_order(self, prob: float) -> int:
+        """
+        TODO 基於機率檢查是否要新增生產訂單
+        """
+        if random.random() < prob:
+            ret = self.insert_production_order()
+            return ret
         return 0
 
 
+    def insert_production_order(self) -> int:
+        """
+        TODO 建立生產訂單:
+            1. 若是命中，則瞬間生成大量訂單
+            2. 要把訂單訊息發佈到 Kafka ( MQTT )，而非入 DB 供查詢
+        """
+        ret = 0
+        for _ in range(self.env['NUM_ORDERS']):
+            _prod_name = random.choice(list(self.event_dict['product_dict'].keys()))
+            _prod_id = self.event_dict['product_dict'][_prod_name]['prod_id']
+            _prod_type = self.event_dict['product_dict'][_prod_name]['prod_type']
+            _target_qty = self.event_dict['product_dict'][_prod_name]['target_qty']
+
+            _mach_name = random.choice(list(
+                k for k,v in self.event_dict['machine_dict'].items() if v['mach_type'] == _prod_type
+            ))
+            _now_time = get_now(hours=8, tzinfo=TZ_UTC_8)
+
+            self.cursor.execute("""
+            INSERT INTO oltp.production_orders (product_id, quantity, created_at)
+            VALUES (%s, %s, %s)
+            RETURNING order_id
+            """, (
+                _prod_id,
+                _target_qty,
+                _now_time,
+            ))
+
+            _order_id = self.cursor.fetchone()[0]
+
+            payload = {
+                'time': _now_time.isoformat(),
+                'mach_name': _mach_name,
+                'mach_id': self.event_dict['machine_dict'][_mach_name]['mach_id'],
+                # 'mach_type': self.event_dict['machine_dict'][_mach_name]['mach_type'],
+                'order_id': _order_id,
+                'prod_name': _prod_name,
+                'prod_id': _prod_id,
+                # 'prod_type': _prod_type,
+                'target_qty': _target_qty,
+            }
+            self.ms.add_content(topic=f'cp/mach-order/{_mach_name}', payload=payload, qos=1)
+
+            ret += 1
+        else:
+            return ret
+
+
+    def init_transaction_dict(self):
+        """
+        TODO 初始化事務字典 : 用字典記錄必要變數，包含機台列表、產品列表、訂單列表 ...etc.
+            - 從資料庫讀取產品資訊
+            - 產品完成後 移除訂單索引
+        """
+        self.event_dict = {
+            # TODO 過程不異動
+            'machine_dict': [],  # 機台字典 key: mach_id, value: mach_type
+            'product_dict': {},  # 產品字典 key: prod_id, value: prod_type
+        }
+        try:
+            # 取得機台列表
+            self.cursor.execute("""
+            SELECT machine_name, machine_id, machine_type
+            FROM oltp.machine
+            """)
+            machines = self.cursor.fetchall()
+            self.event_dict['machine_dict'] = {i[0]:{
+                'mach_id': i[1],
+                'mach_type': i[2],
+            # } for i in machines}
+            } for i in machines if i[0] == 'M-CNC-30'} # FIXME DEV
+
+            # 取得產品列表
+            self.cursor.execute("""
+            SELECT product_name, product_id, product_type, target_qty
+            FROM oltp.product
+            """)
+            products = self.cursor.fetchall()
+            self.event_dict['product_dict'] = {i[0]:{
+                'prod_id': i[1],
+                'prod_type': i[2],
+                'target_qty': i[3],
+            # } for i in products}
+            } for i in products if i[2] == 'CNC'} # FIXME DEV
+
+            # 初始化第一批訂單
+            _ct = self.insert_production_order()
+
+            self.conn.commit()
+
+        except psycopg2.DatabaseError as e:
+            logging.error(f'[# Rollback] Exception [Code: {e.pgcode}]', exc_info=True)
+            self.conn.rollback()
+
+        except Exception as e:
+            logging.error('[# Other] Exception', exc_info=True)
+
+
+    def command_platform_stream(self):
+        batch_ct = 0
+        last_commit_time = time.time()
+        while not self._stop_event.is_set():
+            try:
+                now = get_now(hours=8, tzinfo=TZ_UTC_8)
+                mode = self.mss.get_load_profile(now.hour)
+                load_setting = self.env['LOAD_CFG'][mode]
+                prob = load_setting['prob']
+
+                _ct = self.check_is_create_order(prob)
+                batch_ct += _ct
+
+                # TODO 根據 BATCH_SIZE 或 時間間隔 提交事務
+                if batch_ct >= self.env['BATCH_SIZE'] or (time.time() - last_commit_time) > self.env['BATCH_INTERVAL']:
+                    self.conn.commit()
+                    batch_ct = 0
+                    last_commit_time = time.time()
+
+                time.sleep(1)
+
+            except psycopg2.InterfaceError as e:
+                logging.error('[# Re-Connect] Exception', exc_info=True)
+                close_conn(self.conn, self.cursor)
+                self.conn = get_conn(self.env['DB'])
+                self.cursor = self.conn.cursor()
+
+            except psycopg2.DatabaseError as e:
+                logging.error(f'[# Rollback] Exception [Code: {e.pgcode}]', exc_info=True)
+                self.conn.rollback()
+
+            except Exception as e:
+                logging.error('[# Other] Exception', exc_info=True)
+
+
+    def run(self):
+        """
+        TODO 動作事項
+            - 實例 : 1
+            \
+            - MQTT ( Kafka ) : 「傳送」訊息
+                - 生產訂單
+            - OLTP R (僅初始化):
+                - 「機台規格」
+                - 「產品規格」
+            - OLTP W (Real-time) :
+                - 「生產訂單」
+        """
+        try:
+            self.logging.notice(f'[{self.env['_MAIN_NAME']}] Starting Factory Stream Simulation ...')
+            self.init_transaction_dict()
+            self.start_service(self.ms.publisher_server, **{
+                'title': f'推送訊息至 {DEFAULT_BROKER}:{DEFAULT_BROKER_PORT} 服務',
+            })
+            self.start_service(self.command_platform_stream, **{
+                'title': '主控台串流服務',
+            })
+            while not self._stop_event.is_set():
+                time.sleep(1)
+
+        finally:
+            self.conn.commit()
+            logging.warning('已落實最後一次事務提交 ...')
+            close_conn(self.conn, self.cursor)
+
+
 if __name__ == '__main__':
-    exit_code = main()
-    sys.exit(exit_code)
+    app = Application()
+    app.main()
