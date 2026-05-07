@@ -225,6 +225,14 @@ class Application(EntryPoint):
                 self.logging.error('[# Other] Exception', exc_info=True)
 
 
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        """上下文管理器 : 結束"""
+        self.conn.commit()
+        self.logging.warning('已落實最後一次事務提交 ...')
+        close_conn(self.conn, self.cursor)
+        return False
+
+
     def run(self):
         """
         TODO 動作事項
@@ -238,22 +246,16 @@ class Application(EntryPoint):
             - OLTP W (Real-time) :
                 - 「生產訂單」
         """
-        try:
-            self.logging.notice(f'[{self.env['_MAIN_NAME']}] Starting Factory Stream Simulation ...')
-            self._init_transaction_dict()
-            self.start_service(self.ms.publisher_server, **{
-                'title': f'推送訊息至 {DEFAULT_BROKER}:{DEFAULT_BROKER_PORT} 服務',
-            })
-            self.start_service(self._command_platform_stream, **{
-                'title': '主控台串流服務',
-            })
-            while not self._stop_event.is_set():
-                time.sleep(1)
-
-        finally:
-            self.conn.commit()
-            self.logging.warning('已落實最後一次事務提交 ...')
-            close_conn(self.conn, self.cursor)
+        self.logging.notice(f'[{self.env['_MAIN_NAME']}] Starting Factory Stream Simulation ...')
+        self._init_transaction_dict()
+        self.start_service(self.ms.publisher_server, **{
+            'title': f'推送訊息至 [{DEFAULT_BROKER}:{DEFAULT_BROKER_PORT}] MQTT 服務',
+        })
+        self.start_service(self._command_platform_stream, **{
+            'title': '主控台串流服務',
+        })
+        while not self._stop_event.is_set():
+            time.sleep(1)
 
 
 if __name__ == '__main__':

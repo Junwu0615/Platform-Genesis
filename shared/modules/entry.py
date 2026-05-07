@@ -13,8 +13,10 @@ TODO
         - [硬編碼拉到外部 .env 設置]
     Notice:
 """
-import signal
-from shared.configs import *
+from shared.configs import (
+    os, sys, signal, time, load_dotenv, threading,
+    Callable, Iterator, Tuple, Any, Dict, List, Optional,
+)
 
 
 class EntryPoint:
@@ -123,6 +125,7 @@ class EntryPoint:
     def _handle_exit(self, signum, frame, **kwargs):
         """TODO 安全關閉程序"""
         self.stop_all_services()
+        time.sleep(5)
         self.logging.warning(f'Received signal {signum}. Graceful Shutdown ...', stack_level=2)
         self._finalize()
 

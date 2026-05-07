@@ -163,7 +163,7 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 | logging logic | mixed ( `ELK` + `logging` ) | 2026-05-06 |
 | Encapsulation Entry | app.py | 2026-05-06 |
 | logging logic | Logs Correct Paths<br>Based on Module Calls | 2026-05-07 |
-| update v2 logic | Apply the<br>New Underlying Module | 2026-05-07 |
+| update `v2` logic | Apply the<br>New Underlying Module | 2026-05-07 |
 | Redefine Project Name | `OLTP-OLAP-Unified-DB`<br>to `Platform Genesis` | - |
 | Project Breakdown | `6` major categories | - |
 | Quantitative Results 1 | OLTP Query Efficiency<br>Optimization ( Index / Partition ) | - |
