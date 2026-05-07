@@ -40,7 +40,7 @@
 
 ### *B.　Current Progress*
 
-<details open>
+<details>
 <summary><b><i>　a.1.　Simple </i></b></summary>
 <ul>
 
@@ -212,57 +212,87 @@
 
 
 ### *C.　Service Architecture*
-- #### *c.1.　Data Core & Orchestration*
-  |**Service**|**Description**|**Port**|
-  |--:|:--|:--:|
-  | **PostgreSQL** | Primary Business DB `OLTP` | [5432](http://127.0.0.1:5432) |
-  | **PostgreSQL** | Metadata DB for Airflow | [5433](http://127.0.0.1:5433) |
-  | **PgAdmin** | PostgreSQL Web Management UI | [5050](http://127.0.0.1:5050) |
-  | **Apache Airflow** | Workflow Orchestration `OLAP` | [8100](http://127.0.0.1:8100) |
-  | **Superset** | BI Visualization Dashboard `OLAP` | `TBD` |
+
+<details>
+<summary><b><i>　c.1.　Data Core & Orchestration </i></b></summary>
+<ul>
+
+|**Service**|**Description**|**Port**|
+|--:|:--|:--:|
+| **PostgreSQL** | Primary Business DB `OLTP` | [5432](http://127.0.0.1:5432) |
+| **PostgreSQL** | Metadata DB for Airflow | [5433](http://127.0.0.1:5433) |
+| **PgAdmin** | PostgreSQL Web Management UI | [5050](http://127.0.0.1:5050) |
+| **Apache Airflow** | Workflow Orchestration `OLAP` | [8100](http://127.0.0.1:8100) |
+| **Superset** | BI Visualization Dashboard `OLAP` | `TBD` |
+
+</ul>
+</details>
 
 
-- #### *c.2.　Event Streaming & IoT Platform*
-  |**Service**|**Description**|**Port**|
-  |--:|:--|:--:|
-  | **MQTT Broker** | High-concurrency `IoT` Message Ingestion | [1883](http://127.0.0.1:1883) |
-  | **Apache Kafka** | Distributed Streaming Platform `Backbone` | [9092](http://127.0.0.1:9092) |
-  | **Kafka UI** | Topic & Cluster & Consumer Management | [9093](http://127.0.0.1:9093) |
-  | **Schema Registry** | Centralized Schema Governance `Avro/JSON` | [8081](http://127.0.0.1:8081) |
+<details>
+<summary><b><i>　c.2.　Event Streaming & IoT Platform </i></b></summary>
+<ul>
+
+|**Service**|**Description**|**Port**|
+|--:|:--|:--:|
+| **MQTT Broker** | High-concurrency `IoT` Message Ingestion | [1883](http://127.0.0.1:1883) |
+| **Apache Kafka** | Distributed Streaming Platform `Backbone` | [9092](http://127.0.0.1:9092) |
+| **Kafka UI** | Topic & Cluster & Consumer Management | [9093](http://127.0.0.1:9093) |
+| **Schema Registry** | Centralized Schema Governance `Avro/JSON` | [8081](http://127.0.0.1:8081) |
+
+</ul>
+</details>
 
 
-- #### *c.3.　Lakehouse Architecture*
-  |**Service**|**Description**|**Port**|
-  |--:|:--|:--:|
-  | **Debezium** | `CDC` ( Change Data Capture ) from Postgres | `TBD` |
-  | **Apache Iceberg** | High-performance Table Format `Data Lake` | `TBD` |
-  | **Apache Flink** | Stateful Computations over Data Streams | `TBD` |
+<details>
+<summary><b><i>　c.3.　Lakehouse Architecture </i></b></summary>
+<ul>
+
+|**Service**|**Description**|**Port**|
+|--:|:--|:--:|
+| **Debezium** | `CDC` ( Change Data Capture ) from Postgres | `TBD` |
+| **Apache Iceberg** | High-performance Table Format `Data Lake` | `TBD` |
+| **Apache Flink** | Stateful Computations over Data Streams | `TBD` |
+
+</ul>
+</details>
 
 
-- #### *c.4.　Monitoring & Logging*
-  |**Service**|**Description**|**Port**|
-  |--:|:--|:--:|
-  | **Grafana** | Dashboard | [3000](http://127.0.0.1:3000) |
-  | **Prometheus** | Metrics Time-Series DB | [9090](http://127.0.0.1:9090) |
-  | **Node Exporter** | Host Resource Metrics | [9100](http://127.0.0.1:9100) |
-  | **Postgres Exporter** | Database Performance Metrics | [9187](http://127.0.0.1:9187) |
-  | **Elasticsearch** | Distributed Search Engine `ELK` | [9200](http://127.0.0.1:9200) |
-  | **Logstash** | Log Processing Pipeline `ELK` | [9600](http://127.0.0.1:9600) |
-  | **Kibana** | Log Exploration UI `ELK` | [5601](http://127.0.0.1:5601) |
+<details>
+<summary><b><i>　c.4.　Monitoring & Logging </i></b></summary>
+<ul>
+
+|**Service**|**Description**|**Port**|
+|--:|:--|:--:|
+| **Grafana** | Dashboard | [3000](http://127.0.0.1:3000) |
+| **Prometheus** | Metrics Time-Series DB | [9090](http://127.0.0.1:9090) |
+| **Node Exporter** | Host Resource Metrics | [9100](http://127.0.0.1:9100) |
+| **Postgres Exporter** | Database Performance Metrics | [9187](http://127.0.0.1:9187) |
+| **Elasticsearch** | Distributed Search Engine `ELK` | [9200](http://127.0.0.1:9200) |
+| **Logstash** | Log Processing Pipeline `ELK` | [9600](http://127.0.0.1:9600) |
+| **Kibana** | Log Exploration UI `ELK` | [5601](http://127.0.0.1:5601) |
+
+</ul>
+</details>
 
 
-- #### *c.5.　DevOps & Security*
-  |**Service**|**Description**|**Port**|
-  |--:|:--|:--:|
-  | **Gitlab** | `Self-hosted SCM` `CI/CD` `Project Management` | `TBD` |
-  | **Jenkins** | `Continuous Delivery` | `TBD` |
-  | **Docker-Registry** | `Private Image Repository` | `TBD` |
-  | **Portainer** | `Container Management` UI | [9000](http://127.0.0.1:9000) |
-  | **HashiCorp Vault** | Advanced Secret & Key Management `KMS` | `TBD` |
+<details>
+<summary><b><i>　c.5.　DevOps & Security </i></b></summary>
+<ul>
+
+|**Service**|**Description**|**Port**|
+|--:|:--|:--:|
+| **Gitlab** | `Self-hosted SCM` `CI/CD` `Project Management` | `TBD` |
+| **Jenkins** | `Continuous Delivery` | `TBD` |
+| **Docker-Registry** | `Private Image Repository` | `TBD` |
+| **Portainer** | `Container Management` UI | [9000](http://127.0.0.1:9000) |
+| **HashiCorp Vault** | Advanced Secret & Key Management `KMS` | `TBD` |
+
+</ul>
+</details>
 
 
 <br>
-
 
 
 ### *C.　Command Platform ( Makefile Execute )*
@@ -287,7 +317,6 @@ make down
 </ul>
 </details>
 
-<br>
 
 <details>
 <summary><b><i>　c.2.　Terraform + Ansible + Compose </i></b></summary>
@@ -318,7 +347,6 @@ make destroy
 </ul>
 </details>
 
-<br>
 
 <details>
 <summary><b><i>　c.3.　K8s + Helm + Terraform + Ansible </i></b></summary>
@@ -330,9 +358,8 @@ make destroy
 </ul>
 </details>
 
-<br>
 
-<details open>
+<details>
 <summary><b><i>　c.4.　Other </i></b></summary>
 <ul>
 
@@ -366,6 +393,7 @@ make kafka-all-clean
 ```
 </ul>
 </details>
+
 
 <br>
 
