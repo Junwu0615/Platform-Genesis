@@ -38,7 +38,7 @@ command: >
 
 
 # 確認設定已生效
-docker exec -it ooud-cluster-dev-db-1 psql -U pguser -d pgdatabase
+docker exec -it pg-cluster-dev-db-1 psql -U pguser -d pgdatabase
 
 SHOW shared_buffers;
 SHOW work_mem;
@@ -46,7 +46,7 @@ SHOW synchronous_commit;
 
 
 # 持續監控容器資源使用狀況
-docker stats ooud-cluster-dev-db-1 --no-stream
+docker stats pg-cluster-dev-db-1 --no-stream
 ```
 
 <br>
@@ -70,25 +70,25 @@ docker stats ooud-cluster-dev-db-1 --no-stream
    -s 50: 約 500 萬筆資料
    ⭐ -s 500: 約 5000 萬筆資料
   
-  docker exec -it ooud-cluster-dev-db-1 pgbench -i -s 500 -U pguser -d pgdatabase
+  docker exec -it pg-cluster-dev-db-1 pgbench -i -s 500 -U pguser -d pgdatabase
   ```
 - ![PNG](../assets/initialize_data_2.png)
 
 - #### *0.2　Prepare Benchmark Scripts*
   ```
   ### 1. COPY SQL SCRIPT IN CONTAINER ⬇️
-  docker cp "src/scripts/generic_benchmark/dashboard_benchmark.sql" ooud-cluster-dev-db-1:/tmp/dashboard_benchmark.sql
-  docker cp "src/scripts/generic_benchmark/olap_benchmark.sql" ooud-cluster-dev-db-1:/tmp/olap_benchmark.sql
+  docker cp "src/scripts/generic_benchmark/dashboard_benchmark.sql" pg-cluster-dev-db-1:/tmp/dashboard_benchmark.sql
+  docker cp "src/scripts/generic_benchmark/olap_benchmark.sql" pg-cluster-dev-db-1:/tmp/olap_benchmark.sql
   
   
   ### 2. 一次性清理 BOM 與 Windows 換行符 (CRLF -> LF) ⬇️
-  docker exec -it ooud-cluster-dev-db-1 sh -c "sed -i '1s/^\xef\xbb\xbf//; s/\r$//' /tmp/dashboard_benchmark.sql"
-  docker exec -it ooud-cluster-dev-db-1 sh -c "sed -i '1s/^\xef\xbb\xbf//; s/\r$//' /tmp/olap_benchmark.sql"
+  docker exec -it pg-cluster-dev-db-1 sh -c "sed -i '1s/^\xef\xbb\xbf//; s/\r$//' /tmp/dashboard_benchmark.sql"
+  docker exec -it pg-cluster-dev-db-1 sh -c "sed -i '1s/^\xef\xbb\xbf//; s/\r$//' /tmp/olap_benchmark.sql"
   
   
   ### 3. CHECK SCRIPT ⬇️
-  docker exec -it ooud-cluster-dev-db-1 cat /tmp/dashboard_benchmark.sql
-  docker exec -it ooud-cluster-dev-db-1 cat /tmp/olap_benchmark.sql
+  docker exec -it pg-cluster-dev-db-1 cat /tmp/dashboard_benchmark.sql
+  docker exec -it pg-cluster-dev-db-1 cat /tmp/olap_benchmark.sql
   ```
 
 <br>
@@ -97,7 +97,7 @@ docker stats ooud-cluster-dev-db-1 --no-stream
 - #### *2.　OLTP Workload Benchmark*
   ```
   ### ACTION ⬇️
-  docker exec -it ooud-cluster-dev-db-1 pgbench -c 30 -j 8 -T 300 -b tpcb-like@100 -U pguser -d pgdatabase
+  docker exec -it pg-cluster-dev-db-1 pgbench -c 30 -j 8 -T 300 -b tpcb-like@100 -U pguser -d pgdatabase
   
   
   ### RETURN ⬇️
@@ -116,7 +116,7 @@ docker stats ooud-cluster-dev-db-1 --no-stream
   
   
   ### ACTION 2 ( 測試 純讀取 負載 ) ⬇️
-  docker exec -it ooud-cluster-dev-db-1 pgbench -S -c 30 -j 8 -T 300 -U pguser -d pgdatabase
+  docker exec -it pg-cluster-dev-db-1 pgbench -S -c 30 -j 8 -T 300 -U pguser -d pgdatabase
   
   
   ### RETURN 2 ⬇️
@@ -135,7 +135,7 @@ docker stats ooud-cluster-dev-db-1 --no-stream
   
   
   ### ACTION 3 ( 極限測試 純讀取 負載 ) ⬇️
-  docker exec -it ooud-cluster-dev-db-1 pgbench -S -c 100 -j 32 -T 300 -M prepared -U pguser -d pgdatabase
+  docker exec -it pg-cluster-dev-db-1 pgbench -S -c 100 -j 32 -T 300 -M prepared -U pguser -d pgdatabase
   
   ### RETURN 3 ⬇️
   transaction type: <builtin: select only>
@@ -157,7 +157,7 @@ docker stats ooud-cluster-dev-db-1 --no-stream
 - #### *3.　OLAP Workload Benchmark*
   ```
   ### ACTION ⬇️
-  docker exec -it ooud-cluster-dev-db-1 pgbench -c 30 -j 8 -T 300 -f /tmp/olap_benchmark.sql@100 -U pguser -d pgdatabase
+  docker exec -it pg-cluster-dev-db-1 pgbench -c 30 -j 8 -T 300 -f /tmp/olap_benchmark.sql@100 -U pguser -d pgdatabase
   
   
   ### RETURN ⬇️
@@ -186,7 +186,7 @@ docker stats ooud-cluster-dev-db-1 --no-stream
 
   ```
   ### ACTION 1 ⬇️
-  docker exec -it ooud-cluster-dev-db-1 pgbench -c 30 -j 8 -T 300 -b tpcb-like@90 -f /tmp/dashboard_benchmark.sql@9 -f /tmp/olap_benchmark.sql@1 -U pguser -d pgdatabase
+  docker exec -it pg-cluster-dev-db-1 pgbench -c 30 -j 8 -T 300 -b tpcb-like@90 -f /tmp/dashboard_benchmark.sql@9 -f /tmp/olap_benchmark.sql@1 -U pguser -d pgdatabase
   
   
   ### RETURN 1 ⬇️
@@ -223,7 +223,7 @@ docker stats ooud-cluster-dev-db-1 --no-stream
   
   
   ### ACTION 2 ⬇️
-  docker exec -it ooud-cluster-dev-db-1 pgbench -c 30 -j 8 -T 300 -M prepared -b tpcb-like@90 -f /tmp/dashboard_benchmark.sql@9 -f /tmp/olap_benchmark.sql@1 -U pguser -d pgdatabase
+  docker exec -it pg-cluster-dev-db-1 pgbench -c 30 -j 8 -T 300 -M prepared -b tpcb-like@90 -f /tmp/dashboard_benchmark.sql@9 -f /tmp/olap_benchmark.sql@1 -U pguser -d pgdatabase
   
   
   ### RETURN 2 ⬇️

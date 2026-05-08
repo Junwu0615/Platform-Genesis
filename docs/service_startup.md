@@ -45,7 +45,7 @@
   # -U : 使用已存在的使用者
   # -d : 連到對應資料庫
   
-  docker exec -it ooud-cluster-dev-db-1 psql -U pguser -d pgdatabase
+  docker exec -it pg-cluster-dev-db-1 psql -U pguser -d pgdatabase
   ```
 - #### *b.　創建資料庫*
   ```
@@ -62,7 +62,7 @@
 - #### *e.　驗證*
   ```
   # 確認是否連上資料庫
-  docker exec -it ooud-cluster-dev-db-1 psql -U airflow -d airflow
+  docker exec -it pg-cluster-dev-db-1 psql -U airflow -d airflow
   ```
 
 <br>
@@ -185,7 +185,7 @@
   # 設定 MQTT 密碼 # 建立一個 admin 的帳號，並基於密碼生成 Hash
   touch ./config/passwd
   sudo chown root:root ./config/passwd
-  docker exec -it ooud-cluster-mqtt-1 mosquitto_passwd -b /mosquitto/config/passwd admin 123456789
+  docker exec -it pg-cluster-mqtt-1 mosquitto_passwd -b /mosquitto/config/passwd admin 123456789
   
   # 1. 建立共享網路
   docker network create iot_network
@@ -200,10 +200,10 @@
 - #### *b.　[ MQTT ] 測試 Broker 是否認得帳密*
   ```
   # 故意不用密碼 => 失敗
-  docker exec -it ooud-cluster-mqtt-1  mosquitto_sub -t "test/topic"
+  docker exec -it pg-cluster-mqtt-1  mosquitto_sub -t "test/topic"
   
   # 使用帳號密碼 => 成功，進入等待訊息狀態
-  docker exec -it ooud-cluster-mqtt-1  mosquitto_sub -t "test/topic" -u admin -P 123456789
+  docker exec -it pg-cluster-mqtt-1  mosquitto_sub -t "test/topic" -u admin -P 123456789
   ```
   
 - #### *c.　[ Kafka ] 設定 Kafka-Connect*
@@ -266,7 +266,7 @@
 
 - #### *b.　生成 token 給 kibana 使用*
   ```
-  docker exec -it ooud-cluster-elasticsearch-1 bin/elasticsearch-service-tokens create elastic/kibana kibana-token
+  docker exec -it pg-cluster-elasticsearch-1 bin/elasticsearch-service-tokens create elastic/kibana kibana-token
   
   # 塞到 .env
   ```
@@ -287,7 +287,7 @@
   
   # 查看 Logstash 的實時日誌輸出，確認是否有錯誤或警告訊息
   # 因為有設置: stdout { codec => rubydebug }
-  docker logs -f ooud-cluster-logstash-1
+  docker logs -f pg-cluster-logstash-1
   ```
   
 <br>

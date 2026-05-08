@@ -33,7 +33,7 @@
 | [Platform Genesis](https://github.com/Junwu0615/Platform-Genesis) | **Homepage :**<br>Construction Records & Quantitative Testing | - |
 | [PG-Infrastructure](https://github.com/Junwu0615/PG-Infrastructure) | **IaC & Automation :**<br>Orchestrates environment lifecycles via<br>Terraform, Ansible, and Makefiles. | `GCP` `K8s` `Terraform` `Ansible`<br>`Docker` `Makefile` |
 | [PG-APP-Core](https://github.com/Junwu0615/PG-APP-Core) | **Business & Stream Logic :**<br>Core engine for multi-version factory simulations,<br>stream processing, and data infrastructure optimization. | `Python` |
-| [PG-Shared-Lib](https://github.com/Junwu0615/PG-Shared-Lib) | **Core Library :**<br>Provides standardized,<br>high-reusability modules across the ecosystem. | `EntryPoint` `MqttServer` `Logger`<br>`KafkaConsumerManager`<br>`KafkaProducerManager` |
+| [PG-Shared-Lib](https://github.com/Junwu0615/PG-Shared-Lib) | **Core Library :**<br>Provides standardized,<br>high-reusability modules across the ecosystem. | `EntryPoint` `Logger` `MqttServer`<br>`KafkaConsumerManager`<br>`KafkaProducerManager` |
 | [PG-Edge-Container](https://github.com/Junwu0615/PG-Edge-Container) | **Edge Deployment :**<br>Lightweight IoT units for data acquisition<br>and real-time MQTT/SQLite HA processing. | `MQTT` `SQLite` |
 | [PG-Airflow-DAGs](https://github.com/Junwu0615/PG-Airflow-DAGs) | **Data Orchestration :**<br>Manages ETL pipelines, data lineage,<br>and OLTP-to-OLAP transformations. | `Airflow` `DAGs` |
 
@@ -159,7 +159,7 @@
 | Analytical Queries | - | - |
 | Security Message :<br>`Message Queue Layer` | Encryption ( `kafka` + `mqtt` ) | - |
 | Security Message :<br>`Software Layer` | 非對稱加密 | X |
-| `IS_KUBERNETS'` | 布林注入強制轉換配置 | X |
+| `IS_KUBERNETS` | 布林注入強制轉換配置 | X |
 | API Service logic | - | X |
 
 </ul>

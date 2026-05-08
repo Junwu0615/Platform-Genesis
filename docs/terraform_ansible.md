@@ -18,10 +18,10 @@ sudo snap install terraform --classic
 ```
 # 語法：terraform import <資源類型>.<資源名稱> <Docker容器ID或名稱>
 
-docker ps --filter "name=ooud-cluster-prometheus-1" --format "{{.ID}}"
+docker ps --filter "name=pg-cluster-prometheus-1" --format "{{.ID}}"
 terraform import docker_container.prometheus 4468de5345db
 
-terraform import docker_container.grafana ooud-cluster-grafana-1
+terraform import docker_container.grafana pg-cluster-grafana-1
 ```
 
 <br>
@@ -29,7 +29,7 @@ terraform import docker_container.grafana ooud-cluster-grafana-1
 ### *C.　確認 Compose 產生的容器標籤，讓 Terraform 欺騙 Docker Compose 的管理機制！*
 ```
 # sudo snap install jq
-docker inspect ooud-cluster-dev-db-1 --format '{{json .Config.Labels}}' | jq
+docker inspect pg-cluster-dev-db-1 --format '{{json .Config.Labels}}' | jq
 ```
 
 <br>

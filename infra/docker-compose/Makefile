@@ -1,4 +1,4 @@
-MAIN_NAME = ooud-cluster
+MAIN_NAME = pg-cluster
 
 COMPOSE_DIR = ./docker-compose.yaml
 TERRAFORM_DIR = ./terraform
@@ -45,8 +45,8 @@ init:
 	docker compose -f $(COMPOSE_DIR) up airflow-init
 
 	@echo "[2] 建立 iot-platform 網路"
-	docker network inspect ooud-cluster_iot_network >/dev/null 2>&1 || \
-    docker network create ooud-cluster_iot_network
+	docker network inspect pg-cluster_iot_network >/dev/null 2>&1 || \
+    docker network create pg-cluster_iot_network
 
 	@echo "[3] 環境預熱完成 ..."
 
@@ -252,9 +252,9 @@ kafka-connect-clean:
 
 kafka-topic-clean:
 	@echo "* 移除指定 Kafka Topics (過濾條件: $(TOPIC_FILTER)) ..."
-	@docker exec ooud-cluster-kafka-1 kafka-topics --bootstrap-server $(SERVICE_PATH):9092 --list | grep -vE "$(TOPIC_FILTER)" | while read -r topic; do \
+	@docker exec pg-cluster-kafka-1 kafka-topics --bootstrap-server $(SERVICE_PATH):9092 --list | grep -vE "$(TOPIC_FILTER)" | while read -r topic; do \
 		echo "  -> 物理刪除 Topic: $$topic"; \
-		docker exec ooud-cluster-kafka-1 kafka-topics --bootstrap-server $(SERVICE_PATH):9092 --delete --topic $$topic; \
+		docker exec pg-cluster-kafka-1 kafka-topics --bootstrap-server $(SERVICE_PATH):9092 --delete --topic $$topic; \
 	done
 
 kafka-schema-clean:

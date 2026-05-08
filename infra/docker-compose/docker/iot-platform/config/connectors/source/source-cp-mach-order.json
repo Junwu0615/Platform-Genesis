@@ -3,9 +3,9 @@
   "config": {
     "connector.class": "io.confluent.connect.mqtt.MqttSourceConnector",
 
-    "confluent.topic.bootstrap.servers": "ooud-cluster-kafka-1:29092",
-    "confluent.index.bootstrap.servers": "ooud-cluster-kafka-1:29092",
-    "mqtt.server.uri": "tcp://ooud-cluster-mqtt-1:1883",
+    "confluent.topic.bootstrap.servers": "pg-cluster-kafka-1:29092",
+    "confluent.index.bootstrap.servers": "pg-cluster-kafka-1:29092",
+    "mqtt.server.uri": "tcp://pg-cluster-mqtt-1:1883",
     "mqtt.username": "admin",
     "mqtt.password": "123456789",
 

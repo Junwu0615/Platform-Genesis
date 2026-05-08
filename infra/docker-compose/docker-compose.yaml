@@ -1,4 +1,4 @@
-name: ooud-cluster
+name: pg-cluster
 
 include:
   - path: ./docker/airflow/docker-compose.yaml

@@ -23,25 +23,25 @@
    -s 50: 約 500 萬筆資料
    ⭐ -s 500: 約 5000 萬筆資料
   
-  docker exec -it ooud-cluster-dev-db-1 pgbench -i -s 500 -U pguser -d pgdatabase
+  docker exec -it pg-cluster-dev-db-1 pgbench -i -s 500 -U pguser -d pgdatabase
   ```
 - ![PNG](../assets/initialize_data_1.png)
 
 - #### *0.2　Prepare Benchmark Scripts*
   ```
   ### 1. COPY SQL SCRIPT IN CONTAINER ⬇️
-  docker cp ".\src\sql\scripts\generic_benchmark\dashboard_benchmark.sql" ooud-cluster-dev-db-1:/tmp/dashboard_benchmark.sql
-  docker cp ".\src\sql\scripts\generic_benchmark\olap_benchmark.sql" ooud-cluster-dev-db-1:/tmp/olap_benchmark.sql
+  docker cp ".\src\sql\scripts\generic_benchmark\dashboard_benchmark.sql" pg-cluster-dev-db-1:/tmp/dashboard_benchmark.sql
+  docker cp ".\src\sql\scripts\generic_benchmark\olap_benchmark.sql" pg-cluster-dev-db-1:/tmp/olap_benchmark.sql
   
   
   ### 2. 一次性清理 BOM 與 Windows 換行符 (CRLF -> LF) ⬇️
-  docker exec -it ooud-cluster-dev-db-1 sh -c "sed -i '1s/^\xef\xbb\xbf//; s/\r$//' /tmp/dashboard_benchmark.sql"
-  docker exec -it ooud-cluster-dev-db-1 sh -c "sed -i '1s/^\xef\xbb\xbf//; s/\r$//' /tmp/olap_benchmark.sql"
+  docker exec -it pg-cluster-dev-db-1 sh -c "sed -i '1s/^\xef\xbb\xbf//; s/\r$//' /tmp/dashboard_benchmark.sql"
+  docker exec -it pg-cluster-dev-db-1 sh -c "sed -i '1s/^\xef\xbb\xbf//; s/\r$//' /tmp/olap_benchmark.sql"
   
   
   ### 3. CHECK SCRIPT ⬇️
-  docker exec -it ooud-cluster-dev-db-1 cat /tmp/dashboard_benchmark.sql
-  docker exec -it ooud-cluster-dev-db-1 cat /tmp/olap_benchmark.sql
+  docker exec -it pg-cluster-dev-db-1 cat /tmp/dashboard_benchmark.sql
+  docker exec -it pg-cluster-dev-db-1 cat /tmp/olap_benchmark.sql
   ```
 
 <br>
@@ -96,7 +96,7 @@
   * c: client 數量 / j: thread 數量 / T: 測試秒數
   
   ### ACTION 1 ⬇️
-  docker exec -it ooud-cluster-dev-db-1 pgbench -c 30 -j 8 -T 300 -b tpcb-like@100 -U pguser -d pgdatabase
+  docker exec -it pg-cluster-dev-db-1 pgbench -c 30 -j 8 -T 300 -b tpcb-like@100 -U pguser -d pgdatabase
   
   
   ### RETURN 1 ⬇️
@@ -115,7 +115,7 @@
   
   
   ### ACTION 2 ( 測試 純讀取 負載 ) ⬇️
-  docker exec -it ooud-cluster-dev-db-1 pgbench -S -c 30 -j 8 -T 300 -U pguser -d pgdatabase
+  docker exec -it pg-cluster-dev-db-1 pgbench -S -c 30 -j 8 -T 300 -U pguser -d pgdatabase
   
   
   ### RETURN 2 ⬇️
@@ -139,7 +139,7 @@
 - #### *3.　OLAP Workload Benchmark*
   ```
   ### ACTION ⬇️
-  docker exec -it ooud-cluster-dev-db-1 pgbench -c 30 -j 8 -T 300 -f /tmp/olap_benchmark.sql@100 -U pguser -d pgdatabase
+  docker exec -it pg-cluster-dev-db-1 pgbench -c 30 -j 8 -T 300 -f /tmp/olap_benchmark.sql@100 -U pguser -d pgdatabase
   
   
   ### RETURN ⬇️
@@ -172,7 +172,7 @@
   
   ### ACTION 1 ⬇️
   # ⚠️ 以 (90% OLTP, 9% Dashboard, 1% OLAP) 模擬更真實的混合負載，通常能提供更全面的性能評估
-  docker exec -it ooud-cluster-dev-db-1 pgbench -c 30 -j 8 -T 300 -b tpcb-like@90 -f /tmp/dashboard_benchmark.sql@9 -f /tmp/olap_benchmark.sql@1 -U pguser -d pgdatabase
+  docker exec -it pg-cluster-dev-db-1 pgbench -c 30 -j 8 -T 300 -b tpcb-like@90 -f /tmp/dashboard_benchmark.sql@9 -f /tmp/olap_benchmark.sql@1 -U pguser -d pgdatabase
   
   
   ### RETURN 1 ⬇️
@@ -210,7 +210,7 @@
   
   ### ACTION 2 ⬇️
   # ⚠️ 使用 -M prepared (預編譯語句) 可以減少 SQL 解析時間，通常能提升 10-20% TPS
-  docker exec -it ooud-cluster-dev-db-1 pgbench -c 30 -j 8 -T 300 -M prepared -b tpcb-like@90 -f /tmp/dashboard_benchmark.sql@9 -f /tmp/olap_benchmark.sql@1 -U pguser -d pgdatabase
+  docker exec -it pg-cluster-dev-db-1 pgbench -c 30 -j 8 -T 300 -M prepared -b tpcb-like@90 -f /tmp/dashboard_benchmark.sql@9 -f /tmp/olap_benchmark.sql@1 -U pguser -d pgdatabase
   
   
   ### RETURN 2 ⬇️

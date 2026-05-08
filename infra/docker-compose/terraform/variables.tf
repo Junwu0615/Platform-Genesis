@@ -4,7 +4,7 @@
 variable "MAIN_NAME" {
   description = "主項目名稱"
   type        = string
-  default     = "ooud-cluster"
+  default     = "pg-cluster"
 }
 variable "DOCKER_DIR" {
   description = "Docker 檔案夾具體位置"

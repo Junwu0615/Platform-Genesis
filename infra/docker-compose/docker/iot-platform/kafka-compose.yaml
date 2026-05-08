@@ -19,8 +19,8 @@ services:
     volumes:
       - kafka_data:/var/lib/kafka/data
     networks:
-      - ooud-cluster_iot_network
-      - ooud-cluster_default
+      - pg-cluster_iot_network
+      - pg-cluster_default
     healthcheck:
       test: ["CMD-SHELL", "nc -z localhost 9092 || exit 1"]
       interval: 10s      # 每 10 秒檢查一次
@@ -53,8 +53,8 @@ services:
       CONNECT_STATUS_STORAGE_REPLICATION_FACTOR: 1
       CONNECT_PLUGIN_PATH: "/usr/share/java,/usr/share/confluent-hub-components"
     networks:
-      - ooud-cluster_iot_network
-      - ooud-cluster_default
+      - pg-cluster_iot_network
+      - pg-cluster_default
     healthcheck:
       test: [ "CMD-SHELL", "curl -f http://localhost:8083/connectors || exit 1" ]
       interval: 10s
@@ -75,8 +75,8 @@ services:
       KAFKA_CLUSTERS_0_KAFKACONNECT_0_ADDRESS: "http://kafka-connect:8083"
       KAFKA_CLUSTERS_0_SCHEMAREGISTRY: "http://schema-registry:8081"
     networks:
-      - ooud-cluster_iot_network
-      - ooud-cluster_default
+      - pg-cluster_iot_network
+      - pg-cluster_default
 
   schema-registry:
     image: confluentinc/cp-schema-registry:${SCHEMA_REGISTRY_VERSION:-latest}
@@ -88,8 +88,8 @@ services:
       SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: 'kafka:29092'
       SCHEMA_REGISTRY_LISTENERS: http://0.0.0.0:8081
     networks:
-      - ooud-cluster_iot_network
-      - ooud-cluster_default
+      - pg-cluster_iot_network
+      - pg-cluster_default
     depends_on:
       kafka:
         condition: service_healthy
@@ -101,9 +101,9 @@ services:
 
 
 networks:
-  ooud-cluster_default:
+  pg-cluster_default:
     external: true
-  ooud-cluster_iot_network:
+  pg-cluster_iot_network:
     external: true
 
 volumes:
