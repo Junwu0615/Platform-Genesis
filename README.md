@@ -31,11 +31,11 @@
 |*Project Name*|*Responsibilities*|*Tech Stack*|
 |--:|:--|:--|
 | [Platform Genesis](https://github.com/Junwu0615/Platform-Genesis) | **Homepage :**<br>Construction Records & Quantitative Testing | - |
-| [PG-Infrastructure](https://github.com/Junwu0615/PG-Infrastructure) | **IaC & Automation :**<br>Orchestrates environment lifecycles via Terraform, Ansible, and Makefiles. | `GCP` `K8s` `Terraform` `Ansible`<br>`Docker` `Makefile` |
-| [PG-APP-Core](https://github.com/Junwu0615/PG-APP-Core) | **Business & Stream Logic :**<br>Core engine for multi-version factory simulations, stream processing,<br>and data infrastructure optimization. | `Python` |
-| [PG-Shared-Lib](https://github.com/Junwu0615/PG-Shared-Lib) | **Core Library :**<br>Provides standardized, high-reusability modules across the ecosystem. | `EntryPoint` `MqttServer` `Logger`<br>`KafkaConsumerManager` `KafkaProducerManager` |
-| [PG-Edge-Container](https://github.com/Junwu0615/PG-Edge-Container) | **Edge Deployment :**<br>Lightweight IoT units for data acquisition and real-time MQTT/SQLite HA processing. | `MQTT` `SQLite` |
-| [PG-Airflow-DAGs] |(https://github.com/Junwu0615/PG-Airflow-DAGs) **Data Orchestration :**<br>Manages ETL pipelines, data lineage, and OLTP-to-OLAP transformations. | `Airflow` `DAGs` |
+| [PG-Infrastructure](https://github.com/Junwu0615/PG-Infrastructure) | **IaC & Automation :**<br>Orchestrates environment lifecycles via<br>Terraform, Ansible, and Makefiles. | `GCP` `K8s` `Terraform` `Ansible`<br>`Docker` `Makefile` |
+| [PG-APP-Core](https://github.com/Junwu0615/PG-APP-Core) | **Business & Stream Logic :**<br>Core engine for multi-version factory simulations,<br>stream processing, and data infrastructure optimization. | `Python` |
+| [PG-Shared-Lib](https://github.com/Junwu0615/PG-Shared-Lib) | **Core Library :**<br>Provides standardized,<br>high-reusability modules across the ecosystem. | `EntryPoint` `MqttServer` `Logger`<br>`KafkaConsumerManager`<br>`KafkaProducerManager` |
+| [PG-Edge-Container](https://github.com/Junwu0615/PG-Edge-Container) | **Edge Deployment :**<br>Lightweight IoT units for data acquisition<br>and real-time MQTT/SQLite HA processing. | `MQTT` `SQLite` |
+| [PG-Airflow-DAGs](https://github.com/Junwu0615/PG-Airflow-DAGs) | **Data Orchestration :**<br>Manages ETL pipelines, data lineage,<br>and OLTP-to-OLAP transformations. | `Airflow` `DAGs` |
 
 <br>
 
@@ -51,7 +51,7 @@
 | Add `PostgreSQL` | - | 2026-03-20 |
 | Add `Airflow` | for `OLAP` | 2026-03-21 |
 | Add `PoWA` | for `Monitoring` | 2026-03-23 |
-| Quantitation-1 | Docker Desktop vs. WSL2 | 2026-04-04 |
+| Quantitation 1 | Docker Desktop vs. WSL2 | 2026-04-04 |
 | Add `Monitoring` | - | 2026-04-04 |
 | Add `Portainer` | for `Manage Containers` | 2026-04-11 |
 | Terraform | Modularization | 2026-04-20 |
@@ -61,21 +61,21 @@
 | K8s | Beginner : `Minikube` | - |
 | K8s | Advanced : `K3s` + `VMware` | - |
 | K8s | Bottom Layer : `Kubeadm` + `VMware` | - |
-| Quantitation-2 | `Compose` vs. `K8s`<br>High Availability Comparison Test | - |
+| Quantitation 2 | `Compose` vs. `K8s`<br>High Availability Comparison Test | - |
 | Add `Gitlab` | for `CI` & `Manage Projects` | - |
 | Add `Jenkins` | for `CD` | - |
 | Add `Docker-Registry` | for `CI / CD` & `Manage Images` | - |
-| Quantitation-3 | Automated Deployment of the Edge :<br>`Manual` vs. `CD -> Ansible` | - |
+| Quantitation 3 | Automated Deployment of the Edge :<br>`Manual` vs. `CD -> Ansible` | - |
 | Add `Loki` | for `Manage Log` | - |
 | Add `Debezium` | Change Data Capture | - |
 | Add `Apache Iceberg` | Data Lake | - |
 | Add `Apache Flink` | consumer of `CDC` | - |
 | Build `Lakehouse` | - | - |
-| Quantitation-6 | `OLTP vs OLAP` Core Business<br>Recovery and Evolution :<br>`Direct Read` vs. `MV` vs. `CDC` | - |
+| Quantitation 6 | `OLTP vs OLAP` Core Business<br>Recovery and Evolution :<br>`Direct Read` vs. `MV` vs. `CDC` | - |
 | Add `HashiCorp Vault` | Enterprise Key Management System | - |
 | Add `Superset` | for `OLAP` | - |
-| Quantitation-4 | Workload Benchmark | - |
-| Quantitation-5 | OLTP Query Efficiency<br>Optimization ( Index / Partition )<br>`Before` vs. `After` | - |
+| Quantitation 4 | Workload Benchmark | - |
+| Quantitation 5 | OLTP Query Efficiency<br>Optimization ( Index / Partition )<br>`Before` vs. `After` | - |
 | K8s | Public Cloud : `GKE` | - |
 | Summary | - | - |
 
@@ -85,6 +85,8 @@
 <details>
 <summary><b><i>　b.2.　Details </i></b></summary>
 <ul>
+
+<br>
 
 <details>
 <summary><b><i>　b.2.1　Project Journey </i></b></summary>
@@ -105,6 +107,7 @@
 
 </ul>
 </details>
+
 
 <details>
 <summary><b><i>　b.2.2　Code </i></b></summary>
@@ -162,6 +165,7 @@
 </ul>
 </details>
 
+
 <details>
 <summary><b><i>　b.2.3　Infra </i></b></summary>
 <ul>
@@ -184,7 +188,7 @@
 | Add `Jenkins` | for `CD` | - |
 | Add `Docker-Registry` | for `CI / CD` & `Manage Images` | - |
 | Add `Loki` | for `Manage Log` | - |
-| Build `Hierarchical Log Management` | `Loki` + `ELK` | - |
+| Build `Hierarchical`<br>`Log Management` | `Loki` + `ELK` | - |
 | Add `Debezium` | Change Data Capture | - |
 | Add `Apache Iceberg` | Data Lake | - |
 | Add `Apache Flink` | consumer of CDC | - |
@@ -195,6 +199,7 @@
 
 </ul>
 </details>
+
 
 <details>
 <summary><b><i>　b.2.4　Experience </i></b></summary>
@@ -223,22 +228,23 @@
 </ul>
 </details>
 
+
 <details>
 <summary><b><i>　b.2.5　Quantitation </i></b></summary>
 <ul>
 
 |**Item**|**Description**|**Time**|
 |--:|:--|:--:|
-| Design Benchmark-1 | Generic DB Benchmark | 2026-03-31 |
-| Quantitation-1.1 | 64MB | 2026-03-31 |
-| Design Benchmark-2 | Generic DB Benchmark | 2026-04-03 |
-| Quantitation-1.2 | Docker Desktop ( 64MB )<br>vs. WSL2 ( 16GB ) | 2026-04-04 |
+| Design Benchmark 1 | Generic DB Benchmark | 2026-03-31 |
+| Quantitation 1.1 | 64MB | 2026-03-31 |
+| Design Benchmark 2 | Generic DB Benchmark | 2026-04-03 |
+| Quantitation 1.2 | Docker Desktop ( 64MB )<br>vs. WSL2 ( 16GB ) | 2026-04-04 |
 | Design Benchmark-3 | Workload Benchmark | 2026-04-04 |
-| Quantitation-2 | `Compose` vs. `K8s`<br>High Availability Comparison Test | - |
-| Quantitation-3 | Automated Deployment of the Edge :<br>`Manual` vs. `CD -> Ansible` | - |
-| Quantitation-4 | Workload Benchmark | - |
-| Quantitation-5 | OLTP Query Efficiency<br>Optimization ( Index / Partition )<br>`Before` vs. `After` | - |
-| Quantitation-6 | `OLTP vs OLAP` Core Business<br>Recovery and Evolution :<br>`Direct Read` vs. `MV` vs. `CDC` | - |
+| Quantitation 2 | `Compose` vs. `K8s`<br>High Availability Comparison Test | - |
+| Quantitation 3 | Automated Deployment of the Edge :<br>`Manual` vs. `CD -> Ansible` | - |
+| Quantitation 4 | Workload Benchmark | - |
+| Quantitation 5 | OLTP Query Efficiency<br>Optimization ( Index / Partition )<br>`Before` vs. `After` | - |
+| Quantitation 6 | `OLTP vs OLAP` Core Business<br>Recovery and Evolution :<br>`Direct Read` vs. `MV` vs. `CDC` | - |
 
 
 </ul>
@@ -340,7 +346,7 @@
 ### *D.　Command Platform ( Makefile Execute )*
 
 <details>
-<summary><b><i>　c.1.　Docker Compose</i></b></summary>
+<summary><b><i>　d.1.　Docker Compose</i></b></summary>
 <ul>
 
 ```bash
@@ -361,7 +367,7 @@ make down
 
 
 <details>
-<summary><b><i>　c.2.　Terraform + Ansible + Compose </i></b></summary>
+<summary><b><i>　d.2.　Terraform + Ansible + Compose </i></b></summary>
 <ul>
 
 ```bash
@@ -391,7 +397,7 @@ make destroy
 
 
 <details>
-<summary><b><i>　c.3.　K8s ( Helm + Terraform + Ansible ) </i></b></summary>
+<summary><b><i>　d.3.　K8s ( Helm + Terraform + Ansible ) </i></b></summary>
 <ul>
 
 ```bash
@@ -402,7 +408,7 @@ make destroy
 
 
 <details>
-<summary><b><i>　c.4.　Other </i></b></summary>
+<summary><b><i>　d.4.　Other </i></b></summary>
 <ul>
 
 ```bash
