@@ -154,7 +154,9 @@
 | Grafana Dashboard | `htap_grafana.json` | - |
 | Create MV | Materialized View | - |
 | Analytical Queries | - | - |
-| Security Message<br>Transmission | Encryption ( `kafka` + `mqtt` ) | - |
+| Security Message :<br>`Message Queue Layer` | Encryption ( `kafka` + `mqtt` ) | - |
+| Security Message :<br>`Software Layer` | 非對稱加密 | X |
+| `IS_KUBERNETS'` | 布林注入強制轉換配置 | X |
 | API Service logic | - | X |
 
 </ul>
@@ -182,6 +184,7 @@
 | Add `Jenkins` | for `CD` | - |
 | Add `Docker-Registry` | for `CI / CD` & `Manage Images` | - |
 | Add `Loki` | for `Manage Log` | - |
+| Build `Hierarchical Log Management` | `Loki` + `ELK` | - |
 | Add `Debezium` | Change Data Capture | - |
 | Add `Apache Iceberg` | Data Lake | - |
 | Add `Apache Flink` | consumer of CDC | - |
@@ -438,7 +441,8 @@ make kafka-all-clean
 
 
 ### *E.　Roadmap*
-- ![PNG](./assets/roadmap.PNG)
+
+[//]: # (- ![PNG]&#40;./assets/roadmap.PNG&#41;)
 
 <details>
 <summary><b><i>　Project Tree </i></b></summary>
@@ -647,10 +651,10 @@ make kafka-all-clean
 
 
 ### *F.　Summary*
-- #### *d.1.　[OLTP-OLAP-Unified-DB](./docs/oltp-olap-unified-db.md)*
-- #### *d.2.　Automated Deployment of the Edge*
-- #### *d.3.　OLTP vs OLAP 核心業務解套演進*
-- #### *d.4.　Compose vs. K8s 高可用性比較測試*
+- #### *f.1.　[OLTP-OLAP-Unified-DB](./docs/oltp-olap-unified-db.md)*
+- #### *f.2.　Automated Deployment of the Edge*
+- #### *f.3.　OLTP vs OLAP 核心業務解套演進*
+- #### *f.4.　Compose vs. K8s 高可用性比較測試*
 
 
 <br>
@@ -658,11 +662,11 @@ make kafka-all-clean
 
 
 ### *G.　Notice*
-- #### *e.1.　[Service Startup Order](./docs/service_startup_order.md)*
-- #### *e.2.　[WSL2 Startup Docker Engine](./docs/wsl2_startup_docker_engine.md)*
-- #### *e.3.　[Terraform & Ansible](./docs/terraform_ansible.md)*
-- #### *e.4.　[Kubernetes](./docs/k8s.md)*
-- #### *e.5.　[About SQL Something Detail](./docs/sql.md)*
+- #### *g.1.　[Service Startup](./docs/service_startup.md)*
+- #### *g.2.　[WSL2 Docker Engine](./docs/wsl2_docker_engine.md)*
+- #### *g.3.　[Terraform & Ansible](./docs/terraform_ansible.md)*
+- #### *g.4.　[Kubernetes](./docs/k8s.md)*
+- #### *g.5.　[SQL Implement](./docs/sql_implement.md)*
 
 
 <br><br><br>
