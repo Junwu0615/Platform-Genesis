@@ -27,68 +27,55 @@
 
 <br>
 
-### *A.　System Structure*
-|*Project Name*|*Role & Responsibilities*|*Key Tech Stack*|
+### *A.　Project Structure*
+|*Project Name*|*Responsibilities*|*Tech Stack*|
 |--:|:--|:--|
-| PG-Infrastructure | **IaC & Automation :**<br>Orchestrates environment lifecycles via Terraform, Ansible, and Makefiles. | `GCP` `K8s` `Terraform` `Ansible`<br>`Docker` `Makefile` |
-| PG-APP-Core | **Business & Stream Logic :**<br>Core engine for multi-version factory simulations, stream processing,<br>and data infrastructure optimization. | `Python` |
-| PG-Share-Lib | **Core Library :**<br>Provides standardized, high-reusability modules across the ecosystem. | `EntryPoint` `MqttServer` `Logger`<br>`KafkaConsumerManager` `KafkaProducerManager` |
-| PG-Instance | **Edge Deployment :**<br>Lightweight IoT units for data acquisition and real-time MQTT/SQLite HA processing. | `MQTT` `SQLite` |
-| PG-Airflow-DAGs | **Data Orchestration :**<br>Manages ETL pipelines, data lineage, and OLTP-to-OLAP transformations. | `Airflow` `DAGs` |
+| [Platform Genesis](https://github.com/Junwu0615/Platform-Genesis) | **Homepage :**<br>Construction Records & Quantitative Testing | - |
+| [PG-Infrastructure](https://github.com/Junwu0615/PG-Infrastructure) | **IaC & Automation :**<br>Orchestrates environment lifecycles via Terraform, Ansible, and Makefiles. | `GCP` `K8s` `Terraform` `Ansible`<br>`Docker` `Makefile` |
+| [PG-APP-Core](https://github.com/Junwu0615/PG-APP-Core) | **Business & Stream Logic :**<br>Core engine for multi-version factory simulations, stream processing,<br>and data infrastructure optimization. | `Python` |
+| [PG-Shared-Lib](https://github.com/Junwu0615/PG-Shared-Lib) | **Core Library :**<br>Provides standardized, high-reusability modules across the ecosystem. | `EntryPoint` `MqttServer` `Logger`<br>`KafkaConsumerManager` `KafkaProducerManager` |
+| [PG-Edge-Container](https://github.com/Junwu0615/PG-Edge-Container) | **Edge Deployment :**<br>Lightweight IoT units for data acquisition and real-time MQTT/SQLite HA processing. | `MQTT` `SQLite` |
+| [PG-Airflow-DAGs] |(https://github.com/Junwu0615/PG-Airflow-DAGs) **Data Orchestration :**<br>Manages ETL pipelines, data lineage, and OLTP-to-OLAP transformations. | `Airflow` `DAGs` |
 
 <br>
 
 ### *B.　Current Progress*
 
 <details>
-<summary><b><i>　a.1.　Simple </i></b></summary>
+<summary><b><i>　b.1.　Simple </i></b></summary>
 <ul>
 
 |**Item**|**Description**|**Time**|
 |--:|:--|:--:|
 | Create Project | - | 2026-03-20 |
 | Add `PostgreSQL` | - | 2026-03-20 |
-| Create OLTP DDL ( 6 ) | 3NF | 2026-03-21 |
 | Add `Airflow` | for `OLAP` | 2026-03-21 |
 | Add `PoWA` | for `Monitoring` | 2026-03-23 |
-| Generic DB Benchmark | Docker Desktop vs. WSL2 | 2026-04-04 |
-| Workload Benchmark | Design Benchmark | 2026-04-04 |
-| Add `Monitoring` | `Postgres Exporter` + `Prometheus` + `Grafana` | 2026-04-04 |
-| Add `Monitoring` | `Node Exporter` | 2026-04-05 |
-| Create OLAP DDL ( 5 ) | Star Schema | 2026-04-06 |
+| Quantitation-1 | Docker Desktop vs. WSL2 | 2026-04-04 |
+| Add `Monitoring` | - | 2026-04-04 |
 | Add `Portainer` | for `Manage Containers` | 2026-04-11 |
-| Add Makefile | for `docker-compose` | 2026-04-11 |
-| Terraform | Declaration Config : `Docker Provider` | 2026-04-19 |
-| Terraform | Config Transfer : `docker-compose` | 2026-04-19 |
-| Ansible | node `init` & `config` | 2026-04-19 |
-| Add Makefile | for `terraform + ansible` | 2026-04-19 |
 | Terraform | Modularization | 2026-04-20 |
 | Ansible | Modularization | 2026-04-20 |
 | Add `IoT Platform` | `MQTT Broker` + `Apache Kafka` | 2026-04-25 |
-| Multi-Instance | like real-edge : `v2` | 2026-04-28 |
-| MQTT logic | for `cp` | 2026-04-28 |
-| Kafka Connect | `source` : producer  | 2026-04-30 |
-| Kafka logic | for `inst` | 2026-05-03 |
-| Kafka Connect | `sink` : consumers | 2026-05-04 |
-| Add `ELK` | - | 2026-05-05 |
-| Redefine Project Name | `OLTP-OLAP-Unified-DB`<br>to `Platform Genesis` | 2026-05-08 |
-| Project Breakdown | `5` Major Categories | 2026-05-08 |
-| API Service logic | - | X |
-| make `v2` Dockerfile | - | - |
-| Create MV | Materialized View | - |
-| Analytical Queries | - | - |
-| Add `Gitlab` | for `CI` & `Manage Projects` | - |
-| Add `Jenkins` | for `CD` | - |
-| Add `Docker-Registry` | for `CI / CD` & `Manage Images` | - |
-| Add `Debezium` | Change Data Capture | - |
-| Add `Apache Iceberg` | Data Lake | - |
-| Add `Apache Flink` | consumer of CDC | - |
-| Build `Lakehouse` | - | - |
-| Add `HashiCorp Vault` | Enterprise Key Management System | - |
-| Add `Superset` | for `OLAP` | - |
+| Add `ELK` | for `Manage Log` | 2026-05-05 |
 | K8s | Beginner : `Minikube` | - |
 | K8s | Advanced : `K3s` + `VMware` | - |
 | K8s | Bottom Layer : `Kubeadm` + `VMware` | - |
+| Quantitation-2 | `Compose` vs. `K8s`<br>High Availability Comparison Test | - |
+| Add `Gitlab` | for `CI` & `Manage Projects` | - |
+| Add `Jenkins` | for `CD` | - |
+| Add `Docker-Registry` | for `CI / CD` & `Manage Images` | - |
+| Quantitation-3 | Automated Deployment of the Edge :<br>`Manual` vs. `CD -> Ansible` | - |
+| Add `Loki` | for `Manage Log` | - |
+| Add `Debezium` | Change Data Capture | - |
+| Add `Apache Iceberg` | Data Lake | - |
+| Add `Apache Flink` | consumer of `CDC` | - |
+| Build `Lakehouse` | - | - |
+| Quantitation-6 | `OLTP vs OLAP` Core Business<br>Recovery and Evolution :<br>`Direct Read` vs. `MV` vs. `CDC` | - |
+| Add `HashiCorp Vault` | Enterprise Key Management System | - |
+| Add `Superset` | for `OLAP` | - |
+| Quantitation-4 | Workload Benchmark | - |
+| Quantitation-5 | OLTP Query Efficiency<br>Optimization ( Index / Partition )<br>`Before` vs. `After` | - |
 | K8s | Public Cloud : `GKE` | - |
 | Summary | - | - |
 
@@ -96,23 +83,35 @@
 </details>
 
 <details>
-<summary><b><i>　a.2.　Details </i></b></summary>
+<summary><b><i>　b.2.　Details </i></b></summary>
+<ul>
+
+<details>
+<summary><b><i>　b.2.1　Project Journey </i></b></summary>
 <ul>
 
 |**Item**|**Description**|**Time**|
 |--:|:--|:--:|
 | Create Project | - | 2026-03-20 |
-| Add `PostgreSQL` | - | 2026-03-20 |
 | Define Process | - | 2026-03-20 |
 | Define Event Story | - | 2026-03-21 |
 | Define Project Directory | - | 2026-03-21 |
 | Define Table DDL | - | 2026-03-21 |
 | Create OLTP DDL ( 6 ) | 3NF | 2026-03-21 |
-| Add `Airflow` | for `OLAP` | 2026-03-21 |
-| DB Settings | Permission Settings | 2026-03-23 |
-| Add `PoWA` | for `Monitoring` | 2026-03-23 |
-| PoWA Web Login Failed | ⚠️no reason found yet | 2026-03-23 |
-| New Role | Migration User | 2026-03-24 |
+| Create OLAP DDL ( 5 ) | Star Schema | 2026-04-06 |
+| Redefine Project Name | `OLTP-OLAP-Unified-DB`<br>to `Platform Genesis` | 2026-05-08 |
+| Project Breakdown | `5` Major Categories | 2026-05-08 |
+| Summary | - | - |
+
+</ul>
+</details>
+
+<details>
+<summary><b><i>　b.2.2　Code </i></b></summary>
+<ul>
+
+|**Item**|**Description**|**Time**|
+|--:|:--|:--:|
 | Script | delete_data.py | 2026-03-24 |
 | Script | drop_table.py | 2026-03-24 |
 | Script | factory_config.yaml | 2026-03-24 |
@@ -125,84 +124,123 @@
 | execute -> execute_batch | batch sending + batch submission :<br>不適用於目前模擬方式 | X |
 | Adjusting Contextual | insert machine status :<br>machine_status_logs | 2026-03-30 |
 | Increase Data Volume | - | 2026-03-30 |
-| PoWA( Running Normally ) | - | 2026-03-30 |
-| Try Again PoWA Web | ⚠️very difficult to deal with | 2026-03-30 |
-| Generic DB Benchmark | Design Benchmark-1 | 2026-03-31 |
-| Generic DB Benchmark | 64MB | 2026-03-31 |
-| Fine-tuning<br>PostgreSQL Settings | `shm-size` | 2026-04-01 |
-| Docker Engine | for `WSL2` | 2026-04-03 |
-| Generic DB Benchmark | Design Benchmark-2 | 2026-04-03 |
-| Generic DB Benchmark | Docker Desktop ( 64MB )<br>vs. WSL2 ( 16GB ) | 2026-04-04 |
-| Workload Benchmark | Design Benchmark | 2026-04-04 |
-| Add `Monitoring` | `Postgres Exporter` + `Prometheus` + `Grafana` | 2026-04-04 |
-| Add `Monitoring` | `Node Exporter` | 2026-04-05 |
-| Grafana Dashboard | Organize Observation Indicators | 2026-04-05 |
-| WSL2 Settings | `.wslconfig` | 2026-04-06 |
-| Create OLAP DDL ( 5 ) | Star Schema | 2026-04-06 |
-| Partition Settings | `default_partition` | 2026-04-06 |
 | Auto Partition | `dags/sql/auto_partition/*` | 2026-04-06 |
 | OLTP to OLAP | `dags/sql/*` | 2026-04-06 |
 | DAG | Build Coding Style | 2026-04-06 |
 | DAG ETL Script | Fan-out Queue Pattern | 2026-04-06 |
 | DAG | Try `Param` | 2026-04-07 |
 | DAG | Try `Dataset` | 2026-04-08 |
-| Add `Portainer` | for `Manage Containers` | 2026-04-11 |
 | Docker Compose | Compose Modularization | 2026-04-11 |
 | Add Makefile | for `docker-compose` | 2026-04-11 |
 | Add Airflow Config UI | `Trigger w/ Config` | 2026-04-18 |
 | DAG | update Coding Style | 2026-04-18 |
-| Terraform | Declaration Config : `Docker Provider` | 2026-04-19 |
-| Terraform | Config Transfer : `docker-compose` | 2026-04-19 |
-| Ansible | node `init` & `config` | 2026-04-19 |
 | Add Makefile | for `terraform + ansible` | 2026-04-19 |
-| Terraform vs. Compose | Experience :<br>`狀態管理差異性 ; 復原配置崩潰 ; 提高 HA` | 2026-04-19 |
-| Terraform & Ansible | Experience :<br>`Ansible 如何補足 Terraform 的不足` | 2026-04-19 |
 | Terraform | Modularization | 2026-04-20 |
 | Ansible | Modularization | 2026-04-20 |
-| Add `IoT Platform` | `MQTT Broker` + `Apache Kafka` | 2026-04-25 |
 | Simple Simulation | organizing old versions : `v1` | 2026-04-28 |
 | Multi-Instance | like real-edge : `v2` | 2026-04-28 |
 | MQTT logic | for `cp` | 2026-04-28 |
 | Kafka Connect | `source` : producer  | 2026-04-30 |
 | Kafka logic | for `inst` | 2026-05-03 |
 | Kafka Connect | `sink` : consumers | 2026-05-04 |
-| Add `ELK` | - | 2026-05-05 |
-| ELK | Experience : `ELK` | 2026-05-05 |
 | Define the Version Number<br>of each service  | settings to `.env` | 2026-05-05 |
 | logging logic | mixed ( `ELK` + `logging` ) | 2026-05-06 |
 | Encapsulation Entry | app.py | 2026-05-06 |
 | logging logic | Logs Correct Paths<br>Based on Module Calls | 2026-05-07 |
 | update `v2` logic | Apply the<br>New Underlying Module | 2026-05-07 |
-| Redefine Project Name | `OLTP-OLAP-Unified-DB`<br>to `Platform Genesis` | 2026-05-08 |
-| Project Breakdown | `5` Major Categories | 2026-05-08 |
-| Quantitative Results 1 | OLTP Query Efficiency<br>Optimization ( Index / Partition ) | - |
 | DAG | init.py + create_topic.py | - |
 | Add `SQLite`<br>to Edge scripts  | Improve the HA<br>of Consumer Transactions | - |
-| Security Message<br>Transmission | Encryption ( `kafka` + `mqtt` ) | - |
-| API Service logic | - | X |
 | make `v2` Dockerfile | - | - |
 | Grafana Dashboard | `htap_grafana.json` | - |
 | Create MV | Materialized View | - |
 | Analytical Queries | - | - |
+| Security Message<br>Transmission | Encryption ( `kafka` + `mqtt` ) | - |
+| API Service logic | - | X |
+
+</ul>
+</details>
+
+<details>
+<summary><b><i>　b.2.3　Infra </i></b></summary>
+<ul>
+
+|**Item**|**Description**|**Time**|
+|--:|:--|:--:|
+| Add `PostgreSQL` | - | 2026-03-20 |
+| Add `Airflow` | for `OLAP` | 2026-03-21 |
+| Add `PoWA` | for `Monitoring` | 2026-03-23 |
+| Docker Engine | for `WSL2` | 2026-04-03 |
+| Add `Monitoring` | `Postgres Exporter` + `Prometheus` + `Grafana` | 2026-04-04 |
+| Add `Monitoring` | `Node Exporter` | 2026-04-05 |
+| Add `Portainer` | for `Manage Containers` | 2026-04-11 |
+| Add `IoT Platform` | `MQTT Broker` + `Apache Kafka` | 2026-04-25 |
+| Add `ELK` | for `Manage Log` | 2026-05-05 |
+| K8s | Beginner : `Minikube` | - |
+| K8s | Advanced : `K3s` + `VMware` | - |
+| K8s | Bottom Layer : `Kubeadm` + `VMware` | - |
 | Add `Gitlab` | for `CI` & `Manage Projects` | - |
 | Add `Jenkins` | for `CD` | - |
 | Add `Docker-Registry` | for `CI / CD` & `Manage Images` | - |
-| Quantitative Results 2 | Automated Deployment of the Edge :<br>`Manual` vs. `CD -> Ansible` | - |
+| Add `Loki` | for `Manage Log` | - |
 | Add `Debezium` | Change Data Capture | - |
 | Add `Apache Iceberg` | Data Lake | - |
 | Add `Apache Flink` | consumer of CDC | - |
 | Build `Lakehouse` | - | - |
-| Quantitative Results 3 | OLTP vs OLAP 核心業務解套演進 :<br>`Direct Read` vs. `MV` vs. `CDC` | - |
 | Add `HashiCorp Vault` | Enterprise Key Management System | - |
 | Add `Superset` | for `OLAP` | - |
-| K8s | Beginner : `Minikube` | - |
-| K8s | Advanced : `K3s` + `VMware` | - |
-| K8s | Bottom Layer : `Kubeadm` + `VMware` | - |
+| K8s | Public Cloud : `GKE` | - |
+
+</ul>
+</details>
+
+<details>
+<summary><b><i>　b.2.4　Experience </i></b></summary>
+<ul>
+
+|**Item**|**Description**|**Time**|
+|--:|:--|:--:|
+| PoWA Web Login Failed | ⚠️no reason found yet | 2026-03-23 |
+| DB Settings | Permission Settings | 2026-03-23 |
+| New Role | Migration User | 2026-03-24 |
+| PoWA( Running Normally ) | - | 2026-03-30 |
+| Try Again PoWA Web | ⚠️very difficult to deal with | 2026-03-30 |
+| Fine-tuning<br>PostgreSQL Settings | `shm-size` | 2026-04-01 |
+| Grafana Dashboard | Organize Observation Indicators | 2026-04-05 |
+| WSL2 Settings | `.wslconfig` | 2026-04-06 |
+| Partition Settings | `default_partition` | 2026-04-06 |
+| Terraform | Declaration Config : `Docker Provider` | 2026-04-19 |
+| Terraform | Config Transfer : `docker-compose` | 2026-04-19 |
+| Ansible | node `init` & `config` | 2026-04-19 |
+| Terraform vs. Compose | Experience :<br>`狀態管理差異性 ; 復原配置崩潰 ; 提高 HA` | 2026-04-19 |
+| Terraform & Ansible | Experience :<br>`Ansible 如何補足 Terraform 的不足` | 2026-04-19 |
+| ELK | Experience : `ELK` | 2026-05-05 |
 | K8s | Experience :<br>`Pod` / `Service` / `Ingress` | - |
 | K8s | Experience :<br>`Lens` / `k9s` / `Kubernetes Dashboard` | - |
-| Quantitative Results 4 | `Compose` vs. `K8s` 高可用性比較測試 | - |
-| K8s | Public Cloud : `GKE` | - |
-| Summary | - | - |
+
+</ul>
+</details>
+
+<details>
+<summary><b><i>　b.2.5　Quantitation </i></b></summary>
+<ul>
+
+|**Item**|**Description**|**Time**|
+|--:|:--|:--:|
+| Design Benchmark-1 | Generic DB Benchmark | 2026-03-31 |
+| Quantitation-1.1 | 64MB | 2026-03-31 |
+| Design Benchmark-2 | Generic DB Benchmark | 2026-04-03 |
+| Quantitation-1.2 | Docker Desktop ( 64MB )<br>vs. WSL2 ( 16GB ) | 2026-04-04 |
+| Design Benchmark-3 | Workload Benchmark | 2026-04-04 |
+| Quantitation-2 | `Compose` vs. `K8s`<br>High Availability Comparison Test | - |
+| Quantitation-3 | Automated Deployment of the Edge :<br>`Manual` vs. `CD -> Ansible` | - |
+| Quantitation-4 | Workload Benchmark | - |
+| Quantitation-5 | OLTP Query Efficiency<br>Optimization ( Index / Partition )<br>`Before` vs. `After` | - |
+| Quantitation-6 | `OLTP vs OLAP` Core Business<br>Recovery and Evolution :<br>`Direct Read` vs. `MV` vs. `CDC` | - |
+
+
+</ul>
+</details>
+
 
 </ul>
 </details>
@@ -219,11 +257,11 @@
 
 |**Service**|**Description**|**Port**|
 |--:|:--|:--:|
-| **PostgreSQL** | Primary Business DB `OLTP` | [5432](http://127.0.0.1:5432) |
+| **PostgreSQL** | `OLTP` Primary Business DB | [5432](http://127.0.0.1:5432) |
 | **PostgreSQL** | Metadata DB for Airflow | [5433](http://127.0.0.1:5433) |
 | **PgAdmin** | PostgreSQL Web Management UI | [5050](http://127.0.0.1:5050) |
-| **Apache Airflow** | Workflow Orchestration `OLAP` | [8100](http://127.0.0.1:8100) |
-| **Superset** | BI Visualization Dashboard `OLAP` | `TBD` |
+| **Apache Airflow** | `OLAP` Workflow Orchestration | [8100](http://127.0.0.1:8100) |
+| **Superset** | `OLAP` BI Visualization Dashboard | `TBD` |
 
 </ul>
 </details>
@@ -250,8 +288,8 @@
 
 |**Service**|**Description**|**Port**|
 |--:|:--|:--:|
-| **Debezium** | `CDC` ( Change Data Capture ) from Postgres | `TBD` |
-| **Apache Iceberg** | High-performance Table Format `Data Lake` | `TBD` |
+| **Debezium** | `CDC` from Postgres | `TBD` |
+| **Apache Iceberg** | `OLAP` High-performance Table Format `Data Lake` | `TBD` |
 | **Apache Flink** | Stateful Computations over Data Streams | `TBD` |
 
 </ul>
@@ -264,13 +302,14 @@
 
 |**Service**|**Description**|**Port**|
 |--:|:--|:--:|
-| **Grafana** | Dashboard | [3000](http://127.0.0.1:3000) |
-| **Prometheus** | Metrics Time-Series DB | [9090](http://127.0.0.1:9090) |
-| **Node Exporter** | Host Resource Metrics | [9100](http://127.0.0.1:9100) |
 | **Postgres Exporter** | Database Performance Metrics | [9187](http://127.0.0.1:9187) |
-| **Elasticsearch** | Distributed Search Engine `ELK` | [9200](http://127.0.0.1:9200) |
-| **Logstash** | Log Processing Pipeline `ELK` | [9600](http://127.0.0.1:9600) |
-| **Kibana** | Log Exploration UI `ELK` | [5601](http://127.0.0.1:5601) |
+| **Node Exporter** | Host Resource Metrics | [9100](http://127.0.0.1:9100) |
+| **Prometheus** | Metrics Time-Series DB | [9090](http://127.0.0.1:9090) |
+| **Grafana** | Dashboard | [3000](http://127.0.0.1:3000) |
+| **Loki** | `Manage Log` | `TBD` |
+| **Elasticsearch** | `Manage Log` Distributed Search Engine | [9200](http://127.0.0.1:9200) |
+| **Logstash** | `Manage Log` Log Processing Pipeline | [9600](http://127.0.0.1:9600) |
+| **Kibana** | `Manage Log` Log Exploration UI | [5601](http://127.0.0.1:5601) |
 
 </ul>
 </details>
@@ -286,7 +325,7 @@
 | **Jenkins** | `Continuous Delivery` | `TBD` |
 | **Docker-Registry** | `Private Image Repository` | `TBD` |
 | **Portainer** | `Container Management` UI | [9000](http://127.0.0.1:9000) |
-| **HashiCorp Vault** | Advanced Secret & Key Management `KMS` | `TBD` |
+| **HashiCorp Vault** | `KMS` Advanced Secret & Key Management | `TBD` |
 
 </ul>
 </details>
@@ -295,7 +334,7 @@
 <br>
 
 
-### *C.　Command Platform ( Makefile Execute )*
+### *D.　Command Platform ( Makefile Execute )*
 
 <details>
 <summary><b><i>　c.1.　Docker Compose</i></b></summary>
@@ -349,7 +388,7 @@ make destroy
 
 
 <details>
-<summary><b><i>　c.3.　K8s + Helm + Terraform + Ansible </i></b></summary>
+<summary><b><i>　c.3.　K8s ( Helm + Terraform + Ansible ) </i></b></summary>
 <ul>
 
 ```bash
@@ -398,7 +437,7 @@ make kafka-all-clean
 <br>
 
 
-### *D.　Roadmap*
+### *E.　Roadmap*
 - ![PNG](./assets/roadmap.PNG)
 
 <details>
@@ -607,7 +646,7 @@ make kafka-all-clean
 <br>
 
 
-### *D.　Summary*
+### *F.　Summary*
 - #### *d.1.　[OLTP-OLAP-Unified-DB](./docs/oltp-olap-unified-db.md)*
 - #### *d.2.　Automated Deployment of the Edge*
 - #### *d.3.　OLTP vs OLAP 核心業務解套演進*
@@ -618,7 +657,7 @@ make kafka-all-clean
 
 
 
-### *E.　Notice*
+### *G.　Notice*
 - #### *e.1.　[Service Startup Order](./docs/service_startup_order.md)*
 - #### *e.2.　[WSL2 Startup Docker Engine](./docs/wsl2_startup_docker_engine.md)*
 - #### *e.3.　[Terraform & Ansible](./docs/terraform_ansible.md)*
