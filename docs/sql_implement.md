@@ -619,3 +619,6 @@ CREATE SCHEMA IF NOT EXISTS olap;
     AND f.product_key = p.product_key
   GROUP BY p.product_name;
   ```
+  
+
+<br><br><br>
