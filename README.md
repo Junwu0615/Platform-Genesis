@@ -258,13 +258,7 @@
 <br>
 
 
-
-
-
-
-
-
-### *E.　Roadmap*
+### *C.　Roadmap*
 
 [//]: # (- ![PNG]&#40;./assets/roadmap.PNG&#41;)
 
@@ -272,225 +266,228 @@
 <summary><b><i>　Project Tree </i></b></summary>
 <ul>
 
-  ```bash
-  tree -I 'venv|.git|__pycache__|docs|logs|assets|kafka_data'
-  tree -d -I 'venv|.git|__pycache__|docs|logs|assets|kafka_data'
+```bash
+tree -I 'venv|.git|__pycache__|docs|logs|assets|kafka_data'
+tree -d -I 'venv|.git|__pycache__|docs|logs|assets|kafka_data'
 
-  .
-  ├── LICENSE
-  ├── README.md
-  ├── config
-  ├── dags
-  │   ├── OP_SQL.py
-  │   ├── WF_AUTO_PARTITION.py
-  │   ├── WF_A_DATASET.py
-  │   ├── WF_B_DATASET.py
-  │   ├── WF_CREATE_TABLE.py
-  │   ├── WF_C_DATASET.py
-  │   ├── __init__.py
-  │   ├── config
-  │   │   ├── __init__.py
-  │   │   ├── constants.py
-  │   │   └── dag_config.py
-  │   ├── sql
-  │   │   ├── __init__.py
-  │   │   ├── auto_partition
-  │   │   │   ├── fact_production.sql
-  │   │   │   ├── machine_status_logs.sql
-  │   │   │   └── production_records.sql
-  │   │   ├── dim_date.sql
-  │   │   ├── dim_machine.sql
-  │   │   ├── dim_product.sql
-  │   │   ├── fact_machine_status.sql
-  │   │   ├── fact_production.sql
-  │   │   └── models
-  │   │       ├── olap
-  │   │       │   ├── dim_date.sql
-  │   │       │   ├── dim_machine.sql
-  │   │       │   ├── dim_product.sql
-  │   │       │   ├── fact_machine_status.sql
-  │   │       │   └── fact_production.sql
-  │   │       └── oltp
-  │   │           ├── machine.sql
-  │   │           ├── machine_events.sql
-  │   │           ├── machine_status_logs.sql
-  │   │           ├── product.sql
-  │   │           ├── production_orders.sql
-  │   │           └── production_records.sql
-  │   └── utils
-  │       ├── __init__.py
-  │       └── dag_tool.py
-  ├── docker-compose
-  │   ├── Makefile
-  │   ├── ansible
-  │   │   ├── inventory.ini
-  │   │   ├── playbook.yml
-  │   │   └── roles
-  │   │       └── monitoring
-  │   │           ├── handlers
-  │   │           │   └── main.yml
-  │   │           ├── tasks
-  │   │           │   └── main.yml
-  │   │           ├── templates
-  │   │           │   └── prometheus.yml.j2
-  │   │           └── vars
-  │   │               └── main.yml
-  │   ├── docker
-  │   │   ├── airflow
-  │   │   │   ├── airflow-webserver.pid
-  │   │   │   ├── airflow.cfg
-  │   │   │   ├── config
-  │   │   │   ├── dags ( copy `dags` )
-  │   │   │   ├── deploy_dags.sh
-  │   │   │   ├── docker-compose.yaml
-  │   │   │   ├── plugins
-  │   │   │   └── webserver_config.py
-  │   │   ├── elk
-  │   │   │   ├── docker-compose.yaml
-  │   │   │   ├── elasticsearch.yaml
-  │   │   │   └── logstash
-  │   │   │       ├── logstash.yaml
-  │   │   │       └── pipeline
-  │   │   │           └── logstash.conf
-  │   │   ├── iot-platform
-  │   │   │   ├── config
-  │   │   │   │   ├── connectors
-  │   │   │   │   │   ├── sink
-  │   │   │   │   │   │   ├── sink-inst-prod-orders.json
-  │   │   │   │   │   │   ├── sink-inst-prod-records.json
-  │   │   │   │   │   │   └── sink-inst-status-logs.json
-  │   │   │   │   │   └── source
-  │   │   │   │   │       └── source-cp-mach-order.json
-  │   │   │   │   ├── mosquitto.conf
-  │   │   │   │   └── passwd
-  │   │   │   ├── dockerfile
-  │   │   │   │   └── Dockerfile.kafka
-  │   │   │   ├── kafka-compose.yaml
-  │   │   │   └── mqtt-compose.yaml
-  │   │   ├── monitoring
-  │   │   │   ├── docker-compose.yaml
-  │   │   │   ├── htap_grafana.json
-  │   │   │   └── prometheus.yaml
-  │   │   ├── portainer
-  │   │   │   └── docker-compose.yaml
-  │   │   ├── postgresql
-  │   │   │   ├── Dockerfile
-  │   │   │   ├── docker-compose.yaml
-  │   │   │   └── init
-  │   │   │       └── init.sql
-  │   │   └── powa
-  │   │       ├── Dockerfile
-  │   │       ├── docker-compose.yaml
-  │   │       └── init
-  │   │           └── powa.sql
-  │   ├── docker-compose.yaml
-  │   ├── terraform
-  │   │   ├── main.tf
-  │   │   ├── modules
-  │   │   │   ├── docker_container
-  │   │   │   │   ├── main.tf
-  │   │   │   │   ├── outputs.tf
-  │   │   │   │   └── variables.tf
-  │   │   │   ├── monitoring
-  │   │   │   │   ├── main.tf
-  │   │   │   │   ├── outputs.tf
-  │   │   │   │   └── variables.tf
-  │   │   │   └── portainer
-  │   │   │       ├── main.tf
-  │   │   │       ├── outputs.tf
-  │   │   │       └── variables.tf
-  │   │   ├── outputs.tf
-  │   │   ├── terraform.tfstate
-  │   │   ├── terraform.tfstate.backup
-  │   │   ├── terraform.tfvars
-  │   │   └── variables.tf
-  │   └── wsl2
-  ├── kubernetes
-  │   ├── gke
-  │   ├── k3s
-  │   ├── kubeadm
-  │   └── minikube
-  ├── requirements.txt
-  ├── shared
-  │   ├── __init__.py
-  │   ├── configs
-  │   │   ├── __init__.py
-  │   │   ├── constant.py
-  │   │   └── settings.py
-  │   ├── modules
-  │   │   ├── __init__.py
-  │   │   ├── entry.py
-  │   │   ├── kafka_consumer.py
-  │   │   ├── kafka_producer.py
-  │   │   ├── log.py
-  │   │   └── mqtt.py
-  │   └── utils
-  │       ├── __init__.py
-  │       ├── env_config.py
-  │       ├── postgres_tools.py
-  │       └── tools.py
-  └── src
-      ├── __init__.py
-      ├── core
-      │   ├── __init__.py
-      │   ├── models
-      │   │   ├── __init__.py
-      │   │   ├── simulator.py
-      │   │   └── sink_format.py
-      │   ├── v1
-      │   │   ├── __init__.py
-      │   │   ├── factory_config.yaml
-      │   │   ├── init_factory_data.py
-      │   │   └── simulate_factory_stream.py
-      │   └── v2
-      │       ├── __init__.py
-      │       ├── api
-      │       │   └── __init__.py
-      │       ├── cp
-      │       │   ├── __init__.py
-      │       │   └── main.py
-      │       ├── factory_config.yaml
-      │       ├── inst
-      │       │   ├── __init__.py
-      │       │   └── main.py
-      │       └── scripts
-      │           ├── __init__.py
-      │           ├── create_topic.py
-      │           ├── init.py
-      │           └── topics_config.json
-      └── scripts
-          ├── __init__.py
-          ├── generic_benchmark
-          │   ├── dashboard_benchmark.sql
-          │   └── olap_benchmark.sql
-          └── sql
-              ├── auto_partition.py
-              ├── delete_data.py
-              └── drop_table.py
-  ```
+.
+├── PG-APP-Core
+│   ├── README.md
+│   └── src
+│       ├── __init__.py
+│       ├── core
+│       │   ├── __init__.py
+│       │   ├── models
+│       │   │   ├── __init__.py
+│       │   │   ├── simulator.py
+│       │   │   └── sink_format.py
+│       │   ├── v1
+│       │   │   ├── __init__.py
+│       │   │   ├── factory_config.yaml
+│       │   │   ├── init_factory_data.py
+│       │   │   └── simulate_factory_stream.py
+│       │   └── v2
+│       │       ├── __init__.py
+│       │       ├── api
+│       │       │   └── __init__.py
+│       │       ├── cp
+│       │       │   ├── __init__.py
+│       │       │   └── main.py
+│       │       ├── factory_config.yaml
+│       │       ├── inst
+│       │       │   ├── __init__.py
+│       │       │   └── main.py
+│       │       └── scripts
+│       │           ├── __init__.py
+│       │           ├── create_topic.py
+│       │           ├── init.py
+│       │           └── topics_config.json
+│       └── scripts
+│           ├── __init__.py
+│           ├── generic_benchmark
+│           │   ├── dashboard_benchmark.sql
+│           │   └── olap_benchmark.sql
+│           └── sql
+│               ├── auto_partition.py
+│               ├── delete_data.py
+│               └── drop_table.py
+├── PG-Airflow-DAGs
+│   ├── README.md
+│   └── dags
+│       ├── OP_SQL.py
+│       ├── WF_AUTO_PARTITION.py
+│       ├── WF_A_DATASET.py
+│       ├── WF_B_DATASET.py
+│       ├── WF_CREATE_TABLE.py
+│       ├── WF_C_DATASET.py
+│       ├── __init__.py
+│       ├── configs
+│       │   ├── __init__.py
+│       │   ├── constants.py
+│       │   └── dag_config.py
+│       ├── sql
+│       │   ├── __init__.py
+│       │   ├── auto_partition
+│       │   │   ├── fact_production.sql
+│       │   │   ├── machine_status_logs.sql
+│       │   │   └── production_records.sql
+│       │   ├── dim_date.sql
+│       │   ├── dim_machine.sql
+│       │   ├── dim_product.sql
+│       │   ├── fact_machine_status.sql
+│       │   ├── fact_production.sql
+│       │   └── models
+│       │       ├── olap
+│       │       │   ├── dim_date.sql
+│       │       │   ├── dim_machine.sql
+│       │       │   ├── dim_product.sql
+│       │       │   ├── fact_machine_status.sql
+│       │       │   └── fact_production.sql
+│       │       └── oltp
+│       │           ├── machine.sql
+│       │           ├── machine_events.sql
+│       │           ├── machine_status_logs.sql
+│       │           ├── product.sql
+│       │           ├── production_orders.sql
+│       │           └── production_records.sql
+│       └── utils
+│           ├── __init__.py
+│           └── dag_tool.py
+├── PG-Edge-Container
+│   └── README.md
+├── PG-Infrastructure
+│   ├── README.md
+│   └── infra
+│       ├── docker-compose
+│       │   ├── Makefile
+│       │   ├── ansible
+│       │   │   ├── inventory.ini
+│       │   │   ├── playbook.yml
+│       │   │   └── roles
+│       │   │       └── monitoring
+│       │   │           ├── handlers
+│       │   │           │   └── main.yml
+│       │   │           ├── tasks
+│       │   │           │   └── main.yml
+│       │   │           ├── templates
+│       │   │           │   └── prometheus.yml.j2
+│       │   │           └── vars
+│       │   │               └── main.yml
+│       │   ├── docker
+│       │   │   ├── airflow
+│       │   │   │   ├── deploy_dags.sh
+│       │   │   │   └── docker-compose.yaml
+│       │   │   ├── elk
+│       │   │   │   ├── docker-compose.yaml
+│       │   │   │   ├── elasticsearch.yaml
+│       │   │   │   └── logstash
+│       │   │   │       ├── logstash.yaml
+│       │   │   │       └── pipeline
+│       │   │   │           └── logstash.conf
+│       │   │   ├── iot-platform
+│       │   │   │   ├── config
+│       │   │   │   │   ├── connectors
+│       │   │   │   │   │   ├── sink
+│       │   │   │   │   │   │   ├── sink-inst-prod-orders.json
+│       │   │   │   │   │   │   ├── sink-inst-prod-records.json
+│       │   │   │   │   │   │   └── sink-inst-status-logs.json
+│       │   │   │   │   │   └── source
+│       │   │   │   │   │       └── source-cp-mach-order.json
+│       │   │   │   │   └── mosquitto.conf
+│       │   │   │   ├── dockerfile
+│       │   │   │   │   └── Dockerfile.kafka
+│       │   │   │   ├── kafka-compose.yaml
+│       │   │   │   └── mqtt-compose.yaml
+│       │   │   ├── monitoring
+│       │   │   │   ├── docker-compose.yaml
+│       │   │   │   ├── htap_grafana.json
+│       │   │   │   └── prometheus.yaml
+│       │   │   ├── portainer
+│       │   │   │   └── docker-compose.yaml
+│       │   │   ├── postgresql
+│       │   │   │   ├── Dockerfile
+│       │   │   │   ├── docker-compose.yaml
+│       │   │   │   └── init
+│       │   │   │       └── init.sql
+│       │   │   └── powa
+│       │   │       ├── Dockerfile
+│       │   │       ├── docker-compose.yaml
+│       │   │       └── init
+│       │   │           └── powa.sql
+│       │   ├── docker-compose.yaml
+│       │   ├── terraform
+│       │   │   ├── main.tf
+│       │   │   ├── modules
+│       │   │   │   ├── docker_container
+│       │   │   │   │   ├── main.tf
+│       │   │   │   │   ├── outputs.tf
+│       │   │   │   │   └── variables.tf
+│       │   │   │   ├── monitoring
+│       │   │   │   │   ├── main.tf
+│       │   │   │   │   ├── outputs.tf
+│       │   │   │   │   └── variables.tf
+│       │   │   │   └── portainer
+│       │   │   │       ├── main.tf
+│       │   │   │       ├── outputs.tf
+│       │   │   │       └── variables.tf
+│       │   │   ├── outputs.tf
+│       │   │   ├── terraform.tfvars
+│       │   │   └── variables.tf
+│       │   └── wsl2
+│       ├── gcp
+│       ├── k3s
+│       ├── kubeadm
+│       └── minikube
+├── PG-Shared-Lib
+│   ├── README.md
+│   ├── requirements.txt
+│   └── shared
+│       ├── __init__.py
+│       ├── configs
+│       │   ├── __init__.py
+│       │   ├── constant.py
+│       │   └── settings.py
+│       ├── modules
+│       │   ├── __init__.py
+│       │   ├── entry.py
+│       │   ├── kafka_consumer.py
+│       │   ├── kafka_producer.py
+│       │   ├── log.py
+│       │   └── mqtt.py
+│       └── utils
+│           ├── __init__.py
+│           ├── env_config.py
+│           ├── postgres_tools.py
+│           └── tools.py
+└── Platform-Genesis
+    ├── LICENSE
+    ├── Makefile
+    └── README.md
+```
+
 </ul>
 </details>
 
 <br>
 
 
-### *F.　Summary*
-- #### *f.1.　[OLTP-OLAP-Unified-DB](./docs/oltp-olap-unified-db.md)*
-- #### *f.2.　Automated Deployment of the Edge*
-- #### *f.3.　OLTP vs OLAP 核心業務解套演進*
-- #### *f.4.　Compose vs. K8s 高可用性比較測試*
+### *D.　Summary*
+- #### *d.1.　[OLTP-OLAP-Unified-DB](./docs/oltp-olap-unified-db.md)*
+- #### *d.2.　Automated Deployment of the Edge*
+- #### *d.3.　OLTP vs OLAP 核心業務解套演進*
+- #### *d.4.　Compose vs. K8s 高可用性比較測試*
 
 
 <br>
 
 
 
-### *G.　Notice*
-- #### *g.1.　[Service Startup](./docs/service_startup.md)*
-- #### *g.2.　[WSL2 Docker Engine](./docs/wsl2_docker_engine.md)*
-- #### *g.3.　[Terraform & Ansible](./docs/terraform_ansible.md)*
-- #### *g.4.　[Kubernetes](./docs/k8s.md)*
-- #### *g.5.　[SQL Implement](./docs/sql_implement.md)*
+### *E.　Notice*
+- #### *e.1.　[Service Startup](./docs/service_startup.md)*
+- #### *e.2.　[WSL2 Docker Engine](./docs/wsl2_docker_engine.md)*
+- #### *e.3.　[Terraform & Ansible](./docs/terraform_ansible.md)*
+- #### *e.4.　[Kubernetes](./docs/k8s.md)*
+- #### *e.5.　[SQL Implement](./docs/sql_implement.md)*
 
 
 <br><br><br>
