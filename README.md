@@ -9,8 +9,8 @@
 |*Monitoring* | ![Grafana](https://img.shields.io/badge/Grafana-F46800?style=flat-square&logo=grafana&logoColor=white) ![Loki](https://img.shields.io/badge/Loki-F46800?style=flat-square&logo=grafana&logoColor=white) ![Prometheus](https://img.shields.io/badge/Prometheus-E6522C?style=flat-square&logo=prometheus&logoColor=white) ![Exporter](https://img.shields.io/badge/Node_Exporter-607D8B?style=flat-square&logo=prometheus&logoColor=white) ![Exporter](https://img.shields.io/badge/Postgres_Exporter-607D8B?style=flat-square&logo=prometheus&logoColor=white) ![PoWA](https://img.shields.io/badge/Tool-PoWA-blueviolet?style=flat-square) |
 |*Log Management*| ![Elasticsearch](https://img.shields.io/badge/Elasticsearch-005571?style=flat-square&logo=elasticsearch&logoColor=white) ![Logstash](https://img.shields.io/badge/Logstash-005571?style=flat-square&logo=logstash&logoColor=white) ![Kibana](https://img.shields.io/badge/Kibana-005571?style=flat-square&logo=kibana&logoColor=white) |
 |*Cloud & Infra*| ![GCP](https://img.shields.io/badge/GCP-4285F4?style=flat-square&logo=google-cloud&logoColor=white) ![Kubernetes](https://img.shields.io/badge/Kubernetes-326CE5?style=flat-square&logo=kubernetes&logoColor=white) ![Terraform](https://img.shields.io/badge/Terraform-7B42BC?style=flat-square&logo=terraform&logoColor=white) ![Ansible](https://img.shields.io/badge/Ansible-EE0000?style=flat-square&logo=ansible&logoColor=white) ![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white) |
-|*DevOps & Security* | ![Gitlab](https://img.shields.io/badge/Gitlab-FC6D26?style=flat-square&logo=gitlab&logoColor=white) ![Jenkins](https://img.shields.io/badge/Jenkins-D24939?style=flat-square&logo=jenkins&logoColor=white) ![Vault](https://img.shields.io/badge/HashiCorp_Vault-6070E1?style=flat-square&logo=hashicorp&logoColor=white) ![Portainer](https://img.shields.io/badge/Portainer-13BEFF?style=flat-square&logo=portainer&logoColor=white) |
-|*Other*| <a href='https://github.com/Junwu0615/Platform Genesis'><img alt='GitHub Views' src='https://views.whatilearened.today/views/github/Junwu0615/Platform Genesis.svg'> ![WSL2](https://img.shields.io/badge/WSL2-0078D4?style=flat-square&logo=windows&logoColor=white) ![Windows 11](https://img.shields.io/badge/Windows_11-0078D4?style=flat-square&logo=windows-11&logoColor=white) |
+|*DevOps & Security* | ![Gitlab](https://img.shields.io/badge/Gitlab-FC6D26?style=flat-square&logo=gitlab&logoColor=white) ![Jenkins](https://img.shields.io/badge/Jenkins-D24939?style=flat-square&logo=jenkins&logoColor=white) ![Docker-Registry](https://img.shields.io/badge/Docker_Registry-2496ED?style=flat-square&logo=docker&logoColor=white) ![Vault](https://img.shields.io/badge/HashiCorp_Vault-6070E1?style=flat-square&logo=hashicorp&logoColor=white) ![Portainer](https://img.shields.io/badge/Portainer-13BEFF?style=flat-square&logo=portainer&logoColor=white) |
+|*Other*| <a href='https://github.com/Junwu0615/Platform Genesis'><img alt='GitHub Views' src='https://views.whatilearened.today/views/github/Junwu0615/Platform Genesis.svg'> ![Ubuntu](https://img.shields.io/badge/Ubuntu-E9433F?style=flat-square&logo=ubuntu&logoColor=white) ![WSL2](https://img.shields.io/badge/WSL2-0078D4?style=flat-square&logo=windows&logoColor=white) ![Windows 11](https://img.shields.io/badge/Windows_11-0078D4?style=flat-square&logo=windows-11&logoColor=white) |
 
 </div>
 
@@ -58,24 +58,24 @@
 | Ansible | Modularization | 2026-04-20 |
 | Add `IoT Platform` | `MQTT Broker` + `Apache Kafka` | 2026-04-25 |
 | Add `ELK` | for `Manage Log` | 2026-05-05 |
-| K8s | Beginner : `Minikube` | - |
-| K8s | Advanced : `K3s` + `VMware` | - |
+| K8s | Beginner : `Minikube` | 2026-05-09 |
+| K8s | Advanced : `K3s` + `VMware` | 2026-05-09 |
 | K8s | Bottom Layer : `Kubeadm` + `VMware` | - |
-| Quantitation 2 | `Compose` vs. `K8s`<br>High Availability Comparison Test | - |
+| Quantitation 6 |  `infra` High Availability Comparison Test | - |
 | Add `Gitlab` | for `CI` & `Manage Projects` | - |
 | Add `Jenkins` | for `CD` | - |
 | Add `Docker-Registry` | for `CI / CD` & `Manage Images` | - |
-| Quantitation 3 | Automated Deployment of the Edge :<br>`Manual` vs. `CD -> Ansible` | - |
+| Quantitation 4 | Automated Deployment of the Edge :<br>`Manual` vs. `CD -> Ansible` | - |
 | Add `Loki` | for `Manage Log` | - |
 | Add `Debezium` | Change Data Capture | - |
 | Add `Apache Iceberg` | Data Lake | - |
 | Add `Apache Flink` | consumer of `CDC` | - |
 | Build `Lakehouse` | - | - |
-| Quantitation 6 | `OLTP vs OLAP` Core Business<br>Recovery and Evolution :<br>`Direct Read` vs. `MV` vs. `CDC` | - |
+| Quantitation 5 | `OLTP vs OLAP` Core Business<br>Recovery and Evolution :<br>`Direct Read` vs. `MV` vs. `CDC` | - |
 | Add `HashiCorp Vault` | Enterprise Key Management System | - |
 | Add `Superset` | for `OLAP` | - |
-| Quantitation 4 | Workload Benchmark | - |
-| Quantitation 5 | OLTP Query Efficiency<br>Optimization ( Index / Partition )<br>`Before` vs. `After` | - |
+| Quantitation 2 | Workload Benchmark | - |
+| Quantitation 3 | OLTP Query Efficiency<br>Optimization ( Index / Partition )<br>`Before` vs. `After` | - |
 | K8s | Public Cloud : `GKE` | - |
 | Summary | - | - |
 
@@ -181,8 +181,8 @@
 | Add `Portainer` | for `Manage Containers` | 2026-04-11 |
 | Add `IoT Platform` | `MQTT Broker` + `Apache Kafka` | 2026-04-25 |
 | Add `ELK` | for `Manage Log` | 2026-05-05 |
-| K8s | Beginner : `Minikube` | - |
-| K8s | Advanced : `K3s` + `VMware` | - |
+| K8s | Beginner : `Minikube` | 2026-05-09 |
+| K8s | Advanced : `K3s` + `VMware` | 2026-05-09 |
 | K8s | Bottom Layer : `Kubeadm` + `VMware` | - |
 | Add `Gitlab` | for `CI` & `Manage Projects` | - |
 | Add `Jenkins` | for `CD` | - |
@@ -222,7 +222,7 @@
 | Terraform vs. Compose | Experience :<br>`狀態管理差異性 ; 復原配置崩潰 ; 提高 HA` | 2026-04-19 |
 | Terraform & Ansible | Experience :<br>`Ansible 如何補足 Terraform 的不足` | 2026-04-19 |
 | ELK | Experience : `ELK` | 2026-05-05 |
-| K8s | Experience :<br>`Pod` / `Service` / `Ingress` | - |
+| K8s | Experience :<br>`Pod` / `Service` / `Ingress` / ... | 2026-05-09 |
 | K8s | Experience :<br>`Lens` / `k9s` / `Kubernetes Dashboard` | - |
 
 </ul>
@@ -240,11 +240,11 @@
 | Design Benchmark 2 | Generic DB Benchmark | 2026-04-03 |
 | Quantitation 1.2 | Docker Desktop ( 64MB )<br>vs. WSL2 ( 16GB ) | 2026-04-04 |
 | Design Benchmark-3 | Workload Benchmark | 2026-04-04 |
-| Quantitation 2 | `Compose` vs. `K8s`<br>High Availability Comparison Test | - |
-| Quantitation 3 | Automated Deployment of the Edge :<br>`Manual` vs. `CD -> Ansible` | - |
-| Quantitation 4 | Workload Benchmark | - |
-| Quantitation 5 | OLTP Query Efficiency<br>Optimization ( Index / Partition )<br>`Before` vs. `After` | - |
-| Quantitation 6 | `OLTP vs OLAP` Core Business<br>Recovery and Evolution :<br>`Direct Read` vs. `MV` vs. `CDC` | - |
+| Quantitation 2 | Workload Benchmark | - |
+| Quantitation 3 | OLTP Query Efficiency<br>Optimization ( Index / Partition )<br>`Before` vs. `After` | - |
+| Quantitation 4 | Automated Deployment of the Edge :<br>`Manual` vs. `CD -> Ansible` | - |
+| Quantitation 5 | `OLTP vs OLAP` Core Business<br>Recovery and Evolution :<br>`Direct Read` vs. `MV` vs. `CDC` | - |
+| Quantitation 6 |  `infra` High Availability Comparison Test | - |
 
 
 </ul>
@@ -471,19 +471,27 @@ tree -d -I 'venv|.git|__pycache__|docs|logs|assets|kafka_data'
 <br>
 
 
-### *D.　Summary*
-- #### *d.1.　[OLTP-OLAP-Unified-DB](./docs/oltp-olap-unified-db.md)*
-- #### *d.2.　Automated Deployment of the Edge*
-- #### *d.3.　OLTP vs OLAP 核心業務解套演進*
-- #### *d.4.　Compose vs. K8s 高可用性比較測試*
 
+### *D.　Quantitation*
+- #### *d.1.　[透過通用工具進行資料庫極限測試](./docs/generic_benchmark.md)*
+- #### *d.2.　[透過監控系統觀察業務系統瓶頸](./docs/workload_benchmark.md)*
+- #### *d.3.　優化查詢 [ 前 / 後 ] 比較測試 ( Index / Partition )*
+- #### *d.4.　邊緣裝置部署效率測試 ( `Manual` vs. `CD -> Ansible` )*
+- #### *d.5.　資料庫核心業務解套演進 ( `Direct Read` vs. `MV` vs. `CDC` )*
+- #### *d.6.　基礎設施高可用性測試*
+
+
+<br>
+
+### *E.　Summary*
 
 <br>
 
 
 
-### *E.　Notice*
-- #### *e.1.　[SQL Implement](./docs/sql_implement.md)*
+### *F.　Notice*
+- #### *f.1.　[OLTP-OLAP-Unified-DB](./docs/oltp-olap-unified-db.md)*
+- #### *f.2.　[SQL Implement](./docs/sql_implement.md)*
 
 
 <br><br><br>
