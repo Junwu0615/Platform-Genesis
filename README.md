@@ -59,7 +59,8 @@
 | Add `IoT Platform` | `MQTT Broker` + `Apache Kafka` | 2026-04-25 |
 | Add `ELK` | for `Manage Log` | 2026-05-05 |
 | K8s | Beginner : `Minikube` | 2026-05-09 |
-| K8s | Advanced : `K3s` + `VMware` | 2026-05-09 |
+| K8s | Advanced : `K3d` | - |
+| K8s | Advanced : `K3s` + `VMware` | - |
 | K8s | Bottom Layer : `Kubeadm` + `VMware` | - |
 | Quantitation 6 |  `infra` High Availability Comparison Test | - |
 | Add `Gitlab` | for `CI` & `Manage Projects` | - |
@@ -182,7 +183,8 @@
 | Add `IoT Platform` | `MQTT Broker` + `Apache Kafka` | 2026-04-25 |
 | Add `ELK` | for `Manage Log` | 2026-05-05 |
 | K8s | Beginner : `Minikube` | 2026-05-09 |
-| K8s | Advanced : `K3s` + `VMware` | 2026-05-09 |
+| K8s | Advanced : `K3d` | - |
+| K8s | Advanced : `K3s` + `VMware` | - |
 | K8s | Bottom Layer : `Kubeadm` + `VMware` | - |
 | Add `Gitlab` | for `CI` & `Manage Projects` | - |
 | Add `Jenkins` | for `CD` | - |
