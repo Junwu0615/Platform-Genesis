@@ -229,8 +229,8 @@
 | K8s | Experience : Ansible 初始化節點 | 2026-05-10 |
 | K8s | Experience : K3d | 2026-05-10 |
 | K8s | Experience : K3s + VM | 2026-05-10 |
-| K8s | Experience : 簡化 kubectl 指令 | 2026-05-11 |
-| K8s | Experience : 以 Ping 自動喚醒 VM 防止深度睡眠 | 2026-05-11 |
+| K8s | Experience : 簡化 kubectl 指令 | - |
+| K8s | Experience : 以 Ping 自動喚醒 VM 防止深度睡眠 | - |
 | K8s | Experience : Terraform 安裝基礎設施 ( VM ) | 2026-05-11 |
 
 | K8s | Experience :<br>`Lens` / `k9s` / `Kubernetes Dashboard` | - |
