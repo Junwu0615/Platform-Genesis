@@ -224,7 +224,15 @@
 | Terraform vs. Compose | Experience :<br>`狀態管理差異性 ; 復原配置崩潰 ; 提高 HA` | 2026-04-19 |
 | Terraform & Ansible | Experience :<br>`Ansible 如何補足 Terraform 的不足` | 2026-04-19 |
 | ELK | Experience : `ELK` | 2026-05-05 |
-| K8s | Experience :<br>`Pod` / `Service` / `Ingress` / ... | 2026-05-09 |
+| K8s | Experience :<br>`Pod` `Node` `Helm` `Kubectl`<br>`Deployment` `Service` `Ingress`<br>`Secret` `ConfigMap` `PVC` | 2026-05-09 |
+| K8s | Experience : MiniKube | 2026-05-09 |
+| K8s | Experience : Ansible 初始化節點 | 2026-05-10 |
+| K8s | Experience : K3d | 2026-05-10 |
+| K8s | Experience : K3s + VM | 2026-05-10 |
+| K8s | Experience : 簡化 kubectl 指令 | 2026-05-11 |
+| K8s | Experience : 以 Ping 自動喚醒 VM 防止深度睡眠 | 2026-05-11 |
+| K8s | Experience : Terraform 安裝基礎設施 ( VM ) | 2026-05-11 |
+
 | K8s | Experience :<br>`Lens` / `k9s` / `Kubernetes Dashboard` | - |
 
 </ul>
