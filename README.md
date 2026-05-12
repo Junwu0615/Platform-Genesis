@@ -236,13 +236,13 @@
 | K8s | Experience : K3s + VM | 2026-05-10 |
 | K8s | Experience : 以 Ping 自動喚醒 VM 防止深度睡眠 | - |
 | K8s | Experience : Terraform 安裝基礎設施 ( VM ) | 2026-05-11 |
-| K8s | Experience : 簡化 kubectl 指令 | - |
+| K8s | Experience : 簡化 kubectl 指令 | 2026-05-12 |
 | K8s | Experience : 非負載平衡服務之後補單元測試 | - |
-| K8s | Experience : 橫向擴展 Node | - |
+| K8s | Experience : 橫向擴展 Node | 2026-05-12 |
 | K8s | Experience :<br>Filebeat / Fluent Bit ( DaemonSet ) | - |
-| K8s | Experience :<br>NFS 儲存機制 ( SQLite ) | - |
-| K8s | Experience :<br>Edge & Service 分離標籤 | - |
-| K8s | Experience :<br>CI / CD 管道 | - |
+| K8s | Experience : NFS 儲存機制 ( SQLite ) | - |
+| K8s | Experience : Edge & Service 分離標籤 | - |
+| K8s | Experience : CI / CD 管道 | - |
 | K8s | Experience :<br>`Lens` / `k9s` / `Kubernetes Dashboard` | - |
 
 </ul>
