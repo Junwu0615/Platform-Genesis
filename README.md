@@ -66,7 +66,7 @@
 | Add `Gitlab` | for `CI` & `Manage Projects` | - |
 | Add `Jenkins` | for `CD` | - |
 | Add `Docker Registry` | for `CI / CD` & `Manage Images` | - |
-| Quantitation 4 | Automated Deployment of the Edge :<br>`Manual` vs. `CD -> Ansible` | - |
+| Quantitation 4 | Automated Deployment of the Edge :<br>`Manual` vs. `CD -> Helm` | - |
 | Add `Loki` | for `Manage Log` | - |
 | Add `Debezium` | Change Data Capture | - |
 | Add `Apache Iceberg` | Data Lake | - |
@@ -252,7 +252,7 @@
 | Design Benchmark-3 | Workload Benchmark | 2026-04-04 |
 | Quantitation 2 | Workload Benchmark | - |
 | Quantitation 3 | OLTP Query Efficiency<br>Optimization ( Index / Partition )<br>`Before` vs. `After` | - |
-| Quantitation 4 | Automated Deployment of the Edge :<br>`Manual` vs. `CD -> Ansible` | - |
+| Quantitation 4 | Automated Deployment of the Edge :<br>`Manual` vs. `CD -> Helm` | - |
 | Quantitation 5 | `OLTP vs OLAP` Core Business<br>Recovery and Evolution :<br>`Direct Read` vs. `MV` vs. `CDC` | - |
 | Quantitation 6 |  `infra` High Availability Comparison Test | - |
 
@@ -568,7 +568,7 @@ tree -d -I 'venv|.git|__pycache__|docs|logs|assets|kafka_data'
 - #### *d.1.　[透過通用工具進行資料庫極限測試](./docs/generic_benchmark.md)*
 - #### *d.2.　[透過監控系統觀察業務系統瓶頸](./docs/workload_benchmark.md)*
 - #### *d.3.　優化查詢 [ 前 / 後 ] 比較測試 ( Index / Partition )*
-- #### *d.4.　邊緣裝置部署效率測試 ( `Manual` vs. `CD -> Ansible` )*
+- #### *d.4.　邊緣裝置部署效率測試 ( `Manual` vs. `CD -> Helm` )*
 - #### *d.5.　資料庫核心業務解套演進 ( `Direct Read` vs. `MV` vs. `CDC` )*
 - #### *d.6.　基礎設施高可用性測試*
 
