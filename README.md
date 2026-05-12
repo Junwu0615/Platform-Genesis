@@ -10,7 +10,7 @@
 |*Log Management*| ![Elasticsearch](https://img.shields.io/badge/Elasticsearch-005571?style=flat-square&logo=elasticsearch&logoColor=white) ![Logstash](https://img.shields.io/badge/Logstash-005571?style=flat-square&logo=logstash&logoColor=white) ![Kibana](https://img.shields.io/badge/Kibana-005571?style=flat-square&logo=kibana&logoColor=white) |
 |*Cloud & Infra*| ![GCP](https://img.shields.io/badge/GCP-4285F4?style=flat-square&logo=google-cloud&logoColor=white) ![Kubernetes](https://img.shields.io/badge/Kubernetes-326CE5?style=flat-square&logo=kubernetes&logoColor=white) ![Terraform](https://img.shields.io/badge/Terraform-7B42BC?style=flat-square&logo=terraform&logoColor=white) ![Ansible](https://img.shields.io/badge/Ansible-EE0000?style=flat-square&logo=ansible&logoColor=white) ![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white) |
 |*DevOps & Security* | ![Gitlab](https://img.shields.io/badge/Gitlab-FC6D26?style=flat-square&logo=gitlab&logoColor=white) ![Jenkins](https://img.shields.io/badge/Jenkins-D24939?style=flat-square&logo=jenkins&logoColor=white) ![Docker Registry](https://img.shields.io/badge/Docker_Registry-2496ED?style=flat-square&logo=docker&logoColor=white) ![Vault](https://img.shields.io/badge/HashiCorp_Vault-6070E1?style=flat-square&logo=hashicorp&logoColor=white) ![Portainer](https://img.shields.io/badge/Portainer-13BEFF?style=flat-square&logo=portainer&logoColor=white) |
-|*Other*| <a href='https://github.com/Junwu0615/Platform Genesis'><img alt='GitHub Views' src='https://views.whatilearened.today/views/github/Junwu0615/Platform Genesis.svg'> ![Ubuntu](https://img.shields.io/badge/Ubuntu-E9433F?style=flat-square&logo=ubuntu&logoColor=white) ![WSL2](https://img.shields.io/badge/WSL2-0078D4?style=flat-square&logo=windows&logoColor=white) ![Windows 11](https://img.shields.io/badge/Windows_11-0078D4?style=flat-square&logo=windows-11&logoColor=white) |
+|*Other*| <a href='https://github.com/Junwu0615/Platform Genesis'><img alt='GitHub Views' src='https://views.whatilearened.today/views/github/Junwu0615/Platform Genesis.svg'> ![Debian](https://img.shields.io/badge/Debian-gray?style=flat-square&logo=debian&logoColor=white) ![Ubuntu](https://img.shields.io/badge/Ubuntu-E9433F?style=flat-square&logo=ubuntu&logoColor=white) ![WSL2](https://img.shields.io/badge/WSL2-0078D4?style=flat-square&logo=windows&logoColor=white) ![Windows 11](https://img.shields.io/badge/Windows_11-0078D4?style=flat-square&logo=windows-11&logoColor=white) |
 
 </div>
 
@@ -152,9 +152,14 @@
 | Encapsulation Entry | app.py | 2026-05-06 |
 | logging logic | Logs Correct Paths<br>Based on Module Calls | 2026-05-07 |
 | update `v2` logic | Apply the<br>New Underlying Module | 2026-05-07 |
+| Import Shared Lib | - | - |
 | DAG | init.py + create_topic.py | - |
 | Add `SQLite`<br>to Edge scripts  | Improve the HA<br>of Consumer Transactions | - |
+| loki logic | - | - |
 | make `v2` Dockerfile | - | - |
+| upload images | - | - |
+| Add CI script | - | - |
+| Add CD script | - | - |
 | Grafana Dashboard | `htap_grafana.json` | - |
 | Create MV | Materialized View | - |
 | Analytical Queries | - | - |
@@ -185,11 +190,10 @@
 | K8s | Beginner : `Minikube` | 2026-05-09 |
 | K8s | Advanced : `K3d` | 2026-05-10 |
 | K8s | Advanced : `K3s` + `VMware` | 2026-05-10 |
-| K8s | Bottom Layer : `Kubeadm` + `VMware` | - |
+| Add `Loki` | for `Manage Log` | - |
 | Add `Gitlab` | for `CI` & `Manage Projects` | - |
 | Add `Jenkins` | for `CD` | - |
 | Add `Docker Registry` | for `CI / CD` & `Manage Images` | - |
-| Add `Loki` | for `Manage Log` | - |
 | Build `Hierarchical`<br>`Log Management` | `Loki` + `ELK` | - |
 | Add `Debezium` | Change Data Capture | - |
 | Add `Apache Iceberg` | Data Lake | - |
@@ -197,6 +201,7 @@
 | Build `Lakehouse` | - | - |
 | Add `HashiCorp Vault` | Enterprise Key Management System | - |
 | Add `Superset` | for `OLAP` | - |
+| K8s | Bottom Layer : `Kubeadm` + `VMware` | - |
 | K8s | Public Cloud : `GKE` | - |
 
 </ul>
@@ -229,10 +234,15 @@
 | K8s | Experience : Ansible 初始化節點 | 2026-05-10 |
 | K8s | Experience : K3d | 2026-05-10 |
 | K8s | Experience : K3s + VM | 2026-05-10 |
-| K8s | Experience : 簡化 kubectl 指令 | - |
 | K8s | Experience : 以 Ping 自動喚醒 VM 防止深度睡眠 | - |
 | K8s | Experience : Terraform 安裝基礎設施 ( VM ) | 2026-05-11 |
-
+| K8s | Experience : 簡化 kubectl 指令 | - |
+| K8s | Experience : 非負載平衡服務之後補單元測試 | - |
+| K8s | Experience : 橫向擴展 Node | - |
+| K8s | Experience :<br>Filebeat / Fluent Bit ( DaemonSet ) | - |
+| K8s | Experience :<br>NFS 儲存機制 ( SQLite ) | - |
+| K8s | Experience :<br>Edge & Service 分離標籤 | - |
+| K8s | Experience :<br>CI / CD 管道 | - |
 | K8s | Experience :<br>`Lens` / `k9s` / `Kubernetes Dashboard` | - |
 
 </ul>
