@@ -182,18 +182,21 @@
 | Add `Airflow` | for `OLAP` | 2026-03-21 |
 | Add `PoWA` | for `Monitoring` | 2026-03-23 |
 | Docker Engine | for `WSL2` | 2026-04-03 |
-| Add `Monitoring` | `Postgres Exporter` + `Prometheus` + `Grafana` | 2026-04-04 |
+| Add `Monitoring` | `Postgres Exporter` | 2026-04-04 |
+| Add `Monitoring` | `Prometheus` | 2026-04-04 |
+| Add `Monitoring` | `Grafana` | 2026-04-04 |
 | Add `Monitoring` | `Node Exporter` | 2026-04-05 |
 | Add `Portainer` | for `Manage Containers` | 2026-04-11 |
-| Add `IoT Platform` | `MQTT Broker` + `Apache Kafka` | 2026-04-25 |
+| Add `IoT Platform` | `MQTT Broker` | 2026-04-25 |
+| Add `IoT Platform` | `Apache Kafka` | 2026-04-25 |
 | Add `ELK` | for `Manage Log` | 2026-05-05 |
 | K8s | Beginner : `Minikube` | 2026-05-09 |
 | K8s | Advanced : `K3d` | 2026-05-10 |
 | K8s | Advanced : `K3s` + `VMware` | 2026-05-10 |
-| Add `Loki` | for `Manage Log` | - |
-| Add `Gitlab` | for `CI` & `Manage Projects` | - |
-| Add `Jenkins` | for `CD` | - |
-| Add `Docker Registry` | for `CI / CD` & `Manage Images` | - |
+| Add `Monitoring` | `Loki` | 2026-05-12 |
+| Add `Gitlab` | for `CI` & `Manage Projects` | 2026-05-12 |
+| Add `Jenkins` | for `CD` | 2026-05-12 |
+| Add `Docker Registry` | for `CI / CD` & `Manage Images` | 2026-05-12 |
 | Build `Hierarchical`<br>`Log Management` | `Loki` + `ELK` | - |
 | Add `Debezium` | Change Data Capture | - |
 | Add `Apache Iceberg` | Data Lake | - |
