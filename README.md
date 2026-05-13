@@ -61,13 +61,12 @@
 | K8s | Beginner : `Minikube` | 2026-05-09 |
 | K8s | Advanced : `K3d` | 2026-05-10 |
 | K8s | Advanced : `K3s` + `VMware` | 2026-05-10 |
-| K8s | Bottom Layer : `Kubeadm` + `VMware` | - |
-| Quantitation 6 |  `infra` High Availability Comparison Test | - |
-| Add `Gitlab` | for `CI` & `Manage Projects` | - |
-| Add `Jenkins` | for `CD` | - |
-| Add `Docker Registry` | for `CI / CD` & `Manage Images` | - |
+| Add `Loki` | for `Manage Log` | 2026-05-12 |
+| Add `Gitlab` | for `CI` & `Manage Projects` | 2026-05-12 |
+| Add `Jenkins` | for `CD` | 2026-05-12 |
+| Add `Docker Registry` | for `CI / CD` & `Manage Images` | 2026-05-12 |
 | Quantitation 4 | Automated Deployment of the Edge :<br>`Manual` vs. `CD -> Helm` | - |
-| Add `Loki` | for `Manage Log` | - |
+| Quantitation 6 |  `infra` High Availability Comparison Test | - |
 | Add `Debezium` | Change Data Capture | - |
 | Add `Apache Iceberg` | Data Lake | - |
 | Add `Apache Flink` | consumer of `CDC` | - |
@@ -77,6 +76,7 @@
 | Add `Superset` | for `OLAP` | - |
 | Quantitation 2 | Workload Benchmark | - |
 | Quantitation 3 | OLTP Query Efficiency<br>Optimization ( Index / Partition )<br>`Before` vs. `After` | - |
+| K8s | Bottom Layer : `Kubeadm` + `VMware` | - |
 | K8s | Public Cloud : `GKE` | - |
 | Summary | - | - |
 
@@ -152,20 +152,20 @@
 | Encapsulation Entry | app.py | 2026-05-06 |
 | logging logic | Logs Correct Paths<br>Based on Module Calls | 2026-05-07 |
 | update `v2` logic | Apply the<br>New Underlying Module | 2026-05-07 |
-| Import Shared Lib | - | - |
-| DAG | init.py + create_topic.py | - |
-| Add `SQLite`<br>to Edge scripts  | Improve the HA<br>of Consumer Transactions | - |
+| Import Shared Lib | - | 2026-05-13 |
+| Add `SQLite`<br>to Edge scripts  | Improve the HA<br>of Consumer Transactions | 2026-05-13 |
 | loki logic | - | - |
+| `IS_KUBERNETS` | 布林注入強制轉換配置 | - |
 | make `v2` Dockerfile | - | - |
 | upload images | - | - |
 | Add CI script | - | - |
 | Add CD script | - | - |
+| DAG | init.py + create_topic.py | - |
 | Grafana Dashboard | `htap_grafana.json` | - |
 | Create MV | Materialized View | - |
 | Analytical Queries | - | - |
 | Security Message :<br>`Message Queue Layer` | Encryption ( `kafka` + `mqtt` ) | - |
-| Security Message :<br>`Software Layer` | 非對稱加密 | X |
-| `IS_KUBERNETS` | 布林注入強制轉換配置 | X |
+| Security Message :<br>`Software Layer` | 非對稱加密 | - |
 | API Service logic | - | X |
 
 </ul>
