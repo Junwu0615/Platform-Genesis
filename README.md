@@ -158,7 +158,7 @@
 | Import Shared Lib | - | 2026-05-13 |
 | Add `SQLite`<br>to Edge scripts  | Improve the HA<br>of Consumer Transactions | 2026-05-13 |
 | loki logic | - | 2026-05-14 |
-| `IS_KUBERNETS` | 布林注入強制轉換配置 | 2026-05-14 |
+| `IS_KUBERNETES` | 布林注入強制轉換配置 | 2026-05-14 |
 | make `v2` Dockerfile | - | 2026-05-14 |
 | upload images | - | - |
 | Add CI script | - | - |
