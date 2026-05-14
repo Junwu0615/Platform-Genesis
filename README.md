@@ -65,6 +65,9 @@
 | Add `Gitlab` | for `CI` & `Manage Projects` | 2026-05-12 |
 | Add `Jenkins` | for `CD` | 2026-05-12 |
 | Add `Docker Registry` | for `CI / CD` & `Manage Images` | 2026-05-12 |
+| Build `Hierarchical`<br>`Log Management` | `Loki` + `ELK` | 2026-05-14 |
+| Build `CI / CD` | `CD` -> `Airflow DAGs` | - |
+| Build `CI / CD` | `CD` -> `Edge Container` | - |
 | Quantitation 4 | Automated Deployment of the Edge :<br>`Manual` vs. `CD -> Helm` | - |
 | Quantitation 6 |  `infra` High Availability Comparison Test | - |
 | Add `Debezium` | Change Data Capture | - |
@@ -154,9 +157,9 @@
 | update `v2` logic | Apply the<br>New Underlying Module | 2026-05-07 |
 | Import Shared Lib | - | 2026-05-13 |
 | Add `SQLite`<br>to Edge scripts  | Improve the HA<br>of Consumer Transactions | 2026-05-13 |
-| loki logic | - | - |
-| `IS_KUBERNETS` | 布林注入強制轉換配置 | - |
-| make `v2` Dockerfile | - | - |
+| loki logic | - | 2026-05-14 |
+| `IS_KUBERNETS` | 布林注入強制轉換配置 | 2026-05-14 |
+| make `v2` Dockerfile | - | 2026-05-14 |
 | upload images | - | - |
 | Add CI script | - | - |
 | Add CD script | - | - |
@@ -197,7 +200,9 @@
 | Add `Gitlab` | for `CI` & `Manage Projects` | 2026-05-12 |
 | Add `Jenkins` | for `CD` | 2026-05-12 |
 | Add `Docker Registry` | for `CI / CD` & `Manage Images` | 2026-05-12 |
-| Build `Hierarchical`<br>`Log Management` | `Loki` + `ELK` | - |
+| Build `Hierarchical`<br>`Log Management` | `Loki` + `ELK` | 2026-05-14 |
+| Build `CI / CD` | `CD` -> `Airflow DAGs` | - |
+| Build `CI / CD` | `CD` -> `Edge Container` | - |
 | Add `Debezium` | Change Data Capture | - |
 | Add `Apache Iceberg` | Data Lake | - |
 | Add `Apache Flink` | consumer of CDC | - |
