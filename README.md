@@ -437,50 +437,7 @@ tree -d -I 'venv|.git|__pycache__|docs|logs|assets|kafka_data'
 │       │   │   │           └── logstash.conf
 │       │   │   ├── gitlab
 │       │   │   │   ├── config
-│       │   │   │   │   ├── gitlab-secrets.json
-│       │   │   │   │   ├── gitlab.rb
-│       │   │   │   │   ├── ssh_host_ecdsa_key
-│       │   │   │   │   ├── ssh_host_ecdsa_key.pub
-│       │   │   │   │   ├── ssh_host_ed25519_key
-│       │   │   │   │   ├── ssh_host_ed25519_key.pub
-│       │   │   │   │   ├── ssh_host_rsa_key
-│       │   │   │   │   ├── ssh_host_rsa_key.pub
-│       │   │   │   │   └── trusted-certs
 │       │   │   │   ├── data
-│       │   │   │   │   ├── alertmanager  [error opening dir]
-│       │   │   │   │   ├── backups  [error opening dir]
-│       │   │   │   │   ├── bootstrapped
-│       │   │   │   │   ├── git-data  [error opening dir]
-│       │   │   │   │   ├── gitaly  [error opening dir]
-│       │   │   │   │   ├── gitlab-ci
-│       │   │   │   │   │   └── builds  [error opening dir]
-│       │   │   │   │   ├── gitlab-exporter
-│       │   │   │   │   │   ├── RUBY_VERSION
-│       │   │   │   │   │   └── gitlab-exporter.yml
-│       │   │   │   │   ├── gitlab-kas  [error opening dir]
-│       │   │   │   │   ├── gitlab-rails
-│       │   │   │   │   │   ├── REVISION
-│       │   │   │   │   │   ├── RUBY_VERSION
-│       │   │   │   │   │   ├── VERSION
-│       │   │   │   │   │   ├── etc  [error opening dir]
-│       │   │   │   │   │   ├── shared  [error opening dir]
-│       │   │   │   │   │   ├── sockets  [error opening dir]
-│       │   │   │   │   │   ├── tmp  [error opening dir]
-│       │   │   │   │   │   ├── upgrade-status  [error opening dir]
-│       │   │   │   │   │   ├── uploads  [error opening dir]
-│       │   │   │   │   │   └── working  [error opening dir]
-│       │   │   │   │   ├── gitlab-shell  [error opening dir]
-│       │   │   │   │   ├── gitlab-workhorse  [error opening dir]
-│       │   │   │   │   ├── logrotate  [error opening dir]
-│       │   │   │   │   ├── nginx  [error opening dir]
-│       │   │   │   │   ├── postgres-exporter  [error opening dir]
-│       │   │   │   │   ├── postgresql
-│       │   │   │   │   │   ├── VERSION
-│       │   │   │   │   │   └── data  [error opening dir]
-│       │   │   │   │   ├── prometheus  [error opening dir]
-│       │   │   │   │   ├── public_attributes.json
-│       │   │   │   │   ├── redis  [error opening dir]
-│       │   │   │   │   └── trusted-certs-directory-hash
 │       │   │   │   └── docker-compose.yaml
 │       │   │   ├── iot-platform
 │       │   │   │   ├── config
