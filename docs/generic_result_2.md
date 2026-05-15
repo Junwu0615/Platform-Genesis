@@ -81,7 +81,7 @@ docker stats pg-cluster-dev-db-1 --no-stream
   docker cp "src/scripts/generic_benchmark/olap_benchmark.sql" pg-cluster-dev-db-1:/tmp/olap_benchmark.sql
   
   
-  ### 2. 一次性清理 BOM 與 Windows 換行符 (CRLF -> LF) ⬇️
+  ### 2. 一次性清理 BOM 與 Windows 換行符 (CRLF => LF) ⬇️
   docker exec -it pg-cluster-dev-db-1 sh -c "sed -i '1s/^\xef\xbb\xbf//; s/\r$//' /tmp/dashboard_benchmark.sql"
   docker exec -it pg-cluster-dev-db-1 sh -c "sed -i '1s/^\xef\xbb\xbf//; s/\r$//' /tmp/olap_benchmark.sql"
   

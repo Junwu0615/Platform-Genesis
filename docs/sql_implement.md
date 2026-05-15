@@ -393,12 +393,12 @@ CREATE SCHEMA IF NOT EXISTS olap;
       # 按月是最折衷作法
       # 按年: table 太大
   
-  X -> oltp.product # product_id SERIAL PRIMARY KEY 已經建立
-  idx_machine_line -> oltp.machine
-  idx_orders_product -> oltp.production_orders
-  idx_production_machine_time -> oltp.production_records
-  idx_events_machine_time -> oltp.machine_events
-  idx_status_machine_time -> oltp.machine_status_logs
+  X => oltp.product # product_id SERIAL PRIMARY KEY 已經建立
+  idx_machine_line => oltp.machine
+  idx_orders_product => oltp.production_orders
+  idx_production_machine_time => oltp.production_records
+  idx_events_machine_time => oltp.machine_events
+  idx_status_machine_time => oltp.machine_status_logs
   ```
 
 <br>

@@ -76,12 +76,12 @@
 # 用 pgbench 執行 OLAP 查詢，同時啟動 OLTP 腳本，觀察 OLAP 查詢對 OLTP 的影響
 
 # 找瓶頸
-  - CPU  -> query optimization
-  - IO   -> table partition
-  - WAL  -> async commit ( SET synchronous_commit = OFF; )
+  - CPU  => query optimization
+  - IO   => table partition
+  - WAL  => async commit ( SET synchronous_commit = OFF; )
     - Notice: if Generic (1000 inserts = 1000 commit = 1000 WAL flush)
               if BATCH commit (1000 inserts = 1 commit = 1 WAL flush)
-  - Lock -> query redesign
+  - Lock => query redesign
 ```
 
 <br>

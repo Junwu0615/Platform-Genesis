@@ -66,9 +66,9 @@
 | Add `Jenkins` | for `CD` | 2026-05-12 |
 | Add `Docker Registry` | for `CI / CD` & `Manage Images` | 2026-05-12 |
 | Build `Hierarchical`<br>`Log Management` | `Loki` + `ELK` | 2026-05-14 |
-| Build `CI / CD` | `CD` -> `Airflow DAGs` | - |
-| Build `CI / CD` | `CD` -> `Edge Container` | - |
-| Quantitation 4 | Automated Deployment of the Edge :<br>`Manual` vs. `CD -> Helm` | - |
+| Build `CI / CD` | `CD` => `Airflow DAGs` | - |
+| Build `CI / CD` | `CD` => `Edge Container` | - |
+| Quantitation 4 | Automated Deployment of the Edge :<br>`Manual` vs. `CD => Helm` | - |
 | Quantitation 6 |  `infra` High Availability Comparison Test | - |
 | Add `Debezium` | Change Data Capture | - |
 | Add `Apache Iceberg` | Data Lake | - |
@@ -128,7 +128,7 @@
 | Generate Rigorous<br>Static Data | - | 2026-03-26 |
 | Rigorous Calibration<br>of Dynamic Data | 單一機台同時間只允許做一件事 /<br>排隊消化訂單 / 訂單生產週期戳記 | 2026-03-27 |
 | Adjusting Contextual | ~~insert machine event :<br>machine_events~~ | 2026-03-28 |
-| execute -> execute_batch | batch sending + batch submission :<br>不適用於目前模擬方式 | X |
+| execute => execute_batch | batch sending + batch submission :<br>不適用於目前模擬方式 | X |
 | Adjusting Contextual | insert machine status :<br>machine_status_logs | 2026-03-30 |
 | Increase Data Volume | - | 2026-03-30 |
 | Auto Partition | `dags/sql/auto_partition/*` | 2026-04-06 |
@@ -201,8 +201,8 @@
 | Add `Jenkins` | for `CD` | 2026-05-12 |
 | Add `Docker Registry` | for `CI / CD` & `Manage Images` | 2026-05-12 |
 | Build `Hierarchical`<br>`Log Management` | `Loki` + `ELK` | 2026-05-14 |
-| Build `CI / CD` | `CD` -> `Airflow DAGs` | - |
-| Build `CI / CD` | `CD` -> `Edge Container` | - |
+| Build `CI / CD` | `CD` => `Airflow DAGs` | - |
+| Build `CI / CD` | `CD` => `Edge Container` | - |
 | Add `Debezium` | Change Data Capture | - |
 | Add `Apache Iceberg` | Data Lake | - |
 | Add `Apache Flink` | consumer of CDC | - |
@@ -271,7 +271,7 @@
 | Design Benchmark-3 | Workload Benchmark | 2026-04-04 |
 | Quantitation 2 | Workload Benchmark | - |
 | Quantitation 3 | OLTP Query Efficiency<br>Optimization ( Index / Partition )<br>`Before` vs. `After` | - |
-| Quantitation 4 | Automated Deployment of the Edge :<br>`Manual` vs. `CD -> Helm` | - |
+| Quantitation 4 | Automated Deployment of the Edge :<br>`Manual` vs. `CD => Helm` | - |
 | Quantitation 5 | `OLTP vs OLAP` Core Business<br>Recovery and Evolution :<br>`Direct Read` vs. `MV` vs. `CDC` | - |
 | Quantitation 6 |  `infra` High Availability Comparison Test | - |
 
@@ -301,7 +301,9 @@ tree -d -I 'venv|.git|__pycache__|docs|logs|assets|kafka_data'
 
 .
 ├── PG-APP-Core
+│   ├── LICENSE
 │   ├── README.md
+│   ├── requirements.txt
 │   └── src
 │       ├── __init__.py
 │       ├── core
@@ -341,6 +343,7 @@ tree -d -I 'venv|.git|__pycache__|docs|logs|assets|kafka_data'
 │               ├── delete_data.py
 │               └── drop_table.py
 ├── PG-Airflow-DAGs
+│   ├── LICENSE
 │   ├── README.md
 │   └── dags
 │       ├── OP_SQL.py
@@ -383,8 +386,24 @@ tree -d -I 'venv|.git|__pycache__|docs|logs|assets|kafka_data'
 │           ├── __init__.py
 │           └── dag_tool.py
 ├── PG-Edge-Container
-│   └── README.md
+│   ├── LICENSE
+│   ├── Makefile
+│   ├── README.md
+│   ├── docker
+│   │   ├── cp
+│   │   │   ├── Dockerfile
+│   │   │   ├── data
+│   │   │   └── src ( copy `PG-APP-Core` )
+│   │   └── inst
+│   │       ├── Dockerfile
+│   │       ├── data
+│   │       │   ├── kafka_consumer_local.db
+│   │       │   ├── kafka_consumer_local.db-shm
+│   │       │   └── kafka_consumer_local.db-wal
+│   │       └── src ( copy `PG-APP-Core` )
+│   └── k8s
 ├── PG-Infrastructure
+│   ├── LICENSE
 │   ├── README.md
 │   └── infra
 │       ├── docker-compose
@@ -404,8 +423,11 @@ tree -d -I 'venv|.git|__pycache__|docs|logs|assets|kafka_data'
 │       │   │               └── main.yml
 │       │   ├── docker
 │       │   │   ├── airflow
+│       │   │   │   ├── config
+│       │   │   │   ├── dags ( copy `PG-Airflow-DAGs` )
 │       │   │   │   ├── deploy_dags.sh
-│       │   │   │   └── docker-compose.yaml
+│       │   │   │   ├── docker-compose.yaml
+│       │   │   │   └── plugins
 │       │   │   ├── elk
 │       │   │   │   ├── docker-compose.yaml
 │       │   │   │   ├── elasticsearch.yaml
@@ -413,6 +435,53 @@ tree -d -I 'venv|.git|__pycache__|docs|logs|assets|kafka_data'
 │       │   │   │       ├── logstash.yaml
 │       │   │   │       └── pipeline
 │       │   │   │           └── logstash.conf
+│       │   │   ├── gitlab
+│       │   │   │   ├── config
+│       │   │   │   │   ├── gitlab-secrets.json
+│       │   │   │   │   ├── gitlab.rb
+│       │   │   │   │   ├── ssh_host_ecdsa_key
+│       │   │   │   │   ├── ssh_host_ecdsa_key.pub
+│       │   │   │   │   ├── ssh_host_ed25519_key
+│       │   │   │   │   ├── ssh_host_ed25519_key.pub
+│       │   │   │   │   ├── ssh_host_rsa_key
+│       │   │   │   │   ├── ssh_host_rsa_key.pub
+│       │   │   │   │   └── trusted-certs
+│       │   │   │   ├── data
+│       │   │   │   │   ├── alertmanager  [error opening dir]
+│       │   │   │   │   ├── backups  [error opening dir]
+│       │   │   │   │   ├── bootstrapped
+│       │   │   │   │   ├── git-data  [error opening dir]
+│       │   │   │   │   ├── gitaly  [error opening dir]
+│       │   │   │   │   ├── gitlab-ci
+│       │   │   │   │   │   └── builds  [error opening dir]
+│       │   │   │   │   ├── gitlab-exporter
+│       │   │   │   │   │   ├── RUBY_VERSION
+│       │   │   │   │   │   └── gitlab-exporter.yml
+│       │   │   │   │   ├── gitlab-kas  [error opening dir]
+│       │   │   │   │   ├── gitlab-rails
+│       │   │   │   │   │   ├── REVISION
+│       │   │   │   │   │   ├── RUBY_VERSION
+│       │   │   │   │   │   ├── VERSION
+│       │   │   │   │   │   ├── etc  [error opening dir]
+│       │   │   │   │   │   ├── shared  [error opening dir]
+│       │   │   │   │   │   ├── sockets  [error opening dir]
+│       │   │   │   │   │   ├── tmp  [error opening dir]
+│       │   │   │   │   │   ├── upgrade-status  [error opening dir]
+│       │   │   │   │   │   ├── uploads  [error opening dir]
+│       │   │   │   │   │   └── working  [error opening dir]
+│       │   │   │   │   ├── gitlab-shell  [error opening dir]
+│       │   │   │   │   ├── gitlab-workhorse  [error opening dir]
+│       │   │   │   │   ├── logrotate  [error opening dir]
+│       │   │   │   │   ├── nginx  [error opening dir]
+│       │   │   │   │   ├── postgres-exporter  [error opening dir]
+│       │   │   │   │   ├── postgresql
+│       │   │   │   │   │   ├── VERSION
+│       │   │   │   │   │   └── data  [error opening dir]
+│       │   │   │   │   ├── prometheus  [error opening dir]
+│       │   │   │   │   ├── public_attributes.json
+│       │   │   │   │   ├── redis  [error opening dir]
+│       │   │   │   │   └── trusted-certs-directory-hash
+│       │   │   │   └── docker-compose.yaml
 │       │   │   ├── iot-platform
 │       │   │   │   ├── config
 │       │   │   │   │   ├── connectors
@@ -422,15 +491,20 @@ tree -d -I 'venv|.git|__pycache__|docs|logs|assets|kafka_data'
 │       │   │   │   │   │   │   └── sink-inst-status-logs.json
 │       │   │   │   │   │   └── source
 │       │   │   │   │   │       └── source-cp-mach-order.json
-│       │   │   │   │   └── mosquitto.conf
+│       │   │   │   │   ├── mosquitto.conf
+│       │   │   │   │   └── passwd
 │       │   │   │   ├── dockerfile
 │       │   │   │   │   └── Dockerfile.kafka
 │       │   │   │   ├── kafka-compose.yaml
 │       │   │   │   └── mqtt-compose.yaml
+│       │   │   ├── jenkins
+│       │   │   │   └── docker-compose.yaml
 │       │   │   ├── monitoring
 │       │   │   │   ├── docker-compose.yaml
 │       │   │   │   ├── htap_grafana.json
-│       │   │   │   └── prometheus.yaml
+│       │   │   │   ├── loki-config.yaml
+│       │   │   │   ├── prometheus.yaml
+│       │   │   │   └── promtail-config.yaml
 │       │   │   ├── portainer
 │       │   │   │   └── docker-compose.yaml
 │       │   │   ├── postgresql
@@ -438,11 +512,13 @@ tree -d -I 'venv|.git|__pycache__|docs|logs|assets|kafka_data'
 │       │   │   │   ├── docker-compose.yaml
 │       │   │   │   └── init
 │       │   │   │       └── init.sql
-│       │   │   └── powa
-│       │   │       ├── Dockerfile
-│       │   │       ├── docker-compose.yaml
-│       │   │       └── init
-│       │   │           └── powa.sql
+│       │   │   ├── powa
+│       │   │   │   ├── Dockerfile
+│       │   │   │   ├── docker-compose.yaml
+│       │   │   │   └── init
+│       │   │   │       └── powa.sql
+│       │   │   └── registry
+│       │   │       └── docker-compose.yaml
 │       │   ├── docker-compose.yaml
 │       │   ├── terraform
 │       │   │   ├── main.tf
@@ -493,15 +569,29 @@ tree -d -I 'venv|.git|__pycache__|docs|logs|assets|kafka_data'
 │       │   ├── Makefile
 │       │   ├── ansible
 │       │   │   ├── ansible.cfg
-│       │   │   ├── hosts.ini
-│       │   │   └── scripts
+│       │   │   ├── group_vars
+│       │   │   │   └── all.yml
+│       │   │   ├── inventory.ini
+│       │   │   └── playbooks
 │       │   │       ├── deploy_k3s.yml
 │       │   │       ├── init_nodes.yml
-│       │   │       └── power_manage.yml
+│       │   │       ├── power_manage.yml
+│       │   │       └── site.yml
 │       │   ├── app
 │       │   │   ├── app.py
 │       │   │   └── dockerfile
 │       │   │       └── Dockerfile.app
+│       │   ├── archive
+│       │   │   ├── v1
+│       │   │   │   ├── Makefile
+│       │   │   │   └── ansible
+│       │   │   │       ├── ansible.cfg
+│       │   │   │       ├── inventory.ini
+│       │   │   │       └── playbooks
+│       │   │   │           ├── deploy_k3s.yml
+│       │   │   │           ├── init_nodes.yml
+│       │   │   │           └── power_manage.yml
+│       │   │   └── v2
 │       │   ├── helm
 │       │   │   └── app-stack
 │       │   │       ├── Chart.yaml
@@ -522,6 +612,15 @@ tree -d -I 'venv|.git|__pycache__|docs|logs|assets|kafka_data'
 │       │   │       ├── values-prod.yaml
 │       │   │       └── values.yaml
 │       │   └── terraform
+│       │       ├── cloud_init.cfg
+│       │       ├── inventory.tftpl
+│       │       ├── main.tf
+│       │       ├── outputs.tf
+│       │       ├── terraform.tfstate
+│       │       ├── terraform.tfstate.backup
+│       │       ├── terraform.tfvars
+│       │       └── variables.tf
+│       ├── k3s_migration
 │       ├── kubeadm
 │       └── minikube
 │           ├── Makefile
@@ -550,26 +649,35 @@ tree -d -I 'venv|.git|__pycache__|docs|logs|assets|kafka_data'
 │           │       └── values.yaml
 │           └── k8s-manifests
 ├── PG-Shared-Lib
+│   ├── LICENSE
 │   ├── README.md
 │   ├── requirements.txt
-│   └── shared
-│       ├── __init__.py
-│       ├── configs
-│       │   ├── __init__.py
-│       │   ├── constant.py
-│       │   └── settings.py
-│       ├── modules
-│       │   ├── __init__.py
-│       │   ├── entry.py
-│       │   ├── kafka_consumer.py
-│       │   ├── kafka_producer.py
-│       │   ├── log.py
-│       │   └── mqtt.py
-│       └── utils
-│           ├── __init__.py
-│           ├── env_config.py
-│           ├── postgres_tools.py
-│           └── tools.py
+│   ├── setup.cfg
+│   ├── setup.py
+│   ├── shared
+│   │   ├── __init__.py
+│   │   ├── configs
+│   │   │   ├── __init__.py
+│   │   │   ├── constant.py
+│   │   │   └── settings.py
+│   │   ├── modules
+│   │   │   ├── __init__.py
+│   │   │   ├── entry.py
+│   │   │   ├── kafka_consumer.py
+│   │   │   ├── kafka_producer.py
+│   │   │   ├── log.py
+│   │   │   └── mqtt.py
+│   │   └── utils
+│   │       ├── __init__.py
+│   │       ├── env_config.py
+│   │       ├── postgres_tools.py
+│   │       └── tools.py
+│   └── shared.egg-info
+│       ├── PKG-INFO
+│       ├── SOURCES.txt
+│       ├── dependency_links.txt
+│       ├── requires.txt
+│       └── top_level.txt
 └── Platform-Genesis
     ├── LICENSE
     ├── Makefile
@@ -587,7 +695,7 @@ tree -d -I 'venv|.git|__pycache__|docs|logs|assets|kafka_data'
 - #### *d.1.　[透過通用工具進行資料庫極限測試](./docs/generic_benchmark.md)*
 - #### *d.2.　[透過監控系統觀察業務系統瓶頸](./docs/workload_benchmark.md)*
 - #### *d.3.　優化查詢 [ 前 / 後 ] 比較測試 ( Index / Partition )*
-- #### *d.4.　邊緣裝置部署效率測試 ( `Manual` vs. `CD -> Helm` )*
+- #### *d.4.　邊緣裝置部署效率測試 ( `Manual` vs. `CD => Helm` )*
 - #### *d.5.　資料庫核心業務解套演進 ( `Direct Read` vs. `MV` vs. `CDC` )*
 - #### *d.6.　基礎設施高可用性測試*
 

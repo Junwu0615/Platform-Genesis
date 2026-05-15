@@ -34,7 +34,7 @@
   docker cp ".\src\sql\scripts\generic_benchmark\olap_benchmark.sql" pg-cluster-dev-db-1:/tmp/olap_benchmark.sql
   
   
-  ### 2. 一次性清理 BOM 與 Windows 換行符 (CRLF -> LF) ⬇️
+  ### 2. 一次性清理 BOM 與 Windows 換行符 (CRLF => LF) ⬇️
   docker exec -it pg-cluster-dev-db-1 sh -c "sed -i '1s/^\xef\xbb\xbf//; s/\r$//' /tmp/dashboard_benchmark.sql"
   docker exec -it pg-cluster-dev-db-1 sh -c "sed -i '1s/^\xef\xbb\xbf//; s/\r$//' /tmp/olap_benchmark.sql"
   
@@ -57,14 +57,14 @@
   
   ### RETURN ⬇️
   Append  (cost=4.40..26.34 rows=20 width=36) (actual time=0.018..0.028 rows=16 loops=1)
-    ->  Bitmap Heap Scan on machine_status_logs_2026_03 machine_status_logs_1  (cost=4.40..13.60 rows=16 width=26) (actual time=0.017..0.026 rows=16 loops=1)
+    =>  Bitmap Heap Scan on machine_status_logs_2026_03 machine_status_logs_1  (cost=4.40..13.60 rows=16 width=26) (actual time=0.017..0.026 rows=16 loops=1)
           Recheck Cond: (machine_id = 10)
           Heap Blocks: exact=8
-          ->  Bitmap Index Scan on machine_status_logs_2026_03_machine_id_event_time_idx  (cost=0.00..4.40 rows=16 width=0) (actual time=0.013..0.013 rows=16 loops=1)
+          =>  Bitmap Index Scan on machine_status_logs_2026_03_machine_id_event_time_idx  (cost=0.00..4.40 rows=16 width=0) (actual time=0.013..0.013 rows=16 loops=1)
                 Index Cond: (machine_id = 10)
-    ->  Bitmap Heap Scan on machine_status_logs_2026_04 machine_status_logs_2  (cost=4.18..12.64 rows=4 width=78) (actual time=0.001..0.001 rows=0 loops=1)
+    =>  Bitmap Heap Scan on machine_status_logs_2026_04 machine_status_logs_2  (cost=4.18..12.64 rows=4 width=78) (actual time=0.001..0.001 rows=0 loops=1)
           Recheck Cond: (machine_id = 10)
-          ->  Bitmap Index Scan on machine_status_logs_2026_04_machine_id_event_time_idx  (cost=0.00..4.18 rows=4 width=0) (actual time=0.000..0.000 rows=0 loops=1)
+          =>  Bitmap Index Scan on machine_status_logs_2026_04_machine_id_event_time_idx  (cost=0.00..4.18 rows=4 width=0) (actual time=0.000..0.000 rows=0 loops=1)
                 Index Cond: (machine_id = 10)
   Planning Time: 0.077 ms
   Execution Time: 0.074 ms
