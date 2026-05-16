@@ -289,7 +289,7 @@
 
 ### *C.　Roadmap*
 
-[//]: # (- ![PNG]&#40;./assets/roadmap.PNG&#41;)
+- ![PNG](./assets/roadmap.PNG)
 
 <details>
 <summary><b><i>　Project Tree </i></b></summary>
