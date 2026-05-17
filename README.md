@@ -66,8 +66,10 @@
 | Add `Jenkins` | for `CD` | 2026-05-12 |
 | Add `Docker Registry` | for `CI / CD` & `Manage Images` | 2026-05-12 |
 | Build `Hierarchical`<br>`Log Management` | `Loki` + `ELK` | 2026-05-14 |
-| Build `CI / CD` | `CD` => `Airflow DAGs` | - |
-| Build `CI / CD` | `CD` => `Edge Container` | - |
+| Add `ArgoCD` | for `CD` | - |
+| Build `CD` | `CD` => `Airflow DAGs` | - |
+| Build `CD` | `CD` => `Edge Container` | - |
+| Build `CI / CD` | `GitLab CI` + `ArgoCD` | - |
 | Quantitation 4 | Automated Deployment of the Edge :<br>`Manual` vs. `CD => Helm` | - |
 | Quantitation 6 |  `infra` High Availability Comparison Test | - |
 | Add `Debezium` | Change Data Capture | - |
@@ -160,9 +162,6 @@
 | loki logic | - | 2026-05-14 |
 | `IS_KUBERNETES` | 布林注入強制轉換配置 | 2026-05-14 |
 | make `v2` Dockerfile | - | 2026-05-14 |
-| upload images | - | - |
-| Add CI script | - | - |
-| Add CD script | - | - |
 | DAG | init.py + create_topic.py | - |
 | Grafana Dashboard | `htap_grafana.json` | - |
 | Create MV | Materialized View | - |
@@ -201,8 +200,10 @@
 | Add `Jenkins` | for `CD` | 2026-05-12 |
 | Add `Docker Registry` | for `CI / CD` & `Manage Images` | 2026-05-12 |
 | Build `Hierarchical`<br>`Log Management` | `Loki` + `ELK` | 2026-05-14 |
-| Build `CI / CD` | `CD` => `Airflow DAGs` | - |
-| Build `CI / CD` | `CD` => `Edge Container` | - |
+| Add `ArgoCD` | for `CD` | - |
+| Build `CD` | `CD` => `Airflow DAGs` | - |
+| Build `CD` | `CD` => `Edge Container` | - |
+| Build `CI / CD` | `GitLab CI` + `ArgoCD` | - |
 | Add `Debezium` | Change Data Capture | - |
 | Add `Apache Iceberg` | Data Lake | - |
 | Add `Apache Flink` | consumer of CDC | - |
@@ -251,7 +252,7 @@
 | K8s | Experience :<br>Filebeat / Fluent Bit ( DaemonSet ) | - |
 | K8s | Experience : NFS 儲存機制 ( SQLite ) | - |
 | K8s | Experience : Edge & Service 分離標籤 | - |
-| K8s | Experience : CI / CD 管道 | - |
+| K8s | Experience : CI / CD 管道 ( GitLab CI + ArgoCD ) | - |
 | K8s | Experience :<br>`Lens` / `k9s` / `Kubernetes Dashboard` | - |
 
 </ul>
