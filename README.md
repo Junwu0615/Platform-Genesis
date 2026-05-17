@@ -50,35 +50,21 @@
 | Create Project | - | 2026-03-20 |
 | Add `PostgreSQL` | - | 2026-03-20 |
 | Add `Airflow` | for `OLAP` | 2026-03-21 |
-| Add `PoWA` | for `Monitoring` | 2026-03-23 |
 | Quantitation 1 | Docker Desktop vs. WSL2 | 2026-04-04 |
 | Add `Monitoring` | - | 2026-04-04 |
-| Add `Portainer` | for `Manage Containers` | 2026-04-11 |
 | Terraform | Modularization | 2026-04-20 |
 | Ansible | Modularization | 2026-04-20 |
 | Add `IoT Platform` | `MQTT Broker` + `Apache Kafka` | 2026-04-25 |
-| Add `ELK` | for `Manage Log` | 2026-05-05 |
 | K8s | Beginner : `Minikube` | 2026-05-09 |
 | K8s | Advanced : `K3d` | 2026-05-10 |
 | K8s | Advanced : `K3s` + `VMware` | 2026-05-10 |
-| Add `Loki` | for `Manage Log` | 2026-05-12 |
-| Add `Gitlab` | for `CI` & `Manage Projects` | 2026-05-12 |
-| Add `Jenkins` | for `CD` | 2026-05-12 |
-| Add `Docker Registry` | for `CI / CD` & `Manage Images` | 2026-05-12 |
 | Build `Hierarchical`<br>`Log Management` | `Loki` + `ELK` | 2026-05-14 |
-| Build `CD` | `CD` => `Airflow DAGs` | - |
-| Add `ArgoCD` | for `CD` | - |
-| Build `CD` | `CD` => `Edge Container` | - |
 | Build `GitOps` | `GitLab CI` + `ArgoCD` | - |
 | Quantitation 4 | Automated Deployment of the Edge :<br>`Manual` vs. `CD => Helm` | - |
 | Quantitation 6 |  `infra` High Availability Comparison Test | - |
-| Add `Debezium` | Change Data Capture | - |
-| Add `Apache Iceberg` | Data Lake | - |
-| Add `Apache Flink` | consumer of `CDC` | - |
 | Build `Lakehouse` | - | - |
 | Quantitation 5 | `OLTP vs OLAP` Core Business<br>Recovery and Evolution :<br>`Direct Read` vs. `MV` vs. `CDC` | - |
 | Add `HashiCorp Vault` | Enterprise Key Management System | - |
-| Add `Superset` | for `OLAP` | - |
 | Quantitation 2 | Workload Benchmark | - |
 | Quantitation 3 | OLTP Query Efficiency<br>Optimization ( Index / Partition )<br>`Before` vs. `After` | - |
 | K8s | Bottom Layer : `Kubeadm` + `VMware` | - |
@@ -249,9 +235,10 @@
 | K8s | Experience : 簡化 kubectl 指令 | 2026-05-12 |
 | K8s | Experience : 橫向擴展 Node ( VM ) | 2026-05-12 |
 | K8s | Experience : 高可用單一實例 ( HA Singleton ) | 2026-05-12 |
+| K8s | Experience : Edge & Service 分離標籤 | 2026-05-12 |
+| CI | Experience :<br>Commit 自動檢測 `.pre-commit-config.yaml` | 2026-05-18 |
 | K8s | Experience :<br>Filebeat / Fluent Bit ( DaemonSet ) | - |
 | K8s | Experience : NFS 儲存機制 ( SQLite ) | - |
-| K8s | Experience : Edge & Service 分離標籤 | - |
 | K8s | Experience : CI / CD 管道 ( GitLab CI + ArgoCD ) | - |
 | K8s | Experience :<br>`Lens` / `k9s` / `Kubernetes Dashboard` | - |
 
