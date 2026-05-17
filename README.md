@@ -66,10 +66,10 @@
 | Add `Jenkins` | for `CD` | 2026-05-12 |
 | Add `Docker Registry` | for `CI / CD` & `Manage Images` | 2026-05-12 |
 | Build `Hierarchical`<br>`Log Management` | `Loki` + `ELK` | 2026-05-14 |
-| Add `ArgoCD` | for `CD` | - |
 | Build `CD` | `CD` => `Airflow DAGs` | - |
+| Add `ArgoCD` | for `CD` | - |
 | Build `CD` | `CD` => `Edge Container` | - |
-| Build `CI / CD` | `GitLab CI` + `ArgoCD` | - |
+| Build `GitOps` | `GitLab CI` + `ArgoCD` | - |
 | Quantitation 4 | Automated Deployment of the Edge :<br>`Manual` vs. `CD => Helm` | - |
 | Quantitation 6 |  `infra` High Availability Comparison Test | - |
 | Add `Debezium` | Change Data Capture | - |
@@ -200,10 +200,10 @@
 | Add `Jenkins` | for `CD` | 2026-05-12 |
 | Add `Docker Registry` | for `CI / CD` & `Manage Images` | 2026-05-12 |
 | Build `Hierarchical`<br>`Log Management` | `Loki` + `ELK` | 2026-05-14 |
-| Add `ArgoCD` | for `CD` | - |
 | Build `CD` | `CD` => `Airflow DAGs` | - |
+| Add `ArgoCD` | for `CD` | - |
 | Build `CD` | `CD` => `Edge Container` | - |
-| Build `CI / CD` | `GitLab CI` + `ArgoCD` | - |
+| Build `GitOps` | `GitLab CI` + `ArgoCD` | - |
 | Add `Debezium` | Change Data Capture | - |
 | Add `Apache Iceberg` | Data Lake | - |
 | Add `Apache Flink` | consumer of CDC | - |
