@@ -133,6 +133,7 @@
 | Terraform | Modularization | 2026-04-20 |
 | Ansible | Modularization | 2026-04-20 |
 | Simple Simulation | organizing old versions : `v1` | 2026-04-28 |
+| API Service logic | - | X |
 | Multi-Instance | like real-edge : `v2` | 2026-04-28 |
 | MQTT logic | for `cp` | 2026-04-28 |
 | Kafka Connect | `source` : producer  | 2026-04-30 |
@@ -148,13 +149,15 @@
 | loki logic | - | 2026-05-14 |
 | `IS_KUBERNETES` | 布林注入強制轉換配置 | 2026-05-14 |
 | make `v2` Dockerfile | - | 2026-05-14 |
+| CI | 推送前自動檢測 `.pre-commit-config.yaml` | 2026-05-18 |
+| CI | 語法檢查 `black` `flake8` ... | 2026-05-18 |
+| CI | common tests scripts | 2026-05-18 |
 | DAG | init.py + create_topic.py | - |
 | Grafana Dashboard | `htap_grafana.json` | - |
 | Create MV | Materialized View | - |
 | Analytical Queries | - | - |
 | Security Message :<br>`Message Queue Layer` | Encryption ( `kafka` + `mqtt` ) | - |
 | Security Message :<br>`Software Layer` | 非對稱加密 | - |
-| API Service logic | - | X |
 
 </ul>
 </details>
@@ -236,7 +239,6 @@
 | K8s | Experience : 橫向擴展 Node ( VM ) | 2026-05-12 |
 | K8s | Experience : 高可用單一實例 ( HA Singleton ) | 2026-05-12 |
 | K8s | Experience : Edge & Service 分離標籤 | 2026-05-12 |
-| CI | Experience :<br>Commit 自動檢測 `.pre-commit-config.yaml` | 2026-05-18 |
 | K8s | Experience :<br>Filebeat / Fluent Bit ( DaemonSet ) | - |
 | K8s | Experience : NFS 儲存機制 ( SQLite ) | - |
 | K8s | Experience : CI / CD 管道 ( GitLab CI + ArgoCD ) | - |
