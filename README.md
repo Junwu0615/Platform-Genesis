@@ -149,7 +149,7 @@
 | loki logic | - | 2026-05-14 |
 | `IS_KUBERNETES` | 布林注入強制轉換配置 | 2026-05-14 |
 | make `v2` Dockerfile | - | 2026-05-14 |
-| CI | 推送前自動檢測 `.pre-commit-config.yaml` | 2026-05-18 |
+| CI-lint | 推送前自動檢測 `.pre-commit-config.yaml` | 2026-05-18 |
 | CI-lint | 語法檢查 `black` `flake8` ... | 2026-05-18 |
 | CI-test | common tests scripts | 2026-05-18 |
 | CI-build | - | 2026-05-19 |
