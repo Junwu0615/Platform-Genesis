@@ -149,11 +149,11 @@
 | loki logic | - | 2026-05-14 |
 | `IS_KUBERNETES` | 布林注入強制轉換配置 | 2026-05-14 |
 | make `v2` Dockerfile | - | 2026-05-14 |
-| CI-lint | 推送前自動檢測 `.pre-commit-config.yaml` | 2026-05-18 |
-| CI-lint | 語法檢查 `black` `flake8` ... | 2026-05-18 |
-| CI-test | common tests scripts | 2026-05-18 |
-| CI-build | - | 2026-05-19 |
-| CI-deploy | - | 2026-05-20 |
+| CI - lint | 推送前自動檢測 `.pre-commit-config.yaml` | 2026-05-18 |
+| CI - lint | 語法檢查 `black` `flake8` ... | 2026-05-18 |
+| CI - test | common tests scripts | 2026-05-18 |
+| CI - build | - | 2026-05-19 |
+| CI - deploy | - | 2026-05-20 |
 | DAG | init.py + create_topic.py | - |
 | Grafana Dashboard | `htap_grafana.json` | - |
 | Create MV | Materialized View | - |
@@ -233,6 +233,7 @@
 | K8s | Experience : MiniKube | 2026-05-09 |
 | K8s | Experience : Ansible 初始化節點 | 2026-05-10 |
 | K8s | Experience : K3d | 2026-05-10 |
+| VM | Experience : Manual Create Oracle VM | 2026-05-10 |
 | K8s | Experience : K3s + VM | 2026-05-10 |
 | K8s | Experience : 水平擴充 ( Horizontal Scaling ) | 2026-05-10 |
 | K8s | Experience : 以 Ping 自動喚醒 VM 防止深度睡眠 | - |
@@ -242,7 +243,7 @@
 | K8s | Experience : 高可用單一實例 ( HA Singleton ) | 2026-05-12 |
 | K8s | Experience : Edge & Service 分離標籤 | 2026-05-12 |
 | CI/CD | Experience : Git-Runner | 2026-05-19 |
-| CI/CD | Experience : Airflow 熱更新 | 2026-05-20 |
+| CI/CD | Experience : ⚠️ Airflow 熱更新 | 2026-05-20 |
 | K8s | Experience :<br>Filebeat / Fluent Bit ( DaemonSet ) | - |
 | K8s | Experience : NFS 儲存機制 ( SQLite ) | - |
 | K8s | Experience : CI / CD 管道 ( GitLab CI + ArgoCD ) | - |
