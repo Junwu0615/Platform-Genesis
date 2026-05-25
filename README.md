@@ -191,6 +191,7 @@
 | Add `Jenkins` | for `CD` | 2026-05-12 |
 | Add `Docker Registry` | for `CI / CD` & `Manage Images` | 2026-05-12 |
 | Build `Hierarchical`<br>`Log Management` | `Loki` + `ELK` | 2026-05-14 |
+| Build `WSL2 Homelab` | - | 2026-05-25 |
 | Build `CD` | `CD` => `Airflow DAGs` | - |
 | Add `ArgoCD` | for `CD` | - |
 | Build `CD` | `CD` => `Edge Container` | - |
@@ -244,6 +245,9 @@
 | K8s | Experience : Edge & Service 分離標籤 | 2026-05-12 |
 | CI/CD | Experience : Git-Runner | 2026-05-19 |
 | CI/CD | Experience : ⚠️ Airflow 熱更新 | 2026-05-20 |
+| K8s | Experience : Terraform ( + Gateway ) | 2026-05-24 |
+| K8s | Experience :<br>Win -> `Portproxy` -> WSL2 | 2026-05-25 |
+| K8s | Experience : `ingress-nginx` | 2026-05-25 |
 | K8s | Experience :<br>Filebeat / Fluent Bit ( DaemonSet ) | - |
 | K8s | Experience : NFS 儲存機制 ( SQLite ) | - |
 | K8s | Experience : CI / CD 管道 ( GitLab CI + ArgoCD ) | - |
