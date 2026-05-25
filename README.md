@@ -149,11 +149,11 @@
 | loki logic | - | 2026-05-14 |
 | `IS_KUBERNETES` | 布林注入強制轉換配置 | 2026-05-14 |
 | make `v2` Dockerfile | - | 2026-05-14 |
-| CI - lint | 推送前自動檢測 `.pre-commit-config.yaml` | 2026-05-18 |
-| CI - lint | 語法檢查 `black` `flake8` ... | 2026-05-18 |
-| CI - test | common tests scripts | 2026-05-18 |
-| CI - build | - | 2026-05-19 |
-| CI - deploy | - | 2026-05-20 |
+| lint `CI` | 推送前自動檢測 `.pre-commit-config.yaml` | 2026-05-18 |
+| lint `CI` | 語法檢查 `black` `flake8` ... | 2026-05-18 |
+| test `CI` | common tests scripts | 2026-05-18 |
+| build `CI` | - | 2026-05-19 |
+| deploy `CI` | - | 2026-05-20 |
 | DAG | init.py + create_topic.py | - |
 | Grafana Dashboard | `htap_grafana.json` | - |
 | Create MV | Materialized View | - |
@@ -191,7 +191,7 @@
 | Add `Jenkins` | for `CD` | 2026-05-12 |
 | Add `Docker Registry` | for `CI / CD` & `Manage Images` | 2026-05-12 |
 | Build `Hierarchical`<br>`Log Management` | `Loki` + `ELK` | 2026-05-14 |
-| Build `WSL2 Homelab` | - | 2026-05-25 |
+| Build `WSL2 Homelab` | `Chrome` => `Windows:8080`<br>=> `WSL2:80` => `ingress-nginx` | 2026-05-25 |
 | Build `CD` | `CD` => `Airflow DAGs` | - |
 | Add `ArgoCD` | for `CD` | - |
 | Build `CD` | `CD` => `Edge Container` | - |
@@ -246,7 +246,7 @@
 | CI/CD | Experience : Git-Runner | 2026-05-19 |
 | CI/CD | Experience : ⚠️ Airflow 熱更新 | 2026-05-20 |
 | K8s | Experience : Terraform ( + Gateway ) | 2026-05-24 |
-| K8s | Experience :<br>Win -> `Portproxy` -> WSL2 | 2026-05-25 |
+| K8s | Experience :<br>Win => `Portproxy` => WSL2 | 2026-05-25 |
 | K8s | Experience : `ingress-nginx` | 2026-05-25 |
 | K8s | Experience :<br>Filebeat / Fluent Bit ( DaemonSet ) | - |
 | K8s | Experience : NFS 儲存機制 ( SQLite ) | - |
