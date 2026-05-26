@@ -17,14 +17,23 @@
 <br>
 
 ## *⭐ Platform Genesis ⭐*
->> *Cloud-Native Data Platform PoC*
+> *Cloud-Native Data Platform PoC*
 
 ```
-* An Enterprise-Grade, Cloud-Native Blueprints Focused on Production-Ready Data Platform Engineering & DataOps.
-* Declarative Infrastructure: Full-Lifecycle Cluster Orchestration powered by IaC (Terraform & Ansible) across Hybrid environments.
-* Resilient Data Ingestion: Industrial Edge-to-Cloud telemetry streaming implemented via High-Availability MQTT & Apache Kafka.
-* Database Evolution: High-performance database modeling optimizing workload transactions across 3NF (OLTP), Star Schema (OLAP), and HTAP architectures.
-* Enterprise Observability: Production-scale monitoring and hierarchical telemetry management powered by ELK Stack, Loki, Prometheus, and Grafana.
+* An Enterprise-Grade, Cloud-Native Blueprints Focused on Production-Ready 
+  Data Platform Engineering & DataOps.
+  
+* Declarative Infrastructure: Full-Lifecycle Cluster Orchestration powered 
+  by IaC (Terraform & Ansible) across Hybrid environments.
+  
+* Resilient Data Ingestion: Industrial Edge-to-Cloud telemetry streaming 
+  implemented via High-Availability MQTT & Apache Kafka.
+  
+* Database Evolution: High-performance database modeling optimizing workload 
+  transactions across 3NF (OLTP), Star Schema (OLAP), and HTAP architectures.
+  
+* Enterprise Observability: Production-scale monitoring and hierarchical 
+  telemetry management powered by ELK Stack, Loki, Prometheus, and Grafana.
 ```
 
 <br>
