@@ -248,13 +248,14 @@
 | K8s | Experience : `k9s` | 2026-05-12 |
 | CI/CD | Experience : Git-Runner | 2026-05-19 |
 | CI/CD | Experience : ⚠️ Airflow 熱更新 | 2026-05-20 |
-| K8s | Experience : Terraform ( + Gateway ) | 2026-05-24 |
+| K8s | Experience : Terraform ( `Gateway` ) | 2026-05-24 |
 | K8s | Experience :<br>Win => `Portproxy` => WSL2 | 2026-05-25 |
 | K8s | Experience : `ingress-nginx` | 2026-05-25 |
 | K8s | Experience : `OOM` Out of Memory | 2026-05-25 |
-| K8s | Experience :<br>Filebeat / Fluent Bit ( DaemonSet ) | - |
+| K8s | Experience :<br>`Filebeat` / `Fluent Bit ( DaemonSet )` | - |
 | K8s | Experience : NFS 儲存機制 ( SQLite ) | - |
 | K8s | Experience : CI / CD 管道 ( GitLab CI + ArgoCD ) | - |
+| K8s | Experience : 完善 DevOps 流程<br>`Code Review` `PR` `TEST` `STAGE` `PROD` | - |
 
 
 </ul>
