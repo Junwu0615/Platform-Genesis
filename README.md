@@ -295,7 +295,7 @@
 - ![PNG](./assets/roadmap.png)
 
 <details>
-<summary><b><i>　Service Support Form </i></b></summary>
+<summary><b><i>　c.1.　Service Support Form </i></b></summary>
 <ul>
 
 ```
@@ -306,7 +306,7 @@ X = 已棄用
 △ = 省作業時間 ( 部分與重型服務的 Docker Compose 綑綁 ) => 不遷移
 ``` 
 
-|**Service**|**Docker**|**Terraform<br>( Docker )**|**MiniKube**|**K3d**|**K3s**|**K3s<br>( Migration )**|**Kubeadm**|**GCP**|
+|**Service**|**Docker**|**Terraform<br>( Docker )**|**MiniKube**|**K3d**|**K3s**|**K3s<br>Migration**|**Kubeadm**|**GCP**|
 |--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|
 | **PostgreSQL** | O | - | O | O | O | O | - | - |
 | **PgAdmin** | O | X | X | X | X | X | X | X |
@@ -342,7 +342,7 @@ X = 已棄用
 </details>
 
 <details>
-<summary><b><i>　Project Tree </i></b></summary>
+<summary><b><i>　c.2.　Project Tree </i></b></summary>
 <ul>
 
 ```bash
