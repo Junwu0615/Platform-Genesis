@@ -192,6 +192,7 @@
 | Add `Docker Registry` | for `CI / CD` & `Manage Images` | 2026-05-12 |
 | Build `Hierarchical`<br>`Log Management` | `Loki` + `ELK` | 2026-05-14 |
 | Build `WSL2 Homelab` | `Chrome` => `Windows:8080`<br>=> `WSL2:80` => `ingress-nginx` | 2026-05-25 |
+| Update Migration Matrix | `Hybrid deployment` | 2026-05-26 |
 | Build `CD` | `CD` => `Airflow DAGs` | - |
 | Add `ArgoCD` | for `CD` | - |
 | Build `CD` | `CD` => `Edge Container` | - |
@@ -248,6 +249,7 @@
 | K8s | Experience : Terraform ( + Gateway ) | 2026-05-24 |
 | K8s | Experience :<br>Win => `Portproxy` => WSL2 | 2026-05-25 |
 | K8s | Experience : `ingress-nginx` | 2026-05-25 |
+| K8s | Experience : `OOM` Out of Memory | 2026-05-25 |
 | K8s | Experience :<br>Filebeat / Fluent Bit ( DaemonSet ) | - |
 | K8s | Experience : NFS 儲存機制 ( SQLite ) | - |
 | K8s | Experience : CI / CD 管道 ( GitLab CI + ArgoCD ) | - |
@@ -289,6 +291,52 @@
 ### *C.　Roadmap*
 
 - ![PNG](./assets/roadmap.png)
+
+<details>
+<summary><b><i>　Service Support Form </i></b></summary>
+<ul>
+
+```
+O = 已實現
+X = 已棄用
+- = 未實現
+* = Homelab 記憶體 OOM ( 折衷改為 Docker Compose ) => 不遷移
+△ = 省作業時間 ( 部分與重型服務的 Docker Compose 綑綁 ) => 不遷移
+``` 
+
+|**Service**|**Docker**|**Terraform<br>( Docker )**|**MiniKube**|**K3d**|**K3s**|**K3s<br>( Migration )**|**Kubeadm**|**GCP**|
+|--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|
+| **PostgreSQL** | O | - | O | O | O | O | - | - |
+| **PgAdmin** | O | X | X | X | X | X | X | X |
+| **PoWA** | X | X | X | X | X | X | X | X |
+| **Apache Airflow** | O | - | - | - | - | * | - | - |
+| **Superset** | O | - | - | - | - | * | - | - |
+| **MQTT Broker** | O | - | - | - | - | △ | - | - |
+| **Apache Kafka** | O | - | - | - | - | * | - | - |
+| **Kafka UI** | O | - | - | - | - | △ | - | - |
+| **Schema Registry** | O | - | - | - | - | △ | - | - |
+| **Debezium** | O | - | - | - | - | △ | - | - |
+| **Apache Iceberg** | O | - | - | - | - | * | - | - |
+| **Apache Flink** | O | - | - | - | - | * | - | - |
+| **Postgres Exporter** | O | O | - | - | - | O | - | - |
+| **Node Exporter** | O | O | - | - | - | O | - | - |
+| **Prometheus** | O | O | - | - | - | O | - | - |
+| **Grafana** | O | O | - | - | - | O | - | - |
+| **Loki** | O | - | - | - | - | O | - | - |
+| **Promtail** | O | - | - | - | - | O | - | - |
+| **Elasticsearch** | O | - | - | - | - | * | - | - |
+| **Logstash** | O | - | - | - | - | * | - | - |
+| **Kibana** | O | - | - | - | - | * | - | - |
+| **Gitlab** | O | - | - | - | - | * | - | - |
+| **Jenkins** | X | X | X | X | X | X | X | X |
+| **ArgoCD** | X | - | - | - | - | O | - | - |
+| **Docker Registry** | O | - | - | - | - | O | - | - |
+| **Docker Registry UI** | X | X | X | X | X | X | X | X |
+| **Portainer** | O | O | - | - | O | △ | - | - |
+| **HashiCorp Vault** | O | - | - | - | - | O | - | - |
+
+</ul>
+</details>
 
 <details>
 <summary><b><i>　Project Tree </i></b></summary>
