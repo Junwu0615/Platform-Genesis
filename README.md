@@ -43,9 +43,9 @@
 |--:|:--|:--|
 | [Platform Genesis](https://github.com/Junwu0615/Platform-Genesis) | **Homepage :**<br>Construction Records & Quantitative Testing | - |
 | [PG-Infrastructure](https://github.com/Junwu0615/PG-Infrastructure) | **IaC & Automation :**<br>Orchestrates environment lifecycles via<br>Terraform, Ansible, and Makefiles. | `GCP` `K8s` `Terraform` `Ansible`<br>`Docker` `Makefile` |
-| [PG-APP-Core](https://github.com/Junwu0615/PG-APP-Core) | **Business & Stream Logic :**<br>Core engine for multi-version factory simulations,<br>stream processing, and data infrastructure optimization. | `Python` |
+| [PG-APP-Core](https://github.com/Junwu0615/PG-APP-Core) | **Business & Stream Logic :**<br>Core engine for multi-version factory simulations,<br>stream processing, and data infrastructure optimization. | `PG-Shared-Lib` `Python` |
 | [PG-Shared-Lib](https://github.com/Junwu0615/PG-Shared-Lib) | **Core Library :**<br>Provides standardized,<br>high-reusability modules across the ecosystem. | `EntryPoint` `Logger` `MqttServer`<br>`KafkaConsumerManager`<br>`KafkaProducerManager` |
-| [PG-Edge-Container](https://github.com/Junwu0615/PG-Edge-Container) | **Edge Deployment :**<br>Lightweight IoT units for data acquisition<br>and real-time MQTT/SQLite HA processing. | `MQTT` `SQLite` |
+| [PG-Edge-Container](https://github.com/Junwu0615/PG-Edge-Container) | **Edge Deployment :**<br>Lightweight IoT units for data acquisition<br>and real-time MQTT/SQLite HA processing. | `PG-APP-Core` `MQTT` `SQLite` |
 | [PG-Airflow-DAGs](https://github.com/Junwu0615/PG-Airflow-DAGs) | **Data Orchestration :**<br>Manages ETL pipelines, data lineage,<br>and OLTP-to-OLAP transformations. | `Airflow` `DAGs` |
 
 <br>
@@ -106,6 +106,7 @@
 | Create OLAP DDL ( 5 ) | Star Schema | 2026-04-06 |
 | Redefine Project Name | `OLTP-OLAP-Unified-DB`<br>to `Platform Genesis` | 2026-05-08 |
 | Project Breakdown | `5` Major Categories | 2026-05-08 |
+| Add Form | Practice Self-Evaluation | - |
 | Summary | - | - |
 
 </ul>
@@ -204,8 +205,9 @@
 | Build `Hierarchical`<br>`Log Management` | `Loki` + `ELK` | 2026-05-14 |
 | Build `WSL2 Homelab` | `Chrome` => `Windows:8080`<br>=> `WSL2:80` => `ingress-nginx` | 2026-05-25 |
 | Update Migration Matrix | `Hybrid deployment` | 2026-05-26 |
+| Add `ArgoCD` | for `CD` | 2026-05-28 |
+| Reconstruct | `GitOps Infra Tree` | 2026-05-28 |
 | Build `CD` | `CD` => `Airflow DAGs` | - |
-| Add `ArgoCD` | for `CD` | - |
 | Build `CD` | `CD` => `Edge Container` | - |
 | Build `GitOps` | `GitLab CI` + `ArgoCD` | - |
 | Add `Debezium` | Change Data Capture | - |
@@ -264,6 +266,12 @@
 | K8s | Experience : `ingress-nginx` | 2026-05-25 |
 | K8s | Experience : `OOM` Out of Memory | 2026-05-25 |
 | K8s | Experience :<br>`Filebeat` / `Fluent Bit ( DaemonSet )` | - |
+| GitOps | Experience : `observability` | - |
+| GitOps | Experience : `platform` | - |
+| GitOps | Experience : `databases` | - |
+| GitOps | Experience : `pg-apps` | - |
+| GitOps | Experience : `storage` | - |
+| GitOps | Experience : `security` | - |
 | K8s | Experience : NFS 儲存機制 ( SQLite ) | - |
 | K8s | Experience : CI / CD 管道 ( GitLab CI + ArgoCD ) | - |
 | K8s | Experience : 完善 DevOps 流程<br>`Code Review` `PR` `TEST` `STAGE` `PROD` | - |
