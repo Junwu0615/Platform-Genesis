@@ -265,12 +265,13 @@
 | K8s | Experience :<br>Win => `Portproxy` => WSL2 | 2026-05-25 |
 | K8s | Experience : `ingress-nginx` | 2026-05-25 |
 | K8s | Experience : `OOM` Out of Memory | 2026-05-25 |
-| GitOps | Experience : `observability` | - |
-| GitOps | Experience : `platform` | - |
-| GitOps | Experience : `databases` | - |
-| GitOps | Experience : `pg-apps` | - |
-| GitOps | Experience : `storage` | - |
-| GitOps | Experience : `security` | - |
+| GitOps | Experience : `Layered GitOps` | 2026-05-29 |
+| GitOps | Build : `Observability` `Grafana` | 2026-05-30 |
+| GitOps | Build : `Platform` | - |
+| GitOps | Build : `Databases` | - |
+| GitOps | Build : `PG-Apps` | - |
+| GitOps | Build : `Storage` | - |
+| GitOps | Build : `Security` | - |
 | K8s | Experience : CI / CD 管道 ( GitLab CI + ArgoCD ) | - |
 | K8s | Experience :<br>`Filebeat` / `Fluent Bit ( DaemonSet )` | - |
 | K8s | Experience : NFS 儲存機制 ( SQLite ) | - |
