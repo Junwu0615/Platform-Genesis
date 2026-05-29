@@ -71,15 +71,15 @@
 | K8s | Advanced : `K3s` + `VMware` | 2026-05-10 |
 | Build `Hierarchical`<br>`Log Management` | `Loki` + `ELK` | 2026-05-14 |
 | Build `GitOps` | `GitLab CI` + `ArgoCD` | - |
-| Quantitation 4 | Automated Deployment of the Edge :<br>`Manual` vs. `CD => Helm` | - |
-| Quantitation 6 |  `infra` High Availability Comparison Test | - |
+| Quantitation 2 | Automated Deployment of the Edge :<br>`Manual` vs. `GitOps` | - |
+| Quantitation 3 |  `infra` High Availability Comparison Test | - |
 | Build `Lakehouse` | - | - |
+| Quantitation 4 | OLTP Query Efficiency<br>Optimization ( Index / Partition )<br>`Before` vs. `After` | - |
 | Quantitation 5 | `OLTP vs OLAP` Core Business<br>Recovery and Evolution :<br>`Direct Read` vs. `MV` vs. `CDC` | - |
 | Add `HashiCorp Vault` | Enterprise Key Management System | - |
-| Quantitation 2 | Workload Benchmark | - |
-| Quantitation 3 | OLTP Query Efficiency<br>Optimization ( Index / Partition )<br>`Before` vs. `After` | - |
-| K8s | Bottom Layer : `Kubeadm` + `VMware` | - |
-| K8s | Public Cloud : `GKE` | - |
+| Quantitation 6 | Workload Benchmark | - |
+| K8s | Bottom Layer : `Kubeadm` + `VMware` | `TBD` |
+| K8s | Public Cloud : `GKE` | `TBD` |
 | Summary | - | - |
 
 </ul>
@@ -170,8 +170,8 @@
 | Grafana Dashboard | `htap_grafana.json` | - |
 | Create MV | Materialized View | - |
 | Analytical Queries | - | - |
-| Security Message :<br>`Message Queue Layer` | Encryption ( `kafka` + `mqtt` ) | - |
-| Security Message :<br>`Software Layer` | 非對稱加密 | - |
+| Security Message :<br>`Message Queue Layer` | Encryption ( `kafka` + `mqtt` ) | `TBD` |
+| Security Message :<br>`Software Layer` | 非對稱加密 | `TBD` |
 
 </ul>
 </details>
@@ -215,10 +215,10 @@
 | Add `Apache Flink` | consumer of CDC | - |
 | Add `MinIO` | Object Storage | - |
 | Build `Lakehouse` | - | - |
-| Add `HashiCorp Vault` | Enterprise Key Management System | - |
 | Add `Superset` | for `OLAP` | - |
-| K8s | Bottom Layer : `Kubeadm` + `VMware` | - |
-| K8s | Public Cloud : `GKE` | - |
+| Add `HashiCorp Vault` | Enterprise Key Management System | - |
+| K8s | Bottom Layer : `Kubeadm` + `VMware` | `TBD` |
+| K8s | Public Cloud : `GKE` | `TBD` |
 
 </ul>
 </details>
@@ -245,7 +245,7 @@
 | Terraform vs. Compose | Experience :<br>`狀態管理差異性 ; 復原配置崩潰 ; 提高 HA` | 2026-04-19 |
 | Terraform & Ansible | Experience :<br>`Ansible 如何補足 Terraform 的不足` | 2026-04-19 |
 | ELK | Experience : `ELK` | 2026-05-05 |
-| K8s | Experience :<br>`Pod` `Node` `Helm` `Kubectl`<br>`Deployment` `Service` `Ingress`<br>`Secret` `ConfigMap` `PVC` | 2026-05-09 |
+| K8s | Experience :<br>`Pod` `Node` `Helm` `Kubectl` `Deployment`<br>`Service` `Ingress` `Secret` `ConfigMap`  `NameSpaces`<br>`PVC` `SVC` | 2026-05-09 |
 | K8s | Experience : MiniKube | 2026-05-09 |
 | K8s | Experience : Ansible 初始化節點 | 2026-05-10 |
 | K8s | Experience : K3d | 2026-05-10 |
@@ -265,16 +265,18 @@
 | K8s | Experience :<br>Win => `Portproxy` => WSL2 | 2026-05-25 |
 | K8s | Experience : `ingress-nginx` | 2026-05-25 |
 | K8s | Experience : `OOM` Out of Memory | 2026-05-25 |
-| K8s | Experience :<br>`Filebeat` / `Fluent Bit ( DaemonSet )` | - |
 | GitOps | Experience : `observability` | - |
 | GitOps | Experience : `platform` | - |
 | GitOps | Experience : `databases` | - |
 | GitOps | Experience : `pg-apps` | - |
 | GitOps | Experience : `storage` | - |
 | GitOps | Experience : `security` | - |
-| K8s | Experience : NFS 儲存機制 ( SQLite ) | - |
 | K8s | Experience : CI / CD 管道 ( GitLab CI + ArgoCD ) | - |
+| K8s | Experience :<br>`Filebeat` / `Fluent Bit ( DaemonSet )` | - |
+| K8s | Experience : NFS 儲存機制 ( SQLite ) | - |
+| K8s | Experience : 日誌統一收集與發送 | - |
 | K8s | Experience : 完善 DevOps 流程<br>`Code Review` `PR` `TEST` `STAGE` `PROD` | - |
+| Vault | Experience : 分發密鑰 | - |
 
 
 </ul>
@@ -292,11 +294,11 @@
 | Design Benchmark 2 | Generic DB Benchmark | 2026-04-03 |
 | Quantitation 1.2 | Docker Desktop ( 64MB )<br>vs. WSL2 ( 16GB ) | 2026-04-04 |
 | Design Benchmark 3 | Workload Benchmark | 2026-04-04 |
-| Quantitation 2 | Workload Benchmark | - |
-| Quantitation 3 | OLTP Query Efficiency<br>Optimization ( Index / Partition )<br>`Before` vs. `After` | - |
-| Quantitation 4 | Automated Deployment of the Edge :<br>`Manual` vs. `CD => Helm` | - |
+| Quantitation 2 | Automated Deployment of the Edge :<br>`Manual` vs. `GitOps` | - |
+| Quantitation 3 |  `infra` High Availability Comparison Test | - |
+| Quantitation 4 | OLTP Query Efficiency<br>Optimization ( Index / Partition )<br>`Before` vs. `After` | - |
 | Quantitation 5 | `OLTP vs OLAP` Core Business<br>Recovery and Evolution :<br>`Direct Read` vs. `MV` vs. `CDC` | - |
-| Quantitation 6 |  `infra` High Availability Comparison Test | - |
+| Quantitation 6 | Workload Benchmark | - |
 
 
 </ul>
@@ -494,7 +496,6 @@ tree -d -I 'venv|.git|__pycache__|docs|logs|assets|kafka_data'
 │       │   ├── docker
 │       │   │   ├── airflow
 │       │   │   │   ├── config
-│       │   │   │   ├── dags ( copy `PG-Airflow-DAGs` )
 │       │   │   │   ├── deploy_dags.sh
 │       │   │   │   ├── docker-compose.yaml
 │       │   │   │   └── plugins
@@ -547,6 +548,8 @@ tree -d -I 'venv|.git|__pycache__|docs|logs|assets|kafka_data'
 │       │   │   └── registry
 │       │   │       └── docker-compose.yaml
 │       │   ├── docker-compose.yaml
+│       │   ├── gitlab-runner
+│       │   │   └── config.toml
 │       │   ├── terraform
 │       │   │   ├── main.tf
 │       │   │   ├── modules
@@ -567,114 +570,109 @@ tree -d -I 'venv|.git|__pycache__|docs|logs|assets|kafka_data'
 │       │   │   └── variables.tf
 │       │   └── wsl2
 │       ├── gcp
-│       ├── k3d
-│       │   ├── Makefile
-│       │   ├── app
-│       │   │   ├── app.py
-│       │   │   └── dockerfile
-│       │   │       └── Dockerfile.app
-│       │   └── helm
-│       │       └── app-stack
-│       │           ├── Chart.yaml
-│       │           ├── templates
-│       │           │   ├── app
-│       │           │   │   └── app-deploy.yaml
-│       │           │   ├── configmap.yaml
-│       │           │   ├── db-pvc.yaml
-│       │           │   ├── ingress.yaml
-│       │           │   ├── portainer
-│       │           │   │   ├── portainer-deploy.yaml
-│       │           │   │   └── portainer-service.yaml
-│       │           │   ├── postgres
-│       │           │   │   ├── db-deploy.yaml
-│       │           │   │   └── db-service.yaml
-│       │           │   └── secret.yaml
-│       │           ├── values-dev.yaml
-│       │           ├── values-prod.yaml
-│       │           └── values.yaml
-│       ├── k3s
-│       │   ├── Makefile
-│       │   ├── ansible
-│       │   │   ├── ansible.cfg
-│       │   │   ├── group_vars
-│       │   │   │   └── all.yml
-│       │   │   ├── inventory.ini
-│       │   │   └── playbooks
-│       │   │       ├── deploy_k3s.yml
-│       │   │       ├── init_nodes.yml
-│       │   │       ├── power_manage.yml
-│       │   │       └── site.yml
-│       │   ├── app
-│       │   │   ├── app.py
-│       │   │   └── dockerfile
-│       │   │       └── Dockerfile.app
-│       │   ├── archive
-│       │   │   ├── v1
-│       │   │   │   ├── Makefile
-│       │   │   │   └── ansible
-│       │   │   │       ├── ansible.cfg
-│       │   │   │       ├── inventory.ini
-│       │   │   │       └── playbooks
-│       │   │   │           ├── deploy_k3s.yml
-│       │   │   │           ├── init_nodes.yml
-│       │   │   │           └── power_manage.yml
-│       │   │   └── v2
-│       │   ├── helm
-│       │   │   └── app-stack
-│       │   │       ├── Chart.yaml
-│       │   │       ├── templates
-│       │   │       │   ├── app
-│       │   │       │   │   └── app-deploy.yaml
-│       │   │       │   ├── configmap.yaml
-│       │   │       │   ├── db-pvc.yaml
-│       │   │       │   ├── ingress.yaml
-│       │   │       │   ├── portainer
-│       │   │       │   │   ├── portainer-deploy.yaml
-│       │   │       │   │   └── portainer-service.yaml
-│       │   │       │   ├── postgres
-│       │   │       │   │   ├── db-deploy.yaml
-│       │   │       │   │   └── db-service.yaml
-│       │   │       │   └── secret.yaml
-│       │   │       ├── values-dev.yaml
-│       │   │       ├── values-prod.yaml
-│       │   │       └── values.yaml
-│       │   └── terraform
-│       │       ├── cloud_init.cfg
-│       │       ├── inventory.tftpl
-│       │       ├── main.tf
-│       │       ├── outputs.tf
-│       │       ├── terraform.tfstate
-│       │       ├── terraform.tfstate.backup
-│       │       ├── terraform.tfvars
-│       │       └── variables.tf
+│       ├── k3d ( `omission` )
+│       ├── k3s ( `omission` )
 │       ├── k3s_migration
+│       │   ├── Makefile
+│       │   ├── archive ( `omission` )
+│       │   ├── bootstrap
+│       │   │   ├── ansible
+│       │   │   │   ├── ansible.cfg
+│       │   │   │   ├── group_vars
+│       │   │   │   │   └── all.yml
+│       │   │   │   ├── inventory.ini
+│       │   │   │   └── playbooks
+│       │   │   │       ├── deploy_k3s.yml
+│       │   │   │       ├── gateway.yml
+│       │   │   │       ├── init_nodes.yml
+│       │   │   │       ├── power_manage.yml
+│       │   │   │       └── site.yml
+│       │   │   └── terraform
+│       │   │       ├── cloud_init.cfg
+│       │   │       ├── env_tfvars
+│       │   │       │   └── test.tfvars
+│       │   │       ├── inventory.tftpl
+│       │   │       ├── main.tf
+│       │   │       ├── outputs.tf
+│       │   │       ├── terraform.tfstate
+│       │   │       ├── terraform.tfstate.backup
+│       │   │       └── variables.tf
+│       │   ├── gitlab-tree
+│       │   │   ├── README
+│       │   │   ├── app-manifests
+│       │   │   ├── docker-services
+│       │   │   ├── infra-live
+│       │   │   ├── infra-modules
+│       │   │   └── platform-docs
+│       │   ├── infra-live
+│       │   │   ├── applications
+│       │   │   │   ├── databases
+│       │   │   │   │   └── postgresql
+│       │   │   │   ├── observability
+│       │   │   │   │   ├── logging
+│       │   │   │   │   │   ├── loki
+│       │   │   │   │   │   └── promtail
+│       │   │   │   │   ├── metrics
+│       │   │   │   │   │   ├── exporters
+│       │   │   │   │   │   │   ├── node-exporter
+│       │   │   │   │   │   │   └── postgres-exporter
+│       │   │   │   │   │   └── prometheus
+│       │   │   │   │   ├── tracing
+│       │   │   │   │   │   └── tempo
+│       │   │   │   │   └── visualization
+│       │   │   │   │       └── grafana
+│       │   │   │   ├── pg-apps
+│       │   │   │   │   ├── cp
+│       │   │   │   │   └── inst
+│       │   │   │   ├── platform
+│       │   │   │   │   ├── argocd
+│       │   │   │   │   └── registry
+│       │   │   │   ├── security
+│       │   │   │   │   └── vault
+│       │   │   │   └── storage
+│       │   │   │       └── nfs
+│       │   │   ├── argocd
+│       │   │   │   ├── applications
+│       │   │   │   └── projects
+│       │   │   ├── bootstrap
+│       │   │   │   └── cluster
+│       │   │   │       ├── argocd
+│       │   │   │       │   ├── ingress.yaml
+│       │   │   │       │   ├── namespace.yaml
+│       │   │   │       │   ├── repo-secret.yaml
+│       │   │   │       │   ├── root-app.yaml
+│       │   │   │       │   └── values.yaml
+│       │   │   │       ├── cert-manager
+│       │   │   │       │   ├── cluster-issuer.yaml
+│       │   │   │       │   ├── namespace.yaml
+│       │   │   │       │   └── values.yaml
+│       │   │   │       ├── ingress-nginx
+│       │   │   │       │   ├── namespace.yaml
+│       │   │   │       │   └── values.yaml
+│       │   │   │       ├── namespaces
+│       │   │   │       │   ├── databases.yaml
+│       │   │   │       │   ├── observability.yaml
+│       │   │   │       │   ├── pg-apps.yaml
+│       │   │   │       │   ├── platform.yaml
+│       │   │   │       │   ├── security.yaml
+│       │   │   │       │   └── storage.yaml
+│       │   │   │       ├── scripts
+│       │   │   │       │   └── bootstrap-cluster.sh
+│       │   │   │       └── sealed-secrets
+│       │   │   │           ├── namespace.yaml
+│       │   │   │           └── values.yaml
+│       │   │   ├── environments
+│       │   │   │   └── homelab
+│       │   │   │       ├── prod
+│       │   │   │       ├── stage
+│       │   │   │       └── test
+│       │   │   ├── policies
+│       │   │   └── templates
+│       │   ├── scripts
+│       │   │   └── vm-power.sh
+│       │   └── win_hosts
 │       ├── kubeadm
-│       └── minikube
-│           ├── Makefile
-│           ├── app
-│           │   ├── app.py
-│           │   └── dockerfile
-│           │       └── Dockerfile.app
-│           ├── helm
-│           │   └── app-stack
-│           │       ├── Chart.yaml
-│           │       ├── templates
-│           │       │   ├── app
-│           │       │   │   └── app-deploy.yaml
-│           │       │   ├── configmap.yaml
-│           │       │   ├── db-pvc.yaml
-│           │       │   ├── ingress.yaml
-│           │       │   ├── portainer
-│           │       │   │   ├── portainer-deploy.yaml
-│           │       │   │   └── portainer-service.yaml
-│           │       │   ├── postgres
-│           │       │   │   ├── db-deploy.yaml
-│           │       │   │   └── db-service.yaml
-│           │       │   └── secret.yaml
-│           │       ├── values-dev.yaml
-│           │       ├── values-prod.yaml
-│           │       └── values.yaml
-│           └── k8s-manifests
+│       └── minikube ( `omission` )
 ├── PG-Shared-Lib
 │   ├── LICENSE
 │   ├── README.md
@@ -722,10 +720,9 @@ tree -d -I 'venv|.git|__pycache__|docs|logs|assets|kafka_data'
 - #### *d.1.　[透過通用工具進行資料庫極限測試](./docs/generic_benchmark.md)*
 - #### *d.2.　[透過監控系統觀察業務系統瓶頸](./docs/workload_benchmark.md)*
 - #### *d.3.　優化查詢 [ 前 / 後 ] 比較測試 ( Index / Partition )*
-- #### *d.4.　邊緣裝置部署效率測試 ( `Manual` vs. `CD => Helm` )*
-- #### *d.5.　資料庫核心業務解套演進 ( `Direct Read` vs. `MV` vs. `CDC` )*
-- #### *d.6.　基礎設施高可用性測試*
-
+- #### *d.4.　邊緣裝置部署效率測試 ( `Manual` vs. `GitOps` )*
+- #### *d.5.　升級 K8s 後之基礎設施高可用性測試*
+- #### *d.6.　資料庫核心業務解套演進 ( `Direct Read` vs. `MV` vs. `CDC` )*
 
 <br>
 
@@ -734,10 +731,12 @@ tree -d -I 'venv|.git|__pycache__|docs|logs|assets|kafka_data'
 <br>
 
 
-
 ### *F.　Notice*
 - #### *f.1.　[OLTP-OLAP-Unified-DB](./docs/oltp-olap-unified-db.md)*
 - #### *f.2.　[SQL Implement](./docs/sql_implement.md)*
+- #### *f.3.　K8s - 日誌統一收集與發送*
+- #### *f.4.　CI / CD 管線比較 ( Tradition vs. GitOps )*
+- #### *f.5.　Vault - 分發密鑰*
 
 
 <br><br><br>
