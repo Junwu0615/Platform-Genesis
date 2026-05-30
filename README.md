@@ -245,7 +245,7 @@
 | Terraform vs. Compose | Experience :<br>`狀態管理差異性 ; 復原配置崩潰 ; 提高 HA` | 2026-04-19 |
 | Terraform & Ansible | Experience :<br>`Ansible 如何補足 Terraform 的不足` | 2026-04-19 |
 | ELK | Experience : `ELK` | 2026-05-05 |
-| K8s | Experience :<br>`Pod` `Node` `Helm` `Kubectl` `Deployment`<br>`Service` `Ingress` `Secret` `ConfigMap`  `NameSpaces`<br>`PVC` `SVC` | 2026-05-09 |
+| K8s | Experience :<br>`Pod` `Node` `Helm` `Kubectl` `Deployment`<br>`Service` `Ingress` `Secret` `ConfigMap`<br>`NameSpaces` `PVC` `SVC` | 2026-05-09 |
 | K8s | Experience : MiniKube | 2026-05-09 |
 | K8s | Experience : Ansible 初始化節點 | 2026-05-10 |
 | K8s | Experience : K3d | 2026-05-10 |
@@ -267,6 +267,8 @@
 | K8s | Experience : `OOM` Out of Memory | 2026-05-25 |
 | GitOps | Experience : `Layered GitOps` | 2026-05-29 |
 | GitOps | Build : `Observability` `Grafana` | 2026-05-30 |
+| GitOps | Build : `Observability` `Prometheus` | 2026-05-30 |
+| GitOps | Build : `Observability` `Prometheus Stack` | 2026-05-30 |
 | GitOps | Build : `Platform` | - |
 | GitOps | Build : `Databases` | - |
 | GitOps | Build : `PG-Apps` | - |
@@ -290,15 +292,15 @@
 
 |**Item**|**Description**|**Time**|
 |--:|:--|:--:|
-| Design Benchmark 1 | Generic DB Benchmark | 2026-03-31 |
+| Design Quantitation 1.1 | Generic DB Benchmark | 2026-03-31 |
 | Quantitation 1.1 | 64MB | 2026-03-31 |
-| Design Benchmark 2 | Generic DB Benchmark | 2026-04-03 |
+| Design Quantitation 1.2 | Generic DB Benchmark | 2026-04-03 |
 | Quantitation 1.2 | Docker Desktop ( 64MB )<br>vs. WSL2 ( 16GB ) | 2026-04-04 |
-| Design Benchmark 3 | Workload Benchmark | 2026-04-04 |
 | Quantitation 2 | Automated Deployment of the Edge :<br>`Manual` vs. `GitOps` | - |
 | Quantitation 3 |  `infra` High Availability Comparison Test | - |
 | Quantitation 4 | OLTP Query Efficiency<br>Optimization ( Index / Partition )<br>`Before` vs. `After` | - |
 | Quantitation 5 | `OLTP vs OLAP` Core Business<br>Recovery and Evolution :<br>`Direct Read` vs. `MV` vs. `CDC` | - |
+| Design Quantitation 6 | Workload Benchmark | - |
 | Quantitation 6 | Workload Benchmark | - |
 
 
@@ -735,9 +737,10 @@ tree -d -I 'venv|.git|__pycache__|docs|logs|assets|kafka_data'
 ### *F.　Notice*
 - #### *f.1.　[OLTP-OLAP-Unified-DB](./docs/oltp-olap-unified-db.md)*
 - #### *f.2.　[SQL Implement](./docs/sql_implement.md)*
-- #### *f.3.　K8s - 日誌統一收集與發送*
-- #### *f.4.　CI / CD 管線比較 ( Tradition vs. GitOps )*
-- #### *f.5.　Vault - 分發密鑰*
+- #### *f.3.　CI / CD 管線比較 ( Tradition vs. GitOps )*
+- #### *f.4.　K8s - 日誌統一收集與發送*
+- #### *f.5.　Observability - Alert Manager Test*
+- #### *f.6.　Vault - 分發密鑰*
 
 
 <br><br><br>
