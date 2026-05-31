@@ -269,16 +269,18 @@
 | GitOps | Build : `Observability` `Grafana` | 2026-05-30 |
 | GitOps | Build : `Observability` `Prometheus` | 2026-05-30 |
 | GitOps | Build : `Observability` `Prometheus Stack` | 2026-05-30 |
+| GitOps | Build : `Observability` `Promtail` | 2026-05-31 |
+| GitOps | Build : `Observability` `Loki` | 2026-05-31 |
+| K8s | Experience :<br>`Fluent Bit ( DaemonSet )` | 2026-05-31 |
+| K8s | Experience : 日誌統一收集與發送 | 2026-05-31 |
 | GitOps | Build : `Platform` | - |
 | GitOps | Build : `Databases` | - |
 | GitOps | Build : `PG-Apps` | - |
 | GitOps | Build : `Storage` | - |
 | GitOps | Build : `Security` | - |
 | K8s | Experience : CI / CD 管道 ( GitLab CI + ArgoCD ) | - |
-| K8s | Experience :<br>`Filebeat` / `Fluent Bit ( DaemonSet )` | - |
 | K8s | Experience : NFS 儲存機制 ( SQLite ) | - |
-| K8s | Experience : 日誌統一收集與發送 | - |
-| K8s | Experience : 完善 DevOps 流程<br>`Code Review` `PR` `TEST` `STAGE` `PROD` | - |
+| K8s | Experience : DevOps 流程<br>`Code Review` `PR` `TEST` `STAGE` `PROD` | - |
 | Vault | Experience : 分發密鑰 | - |
 
 
@@ -737,10 +739,10 @@ tree -d -I 'venv|.git|__pycache__|docs|logs|assets|kafka_data'
 ### *F.　Notice*
 - #### *f.1.　[OLTP-OLAP-Unified-DB](./docs/oltp-olap-unified-db.md)*
 - #### *f.2.　[SQL Implement](./docs/sql_implement.md)*
-- #### *f.3.　CI / CD 管線比較 ( Tradition vs. GitOps )*
-- #### *f.4.　K8s - 日誌統一收集與發送*
-- #### *f.5.　Observability - Alert Manager Test*
-- #### *f.6.　Vault - 分發密鑰*
-
+- #### *f.3.　[CI / CD 管線比較 ( `Tradition` vs. `GitOps` )](./docs/cicd.md)*
+- #### *f.4.　[K8s - 日誌統一收集與發送](./docs/k8s_logging.md)*
+- #### *f.5.　[Observability - Alert Manager Test](./docs/observability.md)*
+- #### *f.6.　[Vault - 分發密鑰](./docs/vault.md)*
+- #### *f.7.　[DevOps 流程 ( `Code Review` `PR` `TEST` `STAGE` `PROD` )](./docs/devops.md)*
 
 <br><br><br>
