@@ -273,7 +273,6 @@
 | GitOps | `Loki` values 渲染大坑 `nil pointer`<br>`evaluating interface {}.chunks` => 退至穩定版 | 2026-05-31 |
 | GitOps | Build : `Observability` `Loki` | 2026-05-31 |
 | K8s | Experience : `Fluent Bit ( DaemonSet )` | 2026-05-31 |
-| K8s | Experience : 日誌統一收集與發送 | 2026-05-31 |
 | GitOps | Build : `Platform` | - |
 | GitOps | Build : `Databases` | - |
 | GitOps | Build : `PG-Apps` | - |
@@ -281,8 +280,6 @@
 | GitOps | Build : `Security` | - |
 | K8s | Experience : CI / CD 管道 ( GitLab CI + ArgoCD ) | - |
 | K8s | Experience : NFS 儲存機制 ( SQLite ) | - |
-| K8s | Experience : DevOps 流程<br>`Code Review` `PR` `TEST` `STAGE` `PROD` | - |
-| Vault | Experience : 分發密鑰 | - |
 
 
 </ul>
@@ -305,6 +302,25 @@
 | Quantitation 5 | `OLTP vs OLAP` Core Business<br>Recovery and Evolution :<br>`Direct Read` vs. `MV` vs. `CDC` | - |
 | Design Quantitation 6 | Workload Benchmark | - |
 | Quantitation 6 | Workload Benchmark | - |
+
+
+</ul>
+</details>
+
+
+<details>
+<summary><b><i>　b.2.6　Documents </i></b></summary>
+<ul>
+
+|**Item**|**Description**|**Time**|
+|--:|:--|:--:|
+| f.1.　SQL Implement | - | 2026-04-01 |
+| f.2.　OLTP-OLAP-Unified-DB | - | - |
+| f.3.　CI / CD 管線比較 | `Tradition` vs. `GitOps` | - |
+| f.4.　K8s - 日誌統一收集與發送 | - | - |
+| f.5.　K8s - Observability | `Alert Manager Test` | - |
+| f.6.　Vault - 分發密鑰 | - | - |
+| f.7.　DevOps 流程 | `Code Review` `PR` `TEST` `STAGE` `PROD` | - |
 
 
 </ul>
@@ -738,12 +754,12 @@ tree -d -I 'venv|.git|__pycache__|docs|logs|assets|kafka_data'
 
 
 ### *F.　Notice*
-- #### *f.1.　[OLTP-OLAP-Unified-DB](./docs/oltp-olap-unified-db.md)*
-- #### *f.2.　[SQL Implement](./docs/sql_implement.md)*
-- #### *f.3.　[CI / CD 管線比較 ( `Tradition` vs. `GitOps` )](./docs/cicd.md)*
+- #### *f.1.　[SQL Implement](./docs/sql_implement.md)*
+- #### *f.2.　[OLTP-OLAP-Unified-DB](./docs/oltp-olap-unified-db.md)*
+- #### *f.3.　[CI / CD 管線比較](./docs/cicd.md)*
 - #### *f.4.　[K8s - 日誌統一收集與發送](./docs/k8s_logging.md)*
-- #### *f.5.　[Observability - Alert Manager Test](./docs/observability.md)*
+- #### *f.5.　[K8s - Observability : Alert Manager Test](./docs/observability.md)*
 - #### *f.6.　[Vault - 分發密鑰](./docs/vault.md)*
-- #### *f.7.　[DevOps 流程 ( `Code Review` `PR` `TEST` `STAGE` `PROD` )](./docs/devops.md)*
+- #### *f.7.　[DevOps 流程](./docs/devops.md)*
 
 <br><br><br>

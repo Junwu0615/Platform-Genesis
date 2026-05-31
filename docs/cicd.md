@@ -1,4 +1,4 @@
-## *CI / CD 管線比較 ( `Tradition` vs. `GitOps` )*
+## *CI / CD 管線比較*
 
 
 ### *A.　實作環境硬體負荷*

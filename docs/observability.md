@@ -35,5 +35,12 @@ Tempo 引入了一個叫 Trace ID 的概念。
   │     ├── [PostgreSQL: INSERT Order] ─ (0.02s)  <-- 看到了吧！DB 其實超快
   │     └── [Kafka: Produce Message] ────────────────────── (4.8s) 🔥 兇手抓到了！
 ```
+```
+# 開啟 port-forward 讓本地可訪問
+kubectl port-forward svc/tempo-distributor 3100:3100 -n tempo
+
+# 另一個終端機執行
+curl -v -X POST http://localhost:3100/api/traces -d '...'
+```
 
 <br><br><br>
