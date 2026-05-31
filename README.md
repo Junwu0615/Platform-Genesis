@@ -270,6 +270,7 @@
 | GitOps | Build : `Observability` `Prometheus` | 2026-05-30 |
 | GitOps | Build : `Observability` `Prometheus Stack` | 2026-05-30 |
 | GitOps | Build : `Observability` `Promtail` | 2026-05-31 |
+| GitOps | `Loki` values 渲染大坑<br>`nil pointer evaluating interface {}.chunks` | 2026-05-31 |
 | GitOps | Build : `Observability` `Loki` | 2026-05-31 |
 | K8s | Experience :<br>`Fluent Bit ( DaemonSet )` | 2026-05-31 |
 | K8s | Experience : 日誌統一收集與發送 | 2026-05-31 |
