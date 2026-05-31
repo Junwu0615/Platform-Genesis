@@ -273,13 +273,16 @@
 | GitOps | `Loki` values 渲染大坑 `nil pointer`<br>`evaluating interface {}.chunks` => 退至穩定版 | 2026-05-31 |
 | GitOps | Build : `Observability` `Loki` | 2026-05-31 |
 | K8s | Experience : `Fluent Bit ( DaemonSet )` | 2026-05-31 |
-| GitOps | Build : `Platform` | - |
-| GitOps | Build : `Databases` | - |
-| GitOps | Build : `PG-Apps` | - |
-| GitOps | Build : `Storage` | - |
-| GitOps | Build : `Security` | - |
+| GitOps | Build : `Observability` `Tempo` | 2026-06-01 |
+| GitOps | Build : `Databases` `Postgresql` | - |
+| GitOps | Build : `Observability` `Postgres Exporter` | - |
+| GitOps | Build : `Platform` `Registry` | - |
+| GitOps | Build : `PG-Apps` `cp` | - |
+| GitOps | Build : `PG-Apps` `inst` | - |
+| GitOps | Build : `Storage` `nfs` | - |
 | K8s | Experience : CI / CD 管道 ( GitLab CI + ArgoCD ) | - |
 | K8s | Experience : NFS 儲存機制 ( SQLite ) | - |
+| GitOps | Build : `Security` `Vault` | - |
 
 
 </ul>

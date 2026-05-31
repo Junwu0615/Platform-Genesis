@@ -36,11 +36,24 @@ Tempo 引入了一個叫 Trace ID 的概念。
   │     └── [Kafka: Produce Message] ────────────────────── (4.8s) 🔥 兇手抓到了！
 ```
 ```
-# 開啟 port-forward 讓本地可訪問
-kubectl port-forward svc/tempo-distributor 3100:3100 -n tempo
+# 確認服務存活
+[wsl2]
+curl -v -H "Host: tempo.k8s.local" http://10.88.0.20:30547/ready
 
-# 另一個終端機執行
-curl -v -X POST http://localhost:3100/api/traces -d '...'
+[powershell]
+Invoke-RestMethod -Uri "http://tempo.k8s.local:8080/ready" -Method Get
+
+------
+
+# 終端機執行 測試字串傳輸
+[wsl2]
+curl -v -H "Host: tempo.k8s.local" \
+     -H "Content-Type: application/json" \
+     -X POST http://10.88.0.20:30547/v1/traces \
+     -d '{"resourceSpans":[]}'
+     
+[powershell]
+Invoke-RestMethod -Uri "http://tempo.k8s.local:8080/api/traces" -Method Post -Body "..."
 ```
 
 <br><br><br>
