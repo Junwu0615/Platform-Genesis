@@ -38,7 +38,7 @@
 
 <br>
 
-### *A.　Project Structure*
+### *A.　PG Structure*
 |*Project Name*|*Responsibilities*|*Tech Stack*|
 |--:|:--|:--|
 | [Platform Genesis](https://github.com/Junwu0615/Platform-Genesis) | **Homepage :**<br>Construction Records & Quantitative Testing | - |
@@ -50,7 +50,7 @@
 
 <br>
 
-### *B.　Current Progress*
+### *B.　Project Progress*
 
 <details>
 <summary><b><i>　b.1.　Simple </i></b></summary>
@@ -72,15 +72,14 @@
 | Build `Hierarchical`<br>`Log Management` | `Loki` + `ELK` | 2026-05-14 |
 | Build `GitOps` | `GitLab CI` + `ArgoCD` | - |
 | Quantitation 2 | Automated Deployment of the Edge :<br>`Manual` vs. `GitOps` | - |
-| Quantitation 3 |  `infra` High Availability Comparison Test | - |
+| Quantitation 3 |  `K8s Infrastructure` :<br>High Availability Comparison Test | - |
 | Build `Lakehouse` | - | - |
 | Quantitation 4 | OLTP Query Efficiency<br>Optimization ( Index / Partition )<br>`Before` vs. `After` | - |
-| Quantitation 5 | `OLTP vs OLAP` Core Business<br>Recovery and Evolution :<br>`Direct Read` vs. `MV` vs. `CDC` | - |
-| Add `HashiCorp Vault` | Enterprise Key Management System | - |
+| Quantitation 5 | Evolution of Database Core Business :<br>`Direct Read` vs. `MV` vs. `CDC` | - |
 | Quantitation 6 | Workload Benchmark | - |
+| Add `HashiCorp Vault` | Enterprise Key Management System | - |
 | K8s | Bottom Layer : `Kubeadm` + `VMware` | `TBD` |
 | K8s | Public Cloud : `GKE` | `TBD` |
-| Summary | - | - |
 
 </ul>
 </details>
@@ -107,7 +106,6 @@
 | Redefine Project Name | `OLTP-OLAP-Unified-DB`<br>to `Platform Genesis` | 2026-05-08 |
 | Project Breakdown | `5` Major Categories | 2026-05-08 |
 | Add Form | Practice Self-Evaluation | - |
-| Summary | - | - |
 
 </ul>
 </details>
@@ -280,8 +278,9 @@
 | GitOps | Build : `PG-Apps` `cp` | - |
 | GitOps | Build : `PG-Apps` `inst` | - |
 | GitOps | Build : `Storage` `nfs` | - |
-| K8s | Experience : CI/CD 管道 ( GitLab CI + ArgoCD ) | - |
 | K8s | Experience : NFS 儲存機制 ( SQLite ) | - |
+| K8s | Experience : CI/CD pipeline ( GitLab CI + ArgoCD ) | - |
+| GitOps | Maintain 2 repo ( `CI` + `CD` ) | - |
 | GitOps | Build : `Security` `Vault` | - |
 
 
@@ -295,12 +294,12 @@
 
 |**Item**|**Description**|**Time**|
 |--:|:--|:--:|
-| 透過通用工具進行資料庫極限測試 `1` | [Docs](./docs/Generic-Benchmark.md)<br>Docker Desktop ( 64MB )<br>vs. WSL2 ( 16GB ) | 2026-04-04 |
-| 邊緣裝置部署效率測試 `2` | [Docs](./docs/CI-CD.md)<br>`Manual` vs. `GitOps` | - |
-| K8s - 基礎設施高可用性測試 `3` |  [Docs](./docs/HA.md) | - |
-| 資料庫查詢優化比較測試 `4` | [Docs](./docs/DB-Optimization.md)<br>Optimization ( `Index` `Partition` ) | - |
-| 資料庫核心業務解套演進 `5` | Docs<br>`Direct Read` vs. `MV` vs. `CDC` | - |
-| 透過監控系統觀察業務系統瓶頸 `6` | [Docs](./docs/Workload-Benchmark.md)<br>Workload Benchmark | - |
+| 透過通用工具進行<br>資料庫極限測試 | [Quantitation 1](./docs/Generic-Benchmark.md)<br>Docker Desktop ( 64MB )<br>vs. WSL2 ( 16GB ) | 2026-04-04 |
+| 邊緣裝置部署效率測試 | [Quantitation 2](./docs/CI-CD.md)<br>`Manual` vs. `GitOps` | - |
+| K8s - 基礎設施高可用性測試 |  [Quantitation 3](./docs/HA.md) | - |
+| 資料庫查詢優化比較測試 | [Quantitation 4](./docs/DB-Optimization.md)<br>Optimization ( `Index` `Partition` ) | - |
+| 資料庫核心業務解套演進 | [Quantitation 5](./docs/Evolution-of-Database-Core.md)<br>`Direct Read` vs. `MV` vs. `CDC` | - |
+| 透過監控系統<br>觀察業務系統瓶頸 | [Quantitation 6](./docs/Workload-Benchmark.md)<br>Workload Benchmark | - |
 
 
 </ul>
@@ -313,13 +312,13 @@
 
 |**Item**|**Description**|**Time**|
 |--:|:--|:--:|
-| Role-Based Access Control `1` | [Docs](./docs/RBAC.md) | 2026-04-01 |
-| 單一實例實現 HTAP `2` | [Docs](./docs/OLTP-OLAP-Unified-DB.md) | - |
-| K8s - CI/CD `3` | [Docs](./docs/CI-CD.md)<br>`Tradition` vs. `GitOps` | - |
-| K8s - 日誌統一收集與發送 `4` | [Docs](./docs/Logging.md) | - |
-| K8s - Observability `5` | [Docs](./docs/Observability.md)<br>`Alert Manager` | - |
-| K8s - Vault 分發密鑰 `6` | [Docs](./docs/Vault.md) | - |
-| DevOps 流程 `7` | [Docs](./docs/DevOps.md)<br>`Code Review` `PR` `TEST` `STAGE` `PROD` | - |
+| Role-Based Access Control | [Value of Deliverables 1](./docs/RBAC.md) | 2026-04-01 |
+| 單一實例實現 HTAP | [Value of Deliverables 2](./docs/OLTP-OLAP-Unified-DB.md) | - |
+| K8s - CI/CD | [Value of Deliverables 3](./docs/CI-CD.md)<br>`Tradition` vs. `GitOps` | - |
+| K8s - 日誌統一收集與發送 | [Value of Deliverables 4](./docs/Logging.md) | - |
+| K8s - 可觀測性 | [Value of Deliverables 5](./docs/Observability.md)<br>`Alert Manager` | - |
+| K8s - Vault 分發密鑰 | [Value of Deliverables 6](./docs/Vault.md) | - |
+| DevOps 流程 | [Value of Deliverables 7](./docs/DevOps.md)<br>`Code Review` `PR` `TEST` `STAGE` `PROD` | - |
 
 
 </ul>
@@ -386,7 +385,7 @@ X = 已棄用
 </details>
 
 <details>
-<summary><b><i>　c.2.　Project Tree </i></b></summary>
+<summary><b><i>　c.2.　Tree </i></b></summary>
 <ul>
 
 ```bash
@@ -734,9 +733,16 @@ tree -d -I 'venv|.git|__pycache__|docs|logs|assets|kafka_data'
 </ul>
 </details>
 
-
 <br>
 
-### *D.　Summary*
+### *D.　Lessons Learned & Outlook*
+> The Platform Genesis initiative serves as an ambitious exploration of 
+> cloud-native data ecosystems. While the initial PoC scope was broad—spanning 
+> from edge telemetry to lakehouse analytics—the reality of single-developer 
+> maintenance has necessitated a shift in focus. The primary challenge remains 
+> the consolidation of these diverse technologies into a unified, high-availability 
+> architecture. Moving forward, the focus will narrow from horizontal expansion to 
+> optimizing system stability and automating the reconciliation processes, 
+> ensuring that each component contributes directly to a production-ready standard.
 
 <br><br><br>

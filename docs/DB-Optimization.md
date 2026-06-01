@@ -3,6 +3,7 @@
 
 ### *A.　流程說明*
 ```
+Optimization ( Index / Partition )
 ```
 
 <br><br><br>
