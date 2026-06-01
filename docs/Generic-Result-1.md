@@ -261,7 +261,7 @@
 
 <br>
 
-- #### *~~5.　Saturation Benchmark~~*
+- #### *X　5.　Saturation Benchmark*
   | **Evaluation** | **30 Clients ( Sweet Spot )** | **50 Clients ( Medium-load )** | **100 Clients ( High-load )** | **Trend ( 30 vs 100 )** |
   | :--: | :--: | :--: | :--: | :--: |
   | AVG TPS | - | - | - | - |
