@@ -7,12 +7,12 @@
 ### *Generic DB Benchmark*
 | **Step** | **Description** | **Tool** |
 | :--: | :-- | :--: |
-| [0](https://github.com/Junwu0615/OLTP-OLAP-Unified-DB/blob/main/docs/generic_result_1.md#01initialize-pgbench-benchmark-data) | Initialize pgbench Benchmark Data | - |
-| [1](https://github.com/Junwu0615/OLTP-OLAP-Unified-DB/blob/main/docs/generic_result_1.md#1query-benchmark) | Query Benchmark | direct query method |
-| [2](https://github.com/Junwu0615/OLTP-OLAP-Unified-DB/blob/main/docs/generic_result_1.md#2oltp-workload-benchmark) | OLTP Workload Benchmark | use pgbench |
-| [3](https://github.com/Junwu0615/OLTP-OLAP-Unified-DB/blob/main/docs/generic_result_1.md#3olap-workload-benchmark) | OLAP Workload Benchmark | use pgbench |
-| [4](https://github.com/Junwu0615/OLTP-OLAP-Unified-DB/blob/main/docs/generic_result_1.md#4htap-workload-benchmark) | HTAP Workload Benchmark | use pgbench |
-| [5](https://github.com/Junwu0615/OLTP-OLAP-Unified-DB/blob/main/docs/generic_result_1.md#5saturation-benchmark) | Saturation Benchmark | use pgbench |
+| [0](https://github.com/Junwu0615/OLTP-OLAP-Unified-DB/blob/main/docs/Generic-Result-1.md#01initialize-pgbench-benchmark-data) | Initialize pgbench Benchmark Data | - |
+| [1](https://github.com/Junwu0615/OLTP-OLAP-Unified-DB/blob/main/docs/Generic-Result-1.md#1query-benchmark) | Query Benchmark | direct query method |
+| [2](https://github.com/Junwu0615/OLTP-OLAP-Unified-DB/blob/main/docs/Generic-Result-1.md#2oltp-workload-benchmark) | OLTP Workload Benchmark | use pgbench |
+| [3](https://github.com/Junwu0615/OLTP-OLAP-Unified-DB/blob/main/docs/Generic-Result-1.md#3olap-workload-benchmark) | OLAP Workload Benchmark | use pgbench |
+| [4](https://github.com/Junwu0615/OLTP-OLAP-Unified-DB/blob/main/docs/Generic-Result-1.md#4htap-workload-benchmark) | HTAP Workload Benchmark | use pgbench |
+| [5](https://github.com/Junwu0615/OLTP-OLAP-Unified-DB/blob/main/docs/Generic-Result-1.md#5saturation-benchmark) | Saturation Benchmark | use pgbench |
 
 <br>
 
@@ -132,7 +132,7 @@
   initial connection time = 7.116 ms
   ⭐ tps = 7499.582863 (without initial connection time)
   ```
-- #### *[Docker Desktop vs. WSL2 ( Pure Read Performance )](https://github.com/Junwu0615/OLTP-OLAP-Unified-DB/blob/main/docs/generic_result_2.md#docker-desktop-vs-wsl2--pure-read-performance-)*
+- #### *[Docker Desktop vs. WSL2 ( Pure Read Performance )](https://github.com/Junwu0615/OLTP-OLAP-Unified-DB/blob/main/docs/Generic-Result-2.md#docker-desktop-vs-wsl2--pure-read-performance-)*
 
 <br>
 

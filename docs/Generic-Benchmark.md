@@ -60,8 +60,8 @@
 <br>
 
 ### *B.　Generic DB Benchmark Result*
-- #### *[shm_size 64 MB](../docs/generic_result_1.md) ( Docker Desktop )*
-- #### *[shm_size 16 GB](../docs/generic_result_2.md) ( WSL2 )*
+- #### *[shm_size 64 MB](../docs/Generic-Result-1.md) ( Docker Desktop )*
+- #### *[shm_size 16 GB](../docs/Generic-Result-2.md) ( WSL2 )*
 
 - ![PNG](../assets/baseline_1.png)
 - ![PNG](../assets/baseline_2.png)

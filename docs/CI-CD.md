@@ -1,4 +1,4 @@
-## *CI / CD 管線比較*
+## *K8s - CI/CD*
 
 
 ### *A.　實作環境硬體負荷*
@@ -15,7 +15,7 @@ K3s Cluster: 3 Nodes ( 1 Master + 2 Worker )
     - observability : grafana + prometheus + loki + promtail + tempo
     - databases
     - pg-apps
-    - platform
+    - platform: argocd
     - security
     - storage
 ```
@@ -33,5 +33,10 @@ K3s Cluster: 3 Nodes ( 1 Master + 2 Worker )
 ```
 ```
 
+<br>
+
+### *D.　Manual vs. GitOps*
+```
+```
 
 <br><br><br>

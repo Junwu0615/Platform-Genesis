@@ -201,7 +201,7 @@
 | Add `Monitoring` | `Loki` | 2026-05-12 |
 | Add `Gitlab` | for `CI` & `Manage Projects` | 2026-05-12 |
 | Add `Jenkins` | for `CD` | 2026-05-12 |
-| Add `Docker Registry` | for `CI / CD` & `Manage Images` | 2026-05-12 |
+| Add `Docker Registry` | for `CI/CD` & `Manage Images` | 2026-05-12 |
 | Build `Hierarchical`<br>`Log Management` | `Loki` + `ELK` | 2026-05-14 |
 | Build `WSL2 Homelab` | `Chrome` => `Windows:8080`<br>=> `WSL2:80` => `ingress-nginx` | 2026-05-25 |
 | Update Migration Matrix | `Hybrid deployment` | 2026-05-26 |
@@ -280,7 +280,7 @@
 | GitOps | Build : `PG-Apps` `cp` | - |
 | GitOps | Build : `PG-Apps` `inst` | - |
 | GitOps | Build : `Storage` `nfs` | - |
-| K8s | Experience : CI / CD 管道 ( GitLab CI + ArgoCD ) | - |
+| K8s | Experience : CI/CD 管道 ( GitLab CI + ArgoCD ) | - |
 | K8s | Experience : NFS 儲存機制 ( SQLite ) | - |
 | GitOps | Build : `Security` `Vault` | - |
 
@@ -295,16 +295,12 @@
 
 |**Item**|**Description**|**Time**|
 |--:|:--|:--:|
-| Design Quantitation 1.1 | Generic DB Benchmark | 2026-03-31 |
-| Quantitation 1.1 | 64MB | 2026-03-31 |
-| Design Quantitation 1.2 | Generic DB Benchmark | 2026-04-03 |
-| Quantitation 1.2 | Docker Desktop ( 64MB )<br>vs. WSL2 ( 16GB ) | 2026-04-04 |
-| Quantitation 2 | Automated Deployment of the Edge :<br>`Manual` vs. `GitOps` | - |
-| Quantitation 3 |  `infra` High Availability Comparison Test | - |
-| Quantitation 4 | OLTP Query Efficiency<br>Optimization ( Index / Partition )<br>`Before` vs. `After` | - |
-| Quantitation 5 | `OLTP vs OLAP` Core Business<br>Recovery and Evolution :<br>`Direct Read` vs. `MV` vs. `CDC` | - |
-| Design Quantitation 6 | Workload Benchmark | - |
-| Quantitation 6 | Workload Benchmark | - |
+| 透過通用工具進行資料庫極限測試 `1` | [Docs](./docs/Generic-Benchmark.md)<br>Docker Desktop ( 64MB )<br>vs. WSL2 ( 16GB ) | 2026-04-04 |
+| 邊緣裝置部署效率測試 `2` | [Docs](./docs/CI-CD.md)<br>`Manual` vs. `GitOps` | - |
+| K8s - 基礎設施高可用性測試 `3` |  [Docs](./docs/HA.md) | - |
+| 資料庫查詢優化比較測試 `4` | [Docs](./docs/DB-Optimization.md)<br>Optimization ( `Index` `Partition` ) | - |
+| 資料庫核心業務解套演進 `5` | Docs<br>`Direct Read` vs. `MV` vs. `CDC` | - |
+| 透過監控系統觀察業務系統瓶頸 `6` | [Docs](./docs/Workload-Benchmark.md)<br>Workload Benchmark | - |
 
 
 </ul>
@@ -312,18 +308,18 @@
 
 
 <details>
-<summary><b><i>　b.2.6　Documents </i></b></summary>
+<summary><b><i>　b.2.6　Value of Deliverables </i></b></summary>
 <ul>
 
 |**Item**|**Description**|**Time**|
 |--:|:--|:--:|
-| f.1.　SQL Implement | - | 2026-04-01 |
-| f.2.　OLTP-OLAP-Unified-DB | - | - |
-| f.3.　CI / CD 管線比較 | `Tradition` vs. `GitOps` | - |
-| f.4.　K8s - 日誌統一收集與發送 | - | - |
-| f.5.　K8s - Observability | `Alert Manager Test` | - |
-| f.6.　Vault - 分發密鑰 | - | - |
-| f.7.　DevOps 流程 | `Code Review` `PR` `TEST` `STAGE` `PROD` | - |
+| Role-Based Access Control `1` | [Docs](./docs/RBAC.md) | 2026-04-01 |
+| 單一實例實現 HTAP `2` | [Docs](./docs/OLTP-OLAP-Unified-DB.md) | - |
+| K8s - CI/CD `3` | [Docs](./docs/CI-CD.md)<br>`Tradition` vs. `GitOps` | - |
+| K8s - 日誌統一收集與發送 `4` | [Docs](./docs/Logging.md) | - |
+| K8s - Observability `5` | [Docs](./docs/Observability.md)<br>`Alert Manager` | - |
+| K8s - Vault 分發密鑰 `6` | [Docs](./docs/Vault.md) | - |
+| DevOps 流程 `7` | [Docs](./docs/DevOps.md)<br>`Code Review` `PR` `TEST` `STAGE` `PROD` | - |
 
 
 </ul>
@@ -341,7 +337,7 @@
 
 - ![PNG](./assets/roadmap.png)
 
-<details>
+<details open>
 <summary><b><i>　c.1.　Service Support Form </i></b></summary>
 <ul>
 
@@ -374,6 +370,7 @@ X = 已棄用
 | **Grafana** | O | O | - | - | - | O | - | - |
 | **Loki** | O | - | - | - | - | O | - | - |
 | **Promtail** | O | - | - | - | - | O | - | - |
+| **Tempo** | X | - | - | - | - | O | - | - |
 | **Elasticsearch** | O | - | - | - | - | * | - | - |
 | **Logstash** | O | - | - | - | - | * | - | - |
 | **Kibana** | O | - | - | - | - | * | - | - |
@@ -737,32 +734,9 @@ tree -d -I 'venv|.git|__pycache__|docs|logs|assets|kafka_data'
 </ul>
 </details>
 
-<br>
-
-
-
-### *D.　Quantitation*
-- #### *d.1.　[透過通用工具進行資料庫極限測試](./docs/generic_benchmark.md)*
-- #### *d.2.　[透過監控系統觀察業務系統瓶頸](./docs/workload_benchmark.md)*
-- #### *d.3.　優化查詢 [ 前 / 後 ] 比較測試 ( Index / Partition )*
-- #### *d.4.　邊緣裝置部署效率測試 ( `Manual` vs. `GitOps` )*
-- #### *d.5.　升級 K8s 後之基礎設施高可用性測試*
-- #### *d.6.　資料庫核心業務解套演進 ( `Direct Read` vs. `MV` vs. `CDC` )*
 
 <br>
 
-### *E.　Summary*
-
-<br>
-
-
-### *F.　Notice*
-- #### *f.1.　[SQL Implement](./docs/sql_implement.md)*
-- #### *f.2.　[OLTP-OLAP-Unified-DB](./docs/oltp-olap-unified-db.md)*
-- #### *f.3.　[CI / CD 管線比較](./docs/cicd.md)*
-- #### *f.4.　[K8s - 日誌統一收集與發送](./docs/k8s_logging.md)*
-- #### *f.5.　[K8s - Observability : Alert Manager Test](./docs/observability.md)*
-- #### *f.6.　[Vault - 分發密鑰](./docs/vault.md)*
-- #### *f.7.　[DevOps 流程](./docs/devops.md)*
+### *D.　Summary*
 
 <br><br><br>

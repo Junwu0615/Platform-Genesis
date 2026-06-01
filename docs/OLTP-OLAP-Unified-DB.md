@@ -1,6 +1,7 @@
 ## *OLTP-OLAP-Unified-DB*
 
-Simulating HTAP workload using a single PostgreSQL instance with schema isolation, analyzing contention between transactional and analytical queries.
+> Simulating HTAP workload using a single PostgreSQL instance with schema isolation, analyzing contention between transactional and analytical queries.
+
 ```
 * Database architecture should be driven by workload.
  ↪︎ * Workload defines query patterns.
@@ -24,8 +25,8 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 ### *Benchmark*
 |**Type**|**Objective**|**Methods**|
 |:--:|:--:|:--:|
-|*[Generic Benchmark](./generic_benchmark.md)* | 資料庫極限 | 內建工具 |
-|*[Workload Benchmark](./workload_benchmark.md)* | 系統瓶頸 | 自訂腳本 |
+|*[Generic Benchmark](./Generic-Benchmark.md)* | 資料庫極限 | 內建工具 |
+|*[Workload Benchmark](./Workload-Benchmark.md)* | 系統瓶頸 | 自訂腳本 |
 
 
 <br>

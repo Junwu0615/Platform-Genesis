@@ -1,4 +1,4 @@
-## *Observability - Alert Manager Test*
+## *Observability - Alert Manager*
 
 
 ### *A.　流程說明*
