@@ -5,6 +5,8 @@
 ```
 ```
 
+![PNG](../assets/observability_00.png)
+
 <br>
 
 ### *B.　指令檢視觀測內容*
@@ -34,26 +36,6 @@ Tempo 引入了一個叫 Trace ID 的概念。
   ├── [Backend-API: Create Order] ────────────────────────── (4.9s)
   │     ├── [PostgreSQL: INSERT Order] ─ (0.02s)  <-- 看到了吧！DB 其實超快
   │     └── [Kafka: Produce Message] ────────────────────── (4.8s) 🔥 兇手抓到了！
-```
-```
-# 確認服務存活
-[wsl2]
-curl -v -H "Host: tempo.k8s.local" http://10.88.0.20:30547/ready
-
-[powershell]
-Invoke-RestMethod -Uri "http://tempo.k8s.local:8080/ready" -Method Get
-
-------
-
-# 終端機執行 測試字串傳輸
-[wsl2]
-curl -v -H "Host: tempo.k8s.local" \
-     -H "Content-Type: application/json" \
-     -X POST http://10.88.0.20:30547/v1/traces \
-     -d '{"resourceSpans":[]}'
-     
-[powershell]
-Invoke-RestMethod -Uri "http://tempo.k8s.local:8080/api/traces" -Method Post -Body "..."
 ```
 
 <br><br><br>

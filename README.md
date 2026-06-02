@@ -181,6 +181,7 @@
 | Grafana Dashboard | `htap_grafana.json` | - |
 | Create MV | Materialized View | - |
 | Analytical Queries | - | - |
+| Python-Tempo Logic | - | - |
 | Security Message :<br>`Message Queue Layer` | Encryption ( `kafka` + `mqtt` ) | `TBD` |
 | Security Message :<br>`Software Layer` | 非對稱加密 | `TBD` |
 
@@ -285,6 +286,7 @@
 | GitOps | Build : `Observability` `Loki` | 2026-05-31 |
 | K8s | Experience : `Fluent Bit ( DaemonSet )` | 2026-05-31 |
 | GitOps | Build : `Observability` `Tempo` | 2026-06-01 |
+| GitOps | Experience : values 渲染逆向大法 | 2026-06-03 |
 | GitOps | Build : `Databases` `Postgresql` | - |
 | GitOps | Build : `Observability` `Postgres Exporter` | - |
 | GitOps | Build : `Platform` `Registry` | - |
