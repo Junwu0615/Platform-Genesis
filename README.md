@@ -218,7 +218,6 @@
 | Build `WSL2 Homelab` | `Chrome` => `Windows:8080`<br>=> `WSL2:80` => `ingress-nginx` | 2026-05-25 |
 | Update Migration Matrix | `Hybrid deployment` | 2026-05-26 |
 | Add `ArgoCD` | for `CD` | 2026-05-28 |
-| Reconstruct | `GitOps Infra Tree` | 2026-05-28 |
 | Build `CD` | `CD` => `Airflow DAGs` | - |
 | Build `CD` | `CD` => `Edge Container` | - |
 | Build `GitOps` | `GitLab CI` + `ArgoCD` | - |
@@ -277,6 +276,7 @@
 | K8s | Experience :<br>Win => `Portproxy` => WSL2 | 2026-05-25 |
 | K8s | Experience : `ingress-nginx` | 2026-05-25 |
 | K8s | Experience : `OOM` Out of Memory | 2026-05-25 |
+| GitOps | update tree `App-of-Apps` | 2026-05-28 |
 | GitOps | Experience : `Layered GitOps` | 2026-05-29 |
 | GitOps | Build : `Observability` `Grafana` | 2026-05-30 |
 | GitOps | Build : `Observability` `Prometheus` | 2026-05-30 |
@@ -287,7 +287,8 @@
 | K8s | Experience : `Fluent Bit ( DaemonSet )` | 2026-05-31 |
 | GitOps | Build : `Observability` `Tempo` | 2026-06-01 |
 | GitOps | Experience : values 渲染逆向大法 | 2026-06-03 |
-| GitOps | Build : `Databases` `Postgresql` | - |
+| GitOps | Build : `Databases` `Postgresql` | 2026-06-03 |
+| GitOps | update tree `Automated Multi-Tenant`<br>`Environment Provisioning` | - |
 | GitOps | Build : `Observability` `Postgres Exporter` | - |
 | GitOps | Build : `Platform` `Registry` | - |
 | GitOps | Build : `PG-Apps` `cp` | - |
@@ -297,7 +298,7 @@
 | K8s | Experience : CI/CD pipeline ( GitLab CI + ArgoCD ) | - |
 | GitOps | Maintain 2 repo ( `CI` + `CD` ) | - |
 | GitOps | Build : `Security` `Vault` | - |
-
+| K8s | Master 多節點設置 | `TBD` |
 
 </ul>
 </details>
@@ -402,8 +403,7 @@ X = 已棄用
 <ul>
 
 ```bash
-tree -I 'venv|.git|__pycache__|docs|logs|assets|kafka_data'
-tree -d -I 'venv|.git|__pycache__|docs|logs|assets|kafka_data'
+tree -I 'venv|.git|__pycache__|docs|logs|assets|kafka_data|charts'
 
 .
 ├── PG-APP-Core
