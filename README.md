@@ -256,7 +256,7 @@
 | Terraform vs. Compose | Experience :<br>`狀態管理差異性 ; 復原配置崩潰 ; 提高 HA` | 2026-04-19 |
 | Terraform & Ansible | Experience :<br>`Ansible 如何補足 Terraform 的不足` | 2026-04-19 |
 | ELK | Experience : `ELK` | 2026-05-05 |
-| K8s | Experience :<br>`Pod` `Node` `Helm` `Kubectl` `Deployment`<br>`Service` `Ingress` `Secret` `ConfigMap`<br>`NameSpaces` `PVC` `SVC` | 2026-05-09 |
+| K8s | Experience :<br>`Pod` `Node` `Helm` `Kubectl` `Deployment`<br>`Service` `Ingress` `Secret` `ConfigMap`<br>`NameSpaces` `PVC` `SVC` ... | 2026-05-09 |
 | K8s | Experience : MiniKube | 2026-05-09 |
 | K8s | Experience : Ansible 初始化節點 | 2026-05-10 |
 | K8s | Experience : K3d | 2026-05-10 |
@@ -288,8 +288,10 @@
 | GitOps | Build : `Observability` `Tempo` | 2026-06-01 |
 | GitOps | Experience : values 渲染逆向大法 | 2026-06-03 |
 | GitOps | Build : `Databases` `Postgresql` | 2026-06-03 |
-| GitOps | update tree `Automated Multi-Tenant`<br>`Environment Provisioning` | - |
+| K8s | Experience : `ApplicationSet` | 2026-06-05 |
+| GitOps | update tree `Automated Multi-Tenant`<br>`Environment Provisioning` | 2026-06-05 |
 | GitOps | Build : `Observability` `Postgres Exporter` | - |
+| K8s | Master 多節點設置 | - |
 | GitOps | Build : `Platform` `Registry` | - |
 | GitOps | Build : `PG-Apps` `cp` | - |
 | GitOps | Build : `PG-Apps` `inst` | - |
@@ -298,7 +300,6 @@
 | K8s | Experience : CI/CD pipeline ( GitLab CI + ArgoCD ) | - |
 | GitOps | Maintain 2 repo ( `CI` + `CD` ) | - |
 | GitOps | Build : `Security` `Vault` | - |
-| K8s | Master 多節點設置 | `TBD` |
 
 </ul>
 </details>

@@ -1,23 +1,8 @@
 ## *K8s - CI/CD*
 
 
-### *A.　實作環境硬體負荷*
+### *A.　說明*
 ```
-$ watch -d -n 2 free -hw
-               total        used        free      shared     buffers       cache   available
-Mem:            31Gi        14Gi        10Gi        61Mi        61Mi       6.1Gi        16Gi
-Swap:          8.0Gi       780Ki       8.0Gi
-
-
-Docker Compose: gitlab + portainer
-
-K3s Cluster: 3 Nodes ( 1 Master + 2 Worker )
-    - observability: grafana + prometheus + loki + promtail + tempo
-    - databases:
-    - pg-apps:
-    - platform: argocd
-    - security:
-    - storage:
 ```
 
 <br>
