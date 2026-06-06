@@ -15,6 +15,7 @@
 
 ### *C.　GitOps*
 ![PNG](../assets/argocd_00.png)
+![PNG](../assets/argocd_01.png)
 ```
 ```
 

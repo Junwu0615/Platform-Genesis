@@ -286,13 +286,15 @@
 | GitOps | Build : `Observability` `Loki` | 2026-05-31 |
 | K8s | Experience : `Fluent Bit ( DaemonSet )` | 2026-05-31 |
 | GitOps | Build : `Observability` `Tempo` | 2026-06-01 |
-| GitOps | Experience : values 渲染逆向大法 | 2026-06-03 |
+| GitOps | Experience : values 渲染大法 | 2026-06-03 |
 | GitOps | Build : `Databases` `Postgresql` | 2026-06-03 |
 | K8s | Experience : `ApplicationSet` | 2026-06-05 |
 | GitOps | update tree `Automated Multi-Tenant`<br>`Environment Provisioning` | 2026-06-05 |
-| GitOps | Build : `Observability` `Postgres Exporter` | - |
-| K8s | Master 多節點設置 | - |
-| GitOps | Build : `Platform` `Registry` | - |
+| GitOps | Ingress-Nginx `切換 Namespace 環境大坑` | 2026-06-06 |
+| K8s | 分類有無狀態服務 ( 親和反親合標籤設置 ) | 2026-06-06 |
+| K8s | Master 多節點設置 | 2026-06-06 |
+| GitOps | Build : `Observability` `Postgres Exporter` | 2026-06-07 |
+| GitOps | Build : `Platform` `Registry` | 2026-06-07 |
 | GitOps | Build : `PG-Apps` `cp` | - |
 | GitOps | Build : `PG-Apps` `inst` | - |
 | GitOps | Build : `Storage` `nfs` | - |
@@ -625,7 +627,7 @@ tree -I 'venv|.git|__pycache__|docs|logs|assets|kafka_data|charts'
 │       │   │   └── terraform
 │       │   │       ├── cloud_init.cfg
 │       │   │       ├── env_tfvars
-│       │   │       │   └── test.tfvars
+│       │   │       │   └── homelab-test.tfvars
 │       │   │       ├── inventory.tftpl
 │       │   │       ├── main.tf
 │       │   │       ├── outputs.tf
