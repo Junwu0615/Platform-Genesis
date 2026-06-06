@@ -9,6 +9,19 @@
 
 ### *B.　Tradition*
 ```
+Git Push
+  ↓
+GitLab CI
+  ↓
+Build Image
+  ↓
+Push Registry
+  ↓
+Update values.yaml
+  ↓
+K8s Apply
+  ↓
+Pod Service Running
 ```
 
 <br>
@@ -17,6 +30,23 @@
 ![PNG](../assets/argocd_00.png)
 ![PNG](../assets/argocd_01.png)
 ```
+Git Push
+  ↓
+GitLab CI
+  ↓
+Build Image
+  ↓
+Push Registry
+  ↓
+Update values.yaml
+  ↓
+ArgoCD Detect Drift
+  ↓
+Sync
+  ↓
+K8s Apply
+  ↓
+Pod Service Running
 ```
 
 <br>

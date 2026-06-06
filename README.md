@@ -272,7 +272,7 @@
 | K8s | Experience : `k9s` | 2026-05-12 |
 | CI/CD | Experience : Git-Runner | 2026-05-19 |
 | CI/CD | Experience : ⚠️ Airflow 熱更新 | 2026-05-20 |
-| K8s | Experience : Terraform ( `Gateway` ) | 2026-05-24 |
+| K8s | Experience : Terraform `Gateway` | 2026-05-24 |
 | K8s | Experience :<br>Win => `Portproxy` => WSL2 | 2026-05-25 |
 | K8s | Experience : `ingress-nginx` | 2026-05-25 |
 | K8s | Experience : `OOM` Out of Memory | 2026-05-25 |
@@ -282,7 +282,7 @@
 | GitOps | Build : `Observability` `Prometheus` | 2026-05-30 |
 | GitOps | Build : `Observability` `Prometheus Stack` | 2026-05-30 |
 | GitOps | Build : `Observability` `Promtail` | 2026-05-31 |
-| GitOps | `Loki` values 渲染大坑 `nil pointer`<br>`evaluating interface {}.chunks` => 退至穩定版 | 2026-05-31 |
+| GitOps | `Helm Values 渲染大坑` => 退至穩定版 | 2026-05-31 |
 | GitOps | Build : `Observability` `Loki` | 2026-05-31 |
 | K8s | Experience : `Fluent Bit ( DaemonSet )` | 2026-05-31 |
 | GitOps | Build : `Observability` `Tempo` | 2026-06-01 |
@@ -290,9 +290,9 @@
 | GitOps | Build : `Databases` `Postgresql` | 2026-06-03 |
 | K8s | Experience : `ApplicationSet` | 2026-06-05 |
 | GitOps | update tree `Automated Multi-Tenant`<br>`Environment Provisioning` | 2026-06-05 |
-| GitOps | Ingress-Nginx `切換 Namespace 環境大坑` | 2026-06-06 |
-| K8s | 分類有無狀態服務 ( 親和反親合標籤設置 ) | 2026-06-06 |
-| K8s | Master 多節點設置 | 2026-06-06 |
+| GitOps | Ingress-Nginx `切換 Namespace 環境坑` | 2026-06-06 |
+| K8s | 分類有無狀態服務 ( 親和/反親合標籤設置 ) | 2026-06-06 |
+| K8s | `Master` 多節點設置 | 2026-06-06 |
 | GitOps | Build : `Observability` `Postgres Exporter` | 2026-06-07 |
 | GitOps | Build : `Platform` `Registry` | 2026-06-07 |
 | GitOps | Build : `PG-Apps` `cp` | - |

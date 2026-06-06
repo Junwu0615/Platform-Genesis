@@ -27,31 +27,57 @@ Node3
 ![PNG](../assets/logging_00.png)
 
 ```
-$ kubectl get pods -n promtail -o wide
-NAME             READY   STATUS    RESTARTS   AGE    IP           NODE         NOMINATED NODE   READINESS GATES
-promtail-4nkxv   1/1     Running   0          104m   10.42.0.29   k3s-node-0   <none>           <none>
-promtail-b89dw   1/1     Running   0          104m   10.42.1.66   k3s-node-2   <none>           <none>
-promtail-sj8w7   1/1     Running   0          104m   10.42.3.75   k3s-node-1   <none>           <none>
+$ kubectl get pods -n promtail-homelab-test -o wide
+NAME                          READY   STATUS    RESTARTS   AGE   IP           NODE           NOMINATED NODE   READINESS GATES
+promtail-homelab-test-5grsh   1/1     Running   0          63m   10.42.1.4    k3s-master-1   <none>           <none>
+promtail-homelab-test-bqt59   1/1     Running   0          63m   10.42.0.5    k3s-master-0   <none>           <none>
+promtail-homelab-test-cfr8l   1/1     Running   0          63m   10.42.5.11   k3s-agent-2    <none>           <none>
+promtail-homelab-test-ldh6c   1/1     Running   0          63m   10.42.4.9    k3s-agent-1    <none>           <none>
+promtail-homelab-test-rplhr   1/1     Running   0          63m   10.42.6.9    k3s-agent-0    <none>           <none>
+promtail-homelab-test-wqt5l   1/1     Running   0          63m   10.42.3.4    k3s-master-2   <none>           <none>
 
-$ kubectl get pods -n loki -o wide
-NAME                                           READY   STATUS    RESTARTS   AGE     IP           NODE         NOMINATED NODE   READINESS GATES
-loki-backend-0                                 2/2     Running   0          4m42s   10.42.3.82   k3s-node-1   <none>           <none>
-loki-backend-1                                 2/2     Running   0          4m41s   10.42.1.76   k3s-node-2   <none>           <none>
-loki-backend-2                                 2/2     Running   0          4m41s   10.42.0.35   k3s-node-0   <none>           <none>
-loki-canary-h57cr                              1/1     Running   0          4m42s   10.42.0.30   k3s-node-0   <none>           <none>
-loki-canary-qbsmg                              1/1     Running   0          4m42s   10.42.3.77   k3s-node-1   <none>           <none>
-loki-canary-xj8wh                              1/1     Running   0          4m42s   10.42.1.69   k3s-node-2   <none>           <none>
-loki-gateway-664dc8b498-56k7l                  1/1     Running   0          4m42s   10.42.1.71   k3s-node-2   <none>           <none>
-loki-grafana-agent-operator-555b65b9f6-l9vsq   1/1     Running   0          4m42s   10.42.1.70   k3s-node-2   <none>           <none>
-loki-logs-ldg8c                                2/2     Running   0          4m19s   10.42.1.77   k3s-node-2   <none>           <none>
-loki-logs-rmk5j                                2/2     Running   0          4m19s   10.42.0.36   k3s-node-0   <none>           <none>
-loki-logs-v85hj                                2/2     Running   0          4m19s   10.42.3.83   k3s-node-1   <none>           <none>
-loki-read-84f7654c5f-f86qm                     1/1     Running   0          4m42s   10.42.3.78   k3s-node-1   <none>           <none>
-loki-read-84f7654c5f-gppfj                     1/1     Running   0          4m42s   10.42.0.31   k3s-node-0   <none>           <none>
-loki-read-84f7654c5f-t8ndt                     1/1     Running   0          4m42s   10.42.1.72   k3s-node-2   <none>           <none>
-loki-write-0                                   1/1     Running   0          4m42s   10.42.1.75   k3s-node-2   <none>           <none>
-loki-write-1                                   1/1     Running   0          4m41s   10.42.0.34   k3s-node-0   <none>           <none>
-loki-write-2                                   1/1     Running   0          4m41s   10.42.3.81   k3s-node-1   <none>           <none>         <none>
+
+$ kubectl get pods -n loki-homelab-test -o wide
+NAME                                                        READY   STATUS    RESTARTS   AGE   IP           NODE           NOMINATED NODE   READINESS GATES
+loki-canary-8676d                                           1/1     Running   0          55m   10.42.1.5    k3s-master-1   <none>           <none>
+loki-canary-9vjp9                                           1/1     Running   0          55m   10.42.6.12   k3s-agent-0    <none>           <none>
+loki-canary-fbdkh                                           1/1     Running   0          55m   10.42.4.11   k3s-agent-1    <none>           <none>
+loki-canary-rt5t9                                           1/1     Running   0          55m   10.42.0.6    k3s-master-0   <none>           <none>
+loki-canary-xnc5s                                           1/1     Running   0          55m   10.42.5.12   k3s-agent-2    <none>           <none>
+loki-canary-zn2rz                                           1/1     Running   0          54m   10.42.3.5    k3s-master-2   <none>           <none>
+loki-gateway-6d5fc56d7-bxvq5                                1/1     Running   0          54m   10.42.3.6    k3s-master-2   <none>           <none>
+loki-homelab-test-0                                         1/1     Running   0          54m   10.42.5.14   k3s-agent-2    <none>           <none>
+loki-homelab-test-grafana-agent-operator-599f47b676-ccw9m   1/1     Running   0          55m   10.42.4.12   k3s-agent-1    <none>           <none>
+loki-homelab-test-logs-6qjxq                                2/2     Running   0          54m   10.42.1.6    k3s-master-1   <none>           <none>
+loki-homelab-test-logs-8l7vd                                2/2     Running   0          54m   10.42.5.15   k3s-agent-2    <none>           <none>
+loki-homelab-test-logs-h2wqt                                2/2     Running   0          54m   10.42.3.7    k3s-master-2   <none>           <none>
+loki-homelab-test-logs-k985l                                2/2     Running   0          54m   10.42.4.13   k3s-agent-1    <none>           <none>
+loki-homelab-test-logs-tnt29                                2/2     Running   0          54m   10.42.6.14   k3s-agent-0    <none>           <none>
+loki-homelab-test-logs-wmgc2                                2/2     Running   0          54m   10.42.0.7    k3s-master-0   <none>           <none>
+
+
+$ kubectl get pods -n tempo-homelab-test -o wide
+NAME                                                READY   STATUS    RESTARTS   AGE   IP           NODE           NOMINATED NODE   READINESS GATES
+tempo-homelab-test-compactor-5cc476bcb9-xxwkn       1/1     Running   0          66m   10.42.6.6    k3s-agent-0    <none>           <none>
+tempo-homelab-test-distributor-5f4998dcfc-hzsx9     1/1     Running   0          57m   10.42.6.10   k3s-agent-0    <none>           <none>
+tempo-homelab-test-ingester-0                       1/1     Running   0          66m   10.42.5.5    k3s-agent-2    <none>           <none>
+tempo-homelab-test-memcached-0                      1/1     Running   0          66m   10.42.6.7    k3s-agent-0    <none>           <none>
+tempo-homelab-test-querier-84bbb4689d-dmz2x         1/1     Running   0          66m   10.42.1.3    k3s-master-1   <none>           <none>
+tempo-homelab-test-query-frontend-88759c5fc-4pkrr   1/1     Running   0          66m   10.42.4.6    k3s-agent-1    <none>           <none>
+
+
+$ kubectl get pods -n prometheus-stack-homelab-test -o wide
+NAME                                                              READY   STATUS    RESTARTS      AGE   IP           NODE           NOMINATED NODE   READINESS GATES
+alertmanager-prometheus-stack-homelab-t-alertmanager-0            2/2     Running   0             65m   10.42.5.9    k3s-agent-2    <none>           <none>
+prometheus-prometheus-stack-homelab-t-prometheus-0                2/2     Running   0             65m   10.42.5.10   k3s-agent-2    <none>           <none>
+prometheus-stack-homelab-t-operator-6d64d57745-pqrz7              1/1     Running   0             65m   10.42.6.8    k3s-agent-0    <none>           <none>
+prometheus-stack-homelab-test-kube-state-metrics-6db996d4dz77dz   1/1     Running   0             65m   10.42.4.8    k3s-agent-1    <none>           <none>
+prometheus-stack-homelab-test-prometheus-node-exporter-5ntwn      1/1     Running   0             65m   10.88.0.20   k3s-agent-0    <none>           <none>
+prometheus-stack-homelab-test-prometheus-node-exporter-8hhmk      1/1     Running   0             65m   10.88.0.22   k3s-agent-2    <none>           <none>
+prometheus-stack-homelab-test-prometheus-node-exporter-8rlnm      1/1     Running   0             65m   10.88.0.10   k3s-master-0   <none>           <none>
+prometheus-stack-homelab-test-prometheus-node-exporter-bf5s7      1/1     Running   0             65m   10.88.0.11   k3s-master-1   <none>           <none>
+prometheus-stack-homelab-test-prometheus-node-exporter-q8x7z      1/1     Running   0             65m   10.88.0.21   k3s-agent-1    <none>           <none>
+prometheus-stack-homelab-test-prometheus-node-exporter-tlnwk      1/1     Running   1 (55m ago)   65m   10.88.0.12   k3s-master-2   <none>           <none>
 ```
 
 <br><br><br>
