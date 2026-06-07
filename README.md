@@ -262,7 +262,7 @@
 | K8s | Experience : K3d | 2026-05-10 |
 | VM | Experience : Manual Create Oracle VM | 2026-05-10 |
 | K8s | K3s + VM | 2026-05-10 |
-| VM | 開源全生命週期自動化堆疊<br>( Terraform + Ansible + libvirt ) | 2026-05-10 |
+| VM | 開源全生命週期自動化堆疊<br>`Terraform` `Ansible` `libvirt` | 2026-05-10 |
 | K8s | Experience : 水平擴充 ( Horizontal Scaling ) | 2026-05-10 |
 | VM | Experience : 以 Ping 自動喚醒 VM 防止深度睡眠 | X |
 | VM | Terraform 安裝基礎設施 | 2026-05-11 |
@@ -293,7 +293,7 @@
 | GitOps | update tree `Automated Multi-Tenant`<br>`Environment Provisioning` | 2026-06-05 |
 | GitOps | Ingress-Nginx `切換 Namespace 環境坑` | 2026-06-06 |
 | K8s | 親和/反親合標籤設置 | 2026-06-06 |
-| VM | `Master` 多節點設置 | 2026-06-06 |
+| VM | Terraform `Master` 多節點設置 | 2026-06-06 |
 | GitOps | Build : `Observability` `Postgres Exporter` | 2026-06-07 |
 | GitOps | Build : `Platform` `Registry` | 2026-06-07 |
 | GitOps | Build : `PG-Apps` `cp` | - |

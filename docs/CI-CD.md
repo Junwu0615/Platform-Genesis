@@ -2,12 +2,14 @@
 
 ### *A.　方案比較*
 
+<br>
+
 <details>
 <summary><b><i>　a.1.　Tradition </i></b></summary>
 <ul>
 
 <details>
-<summary><b><i>　I.　說明內容 </i></b></summary>
+<summary><b><i>　I.　說明細節 </i></b></summary>
 <ul>
 
 ```
@@ -55,7 +57,7 @@
 </details>
 
 <details open>
-<summary><b><i>　II.　展示結果 </i></b></summary>
+<summary><b><i>　II.　展示內容 </i></b></summary>
 <ul>
 
 </ul>
@@ -70,7 +72,7 @@
 <ul>
 
 <details>
-<summary><b><i>　I.　說明內容 </i></b></summary>
+<summary><b><i>　I.　說明細節 </i></b></summary>
 <ul>
 
 ```
@@ -135,7 +137,7 @@
 </details>
 
 <details open>
-<summary><b><i>　II.　展示結果 </i></b></summary>
+<summary><b><i>　II.　展示內容 </i></b></summary>
 <ul>
 
 ![PNG](../assets/argocd_00.png)
@@ -241,33 +243,33 @@
     
     ```
     CI/CD 主目的是為了解決 ...
-    * 部署頻率 ( Deployment Frequency ) ↑
-    * 交貨時間 ( Lead Time ) ↓
-    * 恢復時間 ( Recovery Time ) ↓
+     * 部署頻率 ( Deployment Frequency ) ↑
+     * 交貨時間 ( Lead Time ) ↓
+     * 恢復時間 ( Recovery Time ) ↓
 
 
     在 - Node K3s 環境中 ...
-    * Manual Deploy 平均耗時 - 分鐘
-    * GitOps Deploy 平均耗時 - 分鐘
+     * Manual Deploy 平均耗時 - 分鐘
+     * GitOps Deploy 平均耗時 - 分鐘
     
-     → 部署效率提升 - %
+       → 部署效率提升 - %
   
   
-    * 人工操作步驟由 9 步降至 3 步
-     → 降低步驟比例 66.7 %
-     → 顯著降低維運風險與人為操作成本
+      * 人工操作步驟由 9 步降至 3 步
+       → 降低步驟比例 66.7 %
+       → 顯著降低維運風險與人為操作成本
     
   
     此外 GitOps 提供 ...
-    * Single Source of Truth
-    * Drift Detection
-    * Deploy Audit Trail
-    * Centralized RBAC
-    * Disaster Recovery
+     * Single Source of Truth
+     * Drift Detection
+     * Deploy Audit Trail
+     * Centralized RBAC
+     * Disaster Recovery
     
-     → 使部署流程具備可追溯性
-     → 可重複性與自動修復能力
-     → 有效降低維運成本並提升交付效率
+       → 使部署流程具備可追溯性
+       → 可重複性與自動修復能力
+       → 有效降低維運成本並提升交付效率
     ```
 
 
