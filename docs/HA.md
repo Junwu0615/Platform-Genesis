@@ -1,26 +1,172 @@
 ## *K8s - 基礎設施高可用性測試*
 
-### *A.　測試項目*
+### *A.　測試內容*
 ```
-👁️ 測試 0: 取得需要對外交互的服務位置 確認能訪問服務 ( ex: Portainer )
-👁️ 測試 1: Pod 故障自癒 ( 模擬服務崩潰 ) 
-👁️ 測試 2: 容器層級故障 ( 容器逃逸測試 )
-👁️ 測試 3: 滾動更新 ( Rolling Update )
-👁️ 測試 4： 錯誤與回滾 ( Rollback )
-👁️ 測試 5： 配置更新自動觸發重啟 ( Reloader )
-👁️ 測試 6： 網路層級（ Service 斷線測試 ）
-👁️ 測試 7： 資源限制 ( Resource Limit - OOMKilled )
-👁️ 測試 8： 親和性與反親和性 ( Anti-Affinity )
-👁️ 測試 9： 存活探針故障 ( Liveness Probe Failure )
-👁️ 測試 10： Node Affinity ( 指定居所 )
-👁️ 測試 11： 多節點自癒與調度演習
-👁️ 測試 12： Service 的負載平衡與連通性
-👁️ 測試 13： 自動摘除與恢復
-👁️ 測試 14： 零停機更新與回滾 ( Rolling Update & Rollback )
-👁️ 測試 15： Ingress 流量入口 ( Traefik )
-👁️ 測試 16： 高可用單一實例 ( HA Singleton )
-👁️ 測試 17： 橫向自動伸縮 ( HPA - Horizontal Pod Autoscaler )
-👁️ 測試 18： 持久化儲存與節點漂移 ( PV / PVC / Local Path )
+A. Workload Resilience: 驗證 Pod 與 Deployment 自癒能力
+    * 指標:
+        - Pod Recovery Time (s)
+        - Service Recovery Time (s)
+        - Request Failure Count
+
+    * 測試項目:
+    👁️ Test 1 : Pod Crash Recovery
+    👁️ Test 2 : Container Crash Recovery
+    👁️ Test 3 : OOMKilled Recovery
+    👁️ Test 4 : Liveness Probe Failure
+    👁️ Test 5 : Readiness Probe Failure
+    👁️ Test 6 : Rolling Update
+    👁️ Test 7 : Rollback
+
+
+B. Scheduling Resilience: 驗證 Scheduler
+    * 指標:
+        - Reschedule Time
+        - Pod Migration Time
+        - Unavailable Pod Count
+
+    * 測試項目:
+    👁️ Test 8 : Anti-Affinity
+    👁️ Test 9 : Node Affinity
+    👁️ Test 10 : Taints & Tolerations
+    👁️ Test 11 : Node Drain
+    👁️ Test 12 : Node Failure
+
+
+C. Service Resilience: 驗證網路與流量
+    * 指標:
+        - Success Rate
+        - Error Rate
+        - Response Time
+
+    * 測試項目:
+    👁️ Test 13 : Service Connectivity
+    👁️ Test 14 : Load Balancing
+    👁️ Test 15 : Endpoint Removal
+    👁️ Test 16 : Ingress Routing
+
+
+D. Scalability: 驗證可擴展性
+    * 指標:
+        - Scale Trigger Time
+        - Scale Completion Time
+
+    * 測試項目:
+    👁️ Test 17 : HPA Scale Out
+    👁️ Test 18 : HPA Scale In
+
+
+E. Storage Resilience: 驗證儲存彈性
+    * 指標:
+        - Data Loss
+        - Recovery Time
+        - Volume Reattach Time
+
+    * 測試項目:
+    👁️ Test 19 : PVC Persistence
+    👁️ Test 20 : Pod Recreate with PVC
+    👁️ Test 21 : Node Failure with PVC
+
+
+F. GitOps Resilience: 驗證 GitOps 彈性
+    * 指標:
+        - Drift Detection Time
+        - Sync Time
+        - Rollback Time
+
+    * 測試項目:
+    👁️ Test 22 : Drift Detection
+    👁️ Test 23 : Auto Sync Recovery
+    👁️ Test 24 : Git Rollback
+
+
+G. Control Plane: 驗證 Master 多節點高可用
+    * 指標:
+        - API Availability
+        - Workload Availability
+        - Recovery Time
+
+    * 測試項目:
+    👁️ Test 25 : Control Plane Failure
+```
+
+<br>
+
+### *B.　測試紀錄*
+```
+* 定義測試內容格式
+
+# Test 1
+
+Pod Crash Recovery
+
+Action:
+kubectl delete pod
+
+Metric:
+Pod Recovery Time
+
+Pass:
+< ? sec
+
+------
+
+# Test 12
+
+Node Failure
+
+Action:
+shutdown node
+
+Metric:
+Pod Migration Time
+
+Pass:
+< ? sec
+
+------
+
+# Test 22
+
+Drift Detection
+
+Action:
+kubectl scale deployment xxx --replicas=10
+
+Metric:
+Drift Detection Time
+
+Pass:
+< ? sec
+```
+
+<br>
+
+### *C.　最終統計*
+```
+K3s HA Validation Result
+
+* Node Count : 6
+
+* Pod Recovery Time
+    Average : - sec
+
+* Node Failure Recovery
+    Average : - sec
+
+* Rolling Update Downtime
+    - sec
+
+* Rollback Time
+    - sec
+
+* HPA Scale Out
+    - sec
+
+* PVC Data Loss
+    -
+
+ArgoCD Drift Recovery
+    - sec
 ```
 
 <br><br><br>

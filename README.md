@@ -276,7 +276,7 @@
 | VM | Terraform `Gateway` | 2026-05-24 |
 | K8s | Experience :<br>Win => `Portproxy` => WSL2 | 2026-05-25 |
 | K8s | Experience : `ingress-nginx` | 2026-05-25 |
-| K8s | Experience : `OOM` Out of Memory | 2026-05-25 |
+| K8s | Experience : `OOM Kill` | 2026-05-25 |
 | GitOps | update tree `App-of-Apps` | 2026-05-28 |
 | GitOps | Experience : `Layered GitOps` | 2026-05-29 |
 | GitOps | Build : `Observability` `Grafana` | 2026-05-30 |
@@ -362,7 +362,7 @@
 O = 已實現
 X = 已棄用
 - = 未實現
-* = Homelab 記憶體 OOM ( 折衷改為 Docker Compose ) => 不遷移
+* = Homelab 記憶體 OOM Kill ( 折衷改為 Docker Compose ) => 不遷移
 △ = 省作業時間 ( 部分與重型服務的 Docker Compose 綑綁 ) => 不遷移
 ``` 
 
