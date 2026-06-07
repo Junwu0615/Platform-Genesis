@@ -261,18 +261,19 @@
 | K8s | Experience : Ansible 初始化節點 | 2026-05-10 |
 | K8s | Experience : K3d | 2026-05-10 |
 | VM | Experience : Manual Create Oracle VM | 2026-05-10 |
-| K8s | Experience : K3s + VM | 2026-05-10 |
+| K8s | K3s + VM | 2026-05-10 |
+| VM | 開源全生命週期自動化堆疊<br>( Terraform + Ansible + libvirt ) | 2026-05-10 |
 | K8s | Experience : 水平擴充 ( Horizontal Scaling ) | 2026-05-10 |
-| K8s | Experience : 以 Ping 自動喚醒 VM 防止深度睡眠 | - |
-| K8s | Experience : Terraform 安裝基礎設施 ( VM ) | 2026-05-11 |
+| VM | Experience : 以 Ping 自動喚醒 VM 防止深度睡眠 | X |
+| VM | Terraform 安裝基礎設施 | 2026-05-11 |
 | K8s | Experience : 簡化 kubectl 指令 | 2026-05-12 |
-| K8s | Experience : 橫向擴展 Node ( VM ) | 2026-05-12 |
+| VM | 橫向擴展 Node | 2026-05-12 |
 | K8s | Experience : 高可用單一實例 ( HA Singleton ) | 2026-05-12 |
 | K8s | Experience : Edge & Service 分離標籤 | 2026-05-12 |
 | K8s | Experience : `k9s` | 2026-05-12 |
 | CI/CD | Experience : Git-Runner | 2026-05-19 |
 | CI/CD | Experience : ⚠️ Airflow 熱更新 | 2026-05-20 |
-| K8s | Experience : Terraform `Gateway` | 2026-05-24 |
+| VM | Terraform `Gateway` | 2026-05-24 |
 | K8s | Experience :<br>Win => `Portproxy` => WSL2 | 2026-05-25 |
 | K8s | Experience : `ingress-nginx` | 2026-05-25 |
 | K8s | Experience : `OOM` Out of Memory | 2026-05-25 |
@@ -291,8 +292,8 @@
 | K8s | Experience : `ApplicationSet` | 2026-06-05 |
 | GitOps | update tree `Automated Multi-Tenant`<br>`Environment Provisioning` | 2026-06-05 |
 | GitOps | Ingress-Nginx `切換 Namespace 環境坑` | 2026-06-06 |
-| K8s | 分類有無狀態服務 ( 親和/反親合標籤設置 ) | 2026-06-06 |
-| K8s | `Master` 多節點設置 | 2026-06-06 |
+| K8s | 親和/反親合標籤設置 | 2026-06-06 |
+| VM | `Master` 多節點設置 | 2026-06-06 |
 | GitOps | Build : `Observability` `Postgres Exporter` | 2026-06-07 |
 | GitOps | Build : `Platform` `Registry` | 2026-06-07 |
 | GitOps | Build : `PG-Apps` `cp` | - |
@@ -393,6 +394,7 @@ X = 已棄用
 | **Gitlab** | O | - | - | - | - | * | - | - |
 | **Jenkins** | X | X | X | X | X | X | X | X |
 | **ArgoCD** | X | - | - | - | - | O | - | - |
+| **Harbor** | X | X | X | X | X | X | X | X |
 | **Docker Registry** | O | - | - | - | - | O | - | - |
 | **Docker Registry UI** | X | X | X | X | X | X | X | X |
 | **Portainer** | O | O | - | - | O | △ | - | - |
