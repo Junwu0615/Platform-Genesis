@@ -8,6 +8,8 @@
 <summary><b><i>　a.1.　Tradition </i></b></summary>
 <ul>
 
+<br>
+
 <details>
 <summary><b><i>　I.　說明細節 </i></b></summary>
 <ul>
@@ -60,6 +62,9 @@
 <summary><b><i>　II.　展示內容 </i></b></summary>
 <ul>
 
+![PNG](../assets/ci-cd_00.png)
+![PNG](../assets/ci-cd_01.png)
+
 </ul>
 </details>
 
@@ -70,6 +75,8 @@
 <details>
 <summary><b><i>　a.2.　GitOps </i></b></summary>
 <ul>
+
+<br>
 
 <details>
 <summary><b><i>　I.　說明細節 </i></b></summary>
