@@ -74,7 +74,8 @@
 | Create Project | - | 2026-03-20 |
 | Add `PostgreSQL` | - | 2026-03-20 |
 | Add `Airflow` | for `OLAP` | 2026-03-21 |
-| Quantitation 1 | Docker Desktop vs. WSL2 | 2026-04-04 |
+| Value of Deliverables 1 | Role-Based Access Control | 2026-04-01 |
+| Quantitation 1 | `Docker Desktop` vs. `WSL2` | 2026-04-04 |
 | Add `Monitoring` | - | 2026-04-04 |
 | Terraform | Modularization | 2026-04-20 |
 | Ansible | Modularization | 2026-04-20 |
@@ -84,12 +85,18 @@
 | K8s | Advanced : `K3s` + `VMware` | 2026-05-10 |
 | Build `Hierarchical`<br>`Log Management` | `Loki` + `ELK` | 2026-05-14 |
 | Build `GitOps` | `GitLab CI` + `ArgoCD` | - |
-| Quantitation 2 | Automated Deployment of the Edge :<br>`Manual` vs. `GitOps` | - |
-| Quantitation 3 |  `K8s Infrastructure` :<br>High Availability Comparison Test | - |
+| Value of Deliverables 3 | Automated Deployment of the Edge :<br>`Manual` vs. `GitOps` | - |
+| Value of Deliverables 4 |  `K8s Infrastructure` :<br>High Availability Comparison Test | - |
 | Build `Lakehouse` | - | - |
-| Quantitation 4 | OLTP Query Efficiency<br>Optimization ( Index / Partition )<br>`Before` vs. `After` | - |
-| Quantitation 5 | Evolution of Database Core Business :<br>`Direct Read` vs. `MV` vs. `CDC` | - |
-| Quantitation 6 | Workload Benchmark | - |
+| Value of Deliverables 3 | CI/CD | - |
+| Value of Deliverables 4 | Infrastructure HA testing | - |
+| Value of Deliverables 5 | Observability Platform | - |
+| Value of Deliverables 6 | Vault Distribution Key | - |
+| Value of Deliverables 7 | DevOps Process | - |
+| Value of Deliverables 2 | OLTP-OLAP-Unified-DB | - |
+| Quantitation 2 | Query Efficiency Optimization<br>`Before` vs. `After` | - |
+| Quantitation 3 | Evolution of Database Core Business :<br>`Direct Read` vs. `MV` vs. `CDC` | - |
+| Quantitation 4 | Workload Benchmark | - |
 | Add `HashiCorp Vault` | Enterprise Key Management System | - |
 | K8s | Bottom Layer : `Kubeadm` + `VMware` | `TBD` |
 | K8s | Public Cloud : `GKE` | `TBD` |
@@ -139,7 +146,7 @@
 | Generate Rigorous<br>Static Data | - | 2026-03-26 |
 | Rigorous Calibration<br>of Dynamic Data | 單一機台同時間只允許做一件事 /<br>排隊消化訂單 / 訂單生產週期戳記 | 2026-03-27 |
 | Adjusting Contextual | ~~insert machine event :<br>machine_events~~ | 2026-03-28 |
-| execute => execute_batch | batch sending + batch submission :<br>不適用於目前模擬方式 | X |
+| execute → execute_batch | batch sending + batch submission :<br>不適用於目前模擬方式 | X |
 | Adjusting Contextual | insert machine status :<br>machine_status_logs | 2026-03-30 |
 | Increase Data Volume | - | 2026-03-30 |
 | Auto Partition | `dags/sql/auto_partition/*` | 2026-04-06 |
@@ -215,11 +222,11 @@
 | Add `Jenkins` | for `CD` | 2026-05-12 |
 | Add `Docker Registry` | for `CI/CD` & `Manage Images` | 2026-05-12 |
 | Build `Hierarchical`<br>`Log Management` | `Loki` + `ELK` | 2026-05-14 |
-| Build `WSL2 Homelab` | `Chrome` => `Windows:8080`<br>=> `WSL2:80` => `ingress-nginx` | 2026-05-25 |
+| Build `WSL2 Homelab` | `Chrome` → `Windows:8080`<br>→ `WSL2:80` → `ingress-nginx` | 2026-05-25 |
 | Update Migration Matrix | `Hybrid deployment` | 2026-05-26 |
 | Add `ArgoCD` | for `CD` | 2026-05-28 |
-| Build `CD` | `CD` => `Airflow DAGs` | - |
-| Build `CD` | `CD` => `Edge Container` | - |
+| Build `CD` | `CD` → `Airflow DAGs` | - |
+| Build `CD` | `CD` → `Edge Container` | - |
 | Build `GitOps` | `GitLab CI` + `ArgoCD` | - |
 | Add `Debezium` | Change Data Capture | - |
 | Add `Apache Iceberg` | Data Lake | - |
@@ -274,7 +281,7 @@
 | CI/CD | Experience : Git-Runner | 2026-05-19 |
 | CI/CD | Experience : ⚠️ Airflow 熱更新 | 2026-05-20 |
 | VM | Terraform `Gateway` | 2026-05-24 |
-| K8s | Experience :<br>Win => `Portproxy` => WSL2 | 2026-05-25 |
+| K8s | Experience :<br>Win → `Portproxy` → WSL2 | 2026-05-25 |
 | K8s | Experience : `ingress-nginx` | 2026-05-25 |
 | K8s | Experience : `OOM Kill` | 2026-05-25 |
 | GitOps | update tree `App-of-Apps` | 2026-05-28 |
@@ -283,7 +290,7 @@
 | GitOps | Build : `Observability` `Prometheus` | 2026-05-30 |
 | GitOps | Build : `Observability` `Prometheus Stack` | 2026-05-30 |
 | GitOps | Build : `Observability` `Promtail` | 2026-05-31 |
-| GitOps | `Helm Values 渲染大坑` => 退至穩定版 | 2026-05-31 |
+| GitOps | `Helm Values 渲染大坑` → 退至穩定版 | 2026-05-31 |
 | GitOps | Build : `Observability` `Loki` | 2026-05-31 |
 | K8s | Experience : `Fluent Bit ( DaemonSet )` | 2026-05-31 |
 | GitOps | Build : `Observability` `Tempo` | 2026-06-01 |
@@ -314,12 +321,10 @@
 
 |**Item**|**Description**|**Time**|
 |--:|:--|:--:|
-| 透過通用工具進行<br>資料庫極限測試 | [Quantitation 1](./docs/Generic-Benchmark.md)<br>Docker Desktop ( 64MB )<br>vs. WSL2 ( 16GB ) | 2026-04-04 |
-| 邊緣裝置部署效率測試 | [Quantitation 2](./docs/CI-CD.md)<br>`Manual` vs. `GitOps` | - |
-| K8s - 基礎設施高可用性測試 |  [Quantitation 3](./docs/HA.md) | - |
-| 資料庫查詢優化比較測試 | [Quantitation 4](./docs/DB-Optimization.md)<br>Optimization ( `Index` `Partition` ) | - |
-| 資料庫核心業務解套演進 | [Quantitation 5](./docs/Evolution-of-Database-Core.md)<br>`Direct Read` vs. `MV` vs. `CDC` | - |
-| 透過監控系統<br>觀察業務系統瓶頸 | [Quantitation 6](./docs/Workload-Benchmark.md)<br>Workload Benchmark | - |
+| 透過通用工具進行<br>資料庫極限測試 | [Quantitation 1](./docs/Generic-Benchmark.md)<br>`Docker Desktop` vs. `WSL2` | 2026-04-04 |
+| 資料庫查詢優化比較測試 | [Quantitation 2](./docs/DB-Optimization.md)<br>`Before` vs. `After` | - |
+| 資料庫核心業務解套演進 | [Quantitation 3](./docs/Evolution-of-Database-Core.md)<br>`Direct Read` vs. `MV` vs. `CDC` | - |
+| 透過監控系統<br>觀察業務系統瓶頸 | [Quantitation 4](./docs/Workload-Benchmark.md)<br>Workload Benchmark | - |
 
 
 </ul>
@@ -334,10 +339,10 @@
 |--:|:--|:--:|
 | Role-Based Access Control | [Value of Deliverables 1](./docs/RBAC.md) | 2026-04-01 |
 | 單一實例實現 HTAP | [Value of Deliverables 2](./docs/OLTP-OLAP-Unified-DB.md) | - |
-| K8s - CI/CD | [Value of Deliverables 3](./docs/CI-CD.md)<br>`Tradition` vs. `GitOps` | - |
-| K8s - 日誌統一收集與發送 | [Value of Deliverables 4](./docs/Logging.md) | - |
-| K8s - 可觀測性 | [Value of Deliverables 5](./docs/Observability.md)<br>`Alert Manager` | - |
-| K8s - Vault 分發密鑰 | [Value of Deliverables 6](./docs/Vault.md) | - |
+| CI/CD `K8s` | [Value of Deliverables 3](./docs/CI-CD.md)<br>`Manual` vs. `GitOps` | - |
+| 基礎設施高可用性測試 `K8s` |  [Value of Deliverables 4](./docs/HA.md) | - |
+| 可觀測性平台 `K8s` | [Value of Deliverables 5](./docs/Observability-Platform.md)<br>`Alert Manager` | - |
+| Vault 分發密鑰 `K8s` | [Value of Deliverables 6](./docs/Vault.md) | - |
 | DevOps 流程 | [Value of Deliverables 7](./docs/DevOps.md)<br>`Code Review` `PR` `TEST` `STAGE` `PROD` | - |
 
 
@@ -362,8 +367,8 @@
 O = 已實現
 X = 已棄用
 - = 未實現
-* = Homelab 記憶體 OOM Kill ( 折衷改為 Docker Compose ) => 不遷移
-△ = 省作業時間 ( 部分與重型服務的 Docker Compose 綑綁 ) => 不遷移
+* = Homelab 記憶體 OOM Kill ( 折衷改為 Docker Compose ) → 不遷移
+△ = 省作業時間 ( 部分與重型服務的 Docker Compose 綑綁 ) → 不遷移
 ``` 
 
 |**Service**|**Docker**|**Terraform<br>( Docker )**|**MiniKube**|**K3d**|**K3s**|**K3s<br>Migration**|**Kubeadm**|**GKE**|

@@ -90,7 +90,7 @@
     * 僅需定義 Build Pipeline
         - 僅需定義 Build Pipeline → Image Build 與 Deploy 解耦
         - Deploy 由 ArgoCD 自動同步 → 不直接操作 K8s
-    * Rollback 流程標準化 => Git Revert 即可恢復至指定版本
+    * Rollback 流程標準化 → Git Revert 即可恢復至指定版本
     * Single Source of Truth ( Git )
         - K8s 狀態可追溯
     * Centralized RBAC ( 權限集中於 ArgoCD ) → 安全性較高
@@ -220,7 +220,7 @@
 
 - #### *b.5.　Drift Recovery*
     ```
-    if git define => replicas: 3
+    if git define → replicas: 3
   
     kubectl scale deploy app --replicas=10
     ```
