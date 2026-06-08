@@ -301,6 +301,7 @@
 | VM | Terraform `Master` 多節點設置 | 2026-06-06 |
 | GitOps | Build : `Observability` `Postgres Exporter` | 2026-06-07 |
 | GitOps | Build : `Platform` `Registry` | 2026-06-07 |
+| GitOps | Vanishing 6H `Bitnami 腳本底層對底線 _ 敏感性` | 2026-06-08 |
 | GitOps | Build : `PG-Apps` `cp` | - |
 | GitOps | Build : `PG-Apps` `inst` | - |
 | GitOps | Build : `Storage` `nfs` | - |
