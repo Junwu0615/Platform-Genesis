@@ -2,11 +2,11 @@
 
 |*Category*| *Service & Tech Stack*|
 |--:|:--|
-|*Data Core*| ![OLTP](https://img.shields.io/badge/Architecture-OLTP-red?style=flat-square) ![OLAP](https://img.shields.io/badge/Architecture-OLAP-red?style=flat-square) ![HTAP](https://img.shields.io/badge/Architecture-HTAP-red?style=flat-square)<br>![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=flat-square&logo=postgresql&logoColor=white) ![PgAdmin](https://img.shields.io/badge/PgAdmin-336791?style=flat-square&logo=postgresql&logoColor=white) ![Python](https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white) |
+|*Data Core*| ![OLTP](https://img.shields.io/badge/Architecture-OLTP-red?style=flat-square) ![OLAP](https://img.shields.io/badge/Architecture-OLAP-red?style=flat-square) ![HTAP](https://img.shields.io/badge/Architecture-HTAP-red?style=flat-square)<br>![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=flat-square&logo=postgresql&logoColor=white) ![Python](https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white) |
 |*Orchestration* | ![Apache Airflow](https://img.shields.io/badge/Apache_Airflow-017CEE?style=flat-square&logo=apache-airflow&logoColor=white) ![Apache Superset](https://img.shields.io/badge/Apache_Superset-00A699?style=flat-square&logo=apache-superset&logoColor=white) |
 |*Event Streaming* | ![Kafka](https://img.shields.io/badge/Apache_Kafka-231F20?style=flat-square&logo=apache-kafka&logoColor=white) ![MQTT](https://img.shields.io/badge/MQTT-660066?style=flat-square&logo=mqtt&logoColor=white) ![Schema Registry](https://img.shields.io/badge/Schema_Registry-blue?style=flat-square&logo=apache-kafka&logoColor=white) |
 |*Lakehouse* | ![Debezium](https://img.shields.io/badge/Debezium-9400D3?style=flat-square&logo=red-hat&logoColor=white) ![Apache Iceberg](https://img.shields.io/badge/Apache_Iceberg-000080?style=flat-square&logo=apache&logoColor=white) ![Apache Flink](https://img.shields.io/badge/Apache_Flink-E6522C?style=flat-square&logo=apache-flink&logoColor=white) ![MinIO](https://img.shields.io/badge/MinIO-C72E2E?style=flat-square&logo=MinIO&logoColor=white) |
-|*Monitoring* | ![Grafana](https://img.shields.io/badge/Grafana-F46800?style=flat-square&logo=grafana&logoColor=white) ![Loki](https://img.shields.io/badge/Loki-F46800?style=flat-square&logo=grafana&logoColor=white) ![Prometheus](https://img.shields.io/badge/Prometheus-E6522C?style=flat-square&logo=prometheus&logoColor=white) ![Exporter](https://img.shields.io/badge/Node_Exporter-607D8B?style=flat-square&logo=prometheus&logoColor=white) ![Exporter](https://img.shields.io/badge/Postgres_Exporter-607D8B?style=flat-square&logo=prometheus&logoColor=white) |
+|*Monitoring* | ![Grafana](https://img.shields.io/badge/Grafana-F46800?style=flat-square&logo=grafana&logoColor=white) ![Loki](https://img.shields.io/badge/Loki-F46800?style=flat-square&logo=grafana&logoColor=white) ![Tempo](https://img.shields.io/badge/Tempo-F46800?style=flat-square&logo=grafana&logoColor=white) ![Prometheus](https://img.shields.io/badge/Prometheus-E6522C?style=flat-square&logo=prometheus&logoColor=white) |
 |*Log Management*| ![Elasticsearch](https://img.shields.io/badge/Elasticsearch-005571?style=flat-square&logo=elasticsearch&logoColor=white) ![Logstash](https://img.shields.io/badge/Logstash-005571?style=flat-square&logo=logstash&logoColor=white) ![Kibana](https://img.shields.io/badge/Kibana-005571?style=flat-square&logo=kibana&logoColor=white) |
 |*Cloud & Infra*| ![GKE](https://img.shields.io/badge/GKE-4285F4?style=flat-square&logo=google-cloud&logoColor=white) ![Kubernetes](https://img.shields.io/badge/Kubernetes-326CE5?style=flat-square&logo=kubernetes&logoColor=white) ![Terraform](https://img.shields.io/badge/Terraform-7B42BC?style=flat-square&logo=terraform&logoColor=white) ![Ansible](https://img.shields.io/badge/Ansible-EE0000?style=flat-square&logo=ansible&logoColor=white) ![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white) |
 |*DevOps & Security* | ![Gitlab](https://img.shields.io/badge/Gitlab-FC6D26?style=flat-square&logo=gitlab&logoColor=white) ![ArgoCD](https://img.shields.io/badge/ArgoCD-EF7B4D?style=flat-square&logo=Argo&logoColor=white) ![Jenkins](https://img.shields.io/badge/Jenkins-D24939?style=flat-square&logo=jenkins&logoColor=white) ![Docker Registry](https://img.shields.io/badge/Docker_Registry-2496ED?style=flat-square&logo=docker&logoColor=white) ![Vault](https://img.shields.io/badge/HashiCorp_Vault-6070E1?style=flat-square&logo=hashicorp&logoColor=white) ![Portainer](https://img.shields.io/badge/Portainer-13BEFF?style=flat-square&logo=portainer&logoColor=white) |
@@ -75,7 +75,7 @@
 | Add `PostgreSQL` | - | 2026-03-20 |
 | Add `Airflow` | for `OLAP` | 2026-03-21 |
 | Value of Deliverables 1 | Role-Based Access Control | 2026-04-01 |
-| Quantitation 1 | `Docker Desktop` vs. `WSL2` | 2026-04-04 |
+| Value of Deliverables 2 | `Docker Desktop` vs. `WSL2` | 2026-04-04 |
 | Add `Monitoring` | - | 2026-04-04 |
 | Terraform | Modularization | 2026-04-20 |
 | Ansible | Modularization | 2026-04-20 |
@@ -84,19 +84,17 @@
 | K8s | Advanced : `K3d` | 2026-05-10 |
 | K8s | Advanced : `K3s` + `VMware` | 2026-05-10 |
 | Build `Hierarchical`<br>`Log Management` | `Loki` + `ELK` | 2026-05-14 |
-| Build `GitOps` | `GitLab CI` + `ArgoCD` | - |
-| Value of Deliverables 3 | Automated Deployment of the Edge :<br>`Manual` vs. `GitOps` | - |
-| Value of Deliverables 4 |  `K8s Infrastructure` :<br>High Availability Comparison Test | - |
+| Build `GitOps` | `GitLab CI` + `ArgoCD` | 2026-06-05 |
+| Value of Deliverables 7 | Automated Deployment of the Edge :<br>`Manual` vs. `GitOps` | - |
+| Value of Deliverables 8 |  `K8s Infrastructure` :<br>High Availability Comparison Test | - |
 | Build `Lakehouse` | - | - |
-| Value of Deliverables 3 | CI/CD | - |
-| Value of Deliverables 4 | Infrastructure HA testing | - |
-| Value of Deliverables 5 | Observability Platform | - |
-| Value of Deliverables 6 | Vault Distribution Key | - |
-| Value of Deliverables 7 | DevOps Process | - |
-| Value of Deliverables 2 | OLTP-OLAP-Unified-DB | - |
-| Quantitation 2 | Query Efficiency Optimization<br>`Before` vs. `After` | - |
-| Quantitation 3 | Evolution of Database Core Business :<br>`Direct Read` vs. `MV` vs. `CDC` | - |
-| Quantitation 4 | Workload Benchmark | - |
+| Value of Deliverables 9 | Observability Platform | - |
+| Value of Deliverables 10 | Vault Distribution Key | - |
+| Value of Deliverables 11 | DevOps Process | - |
+| Value of Deliverables 3 | OLTP-OLAP-Unified-DB | - |
+| Value of Deliverables 4 | Query Efficiency Optimization<br>`Before` vs. `After` | - |
+| Value of Deliverables 5 | Evolution of Database Core Business :<br>`Direct Read` vs. `MV` vs. `CDC` | - |
+| Value of Deliverables 6 | Workload Benchmark | - |
 | Add `HashiCorp Vault` | Enterprise Key Management System | - |
 | K8s | Bottom Layer : `Kubeadm` + `VMware` | `TBD` |
 | K8s | Public Cloud : `GKE` | `TBD` |
@@ -184,11 +182,11 @@
 | test `CI` | common tests scripts | 2026-05-18 |
 | build `CI` | - | 2026-05-19 |
 | deploy `CI` | - | 2026-05-20 |
+| Python-Tempo Logic | - | - |
 | DAG | init.py + create_topic.py | - |
 | Grafana Dashboard | `htap_grafana.json` | - |
 | Create MV | Materialized View | - |
 | Analytical Queries | - | - |
-| Python-Tempo Logic | - | - |
 | Security Message :<br>`Message Queue Layer` | Encryption ( `kafka` + `mqtt` ) | `TBD` |
 | Security Message :<br>`Software Layer` | 非對稱加密 | `TBD` |
 
@@ -222,12 +220,12 @@
 | Add `Jenkins` | for `CD` | 2026-05-12 |
 | Add `Docker Registry` | for `CI/CD` & `Manage Images` | 2026-05-12 |
 | Build `Hierarchical`<br>`Log Management` | `Loki` + `ELK` | 2026-05-14 |
+| Build `CD` | `CD` → `Airflow DAGs` | 2026-05-20 |
 | Build `WSL2 Homelab` | `Chrome` → `Windows:8080`<br>→ `WSL2:80` → `ingress-nginx` | 2026-05-25 |
 | Update Migration Matrix | `Hybrid deployment` | 2026-05-26 |
 | Add `ArgoCD` | for `CD` | 2026-05-28 |
-| Build `CD` | `CD` → `Airflow DAGs` | - |
+| Build `GitOps` | `GitLab CI` + `ArgoCD` | 2026-06-05 |
 | Build `CD` | `CD` → `Edge Container` | - |
-| Build `GitOps` | `GitLab CI` + `ArgoCD` | - |
 | Add `Debezium` | Change Data Capture | - |
 | Add `Apache Iceberg` | Data Lake | - |
 | Add `Apache Flink` | consumer of CDC | - |
@@ -307,43 +305,30 @@
 | GitOps | Build : `PG-Apps` `inst` | - |
 | GitOps | Build : `Storage` `nfs` | - |
 | K8s | Experience : NFS 儲存機制 ( SQLite ) | - |
-| K8s | Experience : CI/CD pipeline ( GitLab CI + ArgoCD ) | - |
-| GitOps | Maintain 2 repo ( `CI` + `CD` ) | - |
 | GitOps | Build : `Security` `Vault` | - |
+| GitOps | Maintain 2 repo ( `CI` + `CD` ) | `TBD` |
 
 </ul>
 </details>
 
 
 <details>
-<summary><b><i>　b.2.5　Quantitation </i></b></summary>
-<ul>
-
-|**Item**|**Description**|**Time**|
-|--:|:--|:--:|
-| 透過通用工具進行<br>資料庫極限測試 | [Quantitation 1](./docs/Generic-Benchmark.md)<br>`Docker Desktop` vs. `WSL2` | 2026-04-04 |
-| 資料庫查詢優化比較測試 | [Quantitation 2](./docs/DB-Optimization.md)<br>`Before` vs. `After` | - |
-| 資料庫核心業務解套演進 | [Quantitation 3](./docs/Evolution-of-Database-Core.md)<br>`Direct Read` vs. `MV` vs. `CDC` | - |
-| 透過監控系統<br>觀察業務系統瓶頸 | [Quantitation 4](./docs/Workload-Benchmark.md)<br>Workload Benchmark | - |
-
-
-</ul>
-</details>
-
-
-<details>
-<summary><b><i>　b.2.6　Value of Deliverables </i></b></summary>
+<summary><b><i>　b.2.5　Value of Deliverables </i></b></summary>
 <ul>
 
 |**Item**|**Description**|**Time**|
 |--:|:--|:--:|
 | Role-Based Access Control | [Value of Deliverables 1](./docs/RBAC.md) | 2026-04-01 |
-| 單一實例實現 HTAP | [Value of Deliverables 2](./docs/OLTP-OLAP-Unified-DB.md) | - |
-| CI/CD `K8s` | [Value of Deliverables 3](./docs/CI-CD.md)<br>`Manual` vs. `GitOps` | - |
-| 基礎設施高可用性測試 `K8s` |  [Value of Deliverables 4](./docs/HA.md) | - |
-| 可觀測性平台 `K8s` | [Value of Deliverables 5](./docs/Observability-Platform.md)<br>`Alert Manager` | - |
-| Vault 分發密鑰 `K8s` | [Value of Deliverables 6](./docs/Vault.md) | - |
-| DevOps 流程 | [Value of Deliverables 7](./docs/DevOps.md)<br>`Code Review` `PR` `TEST` `STAGE` `PROD` | - |
+| 透過通用工具進行<br>資料庫極限測試 | [Value of Deliverables 2](./docs/Generic-Benchmark.md)<br>`Docker Desktop` vs. `WSL2` | 2026-04-04 |
+| 單一實例實現 HTAP | [Value of Deliverables 3](./docs/OLTP-OLAP-Unified-DB.md) | - |
+| 資料庫查詢優化比較測試 | [Value of Deliverables 4](./docs/DB-Optimization.md)<br>`Before` vs. `After` | - |
+| 資料庫核心業務解套演進 | [Value of Deliverables 5](./docs/Evolution-of-Database-Core.md)<br>`Direct Read` vs. `MV` vs. `CDC` | - |
+| 透過監控系統<br>觀察業務系統瓶頸 | [Value of Deliverables 6](./docs/Workload-Benchmark.md)<br>Workload Benchmark | - |
+| CI/CD `K8s` | [Value of Deliverables 7](./docs/CI-CD.md)<br>`Manual` vs. `GitOps` | - |
+| 基礎設施高可用性測試 `K8s` |  [Value of Deliverables 8](./docs/HA.md) | - |
+| 可觀測性平台 `K8s` | [Value of Deliverables 9](./docs/Observability-Platform.md)<br>`Logging` `Metrics` `Tracing` `Alert Manager` | - |
+| Vault 分發密鑰 `K8s` | [Value of Deliverables 10](./docs/Vault.md) | - |
+| DevOps 流程 | [Value of Deliverables 11](./docs/DevOps.md)<br>`Code Review` `PR` `TEST` `STAGE` `PROD` | - |
 
 
 </ul>
