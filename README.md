@@ -95,7 +95,7 @@
 | Value of Deliverables 5 | Evolution of Database Core Business :<br>`Direct Read` vs. `MV` vs. `CDC` | - |
 | Value of Deliverables 6 | Workload Benchmark | - |
 | Add `HashiCorp Vault` | Enterprise Key Management System | `TBD` |
-| Value of Deliverables 10 | Vault Distribution Key | - |
+| Value of Deliverables 10 | Vault Distribution Key | `TBD` |
 | K8s | Bottom Layer : `Kubeadm` + `VMware` | `TBD` |
 | K8s | Public Cloud : `GKE` | `TBD` |
 
@@ -317,7 +317,7 @@
 <ul>
 
 |**Item**|**Description**|**Time**|
-|--:|:--|:- -:|
+|--:|:--|:--:|
 | Role-Based Access Control | [Value of Deliverables 1](./docs/RBAC.md) | 2026-04-01 |
 | 透過通用工具進行<br>資料庫極限測試 | [Value of Deliverables 2](./docs/Generic-Benchmark.md)<br>`Docker Desktop` vs. `WSL2` | 2026-04-04 |
 | 單一實例實現 HTAP | [Value of Deliverables 3](./docs/OLTP-OLAP-Unified-DB.md) | - |
