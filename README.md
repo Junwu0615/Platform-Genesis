@@ -87,15 +87,15 @@
 | Build `GitOps` | `GitLab CI` + `ArgoCD` | 2026-06-05 |
 | Value of Deliverables 7 | Automated Deployment of the Edge :<br>`Manual` vs. `GitOps` | - |
 | Value of Deliverables 8 |  `K8s Infrastructure` :<br>High Availability Comparison Test | - |
-| Build `Lakehouse` | - | - |
 | Value of Deliverables 9 | Observability Platform | - |
-| Value of Deliverables 10 | Vault Distribution Key | - |
 | Value of Deliverables 11 | DevOps Process | - |
 | Value of Deliverables 3 | OLTP-OLAP-Unified-DB | - |
 | Value of Deliverables 4 | Query Efficiency Optimization<br>`Before` vs. `After` | - |
+| Build `Lakehouse` | - | - |
 | Value of Deliverables 5 | Evolution of Database Core Business :<br>`Direct Read` vs. `MV` vs. `CDC` | - |
 | Value of Deliverables 6 | Workload Benchmark | - |
-| Add `HashiCorp Vault` | Enterprise Key Management System | - |
+| Add `HashiCorp Vault` | Enterprise Key Management System | `TBD` |
+| Value of Deliverables 10 | Vault Distribution Key | - |
 | K8s | Bottom Layer : `Kubeadm` + `VMware` | `TBD` |
 | K8s | Public Cloud : `GKE` | `TBD` |
 
@@ -123,7 +123,6 @@
 | Create OLAP DDL ( 5 ) | Star Schema | 2026-04-06 |
 | Redefine Project Name | `OLTP-OLAP-Unified-DB`<br>to `Platform Genesis` | 2026-05-08 |
 | Project Breakdown | `5` Major Categories | 2026-05-08 |
-| Add Form | Practice Self-Evaluation | - |
 
 </ul>
 </details>
@@ -232,7 +231,7 @@
 | Add `MinIO` | Object Storage | - |
 | Build `Lakehouse` | - | - |
 | Add `Superset` | for `OLAP` | - |
-| Add `HashiCorp Vault` | Enterprise Key Management System | - |
+| Add `HashiCorp Vault` | Enterprise Key Management System | `TBD` |
 | K8s | Bottom Layer : `Kubeadm` + `VMware` | `TBD` |
 | K8s | Public Cloud : `GKE` | `TBD` |
 
@@ -302,11 +301,11 @@
 | GitOps | Build : `Observability` `Postgres Exporter` | 2026-06-07 |
 | GitOps | Build : `Platform` `Registry` | 2026-06-07 |
 | GitOps | Vanishing 6H `Bitnami 腳本底層對底線 _ 敏感性` | 2026-06-08 |
-| GitOps | Build : `PG-Apps` `cp` | - |
-| GitOps | Build : `PG-Apps` `inst` | - |
+| GitOps | Build : `PG-Apps` `cp` | 2026-06-10 |
+| GitOps | Build : `PG-Apps` `inst` | 2026-06-10 |
 | GitOps | Build : `Storage` `nfs` | - |
 | K8s | Experience : NFS 儲存機制 ( SQLite ) | - |
-| GitOps | Build : `Security` `Vault` | - |
+| GitOps | Build : `Security` `Vault` | `TBD` |
 | GitOps | Maintain 2 repo ( `CI` + `CD` ) | `TBD` |
 
 </ul>
@@ -318,7 +317,7 @@
 <ul>
 
 |**Item**|**Description**|**Time**|
-|--:|:--|:--:|
+|--:|:--|:- -:|
 | Role-Based Access Control | [Value of Deliverables 1](./docs/RBAC.md) | 2026-04-01 |
 | 透過通用工具進行<br>資料庫極限測試 | [Value of Deliverables 2](./docs/Generic-Benchmark.md)<br>`Docker Desktop` vs. `WSL2` | 2026-04-04 |
 | 單一實例實現 HTAP | [Value of Deliverables 3](./docs/OLTP-OLAP-Unified-DB.md) | - |
@@ -328,8 +327,8 @@
 | CI/CD `K8s` | [Value of Deliverables 7](./docs/CI-CD.md)<br>`Manual` vs. `GitOps` | - |
 | 基礎設施高可用性測試 `K8s` |  [Value of Deliverables 8](./docs/HA.md) | - |
 | 可觀測性平台 `K8s` | [Value of Deliverables 9](./docs/Observability-Platform.md)<br>`Logging` `Metrics` `Tracing` `Alert Manager` | - |
-| Vault 分發密鑰 `K8s` | [Value of Deliverables 10](./docs/Vault.md) | - |
-| DevOps 流程 | [Value of Deliverables 11](./docs/DevOps.md)<br>`Code Review` `PR` `TEST` `STAGE` `PROD` | - |
+| Vault 分發密鑰 `K8s` | [Value of Deliverables 10](./docs/Vault.md) | `TBD` |
+| DevOps 流程 `K8s` | [Value of Deliverables 11](./docs/DevOps.md)<br>`Code Review` `PR` `TEST` `STAGE` `PROD` | - |
 
 
 </ul>

@@ -28,7 +28,6 @@ OLTP 與 OLAP 的本質差異不在【 資料結構 】，而在【 工作負載
 |*[Generic Benchmark](./Generic-Benchmark.md)* | 資料庫極限 | 內建工具 |
 |*[Workload Benchmark](./Workload-Benchmark.md)* | 系統瓶頸 | 自訂腳本 |
 
-
 <br>
 
 - #### *1.　若 OLTP/OLAP 都在同一 DB Instance 裡，Schema 分離優劣 ?*
