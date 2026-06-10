@@ -267,13 +267,10 @@
 | VM | Experience : Manual Create Oracle VM | 2026-05-10 |
 | K8s | K3s + VM | 2026-05-10 |
 | VM | 開源全生命週期自動化堆疊<br>`Terraform` `Ansible` `libvirt` | 2026-05-10 |
-| K8s | Experience : 水平擴充 ( Horizontal Scaling ) | 2026-05-10 |
 | VM | Experience : 以 Ping 自動喚醒 VM 防止深度睡眠 | X |
 | VM | Terraform 安裝基礎設施 | 2026-05-11 |
 | K8s | Experience : 簡化 kubectl 指令 | 2026-05-12 |
 | VM | 橫向擴展 Node | 2026-05-12 |
-| K8s | Experience : 高可用單一實例 ( HA Singleton ) | 2026-05-12 |
-| K8s | Experience : Edge & Service 分離標籤 | 2026-05-12 |
 | K8s | Experience : `k9s` | 2026-05-12 |
 | CI/CD | Experience : Git-Runner | 2026-05-19 |
 | CI/CD | Experience : ⚠️ Airflow 熱更新 | 2026-05-20 |
@@ -287,20 +284,20 @@
 | GitOps | Build : `Observability` `Prometheus` | 2026-05-30 |
 | GitOps | Build : `Observability` `Prometheus Stack` | 2026-05-30 |
 | GitOps | Build : `Observability` `Promtail` | 2026-05-31 |
-| GitOps | `Helm Values 渲染大坑` → 退至穩定版 | 2026-05-31 |
+| Helm Chart | `Helm Values 渲染大坑` → 退至穩定版 | 2026-05-31 |
 | GitOps | Build : `Observability` `Loki` | 2026-05-31 |
 | K8s | Experience : `Fluent Bit ( DaemonSet )` | 2026-05-31 |
 | GitOps | Build : `Observability` `Tempo` | 2026-06-01 |
-| GitOps | Experience : values 渲染大法 | 2026-06-03 |
+| Helm Chart | `values 渲染大法` | 2026-06-03 |
 | GitOps | Build : `Databases` `Postgresql` | 2026-06-03 |
-| K8s | Experience : `ApplicationSet` | 2026-06-05 |
+| GitOps | Experience : `ApplicationSet` | 2026-06-05 |
 | GitOps | update tree `Automated Multi-Tenant`<br>`Environment Provisioning` | 2026-06-05 |
 | GitOps | Ingress-Nginx `切換 Namespace 環境坑` | 2026-06-06 |
 | K8s | 親和/反親合標籤設置 | 2026-06-06 |
 | VM | Terraform `Master` 多節點設置 | 2026-06-06 |
 | GitOps | Build : `Observability` `Postgres Exporter` | 2026-06-07 |
 | GitOps | Build : `Platform` `Registry` | 2026-06-07 |
-| GitOps | Vanishing 6H `Bitnami 腳本底層對底線 _ 敏感性` | 2026-06-08 |
+| Helm Chart | Vanishing 6H `Bitnami 腳本底層對底線 _ 敏感性` | 2026-06-08 |
 | GitOps | Build : `PG-Apps` `cp` | 2026-06-10 |
 | GitOps | Build : `PG-Apps` `inst` | 2026-06-10 |
 | GitOps | Build : `Storage` `nfs` | - |
@@ -321,7 +318,7 @@
 | Role-Based Access Control | [Value of Deliverables 1](./docs/RBAC.md) | 2026-04-01 |
 | 透過通用工具進行<br>資料庫極限測試 | [Value of Deliverables 2](./docs/Generic-Benchmark.md)<br>`Docker Desktop` vs. `WSL2` | 2026-04-04 |
 | 單一實例實現 HTAP | [Value of Deliverables 3](./docs/OLTP-OLAP-Unified-DB.md) | - |
-| 資料庫查詢優化比較測試 | [Value of Deliverables 4](./docs/DB-Optimization.md)<br>`Before` vs. `After` | - |
+| 資料庫查詢優化比較測試 | [Value of Deliverables 4](./docs/DB-Optimization.md)<br>`Before` vs. `After` | `TBD` |
 | 資料庫核心業務解套演進 | [Value of Deliverables 5](./docs/Evolution-of-Database-Core.md)<br>`Direct Read` vs. `MV` vs. `CDC` | - |
 | 透過監控系統<br>觀察業務系統瓶頸 | [Value of Deliverables 6](./docs/Workload-Benchmark.md)<br>Workload Benchmark | - |
 | CI/CD `K8s` | [Value of Deliverables 7](./docs/CI-CD.md)<br>`Manual` vs. `GitOps` | - |
