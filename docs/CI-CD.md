@@ -203,9 +203,9 @@
 - #### *b.2.　單次部署量測　( 純粹 CD )*
     ```
     【 數據補充 】
-     Manual (85)  → 本機映像檔編譯與打包
+     Manual:  85 sec → 本機映像檔編譯與打包
          vs. 
-     GitOps (105) → Gitlab CI 管道執行等待
+     GitOps: 105 sec → Gitlab CI 管道執行等待
     ```
 
     | Item | Manual ( sec ) | GitOps ( sec ) |
