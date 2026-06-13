@@ -11,7 +11,7 @@
 <br>
 
 <details>
-<summary><b><i>　I.　說明細節 </i></b></summary>
+<summary><b><i>　I.　Explain </i></b></summary>
 <ul>
 
 ```
@@ -59,7 +59,7 @@
 </details>
 
 <details open>
-<summary><b><i>　II.　展示內容 </i></b></summary>
+<summary><b><i>　II.　Showcase </i></b></summary>
 <ul>
 
 ![PNG](../assets/ci-cd_00.png)
@@ -79,7 +79,7 @@
 <br>
 
 <details>
-<summary><b><i>　I.　說明細節 </i></b></summary>
+<summary><b><i>　I.　Explain </i></b></summary>
 <ul>
 
 ```
@@ -144,7 +144,7 @@
 </details>
 
 <details open>
-<summary><b><i>　II.　展示內容 </i></b></summary>
+<summary><b><i>　II.　Showcase </i></b></summary>
 <ul>
 
 ![PNG](../assets/argocd_00.png)
@@ -181,28 +181,50 @@
     取平均值
     ```
 
-- #### *b.2.　單次部署量測*
-    | Item | Manual ( s ) | GitOps ( s ) |
-    |--:|:--:|:--:|
-    | 登入裝置 | - | 0 |
-    | 傳輸檔案 | - | 0 |
-    | 修改設定 | - | 0 |
-    | 執行部署 | - | 0 |
-    | 管道執行等待 | - | 105 |
-    | 驗證健康狀態 | - | 60 |
-    | 人工測試環節 | 60 | 60 |
-    | 服務恢復時間 | - | 30 |
-    | 總耗時 | - | 255 |
+- #### *b.2.　單次部署量測 ( 純粹 CD )*
+    ```
+    【 量測邊界說明 】
+     1. 本階段純粹比較 CD (持續部署) 之生命週期，映像檔之編譯、打包與 CI 管道執行等待時間，兩案皆扣除不計入。
+     2. <Manual 情境>：未導入任何軟體層面管道輔助，採傳統模式以第三方遠端軟體逐台登入裝置、傳檔、手動調整 Config 並執行。
+     3. <GitOps 情境>：採用 ArgoCD 自動化聲明式部署。
+  
+    【 數據補充 】
+     Manual (85) => 本機映像檔編譯與打包
+         vs. 
+     GitOps (105) => Gitlab CI 管道執行等待
+    ```
 
-- #### *b.3.　多節點擴展測試*
+    | Item | Manual ( s ) | GitOps ( s ) |
+    |:--:|:--:|:--:|
+    | 登入裝置 | 15 | 0 |
+    | 傳輸檔案 | 20 | 0 |
+    | 修改設定 | 60 | 0 |
+    | 執行部署 | 20 | 0 |
+    | 驗證健康狀態 | 30 | 30 |
+    | 人工測試環節 | 60 | 60 |
+    | 服務恢復時間 | 20 | 15 |
+    | 總耗時 | 225 | 105 |
+
+- #### *b.3.　多節點擴展測試 ( 呈 b.2. )*
+    ```
+    <多節點中的人工環節>
+  
+      數據為單次 * N => 理想狀態下（不加計人為失誤與疲勞恢復成本）的理論線性推估值
+           ↓
+      人類會累 ( 疲勞係數 ) ：連續手動登入、修改、部署 72 台機器，
+      人類不可能保持跟第 1 台一模一樣的 3.75 分鐘極速，後期一定會因為疲勞、眼花、
+      打錯字導致時間拉長 # O ( N log N ) 帶有懲罰係數的增長
+    ```
+
     | Node | Manual ( min ) | GitOps ( min ) |
     |--:|:--:|:--:|
-    | 1 | - | 4.25 |
-    | 3 | - | 4.25 |
-    | 6 | - | 4.25 |
-    | 12 | - | 4.25 |
+    | 1 | 3.75 | 1.75 |
+    | 3 | 11.25 | 1.75 |
+    | 6 | 22.5 | 1.75 |
+    | 12 | 45 | 1.75 |
+    | 72 | 270 | 1.75 |
 
-- #### *b.4.1.　人為量測 : 可能性風險*
+- #### *b.4.1.　方案導入後 : 可能性風險變化*
     | Risk Item | Manual | GitOps |
     |--:|:--:|:--:|
     | 忘記更新 Config | 高 | 低 |
@@ -213,26 +235,32 @@
     | 關鍵人員依賴 | 高 | 低 |
     | 非工作時段介入需求 | 中 | 低 |
 
-- #### *b.4.2.　人為量測 : 操作步驟下降*
+- #### *b.4.2.　方案導入後 : 操作步驟下降*
     | Item | Manual | GitOps |
     |--:|:--:|:--:|
-    | Git Push | Y | Y |
-    | SSH Login | Y | N |
-    | Pull File | Y | N |
-    | Modify Config | Y | N |
-    | Upload File | Y | N |
-    | Kubectl Apply | Y | N |
-    | Health Check | Y | Y |
-    | Stability Observe | Y | Y |
-    | Record Result | Y | N |
-    | 操作步驟數 | 9 | 3 |
-    | 降低比例(%) | 0 | 66.7 |
+    | Git Push<br>( 程式碼/設定變更 ) | Y | Y |
+    | 本機執行 Docker Build | Y | N |
+    | 手動推送映像檔至私庫 | Y | N |
+    | 登入遠端裝置 | Y | N |
+    | 手動建立/調整目錄<br>( Pull File ) | Y | N |
+    | 手動修改部署明細 | Y | N |
+    | 手動執行部署命令 | Y | N |
+    | 監聽健康狀態 | Y | Y |
+    | 實地檢查地端儲存與寫入狀態 | Y | Y |
+    | 更新基礎設施版本紀錄 | Y | N |
+    | 操作步驟數 | 10 | 3 |
+    | 降低比例(%) | 0 | 70 |
 
-- #### *b.5.　Drift Recovery*
+- #### *b.5.　配置漂移恢復 ( Drift Recovery )*
     ```
-    if git define → replicas: 3
-  
-    kubectl scale deploy app --replicas=10
+    <Situation> replicas: 5 ≠ git define
+    <Action> kubectl scale deployment inst-homelab-test -n pg-apps-homelab-test --replicas=5
+       ↓
+    * GitOps 自我修復
+      經由命令列惡意竄改叢集狀態。ArgoCD 透過雙向監聽控制器（In-cluster Controller），
+      於 3 秒內 即時偵測到基礎設施狀態與 Git 倉庫（Single Source of Truth）不符（OutOfSync），
+      並在秒級內強制觸發自動對齊（Self-Healing），完全無需人工介入，於 1 分鐘內
+      將受干擾的 Pod 數量完美還原。
     ```
     | Item | Manual | GitOps |
     |--:|:--:|:--:|
@@ -243,13 +271,13 @@
 
 - #### *b.6.　最終統計*
     | Item | Manual → GitOps |
-    |--:|:--:|
-    | 平均部署時間下降 | - % |
-    | 人為操作步驟下降 | - % |
-    | Deploy 權限管理集中 | - % |
-    | Drift 自動修復 | Y |
-    | Rollback 時間下降 | - % |
-    | 多節點部署效率提升 | 線性 → 固定成本 |
+    |--:|:--|
+    | 平均部署時間下降 | 99.3%<br>( 270 min → 1.75 min ) |
+    | 人為操作步驟下降 | 70%<br>( 10 步 → 3 步 ) |
+    | Deploy 權限管理集中 | 100% 集中<br>( 移除個人憑證，全經由 ArgoCD RBAC ) |
+    | Drift 自動修復 | Y<br>( 秒級偵測，< 1 min 完成自動復原 ) |
+    | Rollback 時間下降 | 95%<br>( 由 3.75 min 降至 < 10 秒 Git Revert ) |
+    | 多節點部署效率提升 | 線性成本 → 固定成本 |
     
     ```
     CI/CD 主目的是為了解決 ...
@@ -258,15 +286,15 @@
      * 恢復時間 ( Recovery Time ) ↓
 
 
-    在 - Node K3s 環境中 ...
-     * Manual Deploy 平均耗時 - 分鐘
-     * GitOps Deploy 平均耗時 - 分鐘
+    在 72 Node K3s 環境中 ...
+     * Manual Deploy 平均耗時 270 分鐘
+     * GitOps Deploy 平均耗時 1.75 分鐘
     
-       → 部署效率提升 - %
+       → 部署效率提升 154 倍 ( 節省 99.3% 的時間 )
   
   
-      * 人工操作步驟由 9 步降至 3 步
-       → 降低步驟比例 66.7 %
+      * 人工操作步驟由 10 步降至 3 步
+       → 降低步驟比例 70 %
        → 顯著降低維運風險與人為操作成本
     
   
