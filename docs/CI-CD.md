@@ -192,11 +192,13 @@
     取平均值
     ```
 
-- #### *b.2.　單次部署量測 ( 純粹 CD )*
+- #### *b.2.　單次部署量測　( 純粹 CD )*
     ```
     【 量測邊界說明 】
      1. 本階段純粹比較 CD ( 持續部署 ) 之生命週期，映像檔之編譯、打包與 CI 管道執行等待時間，兩案皆扣除不計入。
      2. Manual 情境： 未導入任何軟體層面管道輔助，採傳統模式以第三方遠端軟體逐台登入裝置、傳檔、手動調整 Config 並執行。
+        → 過往真實經歷有遇到如此極端作業環境 ( 基礎設施幾乎無搭建 )
+        → 藉由當時情境 → 導入新方案後帶來的整體交付提升為何 ?
      3. GitOps 情境： 採用 ArgoCD 自動化聲明式部署。
   
     【 數據補充 】
@@ -205,7 +207,7 @@
      GitOps (105) → Gitlab CI 管道執行等待
     ```
 
-    | Item | Manual ( s ) | GitOps ( s ) |
+    | Item | Manual ( sec ) | GitOps ( sec ) |
     |:--:|:--:|:--:|
     | 登入裝置 | 15 | 0 |
     | 傳輸檔案 | 20 | 0 |
@@ -218,7 +220,7 @@
 
 - #### *b.3.　多節點擴展測試 ( 呈 b.2. )*
     ```
-    【 多節點中的人工環節 】
+    【 多節點擴展測試 】→ ⭐ 基於單節點實測結果推估
   
      數據為單次 * N → 理想狀態下 ( 不加計人為失誤與疲勞恢復成本 ) 的理論線性推估值
            ↓
@@ -261,6 +263,26 @@
     | 操作步驟數 | 10 | 3 |
     | 降低比例(%) | 0 | 70 |
 
+- #### *⭐ b.4.3.　大多數實際業界情況*
+    | Item | SSH | CI/CD | GitOps |
+    |--:|:--:|:--:|:--:|
+    | Build | Manual | Auto | Auto |
+    | Deploy | Manual | Gitlab CI | ArgoCD |
+    | Rollback | Manual | Pipeline | Git Revert |
+    | Drift Detect | N | N | Y |
+    | Audit Trail | 部分 | 部分 | 完整 |
+    | Recovery | Manual | Manual | Auto |
+
+- #### *⭐ b.4.4.　成熟度矩陣*
+| Capability | SSH | CI/CD | GitOps |
+|--:|:--:|:--:|:--:|
+| 自動化部署<br>( Automated Deploy ) | ❌ | ✅ | ✅ |
+| Git 可追溯性<br>( Git Traceability ) | ❌ | △ | ✅ |
+| 漂移檢測<br>( Drift Detection ) | ❌ | ❌ | ✅ |
+| 自我修復<br>( Self Healing ) | ❌ | ❌ | ✅ |
+| 災難復原<br>( Disaster Recovery ) | △ | △ | ✅ |
+| RBAC 集中化<br>( RBAC Centralization ) | ❌ | △ | ✅ |
+
 - #### *⭐ b.5.　配置漂移恢復 ( Drift Recovery )*
     ```
     【 Situation 】replicas: 5 ≠ git define
@@ -296,7 +318,7 @@
      * 恢復時間 ( Recovery Time ) ↓
 
 
-    在 72 Node 環境中 ...
+    在多節點環境中 ...
      * 由人工逐節點操作轉為 K8s + GitOps 聲明式交付後，
      * 部署時間由 270 分鐘，下降至 1.75 分鐘
        → 節省約 99.3% 維運時間
