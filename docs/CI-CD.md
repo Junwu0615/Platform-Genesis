@@ -149,6 +149,7 @@
 
 ![PNG](../assets/argocd_00.png)
 ![PNG](../assets/argocd_01.png)
+![PNG](../assets/argocd_02.png)
 
 </ul>
 </details>
@@ -163,13 +164,15 @@
 - #### *b.1.　實驗條件*
     ```
     測試環境
-    Node Count     : 6
-    Application    : SpringBoot Demo
-    Replica        : 3
-    Image Size     : 800 MB
-    Registry       : Docker Registry
-    Git Repository : Gitlab
-    GitOps Tool    : ArgoCD
+    Node Count         : 6
+    Application        : pg-python-inst
+    Replica            : 1
+    Image Size         : 296 MB
+      ↓
+    測試工具
+    Git Repository     : Gitlab
+    Images Repository  : Docker Registry
+    GitOps Tool        : ArgoCD
       ↓
     測試次數
     Manual Deploy : 10 次
@@ -185,19 +188,19 @@
     | 傳輸檔案 | - | 0 |
     | 修改設定 | - | 0 |
     | 執行部署 | - | 0 |
-    | 管道執行等待 | - | - |
-    | 驗證健康狀態 | - | - |
-    | 人工測試環節 | - | - |
-    | 總耗時 | - | - |
-    | 服務恢復時間 | - | - |
+    | 管道執行等待 | - | 105 |
+    | 驗證健康狀態 | - | 60 |
+    | 人工測試環節 | 60 | 60 |
+    | 服務恢復時間 | - | 30 |
+    | 總耗時 | - | 255 |
 
 - #### *b.3.　多節點擴展測試*
     | Node | Manual ( min ) | GitOps ( min ) |
     |--:|:--:|:--:|
-    | 1 | - | - |
-    | 3 | - | - |
-    | 6 | - | - |
-    | 12 | - | - |
+    | 1 | - | 4.25 |
+    | 3 | - | 4.25 |
+    | 6 | - | 4.25 |
+    | 12 | - | 4.25 |
 
 - #### *b.4.1.　人為量測 : 可能性風險*
     | Risk Item | Manual | GitOps |

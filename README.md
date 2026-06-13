@@ -224,7 +224,7 @@
 | Update Migration Matrix | `Hybrid deployment` | 2026-05-26 |
 | Add `ArgoCD` | for `CD` | 2026-05-28 |
 | Build `GitOps` | `GitLab CI` + `ArgoCD` | 2026-06-05 |
-| Build `CD` | `CD` → `Edge Container` | - |
+| Build `CD` | `CD` → `Edge Container` | 2026-06-13 |
 | Add `Debezium` | Change Data Capture | - |
 | Add `Apache Iceberg` | Data Lake | - |
 | Add `Apache Flink` | consumer of CDC | - |
