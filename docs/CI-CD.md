@@ -174,26 +174,6 @@
 ### *B.　量化測試*
 - #### *b.1.　實驗條件*
     ```
-    測試環境
-    Node Count         : 6
-    Application        : pg-python-inst
-    Replica            : 1
-    Image Size         : 296 MB
-      ↓
-    測試工具
-    Git Repository     : Gitlab
-    Images Repository  : Docker Registry
-    GitOps Tool        : ArgoCD
-      ↓
-    測試次數
-    Manual Deploy : 10 次
-    GitOps Deploy : 10 次
-      ↓
-    取平均值
-    ```
-
-- #### *b.2.　單次部署量測　( 純粹 CD )*
-    ```
     【 量測邊界說明 】
      1. 本階段純粹比較 CD ( 持續部署 ) 之生命週期，映像檔之編譯、打包與 CI 管道執行等待時間，兩案皆扣除不計入。
      2. Manual 情境： 未導入任何軟體層面管道輔助，採傳統模式以第三方遠端軟體逐台登入裝置、傳檔、手動調整 Config 並執行。
@@ -201,6 +181,27 @@
         ⭐ 藉由當時情境 → 導入新方案後帶來的整體交付提升為何 ?
      3. GitOps 情境： 採用 ArgoCD 自動化聲明式部署。
   
+  
+    【 測試環境 】
+     Node Count        : 6
+     Application       : pg-python-inst
+     Replica           : 1
+     Image Size        : 296 MB
+         ↓
+    【 測試工具 】
+     Git Repository    : Gitlab
+     Images Repository : Docker Registry
+     GitOps Tool       : ArgoCD
+         ↓
+    【 測試次數 】
+     Manual Deploy     : 10 次
+     GitOps Deploy     : 10 次
+         ↓
+    【 取平均值 】
+    ```
+
+- #### *b.2.　單次部署量測　( 純粹 CD )*
+    ```
     【 數據補充 】
      Manual (85)  → 本機映像檔編譯與打包
          vs. 
@@ -273,7 +274,7 @@
     | Audit Trail | 部分 | 部分 | 完整 |
     | Recovery | Manual | Manual | Auto |
 
-- #### *⭐ b.4.4.　成熟度矩陣*
+- #### *⭐ b.4.4.　部署管道成熟度矩陣*
     | Capability | SSH | CI/CD | GitOps |
     |--:|:--:|:--:|:--:|
     | 自動化部署<br>( Automated Deploy ) | ❌ | ✅ | ✅ |
