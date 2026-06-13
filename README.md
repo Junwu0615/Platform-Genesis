@@ -300,8 +300,8 @@
 | Helm Chart | Vanishing 6H `Bitnami 腳本底層對底線 _ 敏感性` | 2026-06-08 |
 | GitOps | Build : `PG-Apps` `cp` | 2026-06-10 |
 | GitOps | Build : `PG-Apps` `inst` | 2026-06-10 |
-| GitOps | Build : `Storage` `nfs` | - |
-| K8s | Experience : NFS 儲存機制 ( SQLite ) | - |
+| GitOps | Build : `Storage` `nfs` | 2026-06-13 |
+| K8s | Experience : NFS 儲存機制 ( SQLite ) | 2026-06-13 |
 | GitOps | Build : `Security` `Vault` | `TBD` |
 | GitOps | Maintain 2 repo ( `CI` + `CD` ) | `TBD` |
 
