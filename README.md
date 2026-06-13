@@ -96,6 +96,7 @@
 | Value of Deliverables 6 | Workload Benchmark | - |
 | Add `HashiCorp Vault` | Enterprise Key Management System | `TBD` |
 | Value of Deliverables 10 | Vault Distribution Key | `TBD` |
+| Value of Deliverables 12 | GitOps - Deployment Governance | `TBD` |
 | K8s | Bottom Layer : `Kubeadm` + `VMware` | `TBD` |
 | K8s | Public Cloud : `GKE` | `TBD` |
 
@@ -322,11 +323,11 @@
 | 資料庫核心業務解套演進 | [Value of Deliverables 5](./docs/Evolution-of-Database-Core.md)<br>`Direct Read` vs. `MV` vs. `CDC` | - |
 | 透過監控系統<br>觀察業務系統瓶頸 | [Value of Deliverables 6](./docs/Workload-Benchmark.md)<br>Workload Benchmark | - |
 | GitOps `K8s` | [Value of Deliverables 7](./docs/CI-CD.md)<br>`Manual` vs. `GitOps` | 2026-06-13 |
-| Feature Validation `K8s` |  [Value of Deliverables 8](./docs/Kubernetes-Feature-Validation.md) | - |
+| Feature Validation `K8s` |  [Value of Deliverables 8](./docs/K8s-Feature-Validation.md) | - |
 | Observability Platform `K8s` | [Value of Deliverables 9](./docs/Observability-Platform.md)<br>`Logging` `Metrics` `Tracing` `Alert Manager` | - |
 | Vault 分發密鑰 `K8s` | [Value of Deliverables 10](./docs/Vault.md) | `TBD` |
 | DevOps 流程 `K8s` | [Value of Deliverables 11](./docs/DevOps.md)<br>`Code Review` `PR` `TEST` `STAGE` `PROD` | - |
-
+| 部署治理 `GitOps` | [Value of Deliverables 12](./docs/Deployment-Governance.md) | `TBD` |
 
 </ul>
 </details>

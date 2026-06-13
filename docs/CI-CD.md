@@ -297,9 +297,9 @@
     ```
     | Item | Manual | GitOps |
     |--:|:--:|:--:|
-    | Drift Detect<br>( 漂移檢測 ) | 人為 | 3 sec |
-    | Auto Heal Start<br>( 自動修復開始 ) | 人為 | 5 sec |
-    | Recover Complete<br>( 恢復時間 ) | 不固定 | < 60 sec |
+    | Drift Detect<br>( 漂移檢測 ) | Manual | 3 sec |
+    | Auto Heal Start<br>( 自動修復開始 ) | Manual | 5 sec |
+    | Recover Complete<br>( 恢復時間 ) | Not fixed | < 60 sec |
 
 
 - #### *⭐ b.6.　Final Statistics*
