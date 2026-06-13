@@ -1,4 +1,4 @@
-## *K8s - 基礎設施高可用性測試*
+## *⭐ K8s - 原生能力驗證 ( Feature Validation ) ⭐*
 
 ### *A.　測試內容*
 ```
@@ -87,6 +87,41 @@ G. Control Plane: 驗證 Master 多節點高可用
 
     * 測試項目:
     👁️ Test 25 : Control Plane Failure
+    
+    
+------
+Tier 1 : Workload
+ • Pod Crash
+ • OOMKill
+ • Liveness
+ • Rolling Update
+ • Rollback
+
+Tier 2 : Node
+ • Drain
+ • Reboot
+ • Failure
+
+Tier 3 : Service
+ • Endpoint Failover
+ • Ingress Failover
+
+Tier 4 : Storage
+ • PVC Persistence
+ • StatefulSet Recovery
+ • 
+Tier 5 : Autoscaling
+ • HPA Out
+ • HPA In
+
+Tier 6 : GitOps Recovery
+ • Drift Detection
+ • Auto Heal
+ • Git Rollback
+
+Tier 7 : Control Plane
+ • Single Master Failure
+ • Leader Re-election
 ```
 
 <br>

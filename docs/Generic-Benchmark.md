@@ -1,4 +1,4 @@
-### *A.　Benchmark Methods*
+### *Benchmark Methods*
 - #### *1.　OLTP 壓力測試 ( Write )*
   ```
   測試特徵 :
@@ -59,7 +59,7 @@
 
 <br>
 
-### *B.　Generic DB Benchmark Result*
+### *Generic DB Benchmark Result*
 - #### *[shm_size 64 MB](../docs/Generic-Result-1.md) ( Docker Desktop )*
 - #### *[shm_size 16 GB](../docs/Generic-Result-2.md) ( WSL2 )*
 

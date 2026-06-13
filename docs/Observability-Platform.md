@@ -1,4 +1,4 @@
-## *K8s - Observability Platform*
+## *⭐ K8s - Observability Platform ⭐*
 
 
 ### *A.　Architecture*

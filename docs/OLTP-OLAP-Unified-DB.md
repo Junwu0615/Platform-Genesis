@@ -1,4 +1,4 @@
-## *OLTP-OLAP-Unified-DB*
+## *⭐ OLTP-OLAP-Unified-DB ⭐*
 
 > Simulating HTAP workload using a single PostgreSQL instance with schema isolation, analyzing contention between transactional and analytical queries.
 

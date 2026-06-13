@@ -86,7 +86,7 @@
 | Build `Hierarchical`<br>`Log Management` | `Loki` + `ELK` | 2026-05-14 |
 | Build `GitOps` | `GitLab CI` + `ArgoCD` | 2026-06-05 |
 | Value of Deliverables 7 | Automated Deployment of the Edge :<br>`Manual` vs. `GitOps` | 2026-06-13 |
-| Value of Deliverables 8 |  `K8s Infrastructure` :<br>High Availability Comparison Test | - |
+| Value of Deliverables 8 |  `Kubernetes Feature Validation` | - |
 | Value of Deliverables 9 | Observability Platform | - |
 | Value of Deliverables 11 | DevOps Process | - |
 | Value of Deliverables 3 | OLTP-OLAP-Unified-DB | - |
@@ -321,9 +321,9 @@
 | 資料庫查詢優化比較測試 | [Value of Deliverables 4](./docs/DB-Optimization.md)<br>`Before` vs. `After` | `TBD` |
 | 資料庫核心業務解套演進 | [Value of Deliverables 5](./docs/Evolution-of-Database-Core.md)<br>`Direct Read` vs. `MV` vs. `CDC` | - |
 | 透過監控系統<br>觀察業務系統瓶頸 | [Value of Deliverables 6](./docs/Workload-Benchmark.md)<br>Workload Benchmark | - |
-| CI/CD `K8s` | [Value of Deliverables 7](./docs/CI-CD.md)<br>`Manual` vs. `GitOps` | 2026-06-13 |
-| 基礎設施高可用性測試 `K8s` |  [Value of Deliverables 8](./docs/HA.md) | - |
-| 可觀測性平台 `K8s` | [Value of Deliverables 9](./docs/Observability-Platform.md)<br>`Logging` `Metrics` `Tracing` `Alert Manager` | - |
+| GitOps `K8s` | [Value of Deliverables 7](./docs/CI-CD.md)<br>`Manual` vs. `GitOps` | 2026-06-13 |
+| Feature Validation `K8s` |  [Value of Deliverables 8](./docs/Kubernetes-Feature-Validation.md) | - |
+| Observability Platform `K8s` | [Value of Deliverables 9](./docs/Observability-Platform.md)<br>`Logging` `Metrics` `Tracing` `Alert Manager` | - |
 | Vault 分發密鑰 `K8s` | [Value of Deliverables 10](./docs/Vault.md) | `TBD` |
 | DevOps 流程 `K8s` | [Value of Deliverables 11](./docs/DevOps.md)<br>`Code Review` `PR` `TEST` `STAGE` `PROD` | - |
 

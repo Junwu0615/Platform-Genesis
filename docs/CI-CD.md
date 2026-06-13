@@ -1,6 +1,6 @@
-## *K8s - CI/CD*
+## *⭐ K8s - CI/CD ⭐*
 
-### *A.　方案比較*
+### *A.　Scheme Comparison*
 
 <br>
 
@@ -171,8 +171,8 @@
 
 <br>
 
-### *B.　量化測試*
-- #### *b.1.　實驗條件*
+### *B.　Quantitative*
+- #### *b.1.　Experimental Conditions*
     ```
     【 量測邊界說明 】
      1. 本階段純粹比較 CD ( 持續部署 ) 之生命週期，映像檔之編譯、打包與 CI 管道執行等待時間，兩案皆扣除不計入。
@@ -302,7 +302,7 @@
     | Recover Complete<br>( 恢復時間 ) | 不固定 | < 60 sec |
 
 
-- #### *⭐ b.6.　最終統計*
+- #### *⭐ b.6.　Final Statistics*
     | Item | Manual → GitOps |
     |--:|:--|
     | 平均部署時間下降 | 99.3%<br>( 270 min → 1.75 min ) |
