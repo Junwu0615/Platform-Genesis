@@ -127,7 +127,7 @@
     Pod Service Running
     
     
-* Disaster Recovery:
+# Disaster Recovery:
 
     Cluster 壞掉
       ↓
@@ -138,6 +138,17 @@
     Sync Git
       ↓
     恢復服務
+
+
+# Git Revert + ArgoCD Sync:
+
+    Git Revert
+      ↓
+    Git Push
+      ↓
+    Argo Sync
+      ↓
+    Pod Rolling Update
 ```
 
 </ul>
@@ -184,14 +195,14 @@
 - #### *b.2.　單次部署量測 ( 純粹 CD )*
     ```
     【 量測邊界說明 】
-     1. 本階段純粹比較 CD (持續部署) 之生命週期，映像檔之編譯、打包與 CI 管道執行等待時間，兩案皆扣除不計入。
-     2. <Manual 情境>：未導入任何軟體層面管道輔助，採傳統模式以第三方遠端軟體逐台登入裝置、傳檔、手動調整 Config 並執行。
-     3. <GitOps 情境>：採用 ArgoCD 自動化聲明式部署。
+     1. 本階段純粹比較 CD ( 持續部署 ) 之生命週期，映像檔之編譯、打包與 CI 管道執行等待時間，兩案皆扣除不計入。
+     2. Manual 情境： 未導入任何軟體層面管道輔助，採傳統模式以第三方遠端軟體逐台登入裝置、傳檔、手動調整 Config 並執行。
+     3. GitOps 情境： 採用 ArgoCD 自動化聲明式部署。
   
     【 數據補充 】
-     Manual (85) => 本機映像檔編譯與打包
+     Manual (85) → 本機映像檔編譯與打包
          vs. 
-     GitOps (105) => Gitlab CI 管道執行等待
+     GitOps (105) → Gitlab CI 管道執行等待
     ```
 
     | Item | Manual ( s ) | GitOps ( s ) |
@@ -207,13 +218,12 @@
 
 - #### *b.3.　多節點擴展測試 ( 呈 b.2. )*
     ```
-    <多節點中的人工環節>
+    【 多節點中的人工環節 】
   
-      數據為單次 * N => 理想狀態下（不加計人為失誤與疲勞恢復成本）的理論線性推估值
+     數據為單次 * N → 理想狀態下 ( 不加計人為失誤與疲勞恢復成本 ) 的理論線性推估值
            ↓
-      人類會累 ( 疲勞係數 ) ：連續手動登入、修改、部署 72 台機器，
-      人類不可能保持跟第 1 台一模一樣的 3.75 分鐘極速，後期一定會因為疲勞、眼花、
-      打錯字導致時間拉長 # O ( N log N ) 帶有懲罰係數的增長
+    【 人類疲勞係數 】連續手動登入、修改、部署 72 台機器，不可能保持跟第 1 台一模一樣的 3.75 分鐘極速，
+     後期一定會因為疲勞、眼花、打錯字導致時間拉長 # O ( N log N ) 帶有懲罰係數的增長
     ```
 
     | Node | Manual ( min ) | GitOps ( min ) |
@@ -251,12 +261,12 @@
     | 操作步驟數 | 10 | 3 |
     | 降低比例(%) | 0 | 70 |
 
-- #### *b.5.　配置漂移恢復 ( Drift Recovery )*
+- #### *⭐ b.5.　配置漂移恢復 ( Drift Recovery )*
     ```
-    <Situation> replicas: 5 ≠ git define
-    <Action> kubectl scale deployment inst-homelab-test -n pg-apps-homelab-test --replicas=5
+    【 Situation 】replicas: 5 ≠ git define
+    【 Action 】kubectl scale deployment inst-homelab-test -n pg-apps-homelab-test --replicas=5
        ↓
-    * GitOps 自我修復
+    【 GitOps 自我修復 】
       經由命令列惡意竄改叢集狀態。ArgoCD 透過雙向監聽控制器（In-cluster Controller），
       於 3 秒內 即時偵測到基礎設施狀態與 Git 倉庫（Single Source of Truth）不符（OutOfSync），
       並在秒級內強制觸發自動對齊（Self-Healing），完全無需人工介入，於 1 分鐘內
@@ -264,19 +274,19 @@
     ```
     | Item | Manual | GitOps |
     |--:|:--:|:--:|
-    | 偵測 Drift | 人為 | 自動 |
-    | 修復 Drift | 人為 | 自動 |
-    | 恢復時間 | 不固定 | < 1 min |
+    | Drift Detect<br>( 漂移檢測 ) | 人為 | 3 sec |
+    | Auto Heal Start<br>( 自動修復開始 ) | 人為 | 5 sec |
+    | Recover Complete<br>( 恢復時間 ) | 不固定 | < 60 sec |
 
 
-- #### *b.6.　最終統計*
+- #### *⭐ b.6.　最終統計*
     | Item | Manual → GitOps |
     |--:|:--|
     | 平均部署時間下降 | 99.3%<br>( 270 min → 1.75 min ) |
     | 人為操作步驟下降 | 70%<br>( 10 步 → 3 步 ) |
     | Deploy 權限管理集中 | 100% 集中<br>( 移除個人憑證，全經由 ArgoCD RBAC ) |
     | Drift 自動修復 | Y<br>( 秒級偵測，< 1 min 完成自動復原 ) |
-    | Rollback 時間下降 | 95%<br>( 由 3.75 min 降至 < 10 秒 Git Revert ) |
+    | Rollback 時間下降 | 95%<br>( 由 3.75 min 降至 < 1 min Git Revert ) |
     | 多節點部署效率提升 | 線性成本 → 固定成本 |
     
     ```
@@ -286,11 +296,10 @@
      * 恢復時間 ( Recovery Time ) ↓
 
 
-    在 72 Node K3s 環境中 ...
-     * Manual Deploy 平均耗時 270 分鐘
-     * GitOps Deploy 平均耗時 1.75 分鐘
-    
-       → 部署效率提升 154 倍 ( 節省 99.3% 的時間 )
+    在 72 Node 環境中 ...
+     * 由人工逐節點操作轉為 K8s + GitOps 聲明式交付後，
+     * 部署時間由 270 分鐘，下降至 1.75 分鐘
+       → 節省約 99.3% 維運時間
   
   
       * 人工操作步驟由 10 步降至 3 步
