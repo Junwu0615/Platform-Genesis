@@ -305,6 +305,7 @@
 | GitOps | Build : `PG-Apps` `inst` | 2026-06-10 |
 | GitOps | Build : `Storage` `nfs` | 2026-06-13 |
 | K8s | Experience : NFS 儲存機制 ( SQLite ) | 2026-06-13 |
+| K8s | Experience : HPA 擴展/縮容 | 2026-06-15 |
 | GitOps | Build : `Security` `Vault` | - |
 | GitOps | Maintain 2 repo ( `CI` + `CD` ) | `TBD` |
 

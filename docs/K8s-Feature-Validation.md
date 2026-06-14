@@ -44,9 +44,9 @@ Tier 1 : Workload
  • ✅ Pod 崩潰恢復 : Pod Crash Recovery
  • ✅ OOMKill 恢復 : OOMKill Recovery
     • Out of Memory Killer: 記憶體耗盡時，為了保護系統核心不崩潰，
-      自動挑選並強制終止（Kill）佔用過多記憶體之程序（Process）的機制
+      自動挑選並強制終止(Kill)佔用過多記憶體之程序(Process)的機制
  • ✅ 存活狀態自我恢復 : Liveness Recovery
-    • 當 Pod 的程式碼內部發生死鎖（Deadlock）、無限迴圈或內部核心執行緒（Thread）崩潰，
+    • 當 Pod 的程式碼內部發生死鎖(Deadlock)、無限迴圈或內部核心執行緒(Thread)崩潰，
       但容器 <外殼> 還活著時，能被 Kubernetes 自動偵測並在 <最短時間內原地重啟>
  • ✅ 滾動更新 : Rolling Update
  • ✅ 回滾 : Rollback
@@ -60,23 +60,28 @@ Tier 2 : Node
 
 
 Tier 3 : Service
- • 端點故障轉移 : Endpoint Failover
- • 入口故障轉移 : Ingress Failover
+ • Service 端點容災切換 : Endpoint Failover
+ • Ingress 流量網關容災 : Ingress Failover
 
 
 Tier 4 : Storage
  • ✅ PVC 持久性 : PVC Persistence
- • 狀態集恢復 : StatefulSet Recovery
-
+ • StatefulSet 狀態集自我修復 : StatefulSet Recovery
+    • 呼應前面的 Recovery，在 K8s 中這種不經人工介入的重啟通常稱為自我修復能力( Self-healing )
 
 Tier 5 : Autoscaling
- • HPA 輸出 : HPA Out
- • HPA 輸入 : HPA In
-
+ • ✅ HPA 自動擴展 : HPA Scale-Out
+    • 增加 Pod 數量叫水平擴展
+ • HPA 自動縮容 : HPA Scale-In
+    • 減少 Pod 數量叫水平縮容
 
 Tier 6 : Control Plane
- • 單主故障 : Single Master Failure
- • ??? : Leader Re-election
+ • Master 節點單點故障損壞 : Single Master Failure
+    • 控制平面( Control Plane )失去單一主節點時的叢集存活能力
+ • 控制平面組件領導者重新選舉 : Leader Re-election
+    • K8s 的核心組件( ex: kube-scheduler, kube-controller-manager )
+      在高可用( HA )架構下會用租約( Lease )鎖定 Leader，
+      倒下時會自動 Leader Re-election( 領導者重選 )
 ```
 
 </ul>
@@ -143,7 +148,7 @@ Situation:
  • Workload Running on [ Agent-2 or Agent-3 ]
  • Application Running normally ( K9s STATUS: Running, READY: 1/1 )
  • Replica = 1 ( Singleton 限制 )
- • Python 應用的 Deployment YAML 中必須明確配置 resources.limits.memory（ ex: 128Mi ）
+ • Python 應用的 Deployment YAML 中必須明確配置 resources.limits.memory( ex: 128Mi )
  
 Action:
  • 透過 Kafka 開發工具或生產者腳本，向指定 Topic 發送一筆包含
@@ -159,9 +164,9 @@ Metric:
  • Availability ( 整體服務可用性 )
  
 Pass Criteria:
- • 完全自動化（ No Manual Intervention ），不需手動下達重啟指令
- • Pod 維持在同一個 Node 上進行 <原地重啟>（ RESTARTS 次數 +1 ）
- • 核心驗證 Pod 的結束原因（ Last State ）必須明確顯示為 OOMKilled，結束代碼為 137
+ • 完全自動化( No Manual Intervention )，不需手動下達重啟指令
+ • Pod 維持在同一個 Node 上進行 <原地重啟>( RESTARTS 次數 +1 )
+ • 核心驗證 Pod 的結束原因( Last State )必須明確顯示為 OOMKilled，結束代碼為 137
  • Total Recovery Time < 15 秒
  
 Result:
@@ -282,7 +287,7 @@ Metric:
  • Duplicate Processing ( 新舊更替間，有無因 Offset 沒處理好導致重複消費 )
  
 Pass Criteria:
- • 舊 Pod 必須 <完全消失> 後，新 Pod 才能開始建立（ 符合 Recreate 嚴格限制，避免 2 個實例同時存在 ）
+ • 舊 Pod 必須 <完全消失> 後，新 Pod 才能開始建立( 符合 Recreate 嚴格限制，避免 2 個實例同時存在 )
  • 舊 Pod 結束前，有成功 commit 手上最後一筆 Kafka Offset
  • Total Downtime < 20 秒 ( 取決於 Image 拉取速度與 PVC 釋放速度 )
  
@@ -311,7 +316,7 @@ Validation: ✅
 
 ```
 Objective: 
- • 驗證當新版本上線發生災難（ ex: 程式 Bug、CrashLoopBackOff ）時，
+ • 驗證當新版本上線發生災難( ex: 程式 Bug、CrashLoopBackOff )時，
    維運人員能否透過 K8s 原生指令或 ArgoCD 歷史紀錄，在秒級內快速將服務倒回上一個穩定版本
  
 Situation:
@@ -533,7 +538,7 @@ Validation: ✅
 ```
 Objective: 
  • 驗證當 Pod 因任何原因毀損、重啟或重新調度時，
-   其掛載的持久化儲存（ PVC ）中的歷史資料不會遺失，新 Pod 能無縫接軌讀取舊資料
+   其掛載的持久化儲存( PVC )中的歷史資料不會遺失，新 Pod 能無縫接軌讀取舊資料
  
 Situation:
  • Pod 正常運行中，且已掛載 PVC 到容器內的 /app/data/
@@ -575,18 +580,53 @@ Validation: ✅
 ### *★　Tier 5 : Autoscaling*
 
 <details>
-<summary><b><i>　HPA Out </i></b></summary>
+<summary><b><i>　HPA Scale-Out </i></b></summary>
 <ul>
 
-```
+![GIF](../assets/gif/HPA%20Scale-Out.gif)
 
+```
+Objective: 
+ • 驗證當業務流量爆發或運算負載攀升、導致 Pod 資源消耗達到預設門檻時，
+   HPA 能否在無人工介入的情況下，自動橫向擴展 ( Scale-Out ) 實例數量，以分擔負載
+ 
+Situation:
+ • Pod 正常運行中
+ • HPA 基礎配置為 minReplicas=1, maxReplicas=2，預設 CPU 超過 1% 就擴展
+ 
+Action:
+ • 為了不破壞生產環境程式，不採取真實壓測，改採「降低門檻基準」進行宣告
+ • 修改 Git 上的 values.yaml，將 targetCPUUtilizationPercentage 從 50% 調整為極低的 1%
+ • 推送 Git 並由 ArgoCD 執行自動/手動同步，將 1% 門檻下刷至 K8s 叢集
+ • 由於 Pod 活體的基本消耗必大於 1%，K8s 監控採樣後會立刻判定 <資源超載>，進而驅動自動擴展
+    
+Metric:
+ • GitOps Sync Latency ( Git 推送後，ArgoCD 完成 HPA 門檻更新的時間 )
+ • HPA Metric Sampling Latency ( HPA 採樣到指標超標、並決定增加 Replica 的反應時間 )
+ • Target Replica Count ( 觀測 Pod 是否順利從 1 變成設定的 Max Replicas )
+ 
+Pass Criteria:
+ • 流程完全遵循 GitOps 宣告式維運
+ • K9s 畫面中的 Pod 數量確實依據 HPA 宣告之最大值自動長出，且狀態變更為 Running
+ 
+Result:
+ • GitOps Sync Latency ........... 15 sec
+ • HPA Sampling Latency ......... 100 sec
+ • ⭐ Target Replica Count ...... 1 → 2
+ 
+Observation:
+ • K9s: 
+    • 觀察狀態是否從原本只有 1 隻，幾十秒內會突然蹦出第 2 隻 ( ContainerCreating )
+    • 進入 :hpa 畫面，觀察 TARGETS 欄位是否呈現破表狀態 ( 1% )
+ 
+Validation: ✅
 ```
 
 </ul>
 </details>
 
 <details>
-<summary><b><i>　HPA In </i></b></summary>
+<summary><b><i>　HPA Scale-In </i></b></summary>
 <ul>
 
 ```
@@ -655,8 +695,8 @@ Storage
 ✓ StatefulSet Recovery
 
 Autoscaling
-✓ HPA Out
-✓ HPA In
+✓ HPA Scale-Out
+✓ HPA Scale-In
 
 Control Plane
 ✓ Single Master Failure
