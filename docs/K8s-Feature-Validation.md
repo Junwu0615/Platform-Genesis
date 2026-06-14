@@ -14,19 +14,22 @@ Tier ??? : ???
  • Situation: 測試前狀態
  • Action: 執行動作
  • Metric:
-    - Recovery Time
-    - Downtime
-    - Failed Requests
-    - Data Loss
-    ...
-    - Availability
+    • Recovery Time
+    • Downtime
+    • Failed Requests
+    • Data Loss
+      ...
+    • Availability
+ • Pass Criteria: 通過標準
  • Result: 實際量測結果
- • Validation: Pass/Fail
  • Observation:
-    - kubectl get pods
-    - Grafana Screenshot
-    - Prometheus Metrics
-    - Application Screenshot
+    • kubectl get pods
+    • Grafana Screenshot
+    • Prometheus Metrics
+    • Application Screenshot
+  • Validation: 
+    • Pass : ✅
+    • Fail : ❌
 ```
 
 </ul>
@@ -38,9 +41,9 @@ Tier ??? : ???
 
 ```
 Tier 1 : Workload
- • Pod 崩潰恢復 : Pod Crash Recovery
+ • ✅ Pod 崩潰恢復 : Pod Crash Recovery
  • OOMKill 恢復 : OOMKill Recovery
-    - Out of Memory Killer: 記憶體耗盡時，為了保護系統核心不崩潰，
+    • Out of Memory Killer: 記憶體耗盡時，為了保護系統核心不崩潰，
       自動挑選並強制終止（Kill）佔用過多記憶體之程序（Process）的機制
  • 活力恢復 : Liveness Recovery
  • 滾動更新 : Rolling Update
@@ -48,29 +51,30 @@ Tier 1 : Workload
 
 
 Tier 2 : Node
- • Node Drain
- • Node Reboot
- • Node Failure
+ • 節點排水 : Node Drain Recovery
+    • 代表 → 節點計畫性維護 ( Planned Maintenance )
+ • ✅ 節點故障 : Node Failure Recovery
+    • 代表 → 節點災難恢復 ( Disaster Recovery )
 
 
 Tier 3 : Service
- • Endpoint Failover
- • Ingress Failover
+ • 端點故障轉移 : Endpoint Failover
+ • 入口故障轉移 : Ingress Failover
 
 
 Tier 4 : Storage
- • PVC Persistence
- • StatefulSet Recovery
+ • PVC 持久性 : PVC Persistence
+ • 狀態集恢復 : StatefulSet Recovery
 
 
 Tier 5 : Autoscaling
- • HPA Out
- • HPA In
+ • HPA 輸出 : HPA Out
+ • HPA 輸入 : HPA In
 
 
 Tier 6 : Control Plane
- • Single Master Failure
- • Leader Re-election
+ • 單主故障 : Single Master Failure
+ • ??? : Leader Re-election
 ```
 
 </ul>
@@ -110,12 +114,12 @@ Pass Criteria:
  
 Result:
  • New Pod Created : 2 sec
- • [Total Recovery Time] : 5 sec
+ • ⭐ Total Recovery Time : 5 sec
 
 Observation:
  • kubectl get pods -n pg-apps-homelab-test -w
  
-Validation: PASS
+Validation: ✅
 ```
 
 </ul>
@@ -169,28 +173,83 @@ Validation: PASS
 ### *★　Tier 2 : Node*
 
 <details>
-<summary><b><i>　Node Drain </i></b></summary>
+<summary><b><i>　Node Drain Recovery </i></b></summary>
 <ul>
 
-```
+![GIF](../assets/gif/Node%20Failure.gif)
 
+```
+Objective:
+ • 驗證節點進入維護模式時，Workload 是否能自動遷移至其他可用節點，並維持服務可用性
+
+Situation:
+ • Workload Running on Agent-2
+ • Application can run on [ Agent-2, Agent-3 ]
+ • Application Running
+ • Replica = 1 ( Strategy: Recreate # 該應用不能同時存在 2 個 )
+ • Target Pod :
+    • -n pg-apps-homelab-test
+    • inst-homelab-test
+
+Action:
+ • 進行節點維運作業 => kubectl drain ( 設定不可排程 + 歷史遺留、現存於該 Node 上的 Pod 趕走 )
+    kubectl drain k3s-agent-2 \
+      --ignore-daemonsets \
+      --delete-emptydir-data
+ • 節點維運完成 => 手動復原
+    kubectl uncordon k3s-agent-2
+
+Metric:
+ • Drain Start Time
+ • Pod Eviction Time
+ • Pod Reschedule Time
+ • Service Availability
+
+Pass Criteria:
+ • No Manual Intervention
+ • All Pods Rescheduled
+ • Service Available
+ • Recovery < 60 sec
+ 
+Result:
+ • Node Detection Time : 2 sec
+ • Eviction Delay : 3 sec
+ • Pod Scheduling Time : 3 sec
+ • Container Startup Time : 3 sec
+ • ⭐ Total Recovery Time : 7 sec
+
+Observation:
+ • Get Nodes Status
+     • kubectl get nodes
+     • K9s: nodes
+ • Get Pods Status
+     • watch -n 2 'kubectl get pods -A -o wide | grep -E "agent-2|agent-3"'
+     • K9s: pod -n pg-apps-homelab-test
+
+
+Timeline:
+ • Drain Start ---------------- T+00s
+      ↓
+ • Node Marked Disable -------- T+02s
+      ↓
+ • Pod Evicted ---------------- T+03s
+      ↓
+ • Scheduler Create New Pod --- T+03s
+      ↓
+ • Container Ready ------------ T+06s
+      ↓
+ • Service Available ---------- T+07s
+
+
+Validation: ✅
 ```
 
 </ul>
 </details>
 
-<details>
-<summary><b><i>　Node Reboot </i></b></summary>
-<ul>
-
-```
-```
-
-</ul>
-</details>
 
 <details>
-<summary><b><i>　Node Failure </i></b></summary>
+<summary><b><i>　Node Failure Recovery </i></b></summary>
 <ul>
 
 ![GIF](../assets/gif/Node%20Failure.gif)
@@ -204,7 +263,7 @@ Situation:
  • Workload Running on Agent-3
  • Application can run on [ Agent-2, Agent-3 ]
  • Application Running
- • Replica = 1
+ • Replica = 1 ( Strategy: Recreate )
  • Target Pod :
     • -n pg-apps-homelab-test
     • inst-homelab-test
@@ -227,8 +286,8 @@ Result:
  • Node Detection Time : 52 sec
  • Eviction Delay : 10 sec
  • Pod Scheduling Time : 3 sec
- • Container Startup Time : 7 sec
- • [Total Recovery Time] : 72 sec
+ • Container Startup Time : 8 sec
+ • ⭐ Total Recovery Time : 73 sec
 
 Observation:
  • Get Nodes Status
@@ -251,7 +310,7 @@ Timeline:
  • Application Ready --------- T+73s
     
 
-Validation: PASS
+Validation: ✅
 ```
 
 </ul>
@@ -369,8 +428,8 @@ Validation: PASS
 K3s Feature Validation Summary
 
 Cluster:
-- 3 Control Plane
-- 3 Worker
+• 3 Control Plane
+• 4 Worker
 
 Validation Result:
 --------------------------------
@@ -383,9 +442,8 @@ Workload
 ✓ Rollback
 
 Node
-✓ Node Drain
-✓ Node Reboot
-✓ Node Failure
+✓ Node Drain Recovery
+✓ Node Failure Recovery
 
 Service
 ✓ Endpoint Failover
