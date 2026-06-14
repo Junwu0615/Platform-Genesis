@@ -22,7 +22,7 @@ Tier ??? : ???
     - Availability
  • Result: 實際量測結果
  • Validation: Pass/Fail
- • Evidence:
+ • Observation:
     - kubectl get pods
     - Grafana Screenshot
     - Prometheus Metrics
@@ -46,22 +46,27 @@ Tier 1 : Workload
  • 滾動更新 : Rolling Update
  • 回滾 : Rollback
 
+
 Tier 2 : Node
- • Drain
- • Reboot
- • Failure
+ • Node Drain
+ • Node Reboot
+ • Node Failure
+
 
 Tier 3 : Service
  • Endpoint Failover
  • Ingress Failover
 
+
 Tier 4 : Storage
  • PVC Persistence
  • StatefulSet Recovery
 
+
 Tier 5 : Autoscaling
  • HPA Out
  • HPA In
+
 
 Tier 6 : Control Plane
  • Single Master Failure
@@ -93,21 +98,24 @@ Situation:
     • inst-homelab-test
 
 Action:
- • kubectl delete pod inst-homelab-test-xxx-xxx
- • K9s : ctrl + k
+ • Delete Pod
+     • kubectl delete pod inst-homelab-test-xxx-xxx
+     • K9s : ctrl + k
 
 Metric:
  • Pod Recovery Time
 
+Pass Criteria:
+ • Pod Recovery Time < 5 min
+ 
 Result:
  • New Pod Created : 2 sec
- • Ready State : 5 sec
+ • [Total Recovery Time] : 5 sec
 
-Validation:
- • PASS
-
-Evidence:
+Observation:
  • kubectl get pods -n pg-apps-homelab-test -w
+ 
+Validation: PASS
 ```
 
 </ul>
@@ -161,7 +169,7 @@ Evidence:
 ### *★　Tier 2 : Node*
 
 <details>
-<summary><b><i>　Drain </i></b></summary>
+<summary><b><i>　Node Drain </i></b></summary>
 <ul>
 
 ```
@@ -172,7 +180,7 @@ Evidence:
 </details>
 
 <details>
-<summary><b><i>　Reboot </i></b></summary>
+<summary><b><i>　Node Reboot </i></b></summary>
 <ul>
 
 ```
@@ -182,11 +190,68 @@ Evidence:
 </details>
 
 <details>
-<summary><b><i>　Failure </i></b></summary>
+<summary><b><i>　Node Failure </i></b></summary>
 <ul>
 
-```
+![GIF](../assets/gif/Node%20Failure.gif)
 
+```
+Objective:
+ • 驗證 Scheduler 重新調度能力
+ • 驗證 Worker Node 發生故障後，K8s 是否能自動重新調度 Workload 並恢復服務可用性
+
+Situation:
+ • Workload Running on Agent-3
+ • Application can run on [ Agent-2, Agent-3 ]
+ • Application Running
+ • Replica = 1
+ • Target Pod :
+    • -n pg-apps-homelab-test
+    • inst-homelab-test
+    • Node Eviction Timeout = 10 sec
+
+Action:
+ • Manual Shutdown Agent-3
+
+Metric:
+ • Node NotReady Time
+ • Pod Migration Time
+ • Service Recovery Time
+
+Pass Criteria:
+ • Service Recovery < 90 sec
+ • No Manual Intervention
+ • Workload Successfully Rescheduled
+ 
+Result:
+ • Node Detection Time : 52 sec
+ • Eviction Delay : 10 sec
+ • Pod Scheduling Time : 3 sec
+ • Container Startup Time : 7 sec
+ • [Total Recovery Time] : 72 sec
+
+Observation:
+ • Get Nodes Status
+     • kubectl get nodes
+     • K9s: nodes
+ • Get Pods Status
+     • watch -n 2 'kubectl get pods -A -o wide | grep -E "agent-2|agent-3"'
+     • K9s: pod -n pg-apps-homelab-test
+
+
+Timeline:
+ • Node Shutdown ------------- T+00s
+      ↓
+ • Node Marked NotReady ------ T+52s
+      ↓
+ • Pod Eviction Started ------ T+62s
+      ↓
+ • Pod Recreated On Agent-3 -- T+72s
+      ↓
+ • Application Ready --------- T+73s
+    
+
+Validation: PASS
 ```
 
 </ul>
@@ -318,9 +383,9 @@ Workload
 ✓ Rollback
 
 Node
-✓ Drain
-✓ Reboot
-✓ Failure
+✓ Node Drain
+✓ Node Reboot
+✓ Node Failure
 
 Service
 ✓ Endpoint Failover
