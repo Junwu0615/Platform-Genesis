@@ -2,7 +2,7 @@
 
 <br>
 
-### *A.　Document*
+### *Document*
 
 <details>
 <summary><b><i>　I.　Quantitative Format </i></b></summary>
@@ -43,11 +43,11 @@ Tier ??? : ???
 Tier 1 : Workload
  • ✅ Pod 崩潰恢復 : Pod Crash Recovery
  • ✅ OOMKill 恢復 : OOMKill Recovery
-    • Out of Memory Killer: 記憶體耗盡時，為了保護系統核心不崩潰，
-      自動挑選並強制終止(Kill)佔用過多記憶體之程序(Process)的機制
+    • Out of Memory Killer: 記憶體耗盡時, 為了保護系統核心不崩潰, 
+      自動挑選並強制終止 ( Kill ) 佔用過多記憶體之程序 ( Process ) 的機制
  • ✅ 存活狀態自我恢復 : Liveness Recovery
-    • 當 Pod 的程式碼內部發生死鎖(Deadlock)、無限迴圈或內部核心執行緒(Thread)崩潰，
-      但容器 <外殼> 還活著時，能被 Kubernetes 自動偵測並在 <最短時間內原地重啟>
+    • 當 Pod 的程式碼內部發生死鎖 ( Deadlock )、無限迴圈或內部核心執行緒 ( Thread ) 崩潰, 
+      但容器 <外殼> 還活著時, 能被 Kubernetes 自動偵測並在 <最短時間內原地重啟>
  • ✅ 滾動更新 : Rolling Update
  • ✅ 回滾 : Rollback
 
@@ -67,7 +67,8 @@ Tier 3 : Service
 Tier 4 : Storage
  • ✅ PVC 持久性 : PVC Persistence
  • StatefulSet 狀態集自我修復 : StatefulSet Recovery
-    • 呼應前面的 Recovery，在 K8s 中這種不經人工介入的重啟通常稱為自我修復能力( Self-healing )
+    • 呼應前面的 Recovery, 在 K8s 中這種不經人工介入的重啟通常稱為自我修復能力 ( Self-healing )
+
 
 Tier 5 : Autoscaling
  • ✅ HPA 自動擴展 : HPA Scale-Out
@@ -75,13 +76,14 @@ Tier 5 : Autoscaling
  • HPA 自動縮容 : HPA Scale-In
     • 減少 Pod 數量叫水平縮容
 
+
 Tier 6 : Control Plane
  • Master 節點單點故障損壞 : Single Master Failure
-    • 控制平面( Control Plane )失去單一主節點時的叢集存活能力
+    • 控制平面 ( Control Plane )失去單一主節點時的叢集存活能力
  • 控制平面組件領導者重新選舉 : Leader Re-election
-    • K8s 的核心組件( ex: kube-scheduler, kube-controller-manager )
-      在高可用( HA )架構下會用租約( Lease )鎖定 Leader，
-      倒下時會自動 Leader Re-election( 領導者重選 )
+    • K8s 的核心組件 ( ex: kube-scheduler, kube-controller-manager )
+      在高可用 ( HA ) 架構下會用租約 ( Lease ) 鎖定 Leader, 
+      倒下時會自動 Leader Re-election ( 領導者重選 )
 ```
 
 </ul>
@@ -141,8 +143,8 @@ Validation: ✅
 ```
 Objective: 
  • 驗證當單一實例 ( Singleton ) 應用因未預期的資料爆量、記憶體洩漏 ( Memory Leak ) 
-   或處理超大訊息導致超過 K8s 宣告的資源上限 ( Memory Limit ) 時，
-   Kubernetes 能否自動偵測到 OOMKilled 狀態，並在免人工介入下完成 <原地快速容器重啟> 與自我修復
+   或處理超大訊息導致超過 K8s 宣告的資源上限 ( Memory Limit ) 時, 
+   Kubernetes 能否自動偵測到 OOMKilled 狀態, 並在免人工介入下完成 <原地快速容器重啟> 與自我修復
  
 Situation:
  • Workload Running on [ Agent-2 or Agent-3 ]
@@ -151,22 +153,22 @@ Situation:
  • Python 應用的 Deployment YAML 中必須明確配置 resources.limits.memory( ex: 128Mi )
  
 Action:
- • 透過 Kafka 開發工具或生產者腳本，向指定 Topic 發送一筆包含
-   特定 Payload ("TRIGGER_OOM_FROM_KAFKA") 的控制訊息，
-   藉此觸發 Python 內部邏輯 → 立刻在記憶體內無限循環產生巨大字串或陣列，強行將記憶體撐爆，直到被系統 OOMKill
+ • 透過 Kafka 開發工具或生產者腳本, 向指定 Topic 發送一筆包含
+   特定 Payload ("TRIGGER_OOM_FROM_KAFKA") 的控制訊息, 
+   藉此觸發 Python 內部邏輯 → 立刻在記憶體內無限循環產生巨大字串或陣列, 強行將記憶體撐爆, 直到被系統 OOMKill
  
 Metric:
- • OOM Trigger Latency ( 訊號發送到 Python 程式被核心擊殺的時間差，預期應在 1-2 秒內 )
+ • OOM Trigger Latency ( 訊號發送到 Python 程式被核心擊殺的時間差, 預期應在 1-2 秒內 )
  • K8s OOM Detection Latency ( K8s 意識到容器是因為 OOM 而死並更新狀態的時間 )
- • Container Restart Time ( 容器被擊殺後，到新容器重新拉起的時間 )
+ • Container Restart Time ( 容器被擊殺後, 到新容器重新拉起的時間 )
  • Total Recovery Time ( 從發送 TRIGGER_OOM 訊息到 Pod 回復 READY 1/1 的總耗時 )
- • Data Loss ( 由於是 SIGKILL 強制斷電式關機，重啟後需驗證最後一筆 Kafka 訊息有無遺失或重複消費 )
+ • Data Loss ( 由於是 SIGKILL 強制斷電式關機, 重啟後需驗證最後一筆 Kafka 訊息有無遺失或重複消費 )
  • Availability ( 整體服務可用性 )
  
 Pass Criteria:
- • 完全自動化( No Manual Intervention )，不需手動下達重啟指令
- • Pod 維持在同一個 Node 上進行 <原地重啟>( RESTARTS 次數 +1 )
- • 核心驗證 Pod 的結束原因( Last State )必須明確顯示為 OOMKilled，結束代碼為 137
+ • 完全自動化 ( No Manual Intervention ), 不需手動下達重啟指令
+ • Pod 維持在同一個 Node 上進行 <原地重啟> ( RESTARTS 次數 +1 )
+ • 核心驗證 Pod 的結束原因 ( Last State ) 必須明確顯示為 OOMKilled, 結束代碼為 137
  • Total Recovery Time < 15 秒
  
 Result:
@@ -180,7 +182,7 @@ Observation:
  • K9s: 觀察狀態是否遵循 [Running] → [OOMKilled 或 CrashLoopBackOff] → [Running]
  • kubectl describe pod <pod-name> -n pg-apps-homelab-test
         - 檢查 Last State: Terminated 區塊中的 Reason: OOMKilled 與 Exit Code: 137
- • [X] 觀察該 Pod 的 Memory 使用率折線圖，是否呈現垂直攀升 隨後瞬間歸零的鋸齒波
+ • [X] 觀察該 Pod 的 Memory 使用率折線圖, 是否呈現垂直攀升 隨後瞬間歸零的鋸齒波
 
 
 # Exit Code: 137
@@ -202,8 +204,8 @@ Validation: ✅
 
 ```
 Objective: 
- • 驗證單一實例 ( Singleton ) 應用在發生內部核心死鎖 ( Deadlock )、執行緒崩潰或接收到緊急外部中斷訊號時，
-   能否在不依賴節點重新調度 ( Reschedule ) 的情況下，由 Kubernetes 偵測並完成<原地快速容器重啟>與服務自我修復能力
+ • 驗證單一實例 ( Singleton ) 應用在發生內部核心死鎖 ( Deadlock )、執行緒崩潰或接收到緊急外部中斷訊號時, 
+   能否在不依賴節點重新調度 ( Reschedule ) 的情況下, 由 Kubernetes 偵測並完成<原地快速容器重啟>與服務自我修復能力
  
 Situation:
  • Workload Running on [ Agent-2 or Agent-3 ]
@@ -213,23 +215,23 @@ Situation:
  • 心跳檔案存在於容器本地： /app/tmp/heartbeat.txt
  
 Action:
- • 透過 Kafka 開發工具或生產者腳本，向指定 Topic 發送一筆包含
-   特定 Payload ("TRIGGER_KILL_FROM_KAFKA") 的控制訊息，
+ • 透過 Kafka 開發工具或生產者腳本, 向指定 Topic 發送一筆包含
+   特定 Payload ("TRIGGER_KILL_FROM_KAFKA") 的控制訊息, 
    藉此觸發 Python 內部邏輯 → 自殺並移除心跳檔
  
 Metric:
  • Signal Propagation Time ( 訊號發送至 Python 接收的時間差 )
  • Heartbeat Deletion Time ( 心跳檔被移除的時間點 )
- • K8s Detection Latency ( 從檔案消失到 K8s 判定 Unhealthy 的時間，預期約 3-6 秒 )
+ • K8s Detection Latency ( 從檔案消失到 K8s 判定 Unhealthy 的時間, 預期約 3-6 秒 )
  • Container Restart Time ( 容器銷毀至重新啟動的時間 )
  • Total Recovery Time ( 從發送控制訊息到 Pod 回復 READY 1/1 的總耗時 )
- • Data Loss ( 切換期間是否有不掉單、重複消費、資料遺失，預期為 0 )
+ • Data Loss ( 切換期間是否有不掉單、重複消費、資料遺失, 預期為 0 )
  • Availability ( 整體服務可用性 )
  
 Pass Criteria:
- • 完全自動化 ( No Manual Intervention )，不需人工下達 kubectl delete/restart
- • Pod 必須維持在同一個 Node 上進行<原地重啟> ( RESTARTS 次數 +1，而非重新調度 )
- • 資料零遺失 ( Data Loss = 0 )，Kafka Offset 維持一致
+ • 完全自動化 ( No Manual Intervention ), 不需人工下達 kubectl delete/restart
+ • Pod 必須維持在同一個 Node 上進行<原地重啟> ( RESTARTS 次數 +1, 而非重新調度 )
+ • 資料零遺失 ( Data Loss = 0 ), Kafka Offset 維持一致
  • Total Recovery Time < 15 秒
  
 Result:
@@ -249,7 +251,7 @@ Observation:
      • K9s: d
  • 檢查 容器日誌內部 是否監聽測到外部傳入自殺訊號
      • K9s: l
- • Kafka Consumer Group Matrix ( 確認 Lag 沒有異常堆積，且重啟後能繼續正常消費 )
+ • Kafka Consumer Group Matrix ( 確認 Lag 沒有異常堆積, 且重啟後能繼續正常消費 )
  
 Validation: ✅
 ```
@@ -265,9 +267,9 @@ Validation: ✅
 
 ```
 Objective: 
- • 驗證單一實例 ( Singleton ) 應用在透過 ArgoCD / Helm 進行版本升級時，
-   在 Recreate ( 先殺後建 ) 策略下，舊版本能否安全釋放資源 ( Kafka/PVC )，
-   且新版本能否以最短時間接單，並驗證其斷線時間 ( Downtime )
+ • 驗證單一實例 ( Singleton ) 應用在透過 ArgoCD / Helm 進行版本升級時, 
+   在 Recreate ( 先殺後建 ) 策略下, 舊版本能否安全釋放資源 ( Kafka/PVC ), 
+   且新版本能否以最短時間接單, 並驗證其斷線時間 ( Downtime )
  
 Situation:
  • Workload Running on [ Agent-2 or Agent-3 ]
@@ -276,19 +278,19 @@ Situation:
  • 持續有正常業務資料寫入 Kafka Topic
  
 Action:
- • 更改 Helm Values 檔案中的環境變數並推送到 Git，
-   觸發 ArgoCD 自動同步 ( Sync )，發動版本更新
+ • 更改 Helm Values 檔案中的環境變數並推送到 Git, 
+   觸發 ArgoCD 自動同步 ( Sync ), 發動版本更新
  
 Metric:
  • Terminating Time ( 舊版本 Pod 接收到 SIGTERM 到完全銷毀的時間 )
- • Volume Detach/Attach Latency ( 儲存鎖釋放與重新掛載的時間，Recreate 的關鍵坑點 )
+ • Volume Detach/Attach Latency ( 儲存鎖釋放與重新掛載的時間, Recreate 的關鍵坑點 )
  • New Container Init Time ( 新版本拉取 Image 與開機初始化時間 )
- • Total Downtime ( 從舊 Pod 開始停止服務，到新 Pod Ready 1/1 的服務空窗期 )
- • Duplicate Processing ( 新舊更替間，有無因 Offset 沒處理好導致重複消費 )
+ • Total Downtime ( 從舊 Pod 開始停止服務, 到新 Pod Ready 1/1 的服務空窗期 )
+ • Duplicate Processing ( 新舊更替間, 有無因 Offset 沒處理好導致重複消費 )
  
 Pass Criteria:
- • 舊 Pod 必須 <完全消失> 後，新 Pod 才能開始建立( 符合 Recreate 嚴格限制，避免 2 個實例同時存在 )
- • 舊 Pod 結束前，有成功 commit 手上最後一筆 Kafka Offset
+ • 舊 Pod 必須 <完全消失> 後, 新 Pod 才能開始建立 ( 符合 Recreate 嚴格限制, 避免 2 個實例同時存在 )
+ • 舊 Pod 結束前, 有成功 commit 手上最後一筆 Kafka Offset
  • Total Downtime < 20 秒 ( 取決於 Image 拉取速度與 PVC 釋放速度 )
  
 Result:
@@ -316,11 +318,11 @@ Validation: ✅
 
 ```
 Objective: 
- • 驗證當新版本上線發生災難( ex: 程式 Bug、CrashLoopBackOff )時，
-   維運人員能否透過 K8s 原生指令或 ArgoCD 歷史紀錄，在秒級內快速將服務倒回上一個穩定版本
+ • 驗證當新版本上線發生災難 ( ex: 程式 Bug、CrashLoopBackOff )時, 
+   維運人員能否透過 K8s 原生指令或 ArgoCD 歷史紀錄, 在秒級內快速將服務倒回上一個穩定版本
  
 Situation:
- • 故意部署一個會噴 Error 導致開機失敗的壞版本，讓 Pod 陷入 CrashLoopBackOff
+ • 故意部署一個會噴 Error 導致開機失敗的壞版本, 讓 Pod 陷入 CrashLoopBackOff
  
 Action:
  • 更新 values images tags=v99 因無該版本所以連拉取都會失敗
@@ -329,10 +331,10 @@ Action:
 Metric:
  • Rollback Trigger Latency ( 下達指令到 K8s 開始動作的反應時間 )
  • Rollback Total Time ( 從決定回滾到舊版本 Pod 重新回到 READY 1/1 的總耗時 )
- • Data Consistency ( 回滾過程中，有無導致 Kafka 資料混亂或資料損毀 )
+ • Data Consistency ( 回滾過程中, 有無導致 Kafka 資料混亂或資料損毀 )
 
 Pass Criteria:
- • 快速反應：不需等待壞 Pod 慢慢 restart，回滾指令下達後應立刻砍掉壞 Pod
+ • 快速反應：不需等待壞 Pod 慢慢 restart, 回滾指令下達後應立刻砍掉壞 Pod
  • Pod 成功回復成上一個穩定版本的 Image Tag
  • Rollback Total Time < 15 秒
 
@@ -363,7 +365,7 @@ Validation: ✅
 
 ```
 Objective:
- • 驗證節點進入維護模式時，Workload 是否能自動遷移至其他可用節點，並維持服務可用性
+ • 驗證節點進入維護模式時, Workload 是否能自動遷移至其他可用節點, 並維持服務可用性
 
 Situation:
  • Workload Running on Agent-2
@@ -440,7 +442,7 @@ Validation: ✅
 ```
 Objective:
  • 驗證 Scheduler 重新調度能力
- • 驗證 Worker Node 發生故障後，K8s 是否能自動重新調度 Workload 並恢復服務可用性
+ • 驗證 Worker Node 發生故障後, K8s 是否能自動重新調度 Workload 並恢復服務可用性
 
 Situation:
  • Workload Running on Agent-3
@@ -537,18 +539,18 @@ Validation: ✅
 
 ```
 Objective: 
- • 驗證當 Pod 因任何原因毀損、重啟或重新調度時，
-   其掛載的持久化儲存( PVC )中的歷史資料不會遺失，新 Pod 能無縫接軌讀取舊資料
+ • 驗證當 Pod 因任何原因毀損、重啟或重新調度時, 
+   其掛載的持久化儲存 ( PVC ) 中的歷史資料不會遺失, 新 Pod 能無縫接軌讀取舊資料
  
 Situation:
- • Pod 正常運行中，且已掛載 PVC 到容器內的 /app/data/
+ • Pod 正常運行中, 且已掛載 PVC 到容器內的 /app/data/
  
 Action:
- • 透過 K9s 進入日誌 <觀察目前消費 ID> 因為有綁定地端 SQLite 進行持久化，所以當被砍掉後應該要能從上次位置重新消費事務
- • 在 K9s 中對該 Pod 按 ctrl + d，強制 K8s 重新拉一隻新 Pod
+ • 透過 K9s 進入日誌 <觀察目前消費 ID> 因為有綁定地端 SQLite 進行持久化, 所以當被砍掉後應該要能從上次位置重新消費事務
+ • 在 K9s 中對該 Pod 按 ctrl + d, 強制 K8s 重新拉一隻新 Pod
  
 Pass Criteria:
- • 新 Pod 啟動完成後，進入新容器日誌查看業務邏輯是否從上次的消費位置繼續執行 而非全部重製
+ • 新 Pod 啟動完成後, 進入新容器日誌查看業務邏輯是否從上次的消費位置繼續執行 而非全部重製
  
 Result:
  • ⭐ Total Verification Time : 15 秒
@@ -587,27 +589,27 @@ Validation: ✅
 
 ```
 Objective: 
- • 驗證當業務流量爆發或運算負載攀升、導致 Pod 資源消耗達到預設門檻時，
-   HPA 能否在無人工介入的情況下，自動橫向擴展 ( Scale-Out ) 實例數量，以分擔負載
+ • 驗證當業務流量爆發或運算負載攀升、導致 Pod 資源消耗達到預設門檻時, 
+   HPA 能否在無人工介入的情況下, 自動橫向擴展 ( Scale-Out ) 實例數量, 以分擔負載
  
 Situation:
  • Pod 正常運行中
- • HPA 基礎配置為 minReplicas=1, maxReplicas=2，預設 CPU 超過 1% 就擴展
+ • HPA 基礎配置為 minReplicas=1 + maxReplicas=2 + CPU 超過 1% 就擴展
  
 Action:
- • 為了不破壞生產環境程式，不採取真實壓測，改採「降低門檻基準」進行宣告
- • 修改 Git 上的 values.yaml，將 targetCPUUtilizationPercentage 從 50% 調整為極低的 1%
- • 推送 Git 並由 ArgoCD 執行自動/手動同步，將 1% 門檻下刷至 K8s 叢集
- • 由於 Pod 活體的基本消耗必大於 1%，K8s 監控採樣後會立刻判定 <資源超載>，進而驅動自動擴展
+ • 為了不破壞生產環境程式, 不採取真實壓測, 改採「降低門檻基準」進行宣告
+ • 修改 Git 上的 values.yaml, 將 targetCPUUtilizationPercentage 從 50% 調整為極低的 1%
+ • 推送 Git 並由 ArgoCD 執行自動/手動同步, 將 1% 門檻下刷至 K8s 叢集
+ • 由於 Pod 活體的基本消耗必大於 1%, K8s 監控採樣後會立刻判定 <資源超載>, 進而驅動自動擴展
     
 Metric:
- • GitOps Sync Latency ( Git 推送後，ArgoCD 完成 HPA 門檻更新的時間 )
+ • GitOps Sync Latency ( Git 推送後, ArgoCD 完成 HPA 門檻更新的時間 )
  • HPA Metric Sampling Latency ( HPA 採樣到指標超標、並決定增加 Replica 的反應時間 )
  • Target Replica Count ( 觀測 Pod 是否順利從 1 變成設定的 Max Replicas )
  
 Pass Criteria:
  • 流程完全遵循 GitOps 宣告式維運
- • K9s 畫面中的 Pod 數量確實依據 HPA 宣告之最大值自動長出，且狀態變更為 Running
+ • K9s 畫面中的 Pod 數量確實依據 HPA 宣告之最大值自動長出, 且狀態變更為 Running
  
 Result:
  • GitOps Sync Latency ........... 15 sec
@@ -616,8 +618,8 @@ Result:
  
 Observation:
  • K9s: 
-    • 觀察狀態是否從原本只有 1 隻，幾十秒內會突然蹦出第 2 隻 ( ContainerCreating )
-    • 進入 :hpa 畫面，觀察 TARGETS 欄位是否呈現破表狀態 ( 1% )
+    • 觀察狀態是否從原本只有 1 隻, 幾十秒內會突然蹦出第 2 隻 ( ContainerCreating )
+    • 進入 :hpa 畫面, 觀察 TARGETS 欄位是否呈現破表狀態 ( 1% )
  
 Validation: ✅
 ```
@@ -664,7 +666,7 @@ Validation: ✅
 
 <br>
 
-### *⭐ B.　Final Statistics*
+### *⭐　Final Statistics*
 ```
 K3s Feature Validation Summary
 
