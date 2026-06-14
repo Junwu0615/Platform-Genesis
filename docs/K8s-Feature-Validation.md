@@ -1,6 +1,13 @@
 ## *⭐ K8s - 原生能力驗證 ( Feature Validation ) ⭐*
 
-### *A.　Quantitative Format*
+<br>
+
+### *A.　Quantitative*
+
+<details>
+<summary><b><i>　I.　Format </i></b></summary>
+<ul>
+
 ```
 Tier ??? : ???
  • Objective: 驗證什麼能力
@@ -21,9 +28,13 @@ Tier ??? : ???
     - Application Screenshot
 ```
 
-<br>
+</ul>
+</details>
 
-### *B.　Quantitative List*
+<details>
+<summary><b><i>　II.　List </i></b></summary>
+<ul>
+
 ```
 Tier 1 : Workload
  • Pod Crash
@@ -44,7 +55,7 @@ Tier 3 : Service
 Tier 4 : Storage
  • PVC Persistence
  • StatefulSet Recovery
- • 
+
 Tier 5 : Autoscaling
  • HPA Out
  • HPA In
@@ -54,9 +65,211 @@ Tier 6 : Control Plane
  • Leader Re-election
 ```
 
+</ul>
+</details>
+
 <br>
 
-### *C.　Final Statistics*
+#### *★　Tier 1 : Workload*
+
+<details>
+<summary><b><i>　Pod Crash </i></b></summary>
+<ul>
+
+```
+
+```
+
+</ul>
+</details>
+
+<details>
+<summary><b><i>　OOMKill </i></b></summary>
+<ul>
+
+```
+```
+
+</ul>
+</details>
+
+<details>
+<summary><b><i>　Liveness </i></b></summary>
+<ul>
+
+```
+
+```
+
+</ul>
+</details>
+
+<details>
+<summary><b><i>　Rolling Update </i></b></summary>
+<ul>
+
+```
+
+```
+
+</ul>
+</details>
+
+<details>
+<summary><b><i>　Rollback </i></b></summary>
+<ul>
+
+```
+
+```
+
+</ul>
+</details>
+
+<br>
+
+### *★　Tier 2 : Node*
+
+<details>
+<summary><b><i>　Drain </i></b></summary>
+<ul>
+
+```
+
+```
+
+</ul>
+</details>
+
+<details>
+<summary><b><i>　Reboot </i></b></summary>
+<ul>
+
+```
+```
+
+</ul>
+</details>
+
+<details>
+<summary><b><i>　Failure </i></b></summary>
+<ul>
+
+```
+
+```
+
+</ul>
+</details>
+
+<br>
+
+### *★　Tier 3 : Service*
+
+<details>
+<summary><b><i>　Endpoint Failover </i></b></summary>
+<ul>
+
+```
+
+```
+
+</ul>
+</details>
+
+<details>
+<summary><b><i>　Ingress Failover </i></b></summary>
+<ul>
+
+```
+
+```
+
+</ul>
+</details>
+
+<br>
+
+### *★　Tier 4 : Storage*
+
+<details>
+<summary><b><i>　PVC Persistence </i></b></summary>
+<ul>
+
+```
+
+```
+
+</ul>
+</details>
+
+<details>
+<summary><b><i>　StatefulSet Recovery </i></b></summary>
+<ul>
+
+```
+
+```
+
+</ul>
+</details>
+
+
+<br>
+
+### *★　Tier 5 : Autoscaling*
+
+<details>
+<summary><b><i>　HPA Out </i></b></summary>
+<ul>
+
+```
+
+```
+
+</ul>
+</details>
+
+<details>
+<summary><b><i>　HPA In </i></b></summary>
+<ul>
+
+```
+
+```
+
+</ul>
+</details>
+
+<br>
+
+### *★　Tier 6 : Control Plane*
+
+<details>
+<summary><b><i>　Single Master Failure </i></b></summary>
+<ul>
+
+```
+
+```
+
+</ul>
+</details>
+
+<details>
+<summary><b><i>　Leader Re-election </i></b></summary>
+<ul>
+
+```
+
+```
+
+</ul>
+</details>
+
+<br>
+
+### *B.　Final Statistics*
 ```
 K3s Feature Validation Summary
 
