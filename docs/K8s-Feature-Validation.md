@@ -3,10 +3,22 @@
 ### *A.　Quantitative Format*
 ```
 Tier ??? : ???
- • Situation:
- • Action:
+ • Objective: 驗證什麼能力
+ • Situation: 測試前狀態
+ • Action: 執行動作
  • Metric:
- • Pass:
+    - Recovery Time
+    - Downtime
+    - Failed Requests
+    - Data Loss
+    - Availability
+ • Result: 實際量測結果
+ • Validation: Pass/Fail
+ • Evidence:
+    - kubectl get pods
+    - Grafana Screenshot
+    - Prometheus Metrics
+    - Application Screenshot
 ```
 
 <br>
@@ -46,6 +58,70 @@ Tier 6 : Control Plane
 
 ### *C.　Final Statistics*
 ```
+K3s Feature Validation Summary
+
+Cluster:
+- 3 Control Plane
+- 3 Worker
+
+Validation Result:
+--------------------------------
+
+Workload
+✓ Pod Crash Recovery
+✓ OOMKill Recovery
+✓ Liveness Recovery
+✓ Rolling Update
+✓ Rollback
+
+Node
+✓ Drain
+✓ Reboot
+✓ Failure
+
+Service
+✓ Endpoint Failover
+✓ Ingress Failover
+
+Storage
+✓ PVC Persistence
+✓ StatefulSet Recovery
+
+Autoscaling
+✓ HPA Out
+✓ HPA In
+
+Control Plane
+✓ Single Master Failure
+✓ Leader Re-election
+
+--------------------------------
+
+Key Metrics
+
+Pod Recovery Time
+Average : xx sec
+
+Node Failure Recovery
+Average : xx sec
+
+Rolling Update Downtime
+Average : xx sec
+
+PVC Data Loss
+None
+
+StatefulSet Recovery
+xx sec
+
+HPA Scale Out
+xx sec
+
+Control Plane Recovery
+xx sec
+
+Overall Result
+PASS
 ```
 
 <br><br><br>
