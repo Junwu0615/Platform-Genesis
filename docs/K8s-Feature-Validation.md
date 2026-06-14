@@ -42,14 +42,14 @@ Tier ??? : ???
 ```
 Tier 1 : Workload
  • ✅ Pod 崩潰恢復 : Pod Crash Recovery
- • OOMKill 恢復 : OOMKill Recovery
+ • ✅ OOMKill 恢復 : OOMKill Recovery
     • Out of Memory Killer: 記憶體耗盡時，為了保護系統核心不崩潰，
       自動挑選並強制終止（Kill）佔用過多記憶體之程序（Process）的機制
  • ✅ 存活狀態自我恢復 : Liveness Recovery
     • 當 Pod 的程式碼內部發生死鎖（Deadlock）、無限迴圈或內部核心執行緒（Thread）崩潰，
-      但容器「外殼」還活著時，能被 Kubernetes 自動偵測並在「最短時間內原地重啟」
+      但容器 <外殼> 還活著時，能被 Kubernetes 自動偵測並在 <最短時間內原地重啟>
  • ✅ 滾動更新 : Rolling Update
- • 回滾 : Rollback
+ • ✅ 回滾 : Rollback
 
 
 Tier 2 : Node
@@ -65,7 +65,7 @@ Tier 3 : Service
 
 
 Tier 4 : Storage
- • PVC 持久性 : PVC Persistence
+ • ✅ PVC 持久性 : PVC Persistence
  • 狀態集恢復 : StatefulSet Recovery
 
 
@@ -131,7 +131,59 @@ Validation: ✅
 <summary><b><i>　OOMKill Recovery </i></b></summary>
 <ul>
 
+![GIF](../assets/gif/OOMKill%20Recovery.gif)
+
 ```
+Objective: 
+ • 驗證當單一實例 ( Singleton ) 應用因未預期的資料爆量、記憶體洩漏 ( Memory Leak ) 
+   或處理超大訊息導致超過 K8s 宣告的資源上限 ( Memory Limit ) 時，
+   Kubernetes 能否自動偵測到 OOMKilled 狀態，並在免人工介入下完成 <原地快速容器重啟> 與自我修復
+ 
+Situation:
+ • Workload Running on [ Agent-2 or Agent-3 ]
+ • Application Running normally ( K9s STATUS: Running, READY: 1/1 )
+ • Replica = 1 ( Singleton 限制 )
+ • Python 應用的 Deployment YAML 中必須明確配置 resources.limits.memory（ ex: 128Mi ）
+ 
+Action:
+ • 透過 Kafka 開發工具或生產者腳本，向指定 Topic 發送一筆包含
+   特定 Payload ("TRIGGER_OOM_FROM_KAFKA") 的控制訊息，
+   藉此觸發 Python 內部邏輯 → 立刻在記憶體內無限循環產生巨大字串或陣列，強行將記憶體撐爆，直到被系統 OOMKill
+ 
+Metric:
+ • OOM Trigger Latency ( 訊號發送到 Python 程式被核心擊殺的時間差，預期應在 1-2 秒內 )
+ • K8s OOM Detection Latency ( K8s 意識到容器是因為 OOM 而死並更新狀態的時間 )
+ • Container Restart Time ( 容器被擊殺後，到新容器重新拉起的時間 )
+ • Total Recovery Time ( 從發送 TRIGGER_OOM 訊息到 Pod 回復 READY 1/1 的總耗時 )
+ • Data Loss ( 由於是 SIGKILL 強制斷電式關機，重啟後需驗證最後一筆 Kafka 訊息有無遺失或重複消費 )
+ • Availability ( 整體服務可用性 )
+ 
+Pass Criteria:
+ • 完全自動化（ No Manual Intervention ），不需手動下達重啟指令
+ • Pod 維持在同一個 Node 上進行 <原地重啟>（ RESTARTS 次數 +1 ）
+ • 核心驗證 Pod 的結束原因（ Last State ）必須明確顯示為 OOMKilled，結束代碼為 137
+ • Total Recovery Time < 15 秒
+ 
+Result:
+ • OOM Trigger Latency ........... 1 sec
+ • K8s OOM Detection Latency ..... 1 sec
+ • Container Restart Time ....... 13 sec
+ • ⭐ Total Recovery Time ....... 15 sec
+ • Data Loss .................... 0 ( Validated via Kafka Offset )
+ 
+Observation:
+ • K9s: 觀察狀態是否遵循 [Running] → [OOMKilled 或 CrashLoopBackOff] → [Running]
+ • kubectl describe pod <pod-name> -n pg-apps-homelab-test
+        - 檢查 Last State: Terminated 區塊中的 Reason: OOMKilled 與 Exit Code: 137
+ • [X] 觀察該 Pod 的 Memory 使用率折線圖，是否呈現垂直攀升 隨後瞬間歸零的鋸齒波
+
+
+# Exit Code: 137
+$ kubectl get pod inst-homelab-test-7fd9d5b99-lgk4m -n pg-apps-homelab-test -o jsonpath='{.status.containerStatuses[0].lastState.terminated}'
+{"containerID":"containerd://18a09beded9ccfc4fc5c59844146af9fb676fa3db46b07f3757bf472fb69fc13","exitCode":137,"finishedAt":"2026-06-14T15:58:53Z","reason":"OOMKilled","startedAt":"2026-06-14T15:58:34Z"}p
+
+
+Validation: ✅
 ```
 
 </ul>
@@ -158,12 +210,12 @@ Situation:
 Action:
  • 透過 Kafka 開發工具或生產者腳本，向指定 Topic 發送一筆包含
    特定 Payload ("TRIGGER_KILL_FROM_KAFKA") 的控制訊息，
-   藉此觸發 Python 內部邏輯自殺並移除心跳檔
+   藉此觸發 Python 內部邏輯 → 自殺並移除心跳檔
  
 Metric:
  • Signal Propagation Time ( 訊號發送至 Python 接收的時間差 )
  • Heartbeat Deletion Time ( 心跳檔被移除的時間點 )
- • K8s Detection Latency ( 從檔案消失到 K8s 判定 Unhealthy 的時間，預期約 3~6 秒 )
+ • K8s Detection Latency ( 從檔案消失到 K8s 判定 Unhealthy 的時間，預期約 3-6 秒 )
  • Container Restart Time ( 容器銷毀至重新啟動的時間 )
  • Total Recovery Time ( 從發送控制訊息到 Pod 回復 READY 1/1 的總耗時 )
  • Data Loss ( 切換期間是否有不掉單、重複消費、資料遺失，預期為 0 )
@@ -226,7 +278,7 @@ Metric:
  • Terminating Time ( 舊版本 Pod 接收到 SIGTERM 到完全銷毀的時間 )
  • Volume Detach/Attach Latency ( 儲存鎖釋放與重新掛載的時間，Recreate 的關鍵坑點 )
  • New Container Init Time ( 新版本拉取 Image 與開機初始化時間 )
- • ⭐ Total Downtime ( 從舊 Pod 開始停止服務，到新 Pod Ready 1/1 的服務空窗期 )
+ • Total Downtime ( 從舊 Pod 開始停止服務，到新 Pod Ready 1/1 的服務空窗期 )
  • Duplicate Processing ( 新舊更替間，有無因 Offset 沒處理好導致重複消費 )
  
 Pass Criteria:
@@ -242,7 +294,7 @@ Result:
  • Duplicate Count ..... 0
  
 Observation:
- • K9s: 盯著 Pod 介面，觀察狀態是否遵循 [Running] -> [Terminating] -> 完全消失 -> [ContainerCreating] -> [Running]
+ • K9s: 觀察狀態是否遵循 [Running] → [Terminating] → 完全消失 → [ContainerCreating] → [Running]
  • kubectl get image: 確認新 Pod 確實是吃進了新版 Tag
  
 Validation: ✅
@@ -259,7 +311,7 @@ Validation: ✅
 
 ```
 Objective: 
- • 驗證當新版本上線發生災難（ 例如程式 Bug、CrashLoopBackOff ）時，
+ • 驗證當新版本上線發生災難（ ex: 程式 Bug、CrashLoopBackOff ）時，
    維運人員能否透過 K8s 原生指令或 ArgoCD 歷史紀錄，在秒級內快速將服務倒回上一個穩定版本
  
 Situation:
@@ -476,8 +528,31 @@ Validation: ✅
 <summary><b><i>　PVC Persistence </i></b></summary>
 <ul>
 
-```
+![GIF](../assets/gif/PVC%20Persistence.gif)
 
+```
+Objective: 
+ • 驗證當 Pod 因任何原因毀損、重啟或重新調度時，
+   其掛載的持久化儲存（ PVC ）中的歷史資料不會遺失，新 Pod 能無縫接軌讀取舊資料
+ 
+Situation:
+ • Pod 正常運行中，且已掛載 PVC 到容器內的 /app/data/
+ 
+Action:
+ • 透過 K9s 進入日誌 <觀察目前消費 ID> 因為有綁定地端 SQLite 進行持久化，所以當被砍掉後應該要能從上次位置重新消費事務
+ • 在 K9s 中對該 Pod 按 ctrl + d，強制 K8s 重新拉一隻新 Pod
+ 
+Pass Criteria:
+ • 新 Pod 啟動完成後，進入新容器日誌查看業務邏輯是否從上次的消費位置繼續執行 而非全部重製
+ 
+Result:
+ • ⭐ Total Verification Time : 15 秒
+ 
+Observation:
+ • 檢視持久化位置: mount | grep /app/data
+ • 砍掉容器後觀察日誌是否一致性: K9s 中對該 Pod 按 l
+
+Validation: ✅
 ```
 
 </ul>
