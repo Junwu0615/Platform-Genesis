@@ -51,7 +51,7 @@ Tier 1 : Workload
 
 
 Tier 2 : Node
- • 節點排水 : Node Drain Recovery
+ • ✅ 節點排水 : Node Drain Recovery
     • 代表 → 節點計畫性維護 ( Planned Maintenance )
  • ✅ 節點故障 : Node Failure Recovery
     • 代表 → 節點災難恢復 ( Disaster Recovery )
@@ -176,7 +176,7 @@ Validation: ✅
 <summary><b><i>　Node Drain Recovery </i></b></summary>
 <ul>
 
-![GIF](../assets/gif/Node%20Failure.gif)
+![GIF](../assets/gif/Node%20Drain%20Recovery.gif)
 
 ```
 Objective:
@@ -252,7 +252,7 @@ Validation: ✅
 <summary><b><i>　Node Failure Recovery </i></b></summary>
 <ul>
 
-![GIF](../assets/gif/Node%20Failure.gif)
+![GIF](../assets/gif/Node%20Failure%20Recovery.gif)
 
 ```
 Objective:
