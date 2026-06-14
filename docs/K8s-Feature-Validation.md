@@ -45,7 +45,9 @@ Tier 1 : Workload
  • OOMKill 恢復 : OOMKill Recovery
     • Out of Memory Killer: 記憶體耗盡時，為了保護系統核心不崩潰，
       自動挑選並強制終止（Kill）佔用過多記憶體之程序（Process）的機制
- • 活力恢復 : Liveness Recovery
+ • ✅ 存活狀態自我恢復 : Liveness Recovery
+    • 當 Pod 的程式碼內部發生死鎖（Deadlock）、無限迴圈或內部核心執行緒（Thread）崩潰，
+      但容器「外殼」還活著時，能被 Kubernetes 自動偵測並在「最短時間內原地重啟」。
  • 滾動更新 : Rolling Update
  • 回滾 : Rollback
 
@@ -139,8 +141,58 @@ Validation: ✅
 <summary><b><i>　Liveness Recovery </i></b></summary>
 <ul>
 
-```
+![GIF](../assets/gif/Liveness%20Recovery.gif)
 
+```
+Objective: 
+ • 驗證單一實例 ( Singleton ) 應用在發生內部核心死鎖 ( Deadlock )、執行緒崩潰或接收到緊急外部中斷訊號時，
+   能否在不依賴節點重新調度 ( Reschedule ) 的情況下，由 Kubernetes 偵測並完成<原地快速容器重啟>與服務自我修復能力
+ 
+Situation:
+ • Workload Running on [ Agent-2 or Agent-3 ]
+ • Application Running normally (K9s STATUS: Running, READY: 1/1)
+ • Replica = 1 ( Singleton 限制 )
+ • Python 主任務持續消費 Kafka 訊息並寫入 PostgreSQL
+ • 心跳檔案存在於容器本地： /app/tmp/heartbeat.txt
+ 
+Action:
+ • 透過 Kafka 開發工具或生產者腳本，向指定 Topic 發送一筆包含
+   特定 Payload ("TRIGGER_KILL_FROM_KAFKA") 的控制訊息，
+   藉此觸發 Python 內部邏輯自殺並移除心跳檔。
+ 
+Metric:
+ • Signal Propagation Time ( 訊號發送至 Python 接收的時間差 )
+ • Heartbeat Deletion Time ( 心跳檔被移除的時間點 )
+ • K8s Detection Latency ( 從檔案消失到 K8s 判定 Unhealthy 的時間，預期約 3~6 秒 )
+ • Container Restart Time ( 容器銷毀至重新啟動的時間 )
+ • Total Recovery Time ( 從發送控制訊息到 Pod 回復 READY 1/1 的總耗時 )
+ • Data Loss ( 切換期間是否有不掉單、重複消費、資料遺失，預期為 0 )
+ • Availability ( 整體服務可用性 )
+ 
+Pass Criteria:
+ • 完全自動化 ( No Manual Intervention )，不需人工下達 kubectl delete/restart
+ • Pod 必須維持在同一個 Node 上進行<原地重啟> ( RESTARTS 次數 +1，而非重新調度 )
+ • 資料零遺失 ( Data Loss = 0 )，Kafka Offset 維持一致
+ • Total Recovery Time < 15 秒
+ 
+Result:
+ • Signal Propagation Time : 1 sec
+ • Heartbeat Deletion Time : 2 sec
+ • K8s Detection Latency   : 1 sec
+ • Container Restart Time  : 8 sec
+ • ⭐ Total Recovery Time  : 12 sec
+ • Data Loss               : 0 ( Validated via Kafka Offset / PG Count )
+ 
+Observation:
+ • 觀察 RESTARTS 欄位是否從 0 變 1
+     • watch -n 2 'kubectl get pods -n pg-apps-homelab-test -o wide | grep -E "agent-2|agent-3"'
+     • K9s: pod -n pg-apps-homelab-test
+ • 檢查 Events 欄位是否出現 "failed liveness probe, will be restarted"
+     • kubectl describe pod <pod-name> -n pg-apps-homelab-test
+     • K9s: d
+ • Kafka Consumer Group Matrix ( 確認 Lag 沒有異常堆積，且重啟後能繼續正常消費 )
+ 
+Validation: ✅
 ```
 
 </ul>
@@ -223,7 +275,7 @@ Observation:
      • kubectl get nodes
      • K9s: nodes
  • Get Pods Status
-     • watch -n 2 'kubectl get pods -A -o wide | grep -E "agent-2|agent-3"'
+     • watch -n 2 'kubectl get pods -n pg-apps-homelab-test -o wide | grep -E "agent-2|agent-3"'
      • K9s: pod -n pg-apps-homelab-test
 
 
