@@ -87,18 +87,18 @@
 | K8s | Advanced : `K3s` + `VMware` | 2026-05-10 |
 | Build `Hierarchical`<br>`Log Management` | `Loki` + `ELK` | 2026-05-14 |
 | Build `GitOps` | `GitLab CI` + `ArgoCD` | 2026-06-05 |
-| Value of Deliverables 7 | Automated Deployment of the Edge :<br>`Manual` vs. `GitOps` | 2026-06-13 |
-| Value of Deliverables 8 |  `Kubernetes Feature Validation` | - |
-| Value of Deliverables 11 | DevOps Process | - |
-| Value of Deliverables 9 | Observability Platform | - |
-| Value of Deliverables 12 | GitOps - Deployment Governance | - |
+| Value of Deliverables 7 | `K8s` CI/CD | 2026-06-13 |
+| Value of Deliverables 8 |  `K8s` Feature Validation | - |
+| Value of Deliverables 11 | `K8s` DevOps | - |
+| Value of Deliverables 9 | `K8s` Observability Platform | - |
+| Value of Deliverables 12 | `GitOps` Deployment Governance | - |
 | Build `Lakehouse` | - | - |
 | Value of Deliverables 5 | Evolution of Database Core Business :<br>`Direct Read` vs. `MV` vs. `CDC` | - |
 | Value of Deliverables 4 | Query Efficiency Optimization<br>`Before` vs. `After` | - |
 | Value of Deliverables 6 | Workload Benchmark | - |
 | Value of Deliverables 3 | OLTP-OLAP-Unified-DB | - |
-| Add `HashiCorp Vault` | Enterprise Key Management System | `TBD` |
-| Value of Deliverables 10 | Vault Distribution Key | `TBD` |
+| Add `HashiCorp Vault` | Enterprise Key Management System | - |
+| Value of Deliverables 10 | `K8s` Vault Distribution Key | - |
 | K8s | Bottom Layer : `Kubeadm` + `VMware` | `TBD` |
 | K8s | Public Cloud : `GKE` | `TBD` |
 
@@ -234,7 +234,7 @@
 | Add `MinIO` | Object Storage | - |
 | Build `Lakehouse` | - | - |
 | Add `Superset` | for `OLAP` | - |
-| Add `HashiCorp Vault` | Enterprise Key Management System | `TBD` |
+| Add `HashiCorp Vault` | Enterprise Key Management System | - |
 | K8s | Bottom Layer : `Kubeadm` + `VMware` | `TBD` |
 | K8s | Public Cloud : `GKE` | `TBD` |
 
@@ -305,7 +305,7 @@
 | GitOps | Build : `PG-Apps` `inst` | 2026-06-10 |
 | GitOps | Build : `Storage` `nfs` | 2026-06-13 |
 | K8s | Experience : NFS 儲存機制 ( SQLite ) | 2026-06-13 |
-| GitOps | Build : `Security` `Vault` | `TBD` |
+| GitOps | Build : `Security` `Vault` | - |
 | GitOps | Maintain 2 repo ( `CI` + `CD` ) | `TBD` |
 
 </ul>
@@ -327,7 +327,7 @@
 | CI/CD `K8s` | [Value of Deliverables 7](./docs/CI-CD.md)<br>`Manual` vs. `GitOps` | 2026-06-13 |
 | Feature Validation `K8s` |  [Value of Deliverables 8](./docs/K8s-Feature-Validation.md) | Expected in `202606` |
 | Observability Platform `K8s` | [Value of Deliverables 9](./docs/Observability-Platform.md)<br>`Logging` `Metrics` `Tracing` `Alert Manager` | Expected in `202606` |
-| Distribution Key `Vault` | [Value of Deliverables 10](./docs/Vault.md) | Expected in `202609` |
+| Vault Distribution Key `K8s` | [Value of Deliverables 10](./docs/Vault.md) | Expected in `202609` |
 | DevOps `K8s` | [Value of Deliverables 11](./docs/DevOps.md)<br>`Code Review` `PR` `TEST` `STAGE` `PROD` | Expected in `202606` |
 | Deployment Governance `GitOps` | [Value of Deliverables 12](./docs/Deployment-Governance.md) | Expected in `202607` |
 
