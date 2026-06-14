@@ -17,9 +17,11 @@
 <br>
 
 ## *⭐ Platform Genesis ⭐*
-> *Cloud-Native Data Platform PoC*
 
-![PNG](./assets/roadmap.png)
+[//]: # (> *Cloud-Native Data Platform PoC*)
+
+[//]: # (![PNG]&#40;./assets/roadmap_00.png&#41;)
+![PNG](./assets/roadmap_01.png)
 
 [//]: # (```)
 
@@ -87,23 +89,23 @@
 | Build `GitOps` | `GitLab CI` + `ArgoCD` | 2026-06-05 |
 | Value of Deliverables 7 | Automated Deployment of the Edge :<br>`Manual` vs. `GitOps` | 2026-06-13 |
 | Value of Deliverables 8 |  `Kubernetes Feature Validation` | - |
-| Value of Deliverables 9 | Observability Platform | - |
 | Value of Deliverables 11 | DevOps Process | - |
-| Value of Deliverables 3 | OLTP-OLAP-Unified-DB | - |
-| Value of Deliverables 4 | Query Efficiency Optimization<br>`Before` vs. `After` | - |
+| Value of Deliverables 9 | Observability Platform | - |
+| Value of Deliverables 12 | GitOps - Deployment Governance | - |
 | Build `Lakehouse` | - | - |
 | Value of Deliverables 5 | Evolution of Database Core Business :<br>`Direct Read` vs. `MV` vs. `CDC` | - |
+| Value of Deliverables 4 | Query Efficiency Optimization<br>`Before` vs. `After` | - |
 | Value of Deliverables 6 | Workload Benchmark | - |
+| Value of Deliverables 3 | OLTP-OLAP-Unified-DB | - |
 | Add `HashiCorp Vault` | Enterprise Key Management System | `TBD` |
 | Value of Deliverables 10 | Vault Distribution Key | `TBD` |
-| Value of Deliverables 12 | GitOps - Deployment Governance | `TBD` |
 | K8s | Bottom Layer : `Kubeadm` + `VMware` | `TBD` |
 | K8s | Public Cloud : `GKE` | `TBD` |
 
 </ul>
 </details>
 
-<details>
+<details open>
 <summary><b><i>　b.2.　Details </i></b></summary>
 <ul>
 
@@ -310,7 +312,7 @@
 </details>
 
 
-<details>
+<details open>
 <summary><b><i>　b.2.5　Value of Deliverables </i></b></summary>
 <ul>
 
@@ -347,8 +349,8 @@
 <ul>
 
 ```
-O = 已實現
-X = 已棄用
+✅ = 已實現
+❌ = 已棄用
 - = 未實現
 * = Homelab 記憶體 OOM Kill ( 折衷改為 Docker Compose ) → 不遷移
 △ = 省作業時間 ( 部分與重型服務的 Docker Compose 綑綁 ) → 不遷移
@@ -356,37 +358,37 @@ X = 已棄用
 
 |**Service**|**Docker**|**Terraform<br>( Docker )**|**MiniKube**|**K3d**|**K3s**|**K3s<br>Migration**|**Kubeadm**|**GKE**|
 |--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|
-| **PostgreSQL** | O | - | O | O | O | O | - | - |
-| **PgAdmin** | O | X | X | X | X | X | X | X |
-| **PoWA** | X | X | X | X | X | X | X | X |
-| **Apache Airflow** | O | - | - | - | - | * | - | - |
-| **Superset** | O | - | - | - | - | * | - | - |
-| **MQTT Broker** | O | - | - | - | - | △ | - | - |
-| **Apache Kafka** | O | - | - | - | - | * | - | - |
-| **Kafka UI** | O | - | - | - | - | △ | - | - |
-| **Schema Registry** | O | - | - | - | - | △ | - | - |
-| **Debezium** | O | - | - | - | - | △ | - | - |
-| **MinIO** | O | - | - | - | - | △ | - | - |
-| **Apache Iceberg** | O | - | - | - | - | * | - | - |
-| **Apache Flink** | O | - | - | - | - | * | - | - |
-| **Postgres Exporter** | O | O | - | - | - | O | - | - |
-| **Node Exporter** | O | O | - | - | - | O | - | - |
-| **Prometheus** | O | O | - | - | - | O | - | - |
-| **Grafana** | O | O | - | - | - | O | - | - |
-| **Loki** | O | - | - | - | - | O | - | - |
-| **Promtail** | O | - | - | - | - | O | - | - |
-| **Tempo** | X | - | - | - | - | O | - | - |
-| **Elasticsearch** | O | - | - | - | - | * | - | - |
-| **Logstash** | O | - | - | - | - | * | - | - |
-| **Kibana** | O | - | - | - | - | * | - | - |
-| **Gitlab** | O | - | - | - | - | * | - | - |
-| **Jenkins** | X | X | X | X | X | X | X | X |
-| **ArgoCD** | X | - | - | - | - | O | - | - |
-| **Harbor** | X | X | X | X | X | X | X | X |
-| **Docker Registry** | O | - | - | - | - | O | - | - |
-| **Docker Registry UI** | X | X | X | X | X | X | X | X |
-| **Portainer** | O | O | - | - | O | △ | - | - |
-| **HashiCorp Vault** | O | - | - | - | - | O | - | - |
+| **PostgreSQL** | ✅ | - | ✅ | ✅ | ✅ | ✅ | - | - |
+| **PgAdmin** | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| **PoWA** | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| **Apache Airflow** | ✅ | - | - | - | - | * | - | - |
+| **Superset** | ✅ | - | - | - | - | * | - | - |
+| **MQTT Broker** | ✅ | - | - | - | - | △ | - | - |
+| **Apache Kafka** | ✅ | - | - | - | - | * | - | - |
+| **Kafka UI** | ✅ | - | - | - | - | △ | - | - |
+| **Schema Registry** | ✅ | - | - | - | - | △ | - | - |
+| **Debezium** | ✅ | - | - | - | - | △ | - | - |
+| **MinIO** | ✅ | - | - | - | - | △ | - | - |
+| **Apache Iceberg** | ✅ | - | - | - | - | * | - | - |
+| **Apache Flink** | ✅ | - | - | - | - | * | - | - |
+| **Postgres Exporter** | ✅ | ✅ | - | - | - | ✅ | - | - |
+| **Node Exporter** | ✅ | ✅ | - | - | - | ✅ | - | - |
+| **Prometheus** | ✅ | ✅ | - | - | - | ✅ | - | - |
+| **Grafana** | ✅ | ✅ | - | - | - | ✅ | - | - |
+| **Loki** | ✅ | - | - | - | - | ✅ | - | - |
+| **Promtail** | ✅ | - | - | - | - | ✅ | - | - |
+| **Tempo** | ❌ | - | - | - | - | ✅ | - | - |
+| **Elasticsearch** | ✅ | - | - | - | - | * | - | - |
+| **Logstash** | ✅ | - | - | - | - | * | - | - |
+| **Kibana** | ✅ | - | - | - | - | * | - | - |
+| **Gitlab** | ✅ | - | - | - | - | * | - | - |
+| **Jenkins** | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| **ArgoCD** | ❌ | - | - | - | - | ✅ | - | - |
+| **Harbor** | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| **Docker Registry** | ✅ | - | - | - | - | ✅ | - | - |
+| **Docker Registry UI** | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| **Portainer** | ✅ | ✅ | - | - | ✅ | ✅ | - | - |
+| **HashiCorp Vault** | ✅ | - | - | - | - | ✅ | - | - |
 
 </ul>
 </details>
