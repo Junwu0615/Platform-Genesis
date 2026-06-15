@@ -60,8 +60,8 @@ Tier 2 : Node
 
 
 Tier 3 : Service
- • Service 端點容災切換 : Endpoint Failover
- • Ingress 流量網關容災 : Ingress Failover
+ • ✅ Service 端點容災切換 : Endpoint Failover
+ • ✅ Ingress 流量網關容災 : Ingress Failover
 
 
 Tier 4 : Storage
@@ -509,8 +509,56 @@ Validation: ✅
 <summary><b><i>　Endpoint Failover </i></b></summary>
 <ul>
 
-```
+![GIF](../assets/gif/Endpoint%20Failover.gif)
 
+```
+Objective: 
+ • 測試級別: Service Layer ( Pod → Service → Pod )
+ • 驗證當後端多複本 ( Multi-Replicas ) 的應用實例中, 某一個 Pod 突然暴斃或被手動銷毀時, 
+   Service 控制器能否在秒級內更新 Endpoints 列表, 將死掉的 Pod IP 剔除, 
+   並確保在此交替期間, 外部持續進來的流量 100% 由其餘健康 Pod 承接, 不發生請求遺失
+ 
+Situation:
+ • 後端 registry-homelab-test 部署為雙複本 replicas: 2，避免了複雜有狀態組件的 Sidecar 干擾
+ • 網關 Nginx Ingress Controller 採用 hostNetwork: true 獨佔邊緣節點實體埠
+ 
+Action:
+ • 在本地啟動循環的背景腳本, 每 N 秒對該 Service 的發送一次 curl 請求
+   TOTAL=0; SUCCESS=0; FAIL=0; echo "🚀 開始高頻容災測試 (每秒20次)... 按 Ctrl+C 結束並查看統計報告"; trap 'echo -e "\n📊 【 Tier 3 容災統計報告 】\n總請求數: $TOTAL\n成功數 (302/200): $SUCCESS\n失敗數 (502/504/000): $FAIL\n⭐ HTTP 成功率: $(echo "scale=2; $SUCCESS * 100 / $TOTAL" | bc)%"' INT; while true; do CODE=$(curl -o /dev/null -s -w "%{http_code}" -H "Host: docker-registry.k8s.local" http://10.88.0.20/ --connect-timeout 1); TOTAL=$((TOTAL+1)); if [ "$CODE" = "200" ] || [ "$CODE" = "302" ]; then SUCCESS=$((SUCCESS+1)); else FAIL=$((FAIL+1)); echo "❌ 抓到斷線! 狀態碼: $CODE"; fi; sleep 0.05; done
+
+ • 保持流量連射狀態下, 對其中一隻應用 Pod 強制抹殺
+ • 靜置 10 秒, 等待新 Pod 被拉起且舊 Pod 完全消失
+ • 停止 curl 腳本, 統計所有請求的成功率
+ 
+Metric:
+ • Endpoint Pruning Latency ( 從 Pod 被刪除, 到 kubectl get ep 清單中該 IP 消失的時間差 )
+ • HTTP Success Rate During Failover ( 故障發生期間, 不中斷請求的成功率, 目標 100% )
+ • Outage Duration ( 服務中斷、噴 502/504 的總時間, 目標 0 秒 )
+ 
+Pass Criteria:
+ • 整個刪除與重建過程中, 持續噴射的 curl 請求 100% 回報 HTTP 200, 
+   不允許出現任何一筆 502 Bad Gateway 或 503 Service Unavailable
+ 
+Result:
+ • Endpoint Pruning Latency ....... 4 sec
+ • ⭐ HTTP Success Rate ........... 100% ( 103/103 requests )
+ • Outage Duration ................ 0 sec
+ 
+Observation:
+ • 透過 K9s 觀察 ENDPOINTS 欄位 隨著 pod 移除後 流量平滑移轉 創建後動態新增
+ • 雖然 EndpointSlice 變更有約 4 秒的微幅延遲才完全在 API Server 生效，
+   但因為本質為雙複本部署，流量在第 1 秒就已被健康節點完全平滑承接，外網展現 0 延遲中斷
+ • 檢視自定義統計腳本實際狀態
+ 
+ 
+ 📊 【 Tier 3 容災統計報告 】
+總請求數: 103
+成功數 (302/200): 103
+失敗數 (502/504/000): 0
+⭐ HTTP 成功率: 100.00%
+
+
+Validation: ✅
 ```
 
 </ul>
@@ -520,8 +568,50 @@ Validation: ✅
 <summary><b><i>　Ingress Failover </i></b></summary>
 <ul>
 
-```
+![GIF](../assets/gif/Ingress%20Failover.gif)
 
+```
+Objective: 
+ • 測試級別: 網關流量層 ( 外網 → Ingress → Pod )
+ • 驗證外網入口網關 ( Ingress Controller ) 與 K8s 控制面 ( Control Plane ) 的聯動效率
+ • 當後端套件發生滾動更新 ( Rolling Update ) 或突發縮容時, 外網 Ingress 路由反向代理能否即時同步變更, 
+   確保外網使用者在路由頻繁變更期間, 訪問服務維持零斷線、零延遲感知
+ 
+Situation:
+ • 後端 registry-homelab-test 部署為雙複本 replicas: 2，避免了複雜有狀態組件的 Sidecar 干擾
+ • 網關 Nginx Ingress Controller 採用 hostNetwork: true 獨佔邊緣節點實體埠
+ 
+Action:
+ • 在本地啟動循環的背景腳本, 每 N 秒對該 Service 的發送一次 curl 請求
+   TOTAL=0; SUCCESS=0; FAIL=0; echo "🚀 開始高頻容災測試 (每秒20次)... 按 Ctrl+C 結束並查看統計報告"; trap 'echo -e "\n📊 【 Tier 3 容災統計報告 】\n總請求數: $TOTAL\n成功數 (302/200): $SUCCESS\n失敗數 (502/504/000): $FAIL\n⭐ HTTP 成功率: $(echo "scale=2; $SUCCESS * 100 / $TOTAL" | bc)%"' INT; while true; do CODE=$(curl -o /dev/null -s -w "%{http_code}" -H "Host: docker-registry.k8s.local" http://10.88.0.20/ --connect-timeout 1); TOTAL=$((TOTAL+1)); if [ "$CODE" = "200" ] || [ "$CODE" = "302" ]; then SUCCESS=$((SUCCESS+1)); else FAIL=$((FAIL+1)); echo "❌ 抓到斷線! 狀態碼: $CODE"; fi; sleep 0.05; done
+         
+ • 觸發 ArgoCD 滾動更新, 觀察 Nginx Ingress Controller 能否平滑分流
+ 
+Metric:
+ • Ingress Config Sync Latency ( K8s Endpoints 變更後, Ingress 網關內部 Upstream 重新載入的時間 )
+ • External Request Dropped Count ( 外部請求被網關拋棄、拒連的次數, 目標 0 )
+ 
+Pass Criteria:
+ • 滾動更新期間, 外部高頻請求無任何丟包、無 502 Bad Gateway, 錯誤率為 0%
+ 
+Result:
+ • HTTP Success Rate During Rollout ..... 100%
+ • Ingress Config Sync Latency .......... < 1 sec ( 記憶體動態更新 )
+ • ⭐ External Request Dropped .......... 0
+ 
+Observation:
+ • 雖然 2 個舊實例最終皆被重啟汰換，但得益於無狀態應用的獨立性，K8s 嚴格執行 <新節點就緒、舊節點才下線> 的交替控管
+   Nginx Ingress 記憶體 Upstream 同步極其敏捷，演練全程外網存取毫無斷線感知
+
+
+📊 【 Tier 3 容災統計報告 】
+總請求數: 151
+成功數 (302/200): 151
+失敗數 (502/504/000): 0
+⭐ HTTP 成功率: 100.00%
+
+
+Validation: ✅
 ```
 
 </ul>
@@ -573,16 +663,16 @@ Validation: ✅
 
 ```
 Objective: 
- • 驗證當具備狀態的 Pod ( StatefulSet ) 因節點故障或進程暴斃時，
-   Kubernetes 的自我修復 ( Self-healing ) 機制能否嚴格遵循 <持久化識別> 原則，
-   在重啟時保持相同的 Pod 編號，並精準掛載回原有的 PVC 磁碟鎖，確保資料不遺失、不毀損
+ • 驗證當具備狀態的 Pod ( StatefulSet ) 因節點故障或進程暴斃時, 
+   Kubernetes 的自我修復 ( Self-healing ) 機制能否嚴格遵循 <持久化識別> 原則, 
+   在重啟時保持相同的 Pod 編號, 並精準掛載回原有的 PVC 磁碟鎖, 確保資料不遺失、不毀損
  
 Situation:
- • 部署一個範例 StatefulSet ( 或現有的有狀態元件，如 PostgreSQL )，Replica = 1 ( Pod 名稱結尾為 -0 ) 
- • Pod 掛載了特定的 RWO ( ReadWriteOnce ) PVC，且狀態為 Running
+ • 部署一個範例 StatefulSet ( 或現有的有狀態元件, 如 PostgreSQL ), Replica = 1 ( Pod 名稱結尾為 -0 ) 
+ • Pod 掛載了特定的 RWO ( ReadWriteOnce ) PVC, 且狀態為 Running
  
 Action:
- • 透過 K9s 進入該 StatefulSet Pod 內部，在掛載的 PVC 目錄下寫入一筆帶有時間戳記的測試資料
+ • 透過 K9s 進入該 StatefulSet Pod 內部, 在掛載的 PVC 目錄下寫入一筆帶有時間戳記的測試資料
     # 本地建立
     echo "statefulset-self-healing-test-2026" > /tmp/recovery_token.txt
     cat /tmp/recovery_token.txt
@@ -590,7 +680,7 @@ Action:
     # 空頭進容器
     kubectl cp /tmp/recovery_token.txt databases-homelab-test/postgresql-homelab-test-0:/bitnami/postgresql/recovery_token.txt
 
- • 在 K9s 中對該 Pod 執行強制刪除 ( ctrl + d ) ，模擬容器突發性崩潰、被驅逐 ( Eviction ) 或毀損
+ • 在 K9s 中對該 Pod 執行強制刪除 ( ctrl + d ) , 模擬容器突發性崩潰、被驅逐 ( Eviction ) 或毀損
  • 靜置等待 K8s 控制器自動偵測並原地重建該 Pod
  
  • 再次進入容器確認 方才建立檔案是否存在
@@ -599,24 +689,24 @@ Action:
 Metric:
  • Pod Identity Consistency ( 重啟前後的 Pod 名稱與序號是否 100% 一致 )
  • Volume Re-attach Latency ( 舊 Pod 釋放磁碟到新 Pod 成功掛載並鎖定 PVC 的時間差 )
- • Data Integrity ( 重啟後，原本寫入硬碟的資料有無遺失 )
+ • Data Integrity ( 重啟後, 原本寫入硬碟的資料有無遺失 )
  • Total Self-healing Time ( 從 Pod 消失到新 Pod 變回 READY 1/1 的總耗時 )
  
 Pass Criteria:
- • 完全自動化 ( No Manual Intervention ) ，不需手動修復磁碟或下達重啟
- • 新長出來的 Pod 名字必須與舊的完全相同，不可產生隨機亂碼後綴
- • 進入新 Pod 後，原本寫入 PVC 的測試資料完好如初
+ • 完全自動化 ( No Manual Intervention ) , 不需手動修復磁碟或下達重啟
+ • 新長出來的 Pod 名字必須與舊的完全相同, 不可產生隨機亂碼後綴
+ • 進入新 Pod 後, 原本寫入 PVC 的測試資料完好如初
  
 Result:
  • Pod Identity Consistency .... 一致
- • Volume Re-attach Latency ..... 0 sec ( 單機 Local-Path 原地重用，無分離掛載延遲 )
+ • Volume Re-attach Latency ..... 0 sec ( 單機 Local-Path 原地重用, 無分離掛載延遲 )
  • Total Self-healing Time ..... 20 sec
  • ⭐ Data Integrity ........... 無損
  
 Observation:
- • K9s: 觀察 Pod 列表，原本的 postgresql-homelab-test-0 變成 Terminating，
+ • K9s: 觀察 Pod 列表, 原本的 postgresql-homelab-test-0 變成 Terminating, 
         隨後長出名字一模一樣的 postgresql-homelab-test-0 進入 Init 或 Running
- • 查看 PVC 狀態： 確認該 PVC 在短暫釋放後，立刻被重新綁定 ( Bound ) 到新的同名 Pod 上
+ • 查看 PVC 狀態： 確認該 PVC 在短暫釋放後, 立刻被重新綁定 ( Bound ) 到新的同名 Pod 上
  • 臨時建立的 recovery_token.txt 將容器銷毀後 再次確認也依然存在
  
 Validation: ✅
@@ -684,39 +774,39 @@ Validation: ✅
 
 ```
 Objective: 
- • 驗證當高峰流量或高運算負載退去、資源消耗降回安全線以下時，
-   HPA 能否在不過度震盪 ( Cooldown 緩衝期內 ) 的前提下，
-   自動將冗餘的 Pod 實例進行裁撤，以釋放叢集物理資源
+ • 驗證當高峰流量或高運算負載退去、資源消耗降回安全線以下時, 
+   HPA 能否在不過度震盪 ( Cooldown 緩衝期內 ) 的前提下, 
+   自動將冗餘的 Pod 實例進行裁撤, 以釋放叢集物理資源
 
 Situation:
  • 呈 HPA Scale-Out 當前狀態延伸實施
 
 Action:
  • 將 values.yaml 中的 targetCPUUtilizationPercentage 改回原本正常的 50%
- • 推送並同步至 ArgoCD，此時 K8s 判定目前系統資源消耗 ( 5% ) 已低於門檻 ( 50% ) 
- • 靜置等待 K8s 預設的縮容冷卻時間 ( Cooldown Period，預期為 5 分鐘 ) ，觀察 Pod 數量是否自動回縮
+ • 推送並同步至 ArgoCD, 此時 K8s 判定目前系統資源消耗 ( 5% ) 已低於門檻 ( 50% ) 
+ • 靜置等待 K8s 預設的縮容冷卻時間 ( Cooldown Period, 預期為 5 分鐘 ) , 觀察 Pod 數量是否自動回縮
  
 Metric:
- • Scale-In Cooldown Delay ( 從指標降回安全線，到 K8s 真正開始動手砍 Pod 的等待時間 )
- • Final Replica Count ( 縮容完成後的最終 Pod 數量，應回歸 minReplicas 基準 )
+ • Scale-In Cooldown Delay ( 從指標降回安全線, 到 K8s 真正開始動手砍 Pod 的等待時間 )
+ • Final Replica Count ( 縮容完成後的最終 Pod 數量, 應回歸 minReplicas 基準 )
  
 Pass Criteria:
- • 多餘的 Pod 順利進入 Terminating 狀態，且最終數量精準縮回 1 隻
+ • 多餘的 Pod 順利進入 Terminating 狀態, 且最終數量精準縮回 1 隻
  
 Result:
- • Scale-In Cooldown Delay ( 通常預設為 5 分鐘，防震盪 ) ..... __ sec 
+ • Scale-In Cooldown Delay ( 通常預設為 5 分鐘, 防震盪 ) ..... __ sec 
  • ⭐ Final Replica Count ................................ 2 -> 1
 
 Validation: ❌
 
 • 失敗原因：
-  由於應用的 Deployment 採用 strategy: Recreate，在 GitOps 同步門檻值的瞬間，
-  觸發了 Deployment 的 <先殺後建> 生命週期。這導致冗餘 Pod 是因 <版本更新> 而被物理強制剔除，
+  由於應用的 Deployment 採用 strategy: Recreate, 在 GitOps 同步門檻值的瞬間, 
+  觸發了 Deployment 的 <先殺後建> 生命週期, 這導致冗餘 Pod 是因 <版本更新> 而被物理強制剔除, 
   而非經由 HPA 監測 CPU 指標後觸發的平滑縮容
   
 • 結論：
   1. HPA 的防震盪窗口 ( Cooldown Period ) 在 Recreate 策略下會失效
-  2. 本應用作為單一實例 ( Singleton ) ，未來維運應關閉 HPA，改靠 K8s 內建的 Self-healing ( Tier 1/2 ) 保障可用性即可
+  2. 本應用作為單一實例 ( Singleton ) , 未來維運應關閉 HPA, 改靠 K8s 內建的 Self-healing ( Tier 1/2 ) 保障可用性即可
 ```
 
 </ul>
