@@ -97,8 +97,6 @@ Tier 6 : Control Plane
 <summary><b><i>　Pod Crash Recovery </i></b></summary>
 <ul>
 
-![GIF](../assets/gif/Pod%20Crash%20Recovery.gif)
-
 ```
 Objective: 
  • 驗證 Deployment Controller 自癒能力
@@ -131,14 +129,21 @@ Observation:
 Validation: ✅
 ```
 
+<details>
+<summary><b><i>　🎬　Demo </i></b></summary>
+<ul>
+
+![GIF](../assets/gif/Pod%20Crash%20Recovery.gif)
+
+</ul>
+</details>
+
 </ul>
 </details>
 
 <details>
 <summary><b><i>　OOMKill Recovery </i></b></summary>
 <ul>
-
-![GIF](../assets/gif/OOMKill%20Recovery.gif)
 
 ```
 Objective: 
@@ -193,14 +198,21 @@ $ kubectl get pod inst-homelab-test-7fd9d5b99-lgk4m -n pg-apps-homelab-test -o j
 Validation: ✅
 ```
 
+<details>
+<summary><b><i>　🎬　Demo </i></b></summary>
+<ul>
+
+![GIF](../assets/gif/OOMKill%20Recovery.gif)
+
+</ul>
+</details>
+
 </ul>
 </details>
 
 <details>
 <summary><b><i>　Liveness Recovery </i></b></summary>
 <ul>
-
-![GIF](../assets/gif/Liveness%20Recovery.gif)
 
 ```
 Objective: 
@@ -256,14 +268,21 @@ Observation:
 Validation: ✅
 ```
 
+<details>
+<summary><b><i>　🎬　Demo </i></b></summary>
+<ul>
+
+![GIF](../assets/gif/Liveness%20Recovery.gif)
+
+</ul>
+</details>
+
 </ul>
 </details>
 
 <details>
 <summary><b><i>　Rolling Update </i></b></summary>
 <ul>
-
-![GIF](../assets/gif/Rolling%20Update.gif)
 
 ```
 Objective: 
@@ -307,14 +326,21 @@ Observation:
 Validation: ✅
 ```
 
+<details>
+<summary><b><i>　🎬　Demo </i></b></summary>
+<ul>
+
+![GIF](../assets/gif/Rolling%20Update.gif)
+
+</ul>
+</details>
+
 </ul>
 </details>
 
 <details>
 <summary><b><i>　Rollback </i></b></summary>
 <ul>
-
-![GIF](../assets/gif/Rollback.gif)
 
 ```
 Objective: 
@@ -350,6 +376,15 @@ Observation:
 Validation: ✅
 ```
 
+<details>
+<summary><b><i>　🎬　Demo </i></b></summary>
+<ul>
+
+![GIF](../assets/gif/Rollback.gif)
+
+</ul>
+</details>
+
 </ul>
 </details>
 
@@ -360,8 +395,6 @@ Validation: ✅
 <details>
 <summary><b><i>　Node Drain Recovery </i></b></summary>
 <ul>
-
-![GIF](../assets/gif/Node%20Drain%20Recovery.gif)
 
 ```
 Objective:
@@ -429,6 +462,15 @@ Timeline:
 Validation: ✅
 ```
 
+<details>
+<summary><b><i>　🎬　Demo </i></b></summary>
+<ul>
+
+![GIF](../assets/gif/Node%20Drain%20Recovery.gif)
+
+</ul>
+</details>
+
 </ul>
 </details>
 
@@ -436,8 +478,6 @@ Validation: ✅
 <details>
 <summary><b><i>　Node Failure Recovery </i></b></summary>
 <ul>
-
-![GIF](../assets/gif/Node%20Failure%20Recovery.gif)
 
 ```
 Objective:
@@ -498,6 +538,15 @@ Timeline:
 Validation: ✅
 ```
 
+<details>
+<summary><b><i>　🎬　Demo </i></b></summary>
+<ul>
+
+![GIF](../assets/gif/Node%20Failure%20Recovery.gif)
+
+</ul>
+</details>
+
 </ul>
 </details>
 
@@ -508,8 +557,6 @@ Validation: ✅
 <details>
 <summary><b><i>　Endpoint Failover </i></b></summary>
 <ul>
-
-![GIF](../assets/gif/Endpoint%20Failover.gif)
 
 ```
 Objective: 
@@ -561,14 +608,21 @@ Observation:
 Validation: ✅
 ```
 
+<details>
+<summary><b><i>　🎬　Demo </i></b></summary>
+<ul>
+
+![GIF](../assets/gif/Endpoint%20Failover.gif)
+
+</ul>
+</details>
+
 </ul>
 </details>
 
 <details>
 <summary><b><i>　Ingress Failover </i></b></summary>
 <ul>
-
-![GIF](../assets/gif/Ingress%20Failover.gif)
 
 ```
 Objective: 
@@ -614,6 +668,15 @@ Observation:
 Validation: ✅
 ```
 
+<details>
+<summary><b><i>　🎬　Demo </i></b></summary>
+<ul>
+
+![GIF](../assets/gif/Ingress%20Failover.gif)
+
+</ul>
+</details>
+
 </ul>
 </details>
 
@@ -624,8 +687,6 @@ Validation: ✅
 <details>
 <summary><b><i>　PVC Persistence </i></b></summary>
 <ul>
-
-![GIF](../assets/gif/PVC%20Persistence.gif)
 
 ```
 Objective: 
@@ -652,14 +713,21 @@ Observation:
 Validation: ✅
 ```
 
+<details>
+<summary><b><i>　🎬　Demo </i></b></summary>
+<ul>
+
+![GIF](../assets/gif/PVC%20Persistence.gif)
+
+</ul>
+</details>
+
 </ul>
 </details>
 
 <details>
 <summary><b><i>　StatefulSet Recovery </i></b></summary>
 <ul>
-
-![GIF](../assets/gif/StatefulSet%20Recovery.gif)
 
 ```
 Objective: 
@@ -712,6 +780,15 @@ Observation:
 Validation: ✅
 ```
 
+<details>
+<summary><b><i>　🎬　Demo </i></b></summary>
+<ul>
+
+![GIF](../assets/gif/StatefulSet%20Recovery.gif)
+
+</ul>
+</details>
+
 </ul>
 </details>
 
@@ -723,8 +800,6 @@ Validation: ✅
 <details>
 <summary><b><i>　HPA Scale-Out </i></b></summary>
 <ul>
-
-![GIF](../assets/gif/HPA%20Scale-Out.gif)
 
 ```
 Objective: 
@@ -763,14 +838,21 @@ Observation:
 Validation: ✅
 ```
 
+<details>
+<summary><b><i>　🎬　Demo </i></b></summary>
+<ul>
+
+![GIF](../assets/gif/HPA%20Scale-Out.gif)
+
+</ul>
+</details>
+
 </ul>
 </details>
 
 <details>
 <summary><b><i>　HPA Scale-In </i></b></summary>
 <ul>
-
-![GIF](../assets/gif/HPA%20Scale-In.gif)
 
 ```
 Objective: 
@@ -808,6 +890,15 @@ Validation: ❌
   1. HPA 的防震盪窗口 ( Cooldown Period ) 在 Recreate 策略下會失效
   2. 本應用作為單一實例 ( Singleton ) , 未來維運應關閉 HPA, 改靠 K8s 內建的 Self-healing ( Tier 1/2 ) 保障可用性即可
 ```
+
+<details>
+<summary><b><i>　🎬　Demo </i></b></summary>
+<ul>
+
+![GIF](../assets/gif/HPA%20Scale-In.gif)
+
+</ul>
+</details>
 
 </ul>
 </details>
