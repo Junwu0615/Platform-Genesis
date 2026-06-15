@@ -66,7 +66,7 @@ Tier 3 : Service
 
 Tier 4 : Storage
  • ✅ PVC 持久性 : PVC Persistence
- • StatefulSet 狀態集自我修復 : StatefulSet Recovery
+ • ✅ StatefulSet 狀態集自我修復 : StatefulSet Recovery
     • 呼應前面的 Recovery, 在 K8s 中這種不經人工介入的重啟通常稱為自我修復能力 ( Self-healing )
 
 
@@ -569,8 +569,57 @@ Validation: ✅
 <summary><b><i>　StatefulSet Recovery </i></b></summary>
 <ul>
 
-```
+![GIF](../assets/gif/StatefulSet%20Recovery.gif)
 
+```
+Objective: 
+ • 驗證當具備狀態的 Pod ( StatefulSet ) 因節點故障或進程暴斃時，
+   Kubernetes 的自我修復 ( Self-healing ) 機制能否嚴格遵循 <持久化識別> 原則，
+   在重啟時保持相同的 Pod 編號，並精準掛載回原有的 PVC 磁碟鎖，確保資料不遺失、不毀損
+ 
+Situation:
+ • 部署一個範例 StatefulSet ( 或現有的有狀態元件，如 PostgreSQL )，Replica = 1 ( Pod 名稱結尾為 -0 ) 
+ • Pod 掛載了特定的 RWO ( ReadWriteOnce ) PVC，且狀態為 Running
+ 
+Action:
+ • 透過 K9s 進入該 StatefulSet Pod 內部，在掛載的 PVC 目錄下寫入一筆帶有時間戳記的測試資料
+    # 本地建立
+    echo "statefulset-self-healing-test-2026" > /tmp/recovery_token.txt
+    cat /tmp/recovery_token.txt
+    
+    # 空頭進容器
+    kubectl cp /tmp/recovery_token.txt databases-homelab-test/postgresql-homelab-test-0:/bitnami/postgresql/recovery_token.txt
+
+ • 在 K9s 中對該 Pod 執行強制刪除 ( ctrl + d ) ，模擬容器突發性崩潰、被驅逐 ( Eviction ) 或毀損
+ • 靜置等待 K8s 控制器自動偵測並原地重建該 Pod
+ 
+ • 再次進入容器確認 方才建立檔案是否存在
+    cat /bitnami/postgresql/recovery_token.txt
+ 
+Metric:
+ • Pod Identity Consistency ( 重啟前後的 Pod 名稱與序號是否 100% 一致 )
+ • Volume Re-attach Latency ( 舊 Pod 釋放磁碟到新 Pod 成功掛載並鎖定 PVC 的時間差 )
+ • Data Integrity ( 重啟後，原本寫入硬碟的資料有無遺失 )
+ • Total Self-healing Time ( 從 Pod 消失到新 Pod 變回 READY 1/1 的總耗時 )
+ 
+Pass Criteria:
+ • 完全自動化 ( No Manual Intervention ) ，不需手動修復磁碟或下達重啟
+ • 新長出來的 Pod 名字必須與舊的完全相同，不可產生隨機亂碼後綴
+ • 進入新 Pod 後，原本寫入 PVC 的測試資料完好如初
+ 
+Result:
+ • Pod Identity Consistency .... 一致
+ • Volume Re-attach Latency ..... 0 sec ( 單機 Local-Path 原地重用，無分離掛載延遲 )
+ • Total Self-healing Time ..... 20 sec
+ • ⭐ Data Integrity ........... 無損
+ 
+Observation:
+ • K9s: 觀察 Pod 列表，原本的 postgresql-homelab-test-0 變成 Terminating，
+        隨後長出名字一模一樣的 postgresql-homelab-test-0 進入 Init 或 Running
+ • 查看 PVC 狀態： 確認該 PVC 在短暫釋放後，立刻被重新綁定 ( Bound ) 到新的同名 Pod 上
+ • 臨時建立的 recovery_token.txt 將容器銷毀後 再次確認也依然存在
+ 
+Validation: ✅
 ```
 
 </ul>
