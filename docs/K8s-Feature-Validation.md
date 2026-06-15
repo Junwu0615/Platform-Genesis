@@ -73,7 +73,7 @@ Tier 4 : Storage
 Tier 5 : Autoscaling
  • ✅ HPA 自動擴展 : HPA Scale-Out
     • 增加 Pod 數量叫水平擴展
- • HPA 自動縮容 : HPA Scale-In
+ • ❌ HPA 自動縮容 : HPA Scale-In
     • 減少 Pod 數量叫水平縮容
 
 
@@ -169,7 +169,7 @@ Pass Criteria:
  • 完全自動化 ( No Manual Intervention ), 不需手動下達重啟指令
  • Pod 維持在同一個 Node 上進行 <原地重啟> ( RESTARTS 次數 +1 )
  • 核心驗證 Pod 的結束原因 ( Last State ) 必須明確顯示為 OOMKilled, 結束代碼為 137
- • Total Recovery Time < 15 秒
+ • Total Recovery Time < 15 sec
  
 Result:
  • OOM Trigger Latency ........... 1 sec
@@ -232,14 +232,14 @@ Pass Criteria:
  • 完全自動化 ( No Manual Intervention ), 不需人工下達 kubectl delete/restart
  • Pod 必須維持在同一個 Node 上進行<原地重啟> ( RESTARTS 次數 +1, 而非重新調度 )
  • 資料零遺失 ( Data Loss = 0 ), Kafka Offset 維持一致
- • Total Recovery Time < 15 秒
+ • Total Recovery Time < 15 sec
  
 Result:
  • Signal Propagation Time ... 1 sec
  • Heartbeat Deletion Time ... 2 sec
  • K8s Detection Latency ..... 1 sec
  • Container Restart Time .... 8 sec
- • ⭐ Total Recovery Time .... 12 sec
+ • ⭐ Total Recovery Time ... 12 sec
  • Data Loss ................. 0 ( Validated via Kafka Offset )
  
 Observation:
@@ -291,7 +291,7 @@ Metric:
 Pass Criteria:
  • 舊 Pod 必須 <完全消失> 後, 新 Pod 才能開始建立 ( 符合 Recreate 嚴格限制, 避免 2 個實例同時存在 )
  • 舊 Pod 結束前, 有成功 commit 手上最後一筆 Kafka Offset
- • Total Downtime < 20 秒 ( 取決於 Image 拉取速度與 PVC 釋放速度 )
+ • Total Downtime < 20 sec ( 取決於 Image 拉取速度與 PVC 釋放速度 )
  
 Result:
  • Terminating Time .... 3 sec
@@ -336,7 +336,7 @@ Metric:
 Pass Criteria:
  • 快速反應：不需等待壞 Pod 慢慢 restart, 回滾指令下達後應立刻砍掉壞 Pod
  • Pod 成功回復成上一個穩定版本的 Image Tag
- • Rollback Total Time < 15 秒
+ • Rollback Total Time < 15 sec
 
 Result:
  • Rollback Trigger Latency .. 2 sec
@@ -553,7 +553,7 @@ Pass Criteria:
  • 新 Pod 啟動完成後, 進入新容器日誌查看業務邏輯是否從上次的消費位置繼續執行 而非全部重製
  
 Result:
- • ⭐ Total Verification Time : 15 秒
+ • ⭐ Total Verification Time .... 15 sec
  
 Observation:
  • 檢視持久化位置: mount | grep /app/data
@@ -631,8 +631,43 @@ Validation: ✅
 <summary><b><i>　HPA Scale-In </i></b></summary>
 <ul>
 
-```
+![GIF](../assets/gif/HPA%20Scale-In.gif)
 
+```
+Objective: 
+ • 驗證當高峰流量或高運算負載退去、資源消耗降回安全線以下時，
+   HPA 能否在不過度震盪 ( Cooldown 緩衝期內 ) 的前提下，
+   自動將冗餘的 Pod 實例進行裁撤，以釋放叢集物理資源
+
+Situation:
+ • 呈 HPA Scale-Out 當前狀態延伸實施
+
+Action:
+ • 將 values.yaml 中的 targetCPUUtilizationPercentage 改回原本正常的 50%
+ • 推送並同步至 ArgoCD，此時 K8s 判定目前系統資源消耗 ( 5% ) 已低於門檻 ( 50% ) 
+ • 靜置等待 K8s 預設的縮容冷卻時間 ( Cooldown Period，預期為 5 分鐘 ) ，觀察 Pod 數量是否自動回縮
+ 
+Metric:
+ • Scale-In Cooldown Delay ( 從指標降回安全線，到 K8s 真正開始動手砍 Pod 的等待時間 )
+ • Final Replica Count ( 縮容完成後的最終 Pod 數量，應回歸 minReplicas 基準 )
+ 
+Pass Criteria:
+ • 多餘的 Pod 順利進入 Terminating 狀態，且最終數量精準縮回 1 隻
+ 
+Result:
+ • Scale-In Cooldown Delay ( 通常預設為 5 分鐘，防震盪 ) ..... __ sec 
+ • ⭐ Final Replica Count ................................ 2 -> 1
+
+Validation: ❌
+
+• 失敗原因：
+  由於應用的 Deployment 採用 strategy: Recreate，在 GitOps 同步門檻值的瞬間，
+  觸發了 Deployment 的 <先殺後建> 生命週期。這導致冗餘 Pod 是因 <版本更新> 而被物理強制剔除，
+  而非經由 HPA 監測 CPU 指標後觸發的平滑縮容
+  
+• 結論：
+  1. HPA 的防震盪窗口 ( Cooldown Period ) 在 Recreate 策略下會失效
+  2. 本應用作為單一實例 ( Singleton ) ，未來維運應關閉 HPA，改靠 K8s 內建的 Self-healing ( Tier 1/2 ) 保障可用性即可
 ```
 
 </ul>
