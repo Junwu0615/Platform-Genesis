@@ -5,23 +5,23 @@
 <br>
 
 <details>
-<summary><b><i>　a.1.　Pipeline-Driven Delivery </i></b></summary>
+<summary><b><i>　★　Pipeline-Driven Delivery </i></b></summary>
 <ul>
 
 <br>
 
 <details>
-<summary><b><i>　I.　Explain </i></b></summary>
+<summary><b><i>　Explain </i></b></summary>
 <ul>
 
 ```
-# Delivery Model
+[ Delivery Model ]
 
  • Pipeline-Driven
  • Imperative Deployment Workflow
 
 
-# Typical Components
+[ Typical Components ]
 
  • GitLab CI
  • Jenkins
@@ -29,7 +29,7 @@
  • Kubernetes API
 
 
-# Characteristics
+[ Characteristics ]
 
  • Suitable for small-to-medium teams
  • Supports VM, Docker, and Kubernetes platforms
@@ -41,28 +41,28 @@
     - Kubernetes Cluster
 
 
-# Operational Considerations
+[ Operational Considerations ]
 
  • CI systems require deployment permissions
  • GitLab Runner commonly stores Kubernetes credentials
  • Permission management becomes more complex as environments scale
 
 
-# Strengths
+[ Strengths ]
 
  • Simple implementation model
  • Flexible deployment customization
  • Mature ecosystem and tooling support
 
 
-# Limitations
+[ Limitations ]
 
  • Desired state is not continuously enforced
  • Configuration drift is not automatically detected
  • Deployment status visibility may span multiple systems
 
 
-# Deployment Workflow
+[ Deployment Workflow ]
 
     Developer Commit
        ↓
@@ -87,7 +87,7 @@
 </details>
 
 <details open>
-<summary><b><i>　II.　Showcase </i></b></summary>
+<summary><b><i>　Showcase </i></b></summary>
 <ul>
 
 ![PNG](../assets/ci-cd_00.png)
@@ -101,23 +101,23 @@
 
 
 <details>
-<summary><b><i>　a.2.　GitOps Delivery </i></b></summary>
+<summary><b><i>　★　GitOps Delivery </i></b></summary>
 <ul>
 
 <br>
 
 <details>
-<summary><b><i>　I.　Explain </i></b></summary>
+<summary><b><i>　Explain </i></b></summary>
 <ul>
 
 ```
-# Delivery Model
+[ Delivery Model ]
 
  • State-Driven
  • Declarative Deployment Workflow
 
 
-# Typical Components
+[ Typical Components ]
 
  • Git Repository
  • GitLab CI
@@ -126,7 +126,7 @@
  • Kubernetes API
 
 
-# Characteristics
+[ Characteristics ]
 
  • Designed for Kubernetes-native environments
  • Desired state is defined and versioned in Git
@@ -137,7 +137,7 @@
  • Build and deployment responsibilities are decoupled
 
 
-# Operational Considerations
+[ Operational Considerations ]
 
  • Repository structure requires standardized organization
     - Environment
@@ -148,7 +148,7 @@
  • Git repository governance becomes part of platform governance
 
 
-# Strengths
+[ Strengths ]
 
  • Consistent deployment workflow
  • Continuous drift detection
@@ -158,7 +158,7 @@
  • Reduced direct cluster access requirements
 
 
-# Limitations
+[ Limitations ]
 
  • Kubernetes-focused architecture
  • Initial repository design requires additional planning
@@ -166,7 +166,7 @@
  • Misconfigured Git changes can propagate automatically
 
 
-# Deployment Workflow
+[ Deployment Workflow ]
 
     Developer Commit
        ↓
@@ -195,7 +195,7 @@
 </details>
 
 <details open>
-<summary><b><i>　II.　Showcase </i></b></summary>
+<summary><b><i>　Showcase </i></b></summary>
 <ul>
 
 ![PNG](../assets/argocd_00.png)
@@ -212,11 +212,15 @@
 <br>
 
 ### *B.　Quantitative*
-#### *b.1.　Experimental Conditions*
-```
-[ Validation Scope ]
 
-1. This validation compares only the Deployment Delivery Lifecycle.
+<details>
+<summary><b><i>　★　Experimental Conditions </i></b></summary>
+<ul>
+
+```
+ [ Validation Scope ]
+ 
+ • This validation compares only the Deployment Delivery Lifecycle.
 
    The following activities are excluded from all measurements:
     • Source Code Compilation
@@ -225,7 +229,7 @@
     • CI Queue Waiting Time
 
 
-2. Manual Deployment Scenario
+ • Manual Deployment Scenario
 
    Deployment is performed through direct host operations,
    including remote access, file transfer, configuration updates,
@@ -235,24 +239,24 @@
    automation and serves as the baseline reference model.
 
 
-3. GitOps Deployment Scenario
+ • GitOps Deployment Scenario
 
    Deployment is performed through a GitOps workflow using
    Argo CD as the deployment reconciliation controller.
 
 
-[ Test Environment ]
+ [ Test Environment ]
  • Node Count         : 6
  • Application        : pg-python-inst
  • Replica Count      : 1
  • Container Image    : 296 MB
 
-[ Toolchain ]
+ [ Toolchain ]
  • Git Repository     : GitLab
  • Container Registry : Docker Registry
  • GitOps Controller  : Argo CD
 
-[ Measurement Method ]
+ [ Measurement Method ]
  • Manual Deployment  : 10 executions
  • GitOps Deployment  : 10 executions
  • Result             : Average value reported
@@ -260,10 +264,17 @@
 
 <br>
 
-#### *b.2.　Single Deployment Measurement*
+</ul>
+</details>
+
+
+<details>
+<summary><b><i>　★　Single Deployment Measurement </i></b></summary>
+<ul>
+
 ```
  [ Scope ]
- This Measurement Only Compares the Deployment Delivery Lifecycle
+ • This Measurement Only Compares the Deployment Delivery Lifecycle
 
  [ The following items are not included in the statistics ]
  • Source Code Compilation
@@ -278,8 +289,8 @@
  • Application Ready
 
  [ Additional Observation ]
- The following values were observed during testing
- but were excluded from deployment lifecycle measurements.
+ • The following values were observed during testing
+   but were excluded from deployment lifecycle measurements.
 
  • Manual Image Build ............. 85 sec
  • GitLab CI Pipeline Runtime .... 105 sec
@@ -298,10 +309,17 @@
 
 <br>
 
-#### *b.3.　Deployment Scalability Estimation*
+</ul>
+</details>
+
+
+<details>
+<summary><b><i>　★　Deployment Scalability Estimation </i></b></summary>
+<ul>
+
 ```
 The following values are estimated projections derived
-from ⭐ b.2. Single Deployment Measurement.
+from ⭐ Single Deployment Measurement.
 
 These values do not include:
  • Human error
@@ -320,18 +338,32 @@ These values do not include:
 
 <br>
 
-#### *b.4.1.　Post-Adoption Risk Assessment*
+</ul>
+</details>
+
+
+<details>
+<summary><b><i>　★　Post-Adoption Risk Assessment </i></b></summary>
+<ul>
+
 | Risk Item | Manual | GitOps |
 |--:|:--:|:--:|
-| Configuration Consistency Risk | High | Reduced |
-| Deployment Error Risk | High | Reduced |
-| Version Traceability Risk | High | Reduced |
-| Unauthorized Change Risk | Medium | Reduced |
-| Key-Person Dependency Risk | High | Reduced |
+| Configuration<br>Consistency Risk | High | Reduced |
+| Deployment<br>Error Risk | High | Reduced |
+| Version<br>Traceability Risk | High | Reduced |
+| Unauthorized<br>Change Risk | Medium | Reduced |
+| Key-Person<br>Dependency Risk | High | Reduced |
 
 <br>
 
-#### *b.4.2.　Post-Adoption Operational Comparison*
+</ul>
+</details>
+
+
+<details>
+<summary><b><i>　★　Post-Adoption Operational Comparison </i></b></summary>
+<ul>
+
 | Item | Manual | GitOps |
 |--:|:--:|:--:|
 | Git Push | Y | Y |
@@ -349,19 +381,33 @@ These values do not include:
 
 <br>
 
-#### *⭐ b.4.3.　Industry Delivery Model Comparison*
+</ul>
+</details>
+
+
+<details>
+<summary><b><i>　★　Industry Delivery Model Comparison </i></b></summary>
+<ul>
+
 | Item | SSH | CI/CD | GitOps |
 |--:|:--:|:--:|:--:|
 | Build | Manual | Automated | Automated |
 | Deployment | Manual | GitLab CI | Argo CD |
-| Rollback | Manual | Pipeline-Driven | Git-Based Reconciliation |
+| Rollback | Manual | Pipeline-Driven | Git-Based<br>Reconciliation |
 | Drift Detection | N | N | Y |
 | Audit Trail | Partial | Partial | Complete |
 | Desired-State Recovery | Manual | Manual | Automated |
 
 <br>
 
-#### *⭐ b.4.4.　Capability Comparison Matrix*
+</ul>
+</details>
+
+
+<details>
+<summary><b><i>　★　Capability Comparison Matrix </i></b></summary>
+<ul>
+
 | Capability | SSH | CI/CD | GitOps |
 |--:|:--:|:--:|:--:|
 | Automated Deployment | N | Y | Y |
@@ -373,17 +419,20 @@ These values do not include:
 
 <br>
 
-### *⭐ Baseline Findings*
+</ul>
+</details>
+
+<br>
+
+### *★　Final Statistics*
 | Item | Manual → GitOps |
 |--:|:--|
 | Measured Deployment<br>Time Reduction | 53.3%<br>( 225 sec → 105 sec ) |
-| Estimated Multi-Node Operational Scaling Benefit | Derived from single-deployment measurements<br>and linear operational effort assumptions |
+| Estimated Multi-Node<br>Operational Scaling Benefit | Derived from single-deployment measurements<br>and linear operational effort assumptions |
 | Post-Adoption<br>Operational Comparison | 70% ( Steps: 10 → 3 ) |
 | Deployment<br>Access Centralization | 移除個人 KubeConfig / 直接 Cluster 存取權限<br>/ 部署操作統一經由 Argo CD RBAC 控管<br><br>• 補充 GitLab 尚有權限 ( Registry / Repo / Pipeline ) |
 | Rollback<br>Process Simplification | Manual rollback procedures replaced<br>by Git-based version reversion workflow |
 | Multi-node Deployment<br>Efficiency Improvement | Linear → Near-constant |
-
-<br>
 
 ```
 ==================================================================================
