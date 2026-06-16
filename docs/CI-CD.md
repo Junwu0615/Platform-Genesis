@@ -213,6 +213,8 @@
 
 ### *B.　Quantitative*
 
+<br>
+
 <details>
 <summary><b><i>　★　Experimental Conditions </i></b></summary>
 <ul>
@@ -440,37 +442,65 @@ These values do not include:
 ==================================================================================
 
 [ Measured Results ]
- • Deployment delivery time decreased from 225 sec to 105 sec
-   under the defined validation scope.
- • Manual operational activities were reduced from 10 steps to 3 steps.
- • Deployment execution became independent of direct cluster access 
-   and manual host operations.
+   
+ • Deployment delivery time was measured at:
 
-[ Observed Benefits ]
- • Reduced operational overhead during application deployment.
- • Improved deployment traceability through Git-based workflows.
- • Centralized deployment permissions through Argo CD RBAC.
- • Consistent deployment process across multiple Kubernetes nodes.
+      - Manual Workflow : 225 sec
+      - GitOps Workflow : 105 sec
+
+ • The number of manual operational steps
+   was reduced from 10 to 3.
+
+ • Deployment execution no longer required
+   direct operator access to Kubernetes nodes
+   or deployment credentials.
+
+--------------------------------------------------------------------------------
+
+[ Observed Operational Changes ]
+
+ • Reduced manual intervention during deployment execution.
+
+ • Deployment traceability became Git-based and version-controlled.
+
+ • Deployment permissions were centralized through
+   Argo CD RBAC controls.
+
+ • Deployment workflow remained consistent across
+   multiple Kubernetes nodes.
+
+--------------------------------------------------------------------------------
 
 [ Scope Limitation ]
+
  • Measurements were collected from a single homelab environment.
+
  • Multi-node scalability results are estimated projections,
    not directly measured observations.
+
  • Build time, image push time, and CI queue latency were excluded
    from deployment lifecycle measurements.
+
  • Disaster recovery capability was not validated in this report.
 
-[ Conclusion ]
- • The evaluated GitOps workflow reduced manual deployment effort
-   and improved deployment consistency within the defined validation scope.
+ • Results should be interpreted as environment-specific
+   observations rather than universally applicable benchmarks.
 
- • Results indicate operational efficiency improvements compared
-   with the manually executed deployment workflow, while providing
-   additional governance capabilities that will be evaluated in
-   the GitOps Deployment Governance validation report.
+--------------------------------------------------------------------------------
+
+[ Conclusion ]
+
+ • The evaluated GitOps workflow demonstrated a measurable
+   reduction in manual deployment activities under the
+   defined validation scope.
+
+ • Additional GitOps governance capabilities, including
+   drift detection, automated reconciliation, rollback
+   procedures, and disaster recovery workflows, remain
+   outside the scope of this validation and will be
+   evaluated separately.
    
 ==================================================================================
-
 ```
 
 <br><br><br>
