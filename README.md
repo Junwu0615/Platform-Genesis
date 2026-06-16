@@ -76,7 +76,7 @@
 | Create Project | - | 2026-03-20 |
 | Add `PostgreSQL` | - | 2026-03-20 |
 | Add `Airflow` | for `OLAP` | 2026-03-21 |
-| Value of Deliverables 1 | Role-Based Access Control | 2026-04-01 |
+| Value of Deliverables 1 | DB Role-Based Access Control | 2026-04-01 |
 | Value of Deliverables 2 | `Docker Desktop` vs. `WSL2` | 2026-04-04 |
 | Add `Monitoring` | - | 2026-04-04 |
 | Terraform | Modularization | 2026-04-20 |
@@ -324,7 +324,7 @@
 
 |**Item**|**Description**|**Time**|
 |--:|:--|:--|
-| Role-Based Access Control | [Value of Deliverables 1](./docs/RBAC.md) | 2026-04-01 |
+| DB Role-Based Access Control | [Value of Deliverables 1](./docs/DB-RBAC.md) | 2026-04-01 |
 | 透過通用工具進行<br>資料庫極限測試 | [Value of Deliverables 2](./docs/Generic-Benchmark.md)<br>`Docker Desktop` vs. `WSL2` | 2026-04-04 |
 | 單一實例實現 HTAP | [Value of Deliverables 3](./docs/OLTP-OLAP-Unified-DB.md) | Expected in `202608` |
 | 資料庫查詢優化比較測試 | [Value of Deliverables 4](./docs/DB-Optimization.md)<br>`Before` vs. `After` | Expected in `202608` |
