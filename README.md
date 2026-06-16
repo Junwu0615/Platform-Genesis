@@ -330,12 +330,12 @@
 | 資料庫查詢優化比較測試 | [Value of Deliverables 4](./docs/DB-Optimization.md)<br>`Before` vs. `After` | Expected in `202608` |
 | 資料庫核心業務解套演進 | [Value of Deliverables 5](./docs/Evolution-of-Database-Core.md)<br>`Direct Read` vs. `MV` vs. `CDC` | Expected in `202607` |
 | 透過監控系統<br>觀察業務系統瓶頸 | [Value of Deliverables 6](./docs/Workload-Benchmark.md)<br>Workload Benchmark | Expected in `202608` |
-| Deployment Delivery Baseline `K8s` | [Value of Deliverables 7](./docs/CI-CD.md)<br>`Manual` vs. `GitOps` | 2026-06-13 |
+| Deployment Delivery Baseline `K8s` | [Value of Deliverables 7](./docs/CI-CD.md)<br>部署怎麼做比較有效率 ?<br>`Manual` vs. `GitOps` | 2026-06-13 |
 | Feature Validation `K8s` |  [Value of Deliverables 8](./docs/K8s-Feature-Validation.md) | 2026-06-17 |
 | Observability Platform `K8s` | [Value of Deliverables 9](./docs/Observability-Platform.md)<br>`Logging` `Metrics` `Tracing` `Alert Manager` | Expected in `202607` |
 | Vault Distribution Key `K8s` | [Value of Deliverables 10](./docs/Vault.md) | Expected in `202609` |
 | DevOps `K8s` | [Value of Deliverables 11](./docs/DevOps.md)<br>`Code Review` `PR` `TEST` `STAGE` `PROD` | Expected in `202606` |
-| Deployment Governance `GitOps` | [Value of Deliverables 12](./docs/Deployment-Governance.md) | Expected in `202607` |
+| Deployment Governance `GitOps` | [Value of Deliverables 12](./docs/Deployment-Governance.md)<br>GitOps 是否真的能治理叢集 ? | Expected in `202607` |
 
 </ul>
 </details>
