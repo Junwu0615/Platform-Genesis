@@ -307,8 +307,9 @@
 | K8s | Experience : NFS 儲存機制 ( SQLite ) | 2026-06-13 |
 | K8s | Experience : HPA 擴展/縮容 | 2026-06-15 |
 | GitOps | Experience : 無限套娃動態死鎖 | 2026-06-15 |
-| K8s | Master Control Plane<br>`dqlite ( Distributed SQLite / Raft 共識協定 )` | 2026-06-16 |
+| VM | Ansible `Storge 持久化權限路徑` 設定 | 2026-06-16 |
 | VM | Ansible `Keepalived`<br>`VRRP 虛擬 IP ( VIP: 10.88.0.99 )` | 2026-06-16 |
+| K8s | Master Control Plane<br>`dqlite ( Distributed SQLite / Raft 共識協定 )` | 2026-06-16 |
 | K8s + VM | Master Control Plane<br>`控制面組件租約選舉 ( Lease Re-election )` | 2026-06-17 |
 | GitOps | Build : `Security` `Vault` | - |
 | GitOps | Maintain 2 repo ( `CI` + `CD` ) | `TBD` |
@@ -358,7 +359,7 @@
 ✘ = 已棄用
 -  = 未實現
 *  = Homelab 記憶體 OOM Kill ( 折衷改為 Docker Compose ) → 不遷移
-△ = 省作業時間 ( 部分與重型服務的 Docker Compose 綑綁 ) → 不遷移
+△ = 省作業時間 ( 部分與重型服務的 Docker Compose 綑綁 )   → 不遷移
 ``` 
 
 |**Service**|**Docker**|**Terraform<br>( Docker )**|**MiniKube**|**K3d**|**K3s**|**K3s<br>Migration**|**Kubeadm**|**GKE**|

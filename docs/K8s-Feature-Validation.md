@@ -78,9 +78,9 @@ Tier 5 : Autoscaling
 
 
 Tier 6 : Control Plane
- • Master 節點單點故障損壞 : Single Master Failure
-    • 控制平面 ( Control Plane )失去單一主節點時的叢集存活能力
- • 控制平面組件領導者重新選舉 : Leader Re-election
+ • ✅ Master 節點單點故障損壞 : Single Master Failure
+    • 控制平面 ( Control Plane ) 失去單一主節點時的叢集存活能力
+ • ✅ 控制平面組件領導者重新選舉 : Leader Re-election
     • K8s 的核心組件 ( ex: kube-scheduler, kube-controller-manager )
       在高可用 ( HA ) 架構下會用租約 ( Lease ) 鎖定 Leader, 
       倒下時會自動 Leader Re-election ( 領導者重選 )
@@ -181,10 +181,10 @@ Result:
  • K8s OOM Detection Latency ..... 1 sec
  • Container Restart Time ....... 13 sec
  • ⭐ Total Recovery Time ....... 15 sec
- • Data Loss .................... 0 ( Validated via Kafka Offset )
+ • Data Loss ..................... 0 ( Validated via Kafka Offset )
  
 Observation:
- • K9s: 觀察狀態是否遵循 [Running] → [OOMKilled 或 CrashLoopBackOff] → [Running]
+ • K9s: 觀察狀態是否遵循 [ Running ] → [ OOMKilled || CrashLoopBackOff ] → [ Running ]
  • kubectl describe pod <pod-name> -n pg-apps-homelab-test
         - 檢查 Last State: Terminated 區塊中的 Reason: OOMKilled 與 Exit Code: 137
  • [X] 觀察該 Pod 的 Memory 使用率折線圖, 是否呈現垂直攀升 隨後瞬間歸零的鋸齒波
@@ -242,7 +242,7 @@ Metric:
  
 Pass Criteria:
  • 完全自動化 ( No Manual Intervention ), 不需人工下達 kubectl delete/restart
- • Pod 必須維持在同一個 Node 上進行<原地重啟> ( RESTARTS 次數 +1, 而非重新調度 )
+ • Pod 必須維持在同一個 Node 上進行 <原地重啟> ( RESTARTS 次數 +1, 而非重新調度 )
  • 資料零遺失 ( Data Loss = 0 ), Kafka Offset 維持一致
  • Total Recovery Time < 15 sec
  
@@ -320,7 +320,7 @@ Result:
  • Duplicate Count ..... 0
  
 Observation:
- • K9s: 觀察狀態是否遵循 [Running] → [Terminating] → 完全消失 → [ContainerCreating] → [Running]
+ • K9s: 觀察狀態是否遵循 [ Running ] → [ Terminating ] → 完全消失 → [ ContainerCreating ] → [ Running ]
  • kubectl get image: 確認新 Pod 確實是吃進了新版 Tag
  
 Validation: ✅
@@ -344,7 +344,7 @@ Validation: ✅
 
 ```
 Objective: 
- • 驗證當新版本上線發生災難 ( ex: 程式 Bug、CrashLoopBackOff )時, 
+ • 驗證當新版本上線發生災難 ( ex: 程式 Bug、CrashLoopBackOff ) 時, 
    維運人員能否透過 K8s 原生指令或 ArgoCD 歷史紀錄, 在秒級內快速將服務倒回上一個穩定版本
  
 Situation:
@@ -414,6 +414,7 @@ Action:
     kubectl drain k3s-agent-2 \
       --ignore-daemonsets \
       --delete-emptydir-data
+
  • 節點維運完成 → 手動復原
     kubectl uncordon k3s-agent-2
 
@@ -571,7 +572,7 @@ Situation:
  
 Action:
  • 在本地啟動循環的背景腳本, 每 N 秒對該 Service 的發送一次 curl 請求
-   TOTAL=0; SUCCESS=0; FAIL=0; echo "🚀 開始高頻容災測試 (每秒20次)... 按 Ctrl+C 結束並查看統計報告"; trap 'echo -e "\n📊 【 Tier 3 容災統計報告 】\n總請求數: $TOTAL\n成功數 (302/200): $SUCCESS\n失敗數 (502/504/000): $FAIL\n⭐ HTTP 成功率: $(echo "scale=2; $SUCCESS * 100 / $TOTAL" | bc)%"' INT; while true; do CODE=$(curl -o /dev/null -s -w "%{http_code}" -H "Host: docker-registry.k8s.local" http://10.88.0.20/ --connect-timeout 1); TOTAL=$((TOTAL+1)); if [ "$CODE" = "200" ] || [ "$CODE" = "302" ]; then SUCCESS=$((SUCCESS+1)); else FAIL=$((FAIL+1)); echo "❌ 抓到斷線! 狀態碼: $CODE"; fi; sleep 0.05; done
+   TOTAL=0; SUCCESS=0; FAIL=0; echo "🚀 開始高頻容災測試 ( 每秒 20 次 )... 按 Ctrl+C 結束並查看統計報告"; trap 'echo -e "\n📊 【 Tier 3 容災統計報告 】\n總請求數: $TOTAL\n成功數 (302/200): $SUCCESS\n失敗數 (502/504/000): $FAIL\n⭐ HTTP 成功率: $(echo "scale=2; $SUCCESS * 100 / $TOTAL" | bc)%"' INT; while true; do CODE=$(curl -o /dev/null -s -w "%{http_code}" -H "Host: docker-registry.k8s.local" http://10.88.0.20/ --connect-timeout 1); TOTAL=$((TOTAL+1)); if [ "$CODE" = "200" ] || [ "$CODE" = "302" ]; then SUCCESS=$((SUCCESS+1)); else FAIL=$((FAIL+1)); echo "❌ 抓到斷線! 狀態碼: $CODE"; fi; sleep 0.05; done
 
  • 保持流量連射狀態下, 對其中一隻應用 Pod 強制抹殺
  • 靜置 10 秒, 等待新 Pod 被拉起且舊 Pod 完全消失
@@ -637,7 +638,7 @@ Situation:
  
 Action:
  • 在本地啟動循環的背景腳本, 每 N 秒對該 Service 的發送一次 curl 請求
-   TOTAL=0; SUCCESS=0; FAIL=0; echo "🚀 開始高頻容災測試 (每秒20次)... 按 Ctrl+C 結束並查看統計報告"; trap 'echo -e "\n📊 【 Tier 3 容災統計報告 】\n總請求數: $TOTAL\n成功數 (302/200): $SUCCESS\n失敗數 (502/504/000): $FAIL\n⭐ HTTP 成功率: $(echo "scale=2; $SUCCESS * 100 / $TOTAL" | bc)%"' INT; while true; do CODE=$(curl -o /dev/null -s -w "%{http_code}" -H "Host: docker-registry.k8s.local" http://10.88.0.20/ --connect-timeout 1); TOTAL=$((TOTAL+1)); if [ "$CODE" = "200" ] || [ "$CODE" = "302" ]; then SUCCESS=$((SUCCESS+1)); else FAIL=$((FAIL+1)); echo "❌ 抓到斷線! 狀態碼: $CODE"; fi; sleep 0.05; done
+   TOTAL=0; SUCCESS=0; FAIL=0; echo "🚀 開始高頻容災測試 ( 每秒 20 次 )... 按 Ctrl+C 結束並查看統計報告"; trap 'echo -e "\n📊 【 Tier 3 容災統計報告 】\n總請求數: $TOTAL\n成功數 (302/200): $SUCCESS\n失敗數 (502/504/000): $FAIL\n⭐ HTTP 成功率: $(echo "scale=2; $SUCCESS * 100 / $TOTAL" | bc)%"' INT; while true; do CODE=$(curl -o /dev/null -s -w "%{http_code}" -H "Host: docker-registry.k8s.local" http://10.88.0.20/ --connect-timeout 1); TOTAL=$((TOTAL+1)); if [ "$CODE" = "200" ] || [ "$CODE" = "302" ]; then SUCCESS=$((SUCCESS+1)); else FAIL=$((FAIL+1)); echo "❌ 抓到斷線! 狀態碼: $CODE"; fi; sleep 0.05; done
          
  • 觸發 ArgoCD 滾動更新, 觀察 Nginx Ingress Controller 能否平滑分流
  
@@ -827,13 +828,13 @@ Pass Criteria:
  
 Result:
  • GitOps Sync Latency ........... 15 sec
- • HPA Sampling Latency ......... 100 sec
- • ⭐ Target Replica Count ...... 1 → 2
+ • HPA Sampling Latency .......... 100 sec
+ • ⭐ Target Replica Count ....... 1 → 2
  
 Observation:
  • K9s: 
     • 觀察狀態是否從原本只有 1 隻, 幾十秒內會突然蹦出第 2 隻 ( ContainerCreating )
-    • 進入 :hpa 畫面, 觀察 TARGETS 欄位是否呈現破表狀態 ( 1% )
+    • 進入: hpa 畫面, 觀察 TARGETS 欄位是否呈現破表狀態 ( 1% )
  
 Validation: ✅
 ```
@@ -866,7 +867,7 @@ Situation:
 Action:
  • 將 values.yaml 中的 targetCPUUtilizationPercentage 改回原本正常的 50%
  • 推送並同步至 ArgoCD, 此時 K8s 判定目前系統資源消耗 ( 5% ) 已低於門檻 ( 50% ) 
- • 靜置等待 K8s 預設的縮容冷卻時間 ( Cooldown Period, 預期為 5 分鐘 ) , 觀察 Pod 數量是否自動回縮
+ • 靜置等待 K8s 預設的縮容冷卻時間 ( Cooldown Period, 預期為 5 分鐘 ), 觀察 Pod 數量是否自動回縮
  
 Metric:
  • Scale-In Cooldown Delay ( 從指標降回安全線, 到 K8s 真正開始動手砍 Pod 的等待時間 )
@@ -876,7 +877,7 @@ Pass Criteria:
  • 多餘的 Pod 順利進入 Terminating 狀態, 且最終數量精準縮回 1 隻
  
 Result:
- • Scale-In Cooldown Delay ( 通常預設為 5 分鐘, 防震盪 ) ..... __ sec 
+ • Scale-In Cooldown Delay ( 通常預設為 5 分鐘, 防震盪 ) ..... N/A sec 
  • ⭐ Final Replica Count ................................ 2 -> 1
 
 Validation: ❌
@@ -888,7 +889,7 @@ Validation: ❌
   
 • 結論：
   1. HPA 的防震盪窗口 ( Cooldown Period ) 在 Recreate 策略下會失效
-  2. 本應用作為單一實例 ( Singleton ) , 未來維運應關閉 HPA, 改靠 K8s 內建的 Self-healing ( Tier 1/2 ) 保障可用性即可
+  2. 本應用作為單一實例 ( Singleton ), 未來維運應關閉 HPA, 改靠 K8s 內建的 Self-healing ( Tier 1/2 ) 保障可用性即可
 ```
 
 <details>
@@ -1009,7 +1010,7 @@ Pass Criteria:
  • 舊 Leader 倒下後, 租約在微幅超時內必須自動被另一台合規的 Master 承接, HOLDER 欄位順利更名且叢集調度不中斷
  
 Result:
- • Lease Failover Latency .......... 5 sec ( 遠低於 K8s 預設超時臨界點 )
+ • Lease Failover Latency .......... 5 sec ( 遠低於預設超時臨界點 )
  
 Observation:
  • 當手動關閉現任 Leader 的伺服器實體後, 透過 get lease -w 觀察到 Lease 於 5 秒內被快速重繪, 
@@ -1079,7 +1080,7 @@ Validation: ✅
  Tier 5 : Autoscaling
    ✔ HPA Scale-Out (Target CPU 1% Trigger) ............................ [ PASS ]
    ✘ HPA Scale-In (Infra Collision with Recreate Strategy) ............ [ FAIL ]
-     └─ 決策架構優化：Singleton 應用應關閉 HPA，改採 K8s 內建 Self-healing
+     └─ 決策架構優化：Singleton 應用應關閉 HPA, 改採 K8s 內建 Self-healing
 
  Tier 6 : Control Plane
    ✔ Single Master Failure (dqlite Quorum=2 Adherence) ................ [ PASS ]
