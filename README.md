@@ -88,7 +88,7 @@
 | Build `Hierarchical`<br>`Log Management` | `Loki` + `ELK` | 2026-05-14 |
 | Build `GitOps` | `GitLab CI` + `ArgoCD` | 2026-06-05 |
 | Value of Deliverables 7 | `K8s` CI/CD | 2026-06-13 |
-| Value of Deliverables 8 |  `K8s` Feature Validation | - |
+| Value of Deliverables 8 |  `K8s` Feature Validation | 2026-06-17 |
 | Value of Deliverables 11 | `K8s` DevOps | - |
 | Value of Deliverables 9 | `K8s` Observability Platform | - |
 | Value of Deliverables 12 | `GitOps` Deployment Governance | - |

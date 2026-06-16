@@ -946,7 +946,7 @@ Pass Criteria:
  
 Result:
  • Control Plane Outage Duration .... 0 sec ( 關閉非入口節點 master-1 時 )
- • Data Plane Affected Count ........ 0
+ • ⭐ Data Plane Affected Count ..... 0
  
 Observation:
  • 執行指令後, K9s 內 k3s-master-1 於約 40 秒後變為 NotReady, 
@@ -1010,7 +1010,7 @@ Pass Criteria:
  • 舊 Leader 倒下後, 租約在微幅超時內必須自動被另一台合規的 Master 承接, HOLDER 欄位順利更名且叢集調度不中斷
  
 Result:
- • Lease Failover Latency .......... 5 sec ( 遠低於預設超時臨界點 )
+ • ⭐ Lease Failover Latency .......... 5 sec ( 遠低於預設超時臨界點 )
  
 Observation:
  • 當手動關閉現任 Leader 的伺服器實體後, 透過 get lease -w 觀察到 Lease 於 5 秒內被快速重繪, 
@@ -1059,53 +1059,53 @@ Validation: ✅
 [ Validation Result Matrix ]
 --------------------------------------------------------------------------------
  Tier 1 : Workload
-   ✔ Pod Crash Recovery ............................................... [ PASS ]
-   ✔ OOMKill Recovery (Exit Code 137 / Data Loss: 0) .................. [ PASS ]
-   ✔ Liveness Recovery (Probe Unhealthy / Local Heartbeat) ............ [ PASS ]
-   ✔ Rolling Update (Recreate Strategy / Zero Leak) ................... [ PASS ]
-   ✔ Rollback (ArgoCD / GitOps Declared) .............................. [ PASS ]
+   ✔ Pod Crash Recovery ................................................. [ PASS ]
+   ✔ OOMKill Recovery  ( Exit Code 137 / Data Loss: 0 ) ................. [ PASS ]
+   ✔ Liveness Recovery ( Probe Unhealthy / Local Heartbeat ) ............ [ PASS ]
+   ✔ Rolling Update    ( Recreate Strategy / Zero Leak ) ................ [ PASS ]
+   ✔ Rollback          ( ArgoCD / GitOps Declared ) ..................... [ PASS ]
 
  Tier 2 : Node
-   ✔ Node Drain Recovery (Planned Maintenance) ........................ [ PASS ]
-   ✔ Node Failure Recovery (Disaster Recovery Simulation) ............. [ PASS ]
+   ✔ Node Drain Recovery   ( Planned Maintenance ) ...................... [ PASS ]
+   ✔ Node Failure Recovery ( Disaster Recovery Simulation ) ............. [ PASS ]
 
  Tier 3 : Service
-   ✔ Endpoint Failover (103/103 Requests / 100% Success) .............. [ PASS ]
-   ✔ Ingress Failover (Nginx Upstream Dynamic Reload) ................. [ PASS ]
+   ✔ Endpoint Failover ( 103/103 Requests / 100% Success ) .............. [ PASS ]
+   ✔ Ingress Failover  ( Nginx Upstream Dynamic Reload ) ................ [ PASS ]
 
  Tier 4 : Storage
-   ✔ PVC Persistence (SQLite Transaction Resumption) .................. [ PASS ]
-   ✔ StatefulSet Recovery (Identity & Local-Path Disk Lock) ........... [ PASS ]
+   ✔ PVC Persistence      ( SQLite Transaction Resumption ) ............. [ PASS ]
+   ✔ StatefulSet Recovery ( Identity & Local-Path Disk Lock ) ........... [ PASS ]
 
  Tier 5 : Autoscaling
-   ✔ HPA Scale-Out (Target CPU 1% Trigger) ............................ [ PASS ]
-   ✘ HPA Scale-In (Infra Collision with Recreate Strategy) ............ [ FAIL ]
-     └─ 決策架構優化：Singleton 應用應關閉 HPA, 改採 K8s 內建 Self-healing
+   ✔ HPA Scale-Out ( Target CPU 1% Trigger ) ............................ [ PASS ]
+   ✘ HPA Scale-In  ( Infra Collision with Recreate Strategy ) .... ...... [ FAIL ]
+     └─ 決策架構優化： Singleton 應用應關閉 HPA, 改採 K8s 內建 Self-healing
 
  Tier 6 : Control Plane
-   ✔ Single Master Failure (dqlite Quorum=2 Adherence) ................ [ PASS ]
-   ✔ Leader Re-election (Keepalived VIP + Component Lease Lock) ....... [ PASS ]
+   ✔ Single Master Failure ( dqlite Quorum=2 Adherence ) ................ [ PASS ]
+   ✔ Leader Re-election    ( Keepalived VIP + Component Lease Lock ) .... [ PASS ]
 
 --------------------------------------------------------------------------------
 [ Performance & Resiliency Metrics ]
 --------------------------------------------------------------------------------
- • Pod Crash Recovery Time ................... 5 sec
- • OOMKill Self-Healing Time ................. 15 sec
- • Liveness Probe Self-Healing Time .......... 12 sec
- • Rolling Update (Recreate Strategy) ........ 5 sec ( PVC Detach/Attach: 1s )
- • Rollback Completion Time .................. 8 sec
+ • Pod Crash Recovery Time ..................... 5 sec
+ • OOMKill Self-Healing Time .................. 15 sec
+ • Liveness Probe Self-Healing Time ........... 12 sec
+ • Rolling Update (Recreate Strategy) .......... 5 sec ( PVC Detach/Attach: 1s )
+ • Rollback Completion Time .................... 8 sec
  
- • Node Planned Drain Recovery Time .......... 7 sec
- • Node Disaster Failure Recovery Time ....... 73 sec ( K8s Node NotReady: 52s )
+ • Node Planned Drain Recovery Time ............ 7 sec
+ • Node Disaster Failure Recovery Time ........ 73 sec ( K8s Node NotReady: 52s )
  
- • Service Layer Failover Success Rate ....... 100% ( HTTP Outage Duration: 0s )
+ • Service Layer Failover Success Rate .......... 100% ( HTTP Outage Duration: 0s )
  • Ingress Dynamic Config Sync Latency ....... < 1 sec
  
- • StatefulSet Self-Healing Time ............. 20 sec ( Data Loss: None )
+ • StatefulSet Self-Healing Time ............. 20  sec ( Data Loss: None )
  • HPA Scale-Out Trigger Latency ............. 100 sec
  
  • Control Plane VRRP VIP Failover Latency ... < 1 sec ( Millisecond level )
- • K8s Component Lease Failover Latency ...... 5 sec ( Default: < 15s )
+ • K8s Component Lease Failover Latency ........ 5 sec ( Default: < 15s )
 
 ==================================================================================
   OVERALL ARCHITECTURE EVALUATION: SUCCESS ( ✅ PASS with Production-Ready Grade )
