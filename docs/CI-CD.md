@@ -1,6 +1,6 @@
-## *⭐ K8s - CI/CD ⭐*
+## *⭐ K8s - Deployment Delivery Baseline ⭐*
 
-### *A.　Scheme Comparison*
+### *A.　Delivery Model Comparison*
 
 <br>
 
@@ -302,7 +302,7 @@
     | Recover Complete<br>( 恢復時間 ) | Not fixed | < 60 sec |
 
 
-- #### *⭐ b.6.　Final Statistics*
+- #### *⭐ b.6.　Baseline Findings*
     | Item | Manual → GitOps |
     |--:|:--|
     | 平均部署時間下降 | 99.3%<br>( 270 min → 1.75 min ) |

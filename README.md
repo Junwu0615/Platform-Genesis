@@ -87,7 +87,7 @@
 | K8s | Advanced : `K3s` + `VMware` | 2026-05-10 |
 | Build `Hierarchical`<br>`Log Management` | `Loki` + `ELK` | 2026-05-14 |
 | Build `GitOps` | `GitLab CI` + `ArgoCD` | 2026-06-05 |
-| Value of Deliverables 7 | `K8s` CI/CD | 2026-06-13 |
+| Value of Deliverables 7 | `K8s` Deployment Delivery Baseline | 2026-06-13 |
 | Value of Deliverables 8 |  `K8s` Feature Validation | 2026-06-17 |
 | Value of Deliverables 11 | `K8s` DevOps | - |
 | Value of Deliverables 9 | `K8s` Observability Platform | - |
@@ -330,7 +330,7 @@
 | 資料庫查詢優化比較測試 | [Value of Deliverables 4](./docs/DB-Optimization.md)<br>`Before` vs. `After` | Expected in `202608` |
 | 資料庫核心業務解套演進 | [Value of Deliverables 5](./docs/Evolution-of-Database-Core.md)<br>`Direct Read` vs. `MV` vs. `CDC` | Expected in `202607` |
 | 透過監控系統<br>觀察業務系統瓶頸 | [Value of Deliverables 6](./docs/Workload-Benchmark.md)<br>Workload Benchmark | Expected in `202608` |
-| CI/CD `K8s` | [Value of Deliverables 7](./docs/CI-CD.md)<br>`Manual` vs. `GitOps` | 2026-06-13 |
+| Deployment Delivery Baseline `K8s` | [Value of Deliverables 7](./docs/CI-CD.md)<br>`Manual` vs. `GitOps` | 2026-06-13 |
 | Feature Validation `K8s` |  [Value of Deliverables 8](./docs/K8s-Feature-Validation.md) | 2026-06-17 |
 | Observability Platform `K8s` | [Value of Deliverables 9](./docs/Observability-Platform.md)<br>`Logging` `Metrics` `Tracing` `Alert Manager` | Expected in `202607` |
 | Vault Distribution Key `K8s` | [Value of Deliverables 10](./docs/Vault.md) | Expected in `202609` |
