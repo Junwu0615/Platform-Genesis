@@ -994,7 +994,7 @@ Validation: ✅
     → N = 3 ; ⌊ 3 / 2 ⌋ + 1 = 2 ( 向下取整 )
  • 3 台 Master 裡, 至少必須有 2 台同時活著, dqlite 共識叢集才能正常讀寫
  • 3 - 2 = 容錯上限 1 台；不論關掉 0、1、2 號機, 只要全場維持 2 台存活, 控制面狀態儲存絕對健康
- • 【 架構升級 】本節正式於前端全面部署 Keepalived 虛擬 IP ( VIP: 10.88.0.99 ), 徹底抹平外部存取單點故障 ( SPOF )
+ • [ 架構升級 ] 本節正式於前端全面部署 Keepalived 虛擬 IP ( VIP: 10.88.0.99 ), 徹底抹平外部存取單點故障 ( SPOF )
 
 Objective: 
  • 驗證控制平面核心組件 ( kube-scheduler / kube-controller-manager ) 的高可用接管速度
@@ -1158,16 +1158,16 @@ Validation: ✅
                         OVERALL VALIDATION STATUS: PASS ✅
 
 
-                    [ Validated Scope ]
-                     • Kubernetes Native Resiliency Features
-                     • Failure Recovery Mechanisms
-                     • Stateful Workload Recovery
-                     • Service Failover Behaviors
-                     • Control Plane High Availability
-                    
-                    [ Validation Coverage ]
-                     • 15 Passed
-                     • 1 Not Applicable ( Architectural Constraint )
+                        [ Validated Scope ]
+                         • Kubernetes Native Resiliency Features
+                         • Failure Recovery Mechanisms
+                         • Stateful Workload Recovery
+                         • Service Failover Behaviors
+                         • Control Plane High Availability
+                        
+                        [ Validation Coverage ]
+                         • 15 Passed
+                         • 1 Not Applicable ( Architectural Constraint )
 
 ==================================================================================
 ```

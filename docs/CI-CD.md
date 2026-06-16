@@ -5,7 +5,7 @@
 <br>
 
 <details>
-<summary><b><i>　a.1.　Tradition </i></b></summary>
+<summary><b><i>　a.1.　Pipeline-Driven Delivery </i></b></summary>
 <ul>
 
 <br>
@@ -15,44 +15,72 @@
 <ul>
 
 ```
-# 實現方式:
-    • [1] GitLab CI
-    • [2] GitLab CI + Jenkins
-    
-# 優劣特性: 
-    • Pipeline-Driven
-    • Imperative Workflow
-    • 適用於小型團隊與 Legacy 環境
-    • 可支援平台 ( VM / Docker / K8s )
-    • 需自行維護 Deploy Script
-    • Rollback 通常依賴 Pipeline
-    • 相對唯一事實 → Deploy State 分散
-        - 分散於 Git, CI Pipeline, Cluster
-        - 難以確認哪個版本實際運行中
-            Git Repository : v1.2
-            CI Pipeline    : v1.3
-            K8s Cluster    : v1.1
-    • 權限管理較複雜 → 延伸安全性問題
-        - CI Pipeline 需持有 K8s Deploy 權限
-        - GitLab Runner 通常需存放 KubeConfig 或 Token
-    • 其他:
-        - GitLab Runner: 可依賴 K8s Pod 啟動一次性 || 簡易 docker 啟動
+# Delivery Model
 
-# Work Flow:
+ • Pipeline-Driven
+ • Imperative Deployment Workflow
 
+
+# Typical Components
+
+ • GitLab CI
+ • Jenkins
+ • Deployment Scripts
+ • Kubernetes API
+
+
+# Characteristics
+
+ • Suitable for small-to-medium teams
+ • Supports VM, Docker, and Kubernetes platforms
+ • Deployment logic is maintained within CI pipelines
+ • Rollback is typically executed through pipeline workflows
+ • Deployment state may be distributed across multiple systems
+    - Git Repository
+    - CI/CD Pipeline
+    - Kubernetes Cluster
+
+
+# Operational Considerations
+
+ • CI systems require deployment permissions
+ • GitLab Runner commonly stores Kubernetes credentials
+ • Permission management becomes more complex as environments scale
+
+
+# Strengths
+
+ • Simple implementation model
+ • Flexible deployment customization
+ • Mature ecosystem and tooling support
+
+
+# Limitations
+
+ • Desired state is not continuously enforced
+ • Configuration drift is not automatically detected
+ • Deployment status visibility may span multiple systems
+
+
+# Deployment Workflow
+
+    Developer Commit
+       ↓
     Git Push
-      ↓
-    GitLab CI
-      ↓
-    Build Image
-      ↓
-    Push Registry
-      ↓
-    Update values.yaml
-      ↓
-    K8s Apply
-      ↓
-    Pod Service Running
+       ↓
+    GitLab CI / Jenkins
+       ↓
+    Container Image Build
+       ↓
+    Container Registry Push
+       ↓
+    Manifest Update
+       ↓
+    kubectl apply
+       ↓
+    Kubernetes Reconciliation
+       ↓
+    Application Available
 ```
 
 </ul>
@@ -73,7 +101,7 @@
 
 
 <details>
-<summary><b><i>　a.2.　GitOps </i></b></summary>
+<summary><b><i>　a.2.　GitOps Delivery </i></b></summary>
 <ul>
 
 <br>
@@ -83,72 +111,84 @@
 <ul>
 
 ```
-# 實現方式:
-    • [1] GitLab CI + Argo CD
+# Delivery Model
 
-# 優劣特性:
-    • State-Driven
-    • Declarative Workflow
-        - 需要嚴格定義結構樹 ( Env Ver / Helm Chart / App / ... )
-    • 適合中大型團隊
-    • 可支援平台 ( K8s )
-    • Drift Detection
-    • Deploy Audit Trail
-    • 僅需定義 Build Pipeline
-        - 僅需定義 Build Pipeline → Image Build 與 Deploy 解耦
-        - Deploy 由 Argo CD 自動同步 → 不直接操作 K8s
-    • Rollback 流程標準化 → Git Revert 即可恢復至指定版本
-    • Single Source of Truth ( Git )
-        - K8s 狀態可追溯
-    • Centralized RBAC ( 權限集中於 Argo CD ) → 安全性較高
-    • Disaster Recovery
-    • 開發維運實質上不分家
-        - 降低人工介入需求
-        - 提高開發團隊自主交付能力
+ • State-Driven
+ • Declarative Deployment Workflow
 
-# Work Flow:
 
+# Typical Components
+
+ • Git Repository
+ • GitLab CI
+ • Container Registry
+ • Argo CD
+ • Kubernetes API
+
+
+# Characteristics
+
+ • Designed for Kubernetes-native environments
+ • Desired state is defined and versioned in Git
+ • Deployment reconciliation is performed by controllers
+ • Git serves as the Single Source of Truth
+ • Deployment state is continuously synchronized with Git
+ • Infrastructure and application definitions are fully traceable
+ • Build and deployment responsibilities are decoupled
+
+
+# Operational Considerations
+
+ • Repository structure requires standardized organization
+    - Environment
+    - Application
+    - Helm Chart
+    - Version Management
+ • Argo CD becomes a critical control-plane component
+ • Git repository governance becomes part of platform governance
+
+
+# Strengths
+
+ • Consistent deployment workflow
+ • Continuous drift detection
+ • Automated desired-state reconciliation
+ • Centralized deployment governance
+ • Improved deployment traceability
+ • Reduced direct cluster access requirements
+
+
+# Limitations
+
+ • Kubernetes-focused architecture
+ • Initial repository design requires additional planning
+ • Operational model may introduce learning overhead
+ • Misconfigured Git changes can propagate automatically
+
+
+# Deployment Workflow
+
+    Developer Commit
+       ↓
     Git Push
-      ↓
+       ↓
     GitLab CI
-      ↓
-    Build Image
-      ↓
-    Push Registry
-      ↓
-    Update values.yaml
-      ↓
-    Argo CD Detect Drift
-      ↓
-    Sync
-      ↓
-    K8s Apply
-      ↓
-    Pod Service Running
-    
-    
-# Disaster Recovery:
-
-    Cluster 壞掉
-      ↓
-    重建 Cluster
-      ↓
-    安裝 Argo CD
-      ↓
-    Sync Git
-      ↓
-    恢復服務
-
-
-# Rollback:
-
-    Git Revert ( ≠ 真正恢復完成 )
-      ↓
-    Git Push
-      ↓
-    Argo CD Sync
-      ↓
-    Rolling Update
+       ↓
+    Container Image Build
+       ↓
+    Container Registry Push
+       ↓
+    Manifest Update
+       ↓
+    Git Repository
+       ↓
+    Argo CD Detection
+       ↓
+    Reconciliation
+       ↓
+    Kubernetes Apply
+       ↓
+    Application Available
 ```
 
 </ul>
@@ -174,30 +214,48 @@
 ### *B.　Quantitative*
 #### *b.1.　Experimental Conditions*
 ```
- [ 量測邊界說明 ]
- 1. 本階段僅比較 Deployment Delivery Lifecycle，映像檔之編譯、打包與 CI 管道執行等待時間，兩案皆扣除不計入。
- 2. Manual 情境： 未導入任何軟體層面管道輔助，採傳統模式以第三方遠端軟體逐台登入裝置、傳檔、手動調整 Config 並執行。
-    → 過往真實經歷有遇到如此極端作業環境 ( 基礎設施幾乎無搭建 )
-    ⭐ 藉由當時情境 → 導入新方案後帶來的整體交付提升為何 ?
- 3. GitOps 情境： 採用 Argo CD 自動化聲明式部署。
+[ Validation Scope ]
+
+1. This validation compares only the Deployment Delivery Lifecycle.
+
+   The following activities are excluded from all measurements:
+    • Source Code Compilation
+    • Container Image Build
+    • Container Image Push
+    • CI Queue Waiting Time
 
 
- [ 測試環境 ]
- Node Count        : 6
- Application       : pg-python-inst
- Replica           : 1
- Image Size        : 296 MB
-     ↓
- [ 測試工具 ]
- Git Repository    : GitLab
- Images Repository : Docker Registry
- GitOps Tool       : Argo CD
-     ↓
- [ 測試次數 ]
- Manual Deploy     : 10 次
- GitOps Deploy     : 10 次
-     ↓
- [ 取平均值 ]
+2. Manual Deployment Scenario
+
+   Deployment is performed through direct host operations,
+   including remote access, file transfer, configuration updates,
+   and manual deployment execution.
+
+   This scenario represents environments with limited deployment
+   automation and serves as the baseline reference model.
+
+
+3. GitOps Deployment Scenario
+
+   Deployment is performed through a GitOps workflow using
+   Argo CD as the deployment reconciliation controller.
+
+
+[ Test Environment ]
+ • Node Count         : 6
+ • Application        : pg-python-inst
+ • Replica Count      : 1
+ • Container Image    : 296 MB
+
+[ Toolchain ]
+ • Git Repository     : GitLab
+ • Container Registry : Docker Registry
+ • GitOps Controller  : Argo CD
+
+[ Measurement Method ]
+ • Manual Deployment  : 10 executions
+ • GitOps Deployment  : 10 executions
+ • Result             : Average value reported
 ```
 
 <br>
