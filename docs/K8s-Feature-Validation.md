@@ -13,7 +13,7 @@ Tier ??? : ???
  • Objective: 驗證 ??? 能力
  • Situation: 測試前狀態
  • Action: 執行動作
- • Metric:
+ • Metrics:
     • Recovery Time
     • Downtime
     • Failed Requests
@@ -27,9 +27,16 @@ Tier ??? : ???
     • Grafana Screenshot
     • Prometheus Metrics
     • Application Screenshot
-  • Validation: 
+    
+ • [X] Failure Scenario
+ • [X] Evidence
+ • [X] Limitation
+ • [X] Known Limitation
+
+ • Validation: 
     • Pass : ✅
     • Fail : ❌
+    • NOT APPLICABLE : ⛔
 ```
 
 </ul>
@@ -40,7 +47,7 @@ Tier ??? : ???
 <ul>
 
 ```
-Tier 1 : Workload
+Tier 1 : Workload Resiliency
  • ✅ Pod 崩潰恢復 : Pod Crash Recovery
  • ✅ OOMKill 恢復 : OOMKill Recovery
     • Out of Memory Killer: 記憶體耗盡時, 為了保護系統核心不崩潰, 
@@ -52,19 +59,19 @@ Tier 1 : Workload
  • ✅ 回滾 : Rollback
 
 
-Tier 2 : Node
+Tier 2 : Node Resiliency
  • ✅ 節點排水 : Node Drain Recovery
     • 代表 → 節點計畫性維護 ( Planned Maintenance )
  • ✅ 節點故障 : Node Failure Recovery
     • 代表 → 節點災難恢復 ( Disaster Recovery )
 
 
-Tier 3 : Service
+Tier 3 : Traffic Failover
  • ✅ Service 端點容災切換 : Endpoint Failover
  • ✅ Ingress 流量網關容災 : Ingress Failover
 
 
-Tier 4 : Storage
+Tier 4 : Stateful Recovery
  • ✅ PVC 持久性 : PVC Persistence
  • ✅ StatefulSet 狀態集自我修復 : StatefulSet Recovery
     • 呼應前面的 Recovery, 在 K8s 中這種不經人工介入的重啟通常稱為自我修復能力 ( Self-healing )
@@ -73,11 +80,11 @@ Tier 4 : Storage
 Tier 5 : Autoscaling
  • ✅ HPA 自動擴展 : HPA Scale-Out
     • 增加 Pod 數量叫水平擴展
- • ❌ HPA 自動縮容 : HPA Scale-In
+ • ⛔ HPA 自動縮容 : HPA Scale-In
     • 減少 Pod 數量叫水平縮容
 
 
-Tier 6 : Control Plane
+Tier 6 : Control Plane HA
  • ✅ Master 節點單點故障損壞 : Single Master Failure
     • 控制平面 ( Control Plane ) 失去單一主節點時的叢集存活能力
  • ✅ 控制平面組件領導者重新選舉 : Leader Re-election
@@ -91,7 +98,7 @@ Tier 6 : Control Plane
 
 <br>
 
-### *★　Tier 1 : Workload*
+### *★　Tier 1 : Workload Resiliency*
 
 <details>
 <summary><b><i>　Pod Crash Recovery </i></b></summary>
@@ -111,7 +118,7 @@ Situation:
 Action:
  • Delete Pod
      • kubectl delete pod inst-homelab-test-xxx-xxx
-     • K9s : ctrl + k
+     • K9s: ctrl + k
 
 Metric:
  • Pod Recovery Time
@@ -120,8 +127,9 @@ Pass Criteria:
  • Pod Recovery Time < 5 min
  
 Result:
- • New Pod Created ......... 2 sec
- • ⭐ Total Recovery Time .. 5 sec
+ • Pod Creation Latency ......... 2 sec
+ • Container Startup Time ....... 3 sec
+ • ⭐ Readiness Recovery Time ... 5 sec
 
 Observation:
  • kubectl get pods -n pg-apps-homelab-test -w
@@ -177,11 +185,11 @@ Pass Criteria:
  • Total Recovery Time < 15 sec
  
 Result:
- • OOM Trigger Latency ........... 1 sec
+ • Observed OOM Status Time ...... 1 sec ( 沒精準使用工具取得 OOM Trigger Latency )
  • K8s OOM Detection Latency ..... 1 sec
  • Container Restart Time ....... 13 sec
  • ⭐ Total Recovery Time ....... 15 sec
- • Data Loss ..................... 0 ( Validated via Kafka Offset )
+ • Data Loss ..................... 0 ( Observed: Validated via Kafka Offset )
  
 Observation:
  • K9s: 觀察狀態是否遵循 [ Running ] → [ OOMKilled || CrashLoopBackOff ] → [ Running ]
@@ -252,7 +260,7 @@ Result:
  • K8s Detection Latency ..... 1 sec
  • Container Restart Time .... 8 sec
  • ⭐ Total Recovery Time ... 12 sec
- • Data Loss ................. 0 ( Validated via Kafka Offset )
+ • Data Loss ................. 0 ( Observed: Validated via Kafka Offset )
  
 Observation:
  • 觀察 RESTARTS 欄位是否從 0 變 1
@@ -264,6 +272,7 @@ Observation:
  • 檢查 容器日誌內部 是否監聽測到外部傳入自殺訊號
      • K9s: l
  • Kafka Consumer Group Matrix ( 確認 Lag 沒有異常堆積, 且重啟後能繼續正常消費 )
+ • 實驗最終比較像 Crash Recovery => 而非 Process 還活著，但服務卡死
  
 Validation: ✅
 ```
@@ -322,6 +331,7 @@ Result:
 Observation:
  • K9s: 觀察狀態是否遵循 [ Running ] → [ Terminating ] → 完全消失 → [ ContainerCreating ] → [ Running ]
  • kubectl get image: 確認新 Pod 確實是吃進了新版 Tag
+ • 非 Rolling Update 而是 Deployment Recreate Update, 因為兩者策略彼此矛盾
  
 Validation: ✅
 ```
@@ -372,6 +382,7 @@ Result:
 Observation:
  • kubectl rollout history deployment <name> ( 查看 K8s 歷史版本紀錄清單 )
  • K9s: 觀察 Pod 的 RESTART 欄位與 IMAGE 欄位是否倒回舊版
+ • 本測試是 Deployment Rollback ; 而非 Application Rollback ( 常見 )
  
 Validation: ✅
 ```
@@ -390,7 +401,7 @@ Validation: ✅
 
 <br>
 
-### *★　Tier 2 : Node*
+### *★　Tier 2 : Node Resiliency*
 
 <details>
 <summary><b><i>　Node Drain Recovery </i></b></summary>
@@ -436,6 +447,7 @@ Result:
  • Pod Scheduling Time ..... 3 sec
  • Container Startup Time .. 3 sec
  • ⭐ Total Recovery Time .. 7 sec
+ • Service Availability .... 0 % ( 設計時沒有 Replica 1 以上, 過程有 7 秒服務掛掉 )
 
 Observation:
  • Get Nodes Status
@@ -493,7 +505,7 @@ Situation:
  • Target Pod :
     • -n pg-apps-homelab-test
     • inst-homelab-test
-    • Node Eviction Timeout = 10 sec
+    • Node Eviction Timeout = 10 sec ( 調整預設參數 )
 
 Action:
  • Manual Shutdown Agent-3
@@ -553,7 +565,7 @@ Validation: ✅
 
 <br>
 
-### *★　Tier 3 : Service*
+### *★　Tier 3 : Traffic Failover*
 
 <details>
 <summary><b><i>　Endpoint Failover </i></b></summary>
@@ -651,7 +663,7 @@ Pass Criteria:
  
 Result:
  • HTTP Success Rate During Rollout ..... 100%
- • Ingress Config Sync Latency .......... < 1 sec ( 記憶體動態更新 )
+ • Observed Config Sync Latency .......... < 1 sec ( 記憶體動態更新 )
  • ⭐ External Request Dropped .......... 0
  
 Observation:
@@ -683,7 +695,7 @@ Validation: ✅
 
 <br>
 
-### *★　Tier 4 : Storage*
+### *★　Tier 4 : Stateful Recovery*
 
 <details>
 <summary><b><i>　PVC Persistence </i></b></summary>
@@ -777,6 +789,7 @@ Observation:
         隨後長出名字一模一樣的 postgresql-homelab-test-0 進入 Init 或 Running
  • 查看 PVC 狀態： 確認該 PVC 在短暫釋放後, 立刻被重新綁定 ( Bound ) 到新的同名 Pod 上
  • 臨時建立的 recovery_token.txt 將容器銷毀後 再次確認也依然存在
+ • Environment Specific Result: 本測試局限於 local-path 單機磁碟, 更複雜環境未能實現
  
 Validation: ✅
 ```
@@ -835,6 +848,7 @@ Observation:
  • K9s: 
     • 觀察狀態是否從原本只有 1 隻, 幾十秒內會突然蹦出第 2 隻 ( ContainerCreating )
     • 進入: hpa 畫面, 觀察 TARGETS 欄位是否呈現破表狀態 ( 1% )
+ • 本測試屬於 Configuration Trigger Test 而非真實 Load Test
  
 Validation: ✅
 ```
@@ -880,7 +894,7 @@ Result:
  • Scale-In Cooldown Delay ( 通常預設為 5 分鐘, 防震盪 ) ..... N/A sec 
  • ⭐ Final Replica Count ................................ 2 -> 1
 
-Validation: ❌
+Validation: ⛔
 
 • 失敗原因：
   由於應用的 Deployment 採用 strategy: Recreate, 在 GitOps 同步門檻值的瞬間, 
@@ -906,7 +920,7 @@ Validation: ❌
 
 <br>
 
-### *★　Tier 6 : Control Plane*
+### *★　Tier 6 : Control Plane HA*
 
 <details>
 <summary><b><i>　Single Master Failure </i></b></summary>
@@ -1047,68 +1061,101 @@ Validation: ✅
 ### *⭐　Final Statistics*
 ```
 ==================================================================================
-                    K3s Feature Validation Summary Report
+                       K3s Native Feature Validation Report
 ==================================================================================
-
 [ Cluster Topology ]
  • 3 Control Plane Nodes ( k3s-master-0, 1, 2 ) | Embedded dqlite HA Mode
  • 4 Worker Nodes        ( k3s-agent-1, 2, 3, 4 )
  • L3 Network Gateway    ( Keepalived VRRP HA VIP: 10.88.0.99 )
+ 
+[ Result ]
+ • 15 / 16 validation scenarios passed
+ • 1 scenario identified architectural incompatibility
+   ( HPA Scale-In vs Recreate Deployment Strategy )
 
 --------------------------------------------------------------------------------
 [ Validation Result Matrix ]
 --------------------------------------------------------------------------------
- Tier 1 : Workload
+ Tier 1 : Workload Resiliency
    ✔ Pod Crash Recovery ................................................. [ PASS ]
-   ✔ OOMKill Recovery  ( Exit Code 137 / Data Loss: 0 ) ................. [ PASS ]
+   ✔ OOMKill Recovery  ( Exit Code 137 / No Data Loss Observed ) ........ [ PASS ]
    ✔ Liveness Recovery ( Probe Unhealthy / Local Heartbeat ) ............ [ PASS ]
-   ✔ Rolling Update    ( Recreate Strategy / Zero Leak ) ................ [ PASS ]
+   ✔ Rolling Update    ( Recreate Deployment Strategy ) ................. [ PASS ]
    ✔ Rollback          ( ArgoCD / GitOps Declared ) ..................... [ PASS ]
 
- Tier 2 : Node
+ Tier 2 : Node Resiliency
    ✔ Node Drain Recovery   ( Planned Maintenance ) ...................... [ PASS ]
    ✔ Node Failure Recovery ( Disaster Recovery Simulation ) ............. [ PASS ]
 
- Tier 3 : Service
+ Tier 3 : Traffic Failover
    ✔ Endpoint Failover ( 103/103 Requests / 100% Success ) .............. [ PASS ]
    ✔ Ingress Failover  ( Nginx Upstream Dynamic Reload ) ................ [ PASS ]
 
- Tier 4 : Storage
+ Tier 4 : Stateful Recovery
    ✔ PVC Persistence      ( SQLite Transaction Resumption ) ............. [ PASS ]
    ✔ StatefulSet Recovery ( Identity & Local-Path Disk Lock ) ........... [ PASS ]
 
  Tier 5 : Autoscaling
    ✔ HPA Scale-Out ( Target CPU 1% Trigger ) ............................ [ PASS ]
-   ✘ HPA Scale-In  ( Infra Collision with Recreate Strategy ) .... ...... [ FAIL ]
+   ✘ HPA Scale-In  ( Infra Collision with Recreate Strategy ) .... ...... [ NOT APPLICABLE ]
      └─ 決策架構優化： Singleton 應用應關閉 HPA, 改採 K8s 內建 Self-healing
 
- Tier 6 : Control Plane
+ Tier 6 : Control Plane HA
    ✔ Single Master Failure ( dqlite Quorum=2 Adherence ) ................ [ PASS ]
    ✔ Leader Re-election    ( Keepalived VIP + Component Lease Lock ) .... [ PASS ]
 
 --------------------------------------------------------------------------------
 [ Performance & Resiliency Metrics ]
 --------------------------------------------------------------------------------
- • Pod Crash Recovery Time ..................... 5 sec
- • OOMKill Self-Healing Time .................. 15 sec
- • Liveness Probe Self-Healing Time ........... 12 sec
- • Rolling Update (Recreate Strategy) .......... 5 sec ( PVC Detach/Attach: 1s )
- • Rollback Completion Time .................... 8 sec
+ • Pod Crash Recovery Time ............................. 5 sec
+ • OOMKill Self-Healing Time .......................... 15 sec
+ • Liveness Probe Self-Healing Time ................... 12 sec
+ • Rolling Update (Recreate Strategy) .................. 5 sec ( PVC Detach/Attach: 1s )
+ • Rollback Completion Time ............................ 8 sec
  
- • Node Planned Drain Recovery Time ............ 7 sec
- • Node Disaster Failure Recovery Time ........ 73 sec ( K8s Node NotReady: 52s )
+ • Node Planned Drain Recovery Time .................... 7 sec
+ • Node Disaster Failure Recovery Time ................ 73 sec ( K8s Node NotReady: 52s )
  
- • Service Layer Failover Success Rate .......... 100% ( HTTP Outage Duration: 0s )
- • Ingress Dynamic Config Sync Latency ....... < 1 sec
+ • Service Layer Failover Success Rate .................. 100% ( HTTP Outage Duration: 0s ; 103 requests observed )
+ • Observed Ingress Dynamic Config Sync Latency ....... < 1 sec
  
- • StatefulSet Self-Healing Time ............. 20  sec ( Data Loss: None )
- • HPA Scale-Out Trigger Latency ............. 100 sec
+ • StatefulSet Self-Healing Time ..................... 20  sec ( No Data Loss Observed )
+ • HPA Scale-Out Trigger Latency ..................... 100 sec
  
- • Control Plane VRRP VIP Failover Latency ... < 1 sec ( Millisecond level )
- • K8s Component Lease Failover Latency ........ 5 sec ( Default: < 15s )
+ • Observed Control Plane VRRP VIP Failover Latency .. < 1 sec ( Millisecond level )
+ • K8s Component Lease Failover Latency ................ 5 sec ( Default: < 15s )
+
+--------------------------------------------------------------------------------
+[ Key Findings ]
+--------------------------------------------------------------------------------
+ • Kubernetes self-healing mechanisms operated as expected.
+ • Workloads were successfully rescheduled during node-level failures.
+ • Stateful workloads preserved identity and persisted data after recovery.
+ • Service and ingress traffic remained available during tested failover events.
+ • Control-plane quorum and leader election behaved consistently with HA design expectations.
+ 
+--------------------------------------------------------------------------------
+[ Scope Limitation ]
+--------------------------------------------------------------------------------
+ • The tested K3s cluster successfully demonstrated the expected behavior of
+   the evaluated Kubernetes native features under the defined failure scenarios.
+
+ • Recovery, failover, rescheduling, state persistence, and control-plane
+   continuity were observed to function as designed within the scope of this validation.
+
+ • Validation results should be interpreted as environment-specific observations
+   collected from the current homelab platform and workload characteristics.
+   
+ • Measured values are observational metrics collected from a single homelab environment 
+   and should not be interpreted as performance guarantees for other Kubernetes deployments.
+
+ • Additional validation areas such as backup/restore, disaster recovery,
+   security hardening, observability, capacity planning, and upgrade testing
+   remain outside the scope of this report.
 
 ==================================================================================
-  OVERALL ARCHITECTURE EVALUATION: SUCCESS ( ✅ PASS with Production-Ready Grade )
+                        OVERALL VALIDATION STATUS: PASS ✅
+   Validated Scope: Kubernetes Native Resiliency & High Availability Features
 ==================================================================================
 ```
 
