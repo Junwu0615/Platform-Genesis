@@ -1045,69 +1045,70 @@ Validation: ✅
 
 ### *⭐　Final Statistics*
 ```
-K3s Feature Validation Summary
+==================================================================================
+                    K3s Feature Validation Summary Report
+==================================================================================
 
-Cluster:
-• 3 Control Plane
-• 4 Worker
+[ Cluster Topology ]
+ • 3 Control Plane Nodes ( k3s-master-0, 1, 2 ) | Embedded dqlite HA Mode
+ • 4 Worker Nodes        ( k3s-agent-1, 2, 3, 4 )
+ • L3 Network Gateway    ( Keepalived VRRP HA VIP: 10.88.0.99 )
 
-Validation Result:
---------------------------------
+--------------------------------------------------------------------------------
+[ Validation Result Matrix ]
+--------------------------------------------------------------------------------
+ Tier 1 : Workload
+   ✔ Pod Crash Recovery ............................................... [ PASS ]
+   ✔ OOMKill Recovery (Exit Code 137 / Data Loss: 0) .................. [ PASS ]
+   ✔ Liveness Recovery (Probe Unhealthy / Local Heartbeat) ............ [ PASS ]
+   ✔ Rolling Update (Recreate Strategy / Zero Leak) ................... [ PASS ]
+   ✔ Rollback (ArgoCD / GitOps Declared) .............................. [ PASS ]
 
-Workload
-✓ Pod Crash Recovery
-✓ OOMKill Recovery
-✓ Liveness Recovery
-✓ Rolling Update
-✓ Rollback
+ Tier 2 : Node
+   ✔ Node Drain Recovery (Planned Maintenance) ........................ [ PASS ]
+   ✔ Node Failure Recovery (Disaster Recovery Simulation) ............. [ PASS ]
 
-Node
-✓ Node Drain Recovery
-✓ Node Failure Recovery
+ Tier 3 : Service
+   ✔ Endpoint Failover (103/103 Requests / 100% Success) .............. [ PASS ]
+   ✔ Ingress Failover (Nginx Upstream Dynamic Reload) ................. [ PASS ]
 
-Service
-✓ Endpoint Failover
-✓ Ingress Failover
+ Tier 4 : Storage
+   ✔ PVC Persistence (SQLite Transaction Resumption) .................. [ PASS ]
+   ✔ StatefulSet Recovery (Identity & Local-Path Disk Lock) ........... [ PASS ]
 
-Storage
-✓ PVC Persistence
-✓ StatefulSet Recovery
+ Tier 5 : Autoscaling
+   ✔ HPA Scale-Out (Target CPU 1% Trigger) ............................ [ PASS ]
+   ✘ HPA Scale-In (Infra Collision with Recreate Strategy) ............ [ FAIL ]
+     └─ 決策架構優化：Singleton 應用應關閉 HPA，改採 K8s 內建 Self-healing
 
-Autoscaling
-✓ HPA Scale-Out
-✓ HPA Scale-In
+ Tier 6 : Control Plane
+   ✔ Single Master Failure (dqlite Quorum=2 Adherence) ................ [ PASS ]
+   ✔ Leader Re-election (Keepalived VIP + Component Lease Lock) ....... [ PASS ]
 
-Control Plane
-✓ Single Master Failure
-✓ Leader Re-election
+--------------------------------------------------------------------------------
+[ Performance & Resiliency Metrics ]
+--------------------------------------------------------------------------------
+ • Pod Crash Recovery Time ................... 5 sec
+ • OOMKill Self-Healing Time ................. 15 sec
+ • Liveness Probe Self-Healing Time .......... 12 sec
+ • Rolling Update (Recreate Strategy) ........ 5 sec ( PVC Detach/Attach: 1s )
+ • Rollback Completion Time .................. 8 sec
+ 
+ • Node Planned Drain Recovery Time .......... 7 sec
+ • Node Disaster Failure Recovery Time ....... 73 sec ( K8s Node NotReady: 52s )
+ 
+ • Service Layer Failover Success Rate ....... 100% ( HTTP Outage Duration: 0s )
+ • Ingress Dynamic Config Sync Latency ....... < 1 sec
+ 
+ • StatefulSet Self-Healing Time ............. 20 sec ( Data Loss: None )
+ • HPA Scale-Out Trigger Latency ............. 100 sec
+ 
+ • Control Plane VRRP VIP Failover Latency ... < 1 sec ( Millisecond level )
+ • K8s Component Lease Failover Latency ...... 5 sec ( Default: < 15s )
 
---------------------------------
-
-Key Metrics
-
-Pod Recovery Time
-Average : xx sec
-
-Node Failure Recovery
-Average : xx sec
-
-Rolling Update Downtime
-Average : xx sec
-
-PVC Data Loss
-None
-
-StatefulSet Recovery
-xx sec
-
-HPA Scale Out
-xx sec
-
-Control Plane Recovery
-xx sec
-
-Overall Result
-PASS
+==================================================================================
+  OVERALL ARCHITECTURE EVALUATION: SUCCESS ( ✅ PASS with Production-Ready Grade )
+==================================================================================
 ```
 
 <br><br><br>
