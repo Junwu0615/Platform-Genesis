@@ -307,6 +307,9 @@
 | K8s | Experience : NFS 儲存機制 ( SQLite ) | 2026-06-13 |
 | K8s | Experience : HPA 擴展/縮容 | 2026-06-15 |
 | GitOps | Experience : 無限套娃動態死鎖 | 2026-06-15 |
+| K8s | Master Control Plane `etcd ( Raft 演算法 )` | 2026-06-16 |
+| VM | Ansible `Keepalived` | 2026-06-16 |
+| VM | Master Control Plane `選舉機制` | 2026-06-16 |
 | GitOps | Build : `Security` `Vault` | - |
 | GitOps | Maintain 2 repo ( `CI` + `CD` ) | `TBD` |
 
@@ -327,7 +330,7 @@
 | 資料庫核心業務解套演進 | [Value of Deliverables 5](./docs/Evolution-of-Database-Core.md)<br>`Direct Read` vs. `MV` vs. `CDC` | Expected in `202607` |
 | 透過監控系統<br>觀察業務系統瓶頸 | [Value of Deliverables 6](./docs/Workload-Benchmark.md)<br>Workload Benchmark | Expected in `202608` |
 | CI/CD `K8s` | [Value of Deliverables 7](./docs/CI-CD.md)<br>`Manual` vs. `GitOps` | 2026-06-13 |
-| Feature Validation `K8s` |  [Value of Deliverables 8](./docs/K8s-Feature-Validation.md) | Expected in `202606` |
+| Feature Validation `K8s` |  [Value of Deliverables 8](./docs/K8s-Feature-Validation.md) | 2026-06-16 |
 | Observability Platform `K8s` | [Value of Deliverables 9](./docs/Observability-Platform.md)<br>`Logging` `Metrics` `Tracing` `Alert Manager` | Expected in `202607` |
 | Vault Distribution Key `K8s` | [Value of Deliverables 10](./docs/Vault.md) | Expected in `202609` |
 | DevOps `K8s` | [Value of Deliverables 11](./docs/DevOps.md)<br>`Code Review` `PR` `TEST` `STAGE` `PROD` | Expected in `202606` |

@@ -410,11 +410,11 @@ Situation:
     • inst-homelab-test
 
 Action:
- • 進行節點維運作業 => kubectl drain ( 設定不可排程 + 歷史遺留、現存於該 Node 上的 Pod 趕走 )
+ • 進行節點維運作業 → kubectl drain ( 設定不可排程 + 歷史遺留、現存於該 Node 上的 Pod 趕走 )
     kubectl drain k3s-agent-2 \
       --ignore-daemonsets \
       --delete-emptydir-data
- • 節點維運完成 => 手動復原
+ • 節點維運完成 → 手動復原
     kubectl uncordon k3s-agent-2
 
 Metric:
@@ -566,7 +566,7 @@ Objective:
    並確保在此交替期間, 外部持續進來的流量 100% 由其餘健康 Pod 承接, 不發生請求遺失
  
 Situation:
- • 後端 registry-homelab-test 部署為雙複本 replicas: 2，避免了複雜有狀態組件的 Sidecar 干擾
+ • 後端 registry-homelab-test 部署為雙複本 replicas: 2, 避免了複雜有狀態組件的 Sidecar 干擾
  • 網關 Nginx Ingress Controller 採用 hostNetwork: true 獨佔邊緣節點實體埠
  
 Action:
@@ -593,8 +593,8 @@ Result:
  
 Observation:
  • 透過 K9s 觀察 ENDPOINTS 欄位 隨著 pod 移除後 流量平滑移轉 創建後動態新增
- • 雖然 EndpointSlice 變更有約 4 秒的微幅延遲才完全在 API Server 生效，
-   但因為本質為雙複本部署，流量在第 1 秒就已被健康節點完全平滑承接，外網展現 0 延遲中斷
+ • 雖然 EndpointSlice 變更有約 4 秒的微幅延遲才完全在 API Server 生效, 
+   但因為本質為雙複本部署, 流量在第 1 秒就已被健康節點完全平滑承接, 外網展現 0 延遲中斷
  • 檢視自定義統計腳本實際狀態
  
  
@@ -632,7 +632,7 @@ Objective:
    確保外網使用者在路由頻繁變更期間, 訪問服務維持零斷線、零延遲感知
  
 Situation:
- • 後端 registry-homelab-test 部署為雙複本 replicas: 2，避免了複雜有狀態組件的 Sidecar 干擾
+ • 後端 registry-homelab-test 部署為雙複本 replicas: 2, 避免了複雜有狀態組件的 Sidecar 干擾
  • 網關 Nginx Ingress Controller 採用 hostNetwork: true 獨佔邊緣節點實體埠
  
 Action:
@@ -654,8 +654,8 @@ Result:
  • ⭐ External Request Dropped .......... 0
  
 Observation:
- • 雖然 2 個舊實例最終皆被重啟汰換，但得益於無狀態應用的獨立性，K8s 嚴格執行 <新節點就緒、舊節點才下線> 的交替控管
-   Nginx Ingress 記憶體 Upstream 同步極其敏捷，演練全程外網存取毫無斷線感知
+ • 雖然 2 個舊實例最終皆被重啟汰換, 但得益於無狀態應用的獨立性, K8s 嚴格執行 <新節點就緒、舊節點才下線> 的交替控管
+   Nginx Ingress 記憶體 Upstream 同步極其敏捷, 演練全程外網存取毫無斷線感知
 
 
 📊 【 Tier 3 容災統計報告 】
@@ -912,8 +912,59 @@ Validation: ❌
 <ul>
 
 ```
+3 節點的內建 dqlite 叢集
+ • Quorum = ⌊ N / 2 ⌋ + 1
+    → N = 3 ; ⌊ 3 / 2 ⌋ + 1 = 2 ( 向下取整 )
+ • 3 台 Master 裡, 至少必須有 2 台同時活著, dqlite 叢集才能正常讀寫
+ • 3 - 2 = 容錯上限 1 台；不論關掉 0、1、2 號機, 只要全場還有 2 台活著, 大腦狀態儲存絕對是健康的
+ 
+Objective: 
+ • 驗證當控制平面 ( Control Plane ) 失去單一主節點 ( Master ) 時, 依靠內建 dqlite 的 Raft 共識機制, 
+   剩餘的 Master 節點能否在無人工介入下自動維持過半數信任 ( Quorum ), 確保叢集 API Server 持續可用, 
+   且全叢集已存活之資料平面的 Pod 容器正常運作、不受斷線干擾
+ 
+Situation:
+ • 叢集具備 3 台 Master 節點, 此時本地端 Kubeconfig 外部連線端點仍單點綁定於 k3s-master-0 ( 10.88.0.10 )
+ 
+Action:
+ • 於 WSL2 啟動循環監聽 API Server 存活狀態：
+   while true; do kubectl get nodes > /dev/null && echo "✅ K8s API Server 正常" || echo "❌ K8s API Server 斷線"; sleep 0.5; done
+  
+ • 觀察位於 Master 的服務是否中斷 ( 切記是非必要服務 ; 控制台不跑任何主要服務 ) 
+   kubectl get pods -A -w -o custom-columns=NAMESPACE:.metadata.namespace,NAME:.metadata.name,IP:.status.podIP,NODE:.spec.nodeName,STATUS:.status.phase,AGE:.metadata.creationTimestamp | grep "k3s-master"
 
+ • 手動將「非入口」之其中一台 Master ( k3s-master-1 ) 節點強制物理斷電關機
+ • 觀察外網監聽指令是否發生卡頓、噴出 i/o timeout, 並確認 K9s 中節點狀態更迭
+ 
+Metric:
+ • Control Plane Outage Duration ( 核心 API 癱瘓、無法連線的總時間, 目標 0 秒 )
+ • Data Plane Affected Count ( 資料平面受干擾、意外重啟的 Pod 數量掉, 目標 0 數量 )
+ 
+Pass Criteria:
+ • 關閉單一非入口 Master 期間, 外網/本地對 kubectl 的下達完全無感, 沒有發生連線拒絕, 且所有 Agent 上的業務 Pod 100% 正常存活
+ 
+Result:
+ • Control Plane Outage Duration .... 0 sec ( 關閉非入口節點 master-1 時 )
+ • Data Plane Affected Count ........ 0
+ 
+Observation:
+ • 執行指令後, K9s 內 k3s-master-1 於約 40 秒後變為 NotReady, 
+   在此期間, 外部 kubectl 循環偵測指令完全沒中斷、無任何 i/o timeout 報錯, 證實其餘 2 台 Master 成功維持共識控制權
+ • 底層 dqlite 共識機制 ( Quorum=2 ) 完全成立, 但此時突顯出物理盲點：
+   因本機連線目前單點綁定於 0 號機, 若未來改關閉 0 號機將引發客戶端外部路由斷線 ( SPOF )
+   • 解決方案：下一階段 ( 選舉測試 ) 將導入 Keepalived VIP 技術, 徹底抹平外部存取單點故障
+ 
+Validation: ✅
 ```
+
+<details>
+<summary><b><i>　🎬　Demo </i></b></summary>
+<ul>
+
+![GIF](../assets/gif/Single%20Master%20Failure.gif)
+
+</ul>
+</details>
 
 </ul>
 </details>
@@ -923,8 +974,69 @@ Validation: ❌
 <ul>
 
 ```
+3 節點的 dqlite 叢集 + Keepalived
+ • Quorum = ⌊ N / 2 ⌋ + 1
+    → N = 3 ; ⌊ 3 / 2 ⌋ + 1 = 2 ( 向下取整 )
+ • 3 台 Master 裡, 至少必須有 2 台同時活著, dqlite 共識叢集才能正常讀寫
+ • 3 - 2 = 容錯上限 1 台；不論關掉 0、1、2 號機, 只要全場維持 2 台存活, 控制面狀態儲存絕對健康
+ • 【 架構升級 】本節正式於前端全面部署 Keepalived 虛擬 IP ( VIP: 10.88.0.99 ), 徹底抹平外部存取單點故障 ( SPOF )
 
+Objective: 
+ • 驗證控制平面核心組件 ( kube-scheduler / kube-controller-manager ) 的高可用接管速度
+ • 當現任持有租約鎖定 ( Lease Lock ) 的 Leader 組件暴斃時, 備份組件能否依循設定之租約週期, 
+   自動觸發 Leader Re-election ( 領導者重選 ), 並在秒級內平滑移轉控制權, 避免全叢集調度功能癱瘓
+ 
+Situation:
+ • K3s 核心控制面組件整合於單一處理程序中, 其分散式鎖定租約儲存於 kube-system 命名空間
+ 
+Action:
+ • 於 WSL2 啟動循環監聽 API Server 存活狀態 ( 經由高可用 VIP 入口 ) ：
+   while true; do kubectl get nodes > /dev/null && echo "✅ K8s API Server 正常" || echo "❌ K8s API Server 斷線"; sleep 0.5; done
+  
+ • 觀察位於 Master 的服務是否中斷 ( 切記是非必要服務 ; 控制台不跑任何主要服務 ) 
+   kubectl get pods -A -w -o custom-columns=NAMESPACE:.metadata.namespace,NAME:.metadata.name,IP:.status.podIP,NODE:.spec.nodeName,STATUS:.status.phase,AGE:.metadata.creationTimestamp | grep "k3s-master"
+   
+ • 於 WSL2 啟動 Watch 模式盯著這個租約更迭 ( 監控當選過程 )：
+   kubectl get lease -n kube-system kube-scheduler -w
+   
+ • 手動將當前同時持有租約鎖 ( Holder ) 與 VIP 承載權的主控節點強制物理斷電關機
+ • 觀察租約視窗, 記錄 HOLDER 欄位移轉給其餘健康 Master 節點的時間差與平滑度
+ 
+Metric:
+ • Lease Failover Latency ( 舊 Leader 倒下到新 Leader 搶鎖成功的時間差, K8s 預設上限 15 秒內 )
+ 
+Pass Criteria:
+ • 舊 Leader 倒下後, 租約在微幅超時內必須自動被另一台合規的 Master 承接, HOLDER 欄位順利更名且叢集調度不中斷
+ 
+Result:
+ • Lease Failover Latency .......... 5 sec ( 遠低於 K8s 預設超時臨界點 )
+ 
+Observation:
+ • 當手動關閉現任 Leader 的伺服器實體後, 透過 get lease -w 觀察到 Lease 於 5 秒內被快速重繪, 
+   HOLDER 自動由舊節點變更為活著的健康 Master 節點
+ • 同步驗證外部連線, 因 Keepalived VIP 於毫秒級完成網路層飄移, 即便物理拔除 0 號機, 
+   外網監聽指令完全未發生任何中斷與 i/o timeout, 完美落實入口與核心元件的雙層高可用
+ 
+Validation: ✅
 ```
+
+<details>
+<summary><b><i>　🎬　Demo ( 正常 → 失聯 ) </i></b></summary>
+<ul>
+
+![GIF](../assets/gif/Leader%20Re-election-00.gif)
+
+</ul>
+</details>
+
+<details>
+<summary><b><i>　🎬　Demo ( 失聯 → 正常 ) </i></b></summary>
+<ul>
+
+![GIF](../assets/gif/Leader%20Re-election-01.gif)
+
+</ul>
+</details>
 
 </ul>
 </details>
