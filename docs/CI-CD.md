@@ -1,5 +1,7 @@
 ## *⭐ K8s - Deployment Delivery Baseline ⭐*
 
+<br>
+
 ### *A.　Delivery Model Comparison*
 
 <br>
@@ -431,8 +433,8 @@ These values do not include:
 |--:|:--|
 | Measured Deployment<br>Time Reduction | 53.3%<br>( 225 sec → 105 sec ) |
 | Estimated Multi-Node<br>Operational Scaling Benefit | Derived from single-deployment measurements<br>and linear operational effort assumptions |
-| Post-Adoption<br>Operational Comparison | 70% ( Steps: 10 → 3 ) |
-| Deployment<br>Access Centralization | 移除個人 KubeConfig / 直接 Cluster 存取權限<br>/ 部署操作統一經由 Argo CD RBAC 控管<br><br>• 補充 GitLab 尚有權限 ( Registry / Repo / Pipeline ) |
+| Post-Adoption<br>Operational Comparison | 70%<br>( Steps: 10 → 3 ) |
+| Deployment<br>Access Centralization | 移除個人 KubeConfig / 直接 Cluster 存取權限<br>/ 部署操作統一經由 Argo CD RBAC 控管<br><br>• GitLab 尚有權限 ( Registry / Repo / Pipeline ) |
 | Rollback<br>Process Simplification | Manual rollback procedures replaced<br>by Git-based version reversion workflow |
 | Multi-node Deployment<br>Efficiency Improvement | Linear → Near-constant |
 

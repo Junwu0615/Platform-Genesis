@@ -1,5 +1,8 @@
-### *Benchmark Methods*
-- #### *1.　OLTP 壓力測試 ( Write )*
+## *Benchmark Methods*
+
+<br>
+
+### *★　OLTP 壓力測試 ( Write )*
   ```
   測試特徵 :
   大量 INSERT / UPDATE
@@ -22,7 +25,7 @@
   常見 benchmark :
   TPC-C
   ```
-- #### *2.　OLAP 壓力測試 ( Read )*
+### *★　OLAP 壓力測試 ( Read )*
   ```
   測試特徵 :
   大量 SELECT
@@ -41,7 +44,7 @@
   ⭐ TPC-H
   TPC-DS
   ```
-- #### *3.　HTAP 壓力測試 ( Mix )*
+### *★　HTAP 壓力測試 ( Mix )*
   ```
   同時跑 :
   transaction workload
@@ -59,7 +62,7 @@
 
 <br>
 
-### *Generic DB Benchmark Result*
+### *★　Generic DB Benchmark Result*
 - #### *[shm_size 64 MB](../docs/Generic-Result-1.md) ( Docker Desktop )*
 - #### *[shm_size 16 GB](../docs/Generic-Result-2.md) ( WSL2 )*
 

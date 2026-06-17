@@ -1,5 +1,7 @@
 ## *⭐ Role-Based Access Control ⭐*
 
+<br>
+
 ### *A.1.　Table Description*
 - #### *a.　OLTP*
   |**Name**|**Description**|**Remark**|

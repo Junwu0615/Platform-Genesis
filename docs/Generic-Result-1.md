@@ -1,4 +1,7 @@
 ## *🪛 shm_size: 64 MB*
+
+<br>
+
 ### *Settings ( shared_buffers / work_mem / synchronous_commit )*
 ![PNG](../assets/generic_result_1.png)
 

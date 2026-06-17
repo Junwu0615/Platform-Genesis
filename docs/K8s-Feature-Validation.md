@@ -973,10 +973,19 @@ Validation: ✅
 ```
 
 <details>
-<summary><b><i>　🎬　Demo </i></b></summary>
+<summary><b><i>　🎬　Demo ( 關閉非入口 → k3s-master-1 )  </i></b></summary>
 <ul>
 
-![GIF](../assets/gif/Single%20Master%20Failure.gif)
+![GIF](../assets/gif/Single%20Master%20Failure-00.gif)
+
+</ul>
+</details>
+
+<details>
+<summary><b><i>　🎬　Demo ( 關閉入口機 → k3s-master-0 )  </i></b></summary>
+<ul>
+
+![GIF](../assets/gif/Single%20Master%20Failure-01.gif)
 
 </ul>
 </details>

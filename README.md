@@ -18,38 +18,8 @@
 
 ## *⭐ Platform Genesis ⭐*
 
-[//]: # (> *Cloud-Native Data Platform PoC*)
-
 [//]: # (![PNG]&#40;./assets/roadmap_00.png&#41;)
 ![PNG](./assets/roadmap_01.png)
-
-[//]: # (```)
-
-[//]: # (* An Enterprise-Grade, Cloud-Native Blueprints Focused on Production-Ready )
-
-[//]: # (  Data Platform Engineering & DataOps.)
-
-[//]: # (  )
-[//]: # (* Declarative Infrastructure: Full-Lifecycle Cluster Orchestration powered )
-
-[//]: # (  by IaC &#40;Terraform & Ansible&#41; across Hybrid environments.)
-
-[//]: # (  )
-[//]: # (* Resilient Data Ingestion: Industrial Edge-to-Cloud telemetry streaming )
-
-[//]: # (  implemented via High-Availability MQTT & Apache Kafka.)
-
-[//]: # (  )
-[//]: # (* Database Evolution: High-performance database modeling optimizing workload )
-
-[//]: # (  transactions across 3NF &#40;OLTP&#41;, Star Schema &#40;OLAP&#41;, and HTAP architectures.)
-
-[//]: # (  )
-[//]: # (* Enterprise Observability: Production-scale monitoring and hierarchical )
-
-[//]: # (  telemetry management powered by ELK Stack, Loki, Prometheus, and Grafana.)
-
-[//]: # (```)
 
 <br>
 
@@ -89,16 +59,16 @@
 | Build `GitOps` | `GitLab CI` + `ArgoCD` | 2026-06-05 |
 | Value of Deliverables 7 | `K8s` Deployment Delivery Baseline | 2026-06-13 |
 | Value of Deliverables 8 |  `K8s` Feature Validation | 2026-06-17 |
-| Value of Deliverables 11 | `K8s` DevOps | - |
-| Value of Deliverables 9 | `K8s` Observability Platform | - |
-| Value of Deliverables 12 | `GitOps` Deployment Governance | - |
-| Build `Lakehouse` | - | - |
-| Value of Deliverables 5 | Evolution of Database Core Business :<br>`Direct Read` vs. `MV` vs. `CDC` | - |
-| Value of Deliverables 4 | Query Efficiency Optimization<br>`Before` vs. `After` | - |
-| Value of Deliverables 6 | Workload Benchmark | - |
-| Value of Deliverables 3 | OLTP-OLAP-Unified-DB | - |
-| Add `HashiCorp Vault` | Enterprise Key Management System | - |
-| Value of Deliverables 10 | `K8s` Vault Distribution Key | - |
+| Value of Deliverables 11 | `K8s` DevOps | Expected in `202606` |
+| Value of Deliverables 12 | `GitOps` Deployment Governance | Expected in `202606`|
+| Add `HashiCorp Vault` | Enterprise Key Management System | Expected in `202607` |
+| Value of Deliverables 10 | `K8s` Vault Distribution Key | Expected in `202607` |
+| Value of Deliverables 9 | `K8s` Observability Platform | Expected in `202607` |
+| Build `Lakehouse` | - | `TBD` |
+| Value of Deliverables 5 | Evolution of Database Core Business :<br>`Direct Read` vs. `MV` vs. `CDC` | `TBD` |
+| Value of Deliverables 4 | Query Efficiency Optimization<br>`Before` vs. `After` | `TBD` |
+| Value of Deliverables 6 | Workload Benchmark | `TBD` |
+| Value of Deliverables 3 | OLTP-OLAP-Unified-DB | `TBD` |
 | K8s | Bottom Layer : `Kubeadm` + `VMware` | `TBD` |
 | K8s | Public Cloud : `GKE` | `TBD` |
 
@@ -126,6 +96,7 @@
 | Create OLAP DDL ( 5 ) | Star Schema | 2026-04-06 |
 | Redefine Project Name | `OLTP-OLAP-Unified-DB`<br>to `Platform Genesis` | 2026-05-08 |
 | Project Breakdown | `5` Major Categories | 2026-05-08 |
+| Break | After a 4-month sprint<br>( `2026-03` to `2026-07` ) | 2026-07-XX |
 
 </ul>
 </details>
@@ -184,11 +155,11 @@
 | test `CI` | common tests scripts | 2026-05-18 |
 | build `CI` | - | 2026-05-19 |
 | deploy `CI` | - | 2026-05-20 |
-| Python-Tempo Logic | - | - |
-| DAG | init.py + create_topic.py | - |
-| Grafana Dashboard | `htap_grafana.json` | - |
-| Create MV | Materialized View | - |
-| Analytical Queries | - | - |
+| DAG | init.py + create_topic.py | Expected in `202607` |
+| Python-Tempo Logic | - | Expected in `202607` |
+| Grafana Dashboard | `htap_grafana.json` | Expected in `202607` |
+| Create MV | Materialized View | `TBD` |
+| Analytical Queries | - | `TBD` |
 | Security Message :<br>`Message Queue Layer` | Encryption ( `kafka` + `mqtt` ) | `TBD` |
 | Security Message :<br>`Software Layer` | 非對稱加密 | `TBD` |
 
@@ -228,13 +199,13 @@
 | Add `ArgoCD` | for `CD` | 2026-05-28 |
 | Build `GitOps` | `GitLab CI` + `ArgoCD` | 2026-06-05 |
 | Build `CD` | `CD` → `Edge Container` | 2026-06-13 |
-| Add `Debezium` | Change Data Capture | - |
-| Add `Apache Iceberg` | Data Lake | - |
-| Add `Apache Flink` | consumer of CDC | - |
-| Add `MinIO` | Object Storage | - |
-| Build `Lakehouse` | - | - |
-| Add `Superset` | for `OLAP` | - |
-| Add `HashiCorp Vault` | Enterprise Key Management System | - |
+| Add `HashiCorp Vault` | Enterprise Key Management System | Expected in `202607` |
+| Add `Debezium` | Change Data Capture | `TBD` |
+| Add `Apache Iceberg` | Data Lake | `TBD` |
+| Add `Apache Flink` | consumer of CDC | `TBD` |
+| Add `MinIO` | Object Storage | `TBD` |
+| Build `Lakehouse` | - | `TBD` |
+| Add `Superset` | for `OLAP` | `TBD` |
 | K8s | Bottom Layer : `Kubeadm` + `VMware` | `TBD` |
 | K8s | Public Cloud : `GKE` | `TBD` |
 
@@ -305,14 +276,14 @@
 | GitOps | Build : `PG-Apps` `inst` | 2026-06-10 |
 | GitOps | Build : `Storage` `nfs` | 2026-06-13 |
 | K8s | Experience : NFS 儲存機制 ( SQLite ) | 2026-06-13 |
-| K8s | Experience : HPA 擴展/縮容 | 2026-06-15 |
-| GitOps | Experience : 無限套娃動態死鎖 | 2026-06-15 |
+| K8s | Experience : `HPA 擴展/縮容` | 2026-06-15 |
+| GitOps | Experience : `無限套娃動態死鎖` | 2026-06-15 |
 | VM | Ansible `Storge 持久化權限路徑` 設定 | 2026-06-16 |
 | VM | Ansible `Keepalived`<br>`VRRP 虛擬 IP ( VIP: 10.88.0.99 )` | 2026-06-16 |
 | K8s | Master Control Plane<br>`dqlite ( Distributed SQLite / Raft 共識協定 )` | 2026-06-16 |
 | K8s + VM | Master Control Plane<br>`控制面組件租約選舉 ( Lease Re-election )` | 2026-06-17 |
-| GitOps | Build : `Security` `Vault` | - |
-| GitOps | Maintain 2 repo ( `CI` + `CD` ) | `TBD` |
+| GitOps | Build : `Security` `Vault` | Expected in `202607` |
+| GitOps | Maintain 2 repo ( `CI` + `CD` ) | Expected in `202607` |
 
 </ul>
 </details>
@@ -326,16 +297,16 @@
 |--:|:--|:--|
 | DB Role-Based Access Control | [Value of Deliverables 1](./docs/DB-RBAC.md) | 2026-04-01 |
 | 透過通用工具進行<br>資料庫極限測試 | [Value of Deliverables 2](./docs/Generic-Benchmark.md)<br>`Docker Desktop` vs. `WSL2` | 2026-04-04 |
-| 單一實例實現 HTAP | [Value of Deliverables 3](./docs/OLTP-OLAP-Unified-DB.md) | Expected in `202608` |
-| 資料庫查詢優化比較測試 | [Value of Deliverables 4](./docs/DB-Optimization.md)<br>`Before` vs. `After` | Expected in `202608` |
-| 資料庫核心業務解套演進 | [Value of Deliverables 5](./docs/Evolution-of-Database-Core.md)<br>`Direct Read` vs. `MV` vs. `CDC` | Expected in `202607` |
-| 透過監控系統<br>觀察業務系統瓶頸 | [Value of Deliverables 6](./docs/Workload-Benchmark.md)<br>Workload Benchmark | Expected in `202608` |
+| 單一實例實現 HTAP | [Value of Deliverables 3](./docs/OLTP-OLAP-Unified-DB.md) | `TBD` |
+| 資料庫查詢優化比較測試 | [Value of Deliverables 4](./docs/DB-Optimization.md)<br>`Before` vs. `After` | `TBD` |
+| 資料庫核心業務解套演進 | [Value of Deliverables 5](./docs/Evolution-of-Database-Core.md)<br>`Direct Read` vs. `MV` vs. `CDC` | `TBD` |
+| 透過監控系統<br>觀察業務系統瓶頸 | [Value of Deliverables 6](./docs/Workload-Benchmark.md)<br>Workload Benchmark | `TBD` |
 | Deployment Delivery Baseline | [Value of Deliverables 7](./docs/CI-CD.md)<br>怎麼交付比較有效率 ? | 2026-06-13 |
 | K8s Feature Validation |  [Value of Deliverables 8](./docs/K8s-Feature-Validation.md) | 2026-06-17 |
 | Observability Platform | [Value of Deliverables 9](./docs/Observability-Platform.md)<br>`Logging` `Metrics` `Tracing` `Alert Manager` | Expected in `202607` |
-| Vault Distribution Key | [Value of Deliverables 10](./docs/Vault.md) | Expected in `202609` |
+| Vault Distribution Key | [Value of Deliverables 10](./docs/Vault.md) | Expected in `202607` |
 | DevOps | [Value of Deliverables 11](./docs/DevOps.md)<br>`Code Review` `PR` `TEST` `STAGE` `PROD` | Expected in `202606` |
-| Deployment Governance  | [Value of Deliverables 12](./docs/Deployment-Governance.md)<br>GitOps 怎麼治理叢集 ? | Expected in `202607` |
+| Deployment Governance  | [Value of Deliverables 12](./docs/Deployment-Governance.md)<br>GitOps 怎麼治理叢集 ? | Expected in `202606` |
 
 </ul>
 </details>
@@ -355,11 +326,11 @@
 <ul>
 
 ```
-✔ = 已實現
-✘ = 已棄用
--  = 未實現
-*  = Homelab 記憶體 OOM Kill ( 折衷改為 Docker Compose ) → 不遷移
-△ = 省作業時間 ( 部分與重型服務的 Docker Compose 綑綁 )   → 不遷移
+已實現 ( ✔ )
+已棄用 ( ✘ )
+未實現 ( - )
+不遷移 ( * ) → 記憶體 OOM Kill ( 折衷打退回為 Docker Compose )
+不遷移 ( △ ) → 省作業時間 ( 部分與重型服務 Docker Compose 綑綁 )
 ``` 
 
 |**Service**|**Docker**|**Terraform<br>( Docker )**|**MiniKube**|**K3d**|**K3s**|**K3s<br>Migration**|**Kubeadm**|**GKE**|
