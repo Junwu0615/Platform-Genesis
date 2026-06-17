@@ -2,165 +2,283 @@
 
 <br>
 
-### *A.　Architecture Overview*
+### *★　Objective*
+> This document presents the reference DevOps workflow implemented
+> on the Kubernetes platform.
+> The workflow integrates software delivery, GitOps deployment,
+> platform operations, observability, and incident response into
+> a unified operational model.
+
+<br><br>
+
+
+
+<details>
+<summary><b><i>　Architecture Overview </i></b></summary>
+<ul>
+
 ```
-Developer
-    ↓
-Feature Branch
-    ↓
-Pull Request
-    ↓
-Code Review
-    ↓
-Merge
-    ↓
-GitLab CI
-    ↓
-Unit Test
-    ↓
-Container Build
-    ↓
-Container Scan
-    ↓
-Container Registry
-    ↓
-GitOps Repository Update
-    ↓
-Argo CD
-    ↓
-Development
-    ↓
-Promotion
-    ↓
-Staging
-    ↓
-Promotion
-    ↓
-Production
-    ↓
-Prometheus
-    ↓
-Grafana
-    ↓
-AlertManager
-    ↓
-Incident Response
-    ↓
-Rollback / Recovery
+    Developer
+       ↓
+    Feature Branch
+       ↓
+    Pull Request
+       ↓
+    Code Review
+       ↓
+    Merge
+       ↓
+    GitLab CI
+       ↓
+    Unit Test
+       ↓
+    Container Build
+       ↓
+    Container Scan
+       ↓
+    Container Registry
+       ↓
+    GitOps Repository Update
+       ↓
+    Argo CD
+       ↓
+    Development
+       ↓
+    Promotion
+       ↓
+    Staging
+       ↓
+    Promotion
+       ↓
+    Production
+       ↓
+    Prometheus
+       ↓
+    Grafana
+       ↓
+    AlertManager
+       ↓
+    Incident Response
+       ↓
+    Rollback / Recovery
 ```
+
+</ul>
+</details>
 
 <br>
 
-### *B.　Workflow Stages*
+<details>
+<summary><b><i>　Workflow Stages </i></b></summary>
+<ul>
+
 ```
-## Development Governance
+ [ Development Governance ]
+  • Feature Branch Workflow
+  • Pull Request Review
+  • Branch Protection
+  • Version Control
 
-• Feature Branch Workflow
-• Pull Request Review
-• Branch Protection
-• Version Control
+-------------------------------
 
-## Continuous Integration
+ [ Continuous Integration ]
+  • Automated Build
+  • Unit Testing
+  • Container Packaging
+  • Security Scanning
+  • Artifact Publishing
 
-• Automated Build
-• Unit Testing
-• Container Packaging
-• Security Scanning
-• Artifact Publishing
+-------------------------------
 
-## GitOps Delivery
+ [ GitOps Delivery ]
+  • Declarative Deployment
+  • Environment Promotion
+  • Drift Detection
+  • Automated Reconciliation
+  • Git-Based Rollback
 
-• Declarative Deployment
-• Environment Promotion
-• Drift Detection
-• Automated Reconciliation
-• Git-Based Rollback
+-------------------------------
 
-## Kubernetes Platform
+ [ Kubernetes Platform ]
+  • Self-Healing
+  • Horizontal Scaling
+  • Stateful Workload Management
+  • High Availability
 
-• Self-Healing
-• Horizontal Scaling
-• Stateful Workload Management
-• High Availability
+-------------------------------
 
-## Observability
+ [ Observability ]
+  • Metrics Collection
+  • Centralized Logging
+  • Distributed Tracing
+  • Alert Management
 
-• Metrics Collection
-• Centralized Logging
-• Distributed Tracing
-• Alert Management
+-------------------------------
 
-## Incident Response
-
-• Alert Notification
-• Failure Investigation
-• Recovery Procedures
-• Service Restoration
+ [ Incident Response ]
+  • Alert Notification
+  • Failure Investigation
+  • Recovery Procedures
+  • Service Restoration
 ```
+
+</ul>
+</details>
 
 <br>
 
-### *C.　Reference Toolchain*
+<details>
+<summary><b><i>　Reference Toolchain </i></b></summary>
+<ul>
+
 ```
-Developer
-└─ VS Code
+  Developer
+    • PyCharm
+    • VS Code
+    
+  Source Control
+    • GitLab
+    
+  Continuous Integration
+    • GitLab CI
+    
+  Container Registry
+    • Harbor
+    • Docker Registry
+    
+  GitOps Controller
+    • Argo CD
+    
+  Container Platform
+    • K3s
+    • Kubeadm
+    • GKE
+    
+  Ingress
+    • NGINX Ingress
+    
+  Metrics
+    • Prometheus
+    
+  Visualization
+    • Grafana
+    
+  Logging
+    • Loki
+    • ELK
+    
+  Tracing
+    • Tempo
+    
+  Alerting
+    • AlertManager
+```
 
-Source Control
-└─ GitLab
+</ul>
+</details>
 
+<br>
+
+<details>
+<summary><b><i>　Workflow Coverage </i></b></summary>
+<ul>
+
+```
+Development Governance
+       ↓
 Continuous Integration
-└─ GitLab CI
-
-Container Registry
-└─ Docker Registry
-
-GitOps Controller
-└─ Argo CD
-
-Container Platform
-└─ K3s
-
-Ingress
-└─ NGINX Ingress
-
-Metrics
-└─ Prometheus
-
-Visualization
-└─ Grafana
-
-Logging
-└─ Loki
-
-Tracing
-└─ Tempo
-
-Alerting
-└─ AlertManager
+       ↓
+GitOps Delivery
+       ↓
+Kubernetes Platform
+       ↓
+Observability
+       ↓
+Incident Response
 ```
+
+</ul>
+</details>
 
 <br>
 
-### *D.　Final Outcome*
+<details>
+<summary><b><i>　Implemented Capabilities </i></b></summary>
+<ul>
+
+```
+  • Source Control & Branch Governance
+  • Pull Request Review Workflow
+  • Automated Build & Testing
+  • Container Image Management
+  • GitOps-Based Deployment
+  • Environment Promotion
+  • Kubernetes Self-Healing
+  • High Availability Architecture
+  • Metrics, Logging, and Tracing
+  • Alerting and Operational Response
+```
+
+</ul>
+</details>
+
+<br>
+
+<details>
+<summary><b><i>　Architecture Characteristics </i></b></summary>
+<ul>
+
+```
+  • Declarative Infrastructure Management
+  • Git-Centric Change Management
+  • Automated Deployment Reconciliation
+  • Centralized Deployment Governance
+  • Observable Platform Operations
+  • Standardized Recovery Procedures
+```
+
+</ul>
+</details>
+
+<br>
+
+<details>
+<summary><b><i>　Supporting Validation Reports </i></b></summary>
+<ul>
+
+- *[Kubernetes Native Feature Validation](https://github.com/Junwu0615/Platform-Genesis/blob/main/docs/K8s-Feature-Validation.md)*
+- *[Deployment Delivery Baseline Validation](https://github.com/Junwu0615/Platform-Genesis/blob/main/docs/Deployment-Delivery-Baseline.md)*
+- *[GitOps Deployment Governance Validation](https://github.com/Junwu0615/Platform-Genesis/blob/main/docs/Deployment-Governance.md)*
+- *[Observability & Incident Response Validation](https://github.com/Junwu0615/Platform-Genesis/blob/main/docs/Observability-Platform.md)*
+- *[Vault Secret Management & Distribution](https://github.com/Junwu0615/Platform-Genesis/blob/main/docs/Vault.md)*
+
+</ul>
+</details>
+
+
+<br><br>
+
+### *★　Conclusion*
 ```
 ==================================================================================
                     End-to-End DevOps Workflow Overview
 ==================================================================================
 
-This document describes the end-to-end software delivery workflow
-implemented on the homelab platform.
+       ★ The implemented platform demonstrates a complete software
+         delivery workflow spanning development, deployment,
+         operations, monitoring, and recovery processes.
 
-The workflow integrates source control, continuous integration,
-GitOps-based deployment, Kubernetes platform capabilities,
-observability tooling, and operational response procedures.
+       ★ Rather than validating individual technologies in isolation,
+         the workflow illustrates how multiple platform capabilities
+         can be integrated into a cohesive DevOps operating model.
 
-The objective of this document is to provide a reference
-architecture of the implemented DevOps workflow rather than
-a quantitative validation report.
+       ★ The objective of this document is to provide a reference
+         architecture of the implemented DevOps workflow rather than
+         a quantitative validation report.
 
-Detailed validation results for Kubernetes resiliency,
-deployment delivery, and GitOps governance are documented
-in separate validation reports.
+       ★ Detailed validation results for Kubernetes resiliency,
+         deployment delivery, and GitOps governance are documented
+         in separate validation reports.
 
 ==================================================================================
 ```

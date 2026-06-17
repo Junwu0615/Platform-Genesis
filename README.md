@@ -57,13 +57,13 @@
 | K8s | Advanced : `K3s` + `VMware` | 2026-05-10 |
 | Build `Hierarchical`<br>`Log Management` | `Loki` + `ELK` | 2026-05-14 |
 | Build `GitOps` | `GitLab CI` + `ArgoCD` | 2026-06-05 |
-| Value of Deliverables 7 | `K8s` Deployment Delivery Baseline | 2026-06-13 |
-| Value of Deliverables 8 |  `K8s` Feature Validation | 2026-06-17 |
-| Value of Deliverables 11 | `K8s` DevOps | Expected in `202606` |
-| Value of Deliverables 12 | `GitOps` Deployment Governance | Expected in `202606`|
+| Value of Deliverables 7 | Deployment Delivery Baseline | 2026-06-13 |
+| Value of Deliverables 8 |  Kubernetes Feature Validation | 2026-06-17 |
+| Value of Deliverables 11 | End-to-End DevOps Workflow | 2026-06-17 |
+| Value of Deliverables 12 | Deployment Governance | Expected in `202606`|
 | Add `HashiCorp Vault` | Enterprise Key Management System | Expected in `202607` |
-| Value of Deliverables 10 | `K8s` Vault Distribution Key | Expected in `202607` |
-| Value of Deliverables 9 | `K8s` Observability Platform | Expected in `202607` |
+| Value of Deliverables 10 | Vault Secret<br>Management & Distribution | Expected in `202607` |
+| Value of Deliverables 9 | Observability Platform | Expected in `202607` |
 | Build `Lakehouse` | - | `TBD` |
 | Value of Deliverables 5 | Evolution of Database Core Business :<br>`Direct Read` vs. `MV` vs. `CDC` | `TBD` |
 | Value of Deliverables 4 | Query Efficiency Optimization<br>`Before` vs. `After` | `TBD` |
@@ -306,8 +306,8 @@
 | Deployment Delivery Baseline | [Value of Deliverables 7](./docs/Deployment-Delivery-Baseline.md)<br>怎麼交付比較有效率 ? | 2026-06-13 |
 | Kubernetes Feature Validation |  [Value of Deliverables 8](./docs/K8s-Feature-Validation.md)<br>K8s 原生功能驗證 | 2026-06-17 |
 | Observability Platform | [Value of Deliverables 9](./docs/Observability-Platform.md)<br>`Logging` `Metrics` `Tracing` `Alert Manager` | Expected in `202607` |
-| Vault Distribution Key | [Value of Deliverables 10](./docs/Vault.md)<br>Vault 如何管理並注入密鑰 ? | Expected in `202607` |
-| End-to-End DevOps Workflow | [Value of Deliverables 11](./docs/End-to-End-DevOps-Workflow.md)<br>`Code Review` `PR` `TEST` `STAGE` `PROD` | Expected in `202606` |
+| Vault Secret<br>Management & Distribution | [Value of Deliverables 10](./docs/Vault.md)<br>Vault 如何管理並注入密鑰 ? | Expected in `202607` |
+| End-to-End DevOps Workflow | [Value of Deliverables 11](./docs/End-to-End-DevOps-Workflow.md)<br>`Code Review` `PR` `TEST` `STAGE` `PROD` | 2026-06-17 |
 | Deployment Governance  | [Value of Deliverables 12](./docs/Deployment-Governance.md)<br>GitOps 怎麼治理叢集 ? | Expected in `202606` |
 
 </ul>
