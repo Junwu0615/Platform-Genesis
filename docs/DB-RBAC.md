@@ -110,7 +110,7 @@
 CREATE SCHEMA IF NOT EXISTS oltp;
 CREATE SCHEMA IF NOT EXISTS olap;
 ```
-![PNG](../assets/create_schema.png)
+![PNG](../assets/png/create_schema.png)
 
 <br>
 
@@ -375,7 +375,7 @@ CREATE SCHEMA IF NOT EXISTS olap;
   \i /tmp/olap/fact_machine_status.sql
   \i /tmp/olap/fact_production.sql
   ```
-  ![PNG](../assets/all_table.png)
+  ![PNG](../assets/png/all_table.png)
 
 - ### *⭐ 2.　Index 加速查詢*
   ```

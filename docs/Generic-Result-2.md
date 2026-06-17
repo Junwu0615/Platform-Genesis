@@ -3,12 +3,12 @@
 <br>
 
 ### *Settings ( shared_buffers / work_mem / synchronous_commit )*
-![PNG](../assets/generic_result_2.png)
+![PNG](../assets/png/generic_result_2.png)
 
 <br>
 
 ### *DB Dedicated Machine Settings*
-![PNG](../assets/shm_size.png)
+![PNG](../assets/png/shm_size.png)
 
 <br>
 
@@ -75,7 +75,7 @@ docker stats pg-cluster-dev-db-1 --no-stream
   
   docker exec -it pg-cluster-dev-db-1 pgbench -i -s 500 -U pguser -d pgdatabase
   ```
-- ![PNG](../assets/initialize_data_2.png)
+- ![PNG](../assets/png/initialize_data_2.png)
 
 - #### *0.2　Prepare Benchmark Scripts*
   ```

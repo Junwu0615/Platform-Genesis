@@ -92,8 +92,8 @@
 <summary><b><i>　Showcase </i></b></summary>
 <ul>
 
-![PNG](../assets/ci-cd_00.png)
-![PNG](../assets/ci-cd_01.png)
+![PNG](../assets/png/ci-cd_00.png)
+![PNG](../assets/png/ci-cd_01.png)
 
 </ul>
 </details>
@@ -200,9 +200,9 @@
 <summary><b><i>　Showcase </i></b></summary>
 <ul>
 
-![PNG](../assets/argocd_00.png)
-![PNG](../assets/argocd_01.png)
-![PNG](../assets/argocd_02.png)
+![PNG](../assets/png/argocd_00.png)
+![PNG](../assets/png/argocd_01.png)
+![PNG](../assets/png/argocd_02.png)
 
 </ul>
 </details>

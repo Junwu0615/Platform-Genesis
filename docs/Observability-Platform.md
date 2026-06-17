@@ -29,8 +29,8 @@ Application
          Grafana
 ```
 
-![PNG](../assets/logging_00.png)
-![PNG](../assets/observability_00.png)
+![PNG](../assets/png/logging_00.png)
+![PNG](../assets/png/observability_00.png)
 
 <br>
 

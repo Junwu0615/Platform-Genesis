@@ -3,7 +3,7 @@
 <br>
 
 ### *Settings ( shared_buffers / work_mem / synchronous_commit )*
-![PNG](../assets/generic_result_1.png)
+![PNG](../assets/png/generic_result_1.png)
 
 <br>
 
@@ -28,7 +28,7 @@
   
   docker exec -it pg-cluster-dev-db-1 pgbench -i -s 500 -U pguser -d pgdatabase
   ```
-- ![PNG](../assets/initialize_data_1.png)
+- ![PNG](../assets/png/initialize_data_1.png)
 
 - #### *0.2　Prepare Benchmark Scripts*
   ```
