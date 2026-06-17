@@ -3,11 +3,12 @@
 <br>
 
 ### *★　Objective*
-> This document presents the reference DevOps workflow implemented
-> on the Kubernetes platform.
-> The workflow integrates software delivery, GitOps deployment,
+> This document presents the reference DevOps operating model
+> implemented on the Kubernetes platform.
+>
+> The architecture integrates software delivery, GitOps deployment,
 > platform operations, observability, and incident response into
-> a unified operational model.
+> a unified operational workflow.
 
 <br><br>
 
@@ -18,49 +19,55 @@
 <ul>
 
 ```
-    Developer
+  • Developer
        ↓
-    Feature Branch
+  • Feature Branch
        ↓
-    Pull Request
+  • Pull Request
        ↓
-    Code Review
+  • Code Review
        ↓
-    Merge
+  • Merge
+    
+-------------------------------
+       
+  • GitLab CI
        ↓
-    GitLab CI
+  • Unit Test
        ↓
-    Unit Test
+  • Container Build
        ↓
-    Container Build
+  • Container Scan
        ↓
-    Container Scan
+  • Container Registry
+    
+-------------------------------
+
+  • GitOps Repository Update
        ↓
-    Container Registry
+  • Argo CD
        ↓
-    GitOps Repository Update
+  • Development
        ↓
-    Argo CD
+  • Promotion
        ↓
-    Development
+  • Staging
        ↓
-    Promotion
+  • Promotion
        ↓
-    Staging
+  • Production
+
+-------------------------------
+
+  • Prometheus
        ↓
-    Promotion
+  • Grafana
        ↓
-    Production
+  • AlertManager
        ↓
-    Prometheus
+  • Incident Response
        ↓
-    Grafana
-       ↓
-    AlertManager
-       ↓
-    Incident Response
-       ↓
-    Rollback / Recovery
+  • Rollback / Recovery
 ```
 
 </ul>
@@ -180,21 +187,23 @@
 <br>
 
 <details>
-<summary><b><i>　Workflow Coverage </i></b></summary>
+<summary><b><i>　Operational Lifecycle </i></b></summary>
 <ul>
 
 ```
-Development Governance
-       ↓
-Continuous Integration
-       ↓
-GitOps Delivery
-       ↓
-Kubernetes Platform
-       ↓
-Observability
-       ↓
-Incident Response
+  • Development
+         ↓
+  • Build & Validation
+         ↓
+  • Deployment
+         ↓
+  • Operations
+         ↓
+  • Monitoring
+         ↓
+  • Incident Response
+         ↓
+  • Recovery
 ```
 
 </ul>
@@ -246,11 +255,16 @@ Incident Response
 <summary><b><i>　Supporting Validation Reports </i></b></summary>
 <ul>
 
-- *[Kubernetes Native Feature Validation](https://github.com/Junwu0615/Platform-Genesis/blob/main/docs/K8s-Feature-Validation.md)*
-- *[Deployment Delivery Baseline Validation](https://github.com/Junwu0615/Platform-Genesis/blob/main/docs/Deployment-Delivery-Baseline.md)*
-- *[GitOps Deployment Governance Validation](https://github.com/Junwu0615/Platform-Genesis/blob/main/docs/Deployment-Governance.md)*
-- *[Observability & Incident Response Validation](https://github.com/Junwu0615/Platform-Genesis/blob/main/docs/Observability-Platform.md)*
-- *[Vault Secret Management & Distribution](https://github.com/Junwu0615/Platform-Genesis/blob/main/docs/Vault.md)*
+- #### *[Kubernetes Native Feature Validation](https://github.com/Junwu0615/Platform-Genesis/blob/main/docs/K8s-Feature-Validation.md)*
+    > ###### Workload resiliency, node recovery, stateful recovery, and HA validation.
+- #### *[Deployment Delivery Baseline Validation](https://github.com/Junwu0615/Platform-Genesis/blob/main/docs/Deployment-Delivery-Baseline.md)*
+    > ###### Deployment workflow comparison and operational efficiency analysis.
+- #### *[GitOps Deployment Governance Validation](https://github.com/Junwu0615/Platform-Genesis/blob/main/docs/Deployment-Governance.md)*
+    > ###### Drift detection, reconciliation, rollback, and promotion validation.
+- #### *[Observability & Incident Response Validation](https://github.com/Junwu0615/Platform-Genesis/blob/main/docs/Observability-Platform.md)*
+    > ###### Metrics, logging, tracing, and alerting validation.
+- #### *[Vault Secret Management & Distribution](https://github.com/Junwu0615/Platform-Genesis/blob/main/docs/Vault.md)*
+    > ###### Secret lifecycle management and secure workload integration.
 
 </ul>
 </details>
@@ -264,19 +278,19 @@ Incident Response
                     End-to-End DevOps Workflow Overview
 ==================================================================================
 
-       ★ The implemented platform demonstrates a complete software
+       • The implemented platform demonstrates a complete software
          delivery workflow spanning development, deployment,
          operations, monitoring, and recovery processes.
 
-       ★ Rather than validating individual technologies in isolation,
+       • Rather than validating individual technologies in isolation,
          the workflow illustrates how multiple platform capabilities
          can be integrated into a cohesive DevOps operating model.
 
-       ★ The objective of this document is to provide a reference
+       • The objective of this document is to provide a reference
          architecture of the implemented DevOps workflow rather than
          a quantitative validation report.
 
-       ★ Detailed validation results for Kubernetes resiliency,
+       • Detailed validation results for Kubernetes resiliency,
          deployment delivery, and GitOps governance are documented
          in separate validation reports.
 
