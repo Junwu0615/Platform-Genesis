@@ -92,10 +92,10 @@
 | Define Event Story | - | 2026-03-21 |
 | Define Project Directory | - | 2026-03-21 |
 | Define Table DDL | - | 2026-03-21 |
-| Create OLTP DDL ( 6 ) | 3NF | 2026-03-21 |
-| Create OLAP DDL ( 5 ) | Star Schema | 2026-04-06 |
 | Redefine Project Name | `OLTP-OLAP-Unified-DB`<br>to `Platform Genesis` | 2026-05-08 |
 | Project Breakdown | `5` Major Categories | 2026-05-08 |
+| Architecture Diagram | `VERSION 1.0` | 2026-05-16 |
+| Architecture Diagram | `VERSION 2.0` | 2026-06-14 |
 | Break | After a 4-month sprint<br>( `2026-03` to `2026-07` ) | 2026-07-XX |
 
 </ul>
@@ -108,6 +108,7 @@
 
 |**Item**|**Description**|**Time**|
 |--:|:--|:--:|
+| Create OLTP DDL | 3NF [ 6 ] | 2026-03-21 |
 | Script | delete_data.py | 2026-03-24 |
 | Script | drop_table.py | 2026-03-24 |
 | Script | factory_config.yaml | 2026-03-24 |
@@ -120,6 +121,7 @@
 | execute → execute_batch | batch sending + batch submission :<br>不適用於目前模擬方式 | X |
 | Adjusting Contextual | insert machine status :<br>machine_status_logs | 2026-03-30 |
 | Increase Data Volume | - | 2026-03-30 |
+| Create OLAP DDL | Star Schema [ 5 ] | 2026-04-06 |
 | Auto Partition | `dags/sql/auto_partition/*` | 2026-04-06 |
 | OLTP to OLAP | `dags/sql/*` | 2026-04-06 |
 | DAG | Build Coding Style | 2026-04-06 |
@@ -322,7 +324,7 @@
 ### *C.　Implement*
 
 <details open>
-<summary><b><i>　c.1.　Service Support Form </i></b></summary>
+<summary><b><i>　Service Support Form </i></b></summary>
 <ul>
 
 ```
@@ -371,7 +373,7 @@
 </details>
 
 <details>
-<summary><b><i>　c.2.　Tree </i></b></summary>
+<summary><b><i>　Tree </i></b></summary>
 <ul>
 
 ```bash
