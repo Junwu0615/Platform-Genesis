@@ -298,12 +298,12 @@
 |**Item**|**Description**|**Time**|
 |--:|:--|:--|
 | DB Role-Based Access Control | [Value of Deliverables 1](./docs/DB-RBAC.md) | 2026-04-01 |
-| 透過通用工具進行<br>資料庫極限測試 | [Value of Deliverables 2](./docs/Generic-Benchmark.md)<br>`Docker Desktop` vs. `WSL2` | 2026-04-04 |
-| 單一實例實現 HTAP | [Value of Deliverables 3](./docs/OLTP-OLAP-Unified-DB.md) | `TBD` |
-| 資料庫查詢優化比較測試 | [Value of Deliverables 4](./docs/DB-Optimization.md)<br>`Before` vs. `After` | `TBD` |
-| 資料庫核心業務解套演進 | [Value of Deliverables 5](./docs/Evolution-of-Database-Core.md)<br>`Direct Read` vs. `MV` vs. `CDC` | `TBD` |
-| 透過監控系統<br>觀察業務系統瓶頸 | [Value of Deliverables 6](./docs/Workload-Benchmark.md)<br>Workload Benchmark | `TBD` |
-| Deployment Delivery Baseline | [Value of Deliverables 7](./docs/CI-CD.md)<br>怎麼交付比較有效率 ? | 2026-06-13 |
+| DB Generic Benchmark | [Value of Deliverables 2](./docs/DB-Generic-Benchmark.md)<br>`Docker Desktop` vs. `WSL2` | 2026-04-04 |
+| OLTP OLAP Unified DB | [Value of Deliverables 3](./docs/OLTP-OLAP-Unified-DB.md)<br>如何基於成本優化提出解決方案 ? | `TBD` |
+| DB Optimization | [Value of Deliverables 4](./docs/DB-Optimization.md)<br>資料庫查詢優化比較測試<br>`Before` vs. `After` | `TBD` |
+| Evolution of Database Core | [Value of Deliverables 5](./docs/Evolution-of-Database-Core.md)<br>資料庫核心業務解套演進<br>`Direct Read` vs. `MV` vs. `CDC` | `TBD` |
+| Workload Benchmark | [Value of Deliverables 6](./docs/Workload-Benchmark.md)<br>透過監控系統觀察業務系統瓶頸 | `TBD` |
+| Deployment Delivery Baseline | [Value of Deliverables 7](./docs/Deployment-Delivery-Baseline.md)<br>怎麼交付比較有效率 ? | 2026-06-13 |
 | Kubernetes Feature Validation |  [Value of Deliverables 8](./docs/K8s-Feature-Validation.md)<br>K8s 原生功能驗證 | 2026-06-17 |
 | Observability Platform | [Value of Deliverables 9](./docs/Observability-Platform.md)<br>`Logging` `Metrics` `Tracing` `Alert Manager` | Expected in `202607` |
 | Vault Distribution Key | [Value of Deliverables 10](./docs/Vault.md)<br>Vault 如何管理並注入密鑰 | Expected in `202607` |

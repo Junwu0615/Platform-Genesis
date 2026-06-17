@@ -57,12 +57,12 @@ docker stats pg-cluster-dev-db-1 --no-stream
 ### *Generic DB Benchmark*
 | **Step** | **Description** | **Tool** |
 | :--: | :-- | :--: |
-| [0](https://github.com/Junwu0615/OLTP-OLAP-Unified-DB/blob/main/docs/Generic-Result-2.md#01initialize-pgbench-benchmark-data) | Initialize pgbench Benchmark Data | - |
-| [1](https://github.com/Junwu0615/OLTP-OLAP-Unified-DB/blob/main/docs/Generic-Result-2.md#1query-benchmark) | Query Benchmark | direct query method |
-| [2](https://github.com/Junwu0615/OLTP-OLAP-Unified-DB/blob/main/docs/Generic-Result-2.md#-skip--2oltp-workload-benchmark) | OLTP Workload Benchmark | use pgbench |
-| [3](https://github.com/Junwu0615/OLTP-OLAP-Unified-DB/blob/main/docs/Generic-Result-2.md#3olap-workload-benchmark) | OLAP Workload Benchmark | use pgbench |
-| [4](https://github.com/Junwu0615/OLTP-OLAP-Unified-DB/blob/main/docs/Generic-Result-2.md#4htap-workload-benchmark) | HTAP Workload Benchmark | use pgbench |
-| [5](https://github.com/Junwu0615/OLTP-OLAP-Unified-DB/blob/main/docs/Generic-Result-2.md#5saturation-benchmark) | Saturation Benchmark | use pgbench |
+| [0](https://github.com/Junwu0615/OLTP-OLAP-Unified-DB/blob/main/docs/DB-Generic-Result-2.md#01initialize-pgbench-benchmark-data) | Initialize pgbench Benchmark Data | - |
+| [1](https://github.com/Junwu0615/OLTP-OLAP-Unified-DB/blob/main/docs/DB-Generic-Result-2.md#1query-benchmark) | Query Benchmark | direct query method |
+| [2](https://github.com/Junwu0615/OLTP-OLAP-Unified-DB/blob/main/docs/DB-Generic-Result-2.md#-skip--2oltp-workload-benchmark) | OLTP Workload Benchmark | use pgbench |
+| [3](https://github.com/Junwu0615/OLTP-OLAP-Unified-DB/blob/main/docs/DB-Generic-Result-2.md#3olap-workload-benchmark) | OLAP Workload Benchmark | use pgbench |
+| [4](https://github.com/Junwu0615/OLTP-OLAP-Unified-DB/blob/main/docs/DB-Generic-Result-2.md#4htap-workload-benchmark) | HTAP Workload Benchmark | use pgbench |
+| [5](https://github.com/Junwu0615/OLTP-OLAP-Unified-DB/blob/main/docs/DB-Generic-Result-2.md#5saturation-benchmark) | Saturation Benchmark | use pgbench |
 
 <br>
 

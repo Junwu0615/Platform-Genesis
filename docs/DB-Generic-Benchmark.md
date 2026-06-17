@@ -69,8 +69,8 @@
 <br>
 
 ### *★　Generic DB Benchmark Result*
-- #### *[shm_size 64 MB](../docs/Generic-Result-1.md) ( Docker Desktop )*
-- #### *[shm_size 16 GB](../docs/Generic-Result-2.md) ( WSL2 )*
+- #### *[shm_size 64 MB](../docs/DB-Generic-Result-1.md) ( Docker Desktop )*
+- #### *[shm_size 16 GB](../docs/DB-Generic-Result-2.md) ( WSL2 )*
 - #### *業界基準單機性能*
 - ![PNG](../assets/png/baseline_1.png)
 - #### *Windows 系統硬環境限制*
