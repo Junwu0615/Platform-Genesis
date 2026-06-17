@@ -307,7 +307,7 @@
 | Kubernetes Feature Validation |  [Value of Deliverables 8](./docs/K8s-Feature-Validation.md)<br>K8s 原生功能驗證 | 2026-06-17 |
 | Observability Platform | [Value of Deliverables 9](./docs/Observability-Platform.md)<br>`Logging` `Metrics` `Tracing` `Alert Manager` | Expected in `202607` |
 | Vault Distribution Key | [Value of Deliverables 10](./docs/Vault.md)<br>Vault 如何管理並注入密鑰 ? | Expected in `202607` |
-| DevOps | [Value of Deliverables 11](./docs/DevOps.md)<br>`Code Review` `PR` `TEST` `STAGE` `PROD` | Expected in `202606` |
+| End-to-End DevOps Workflow | [Value of Deliverables 11](./docs/End-to-End-DevOps-Workflow.md)<br>`Code Review` `PR` `TEST` `STAGE` `PROD` | Expected in `202606` |
 | Deployment Governance  | [Value of Deliverables 12](./docs/Deployment-Governance.md)<br>GitOps 怎麼治理叢集 ? | Expected in `202606` |
 
 </ul>
