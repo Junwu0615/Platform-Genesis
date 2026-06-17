@@ -1,4 +1,4 @@
-## *⭐ K8s - 原生能力驗證 ( Feature Validation ) ⭐*
+## *⭐ K8s - Feature Validation ⭐*
 
 <br>
 

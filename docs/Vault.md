@@ -1,8 +1,8 @@
-## *⭐ K8s - Vault 分發密鑰 ⭐*
+## *⭐ K8s - Vault Distribution Key ⭐*
 
 <br>
 
-### *A.　流程說明*
+### *A.　Document*
 ```
 ```
 

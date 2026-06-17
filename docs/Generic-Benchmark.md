@@ -25,6 +25,9 @@
   常見 benchmark :
   TPC-C
   ```
+
+<br>
+
 ### *★　OLAP 壓力測試 ( Read )*
   ```
   測試特徵 :
@@ -44,6 +47,9 @@
   ⭐ TPC-H
   TPC-DS
   ```
+
+<br>
+
 ### *★　HTAP 壓力測試 ( Mix )*
   ```
   同時跑 :
@@ -65,8 +71,9 @@
 ### *★　Generic DB Benchmark Result*
 - #### *[shm_size 64 MB](../docs/Generic-Result-1.md) ( Docker Desktop )*
 - #### *[shm_size 16 GB](../docs/Generic-Result-2.md) ( WSL2 )*
-
-- ![PNG](../assets/baseline_1.png)
-- ![PNG](../assets/baseline_2.png)
+- #### *業界基準單機性能*
+- ![PNG](../assets/png/baseline_1.png)
+- #### *Windows 系統硬環境限制*
+- ![PNG](../assets/png/baseline_2.png)
 
 <br><br><br>

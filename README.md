@@ -137,9 +137,9 @@
 | API Service logic | - | X |
 | Multi-Instance | like real-edge : `v2` | 2026-04-28 |
 | MQTT logic | for `cp` | 2026-04-28 |
-| Kafka Connect | `source` : producer  | 2026-04-30 |
+| Kafka Connect | `source` : Producer  | 2026-04-30 |
 | Kafka logic | for `inst` | 2026-05-03 |
-| Kafka Connect | `sink` : consumers | 2026-05-04 |
+| Kafka Connect | `sink` : Consumer | 2026-05-04 |
 | Define the Version Number<br>of each service  | settings to `.env` | 2026-05-05 |
 | logging logic | mixed ( `ELK` + `logging` ) | 2026-05-06 |
 | Encapsulation Entry | app.py | 2026-05-06 |
@@ -150,8 +150,8 @@
 | loki logic | - | 2026-05-14 |
 | `IS_KUBERNETES` | 布林注入強制轉換配置 | 2026-05-14 |
 | make `v2` Dockerfile | - | 2026-05-14 |
-| lint `CI` | 推送前自動檢測 `.pre-commit-config.yaml` | 2026-05-18 |
-| lint `CI` | 語法檢查 `black` `flake8` ... | 2026-05-18 |
+| lint `CI` | 推送前自動檢測<br>`.pre-commit-config.yaml` | 2026-05-18 |
+| lint `CI` | 語法檢查 `black` `flake8` | 2026-05-18 |
 | test `CI` | common tests scripts | 2026-05-18 |
 | build `CI` | - | 2026-05-19 |
 | deploy `CI` | - | 2026-05-20 |
@@ -202,7 +202,7 @@
 | Add `HashiCorp Vault` | Enterprise Key Management System | Expected in `202607` |
 | Add `Debezium` | Change Data Capture | `TBD` |
 | Add `Apache Iceberg` | Data Lake | `TBD` |
-| Add `Apache Flink` | consumer of CDC | `TBD` |
+| Add `Apache Flink` | Consumer of CDC | `TBD` |
 | Add `MinIO` | Object Storage | `TBD` |
 | Build `Lakehouse` | - | `TBD` |
 | Add `Superset` | for `OLAP` | `TBD` |
@@ -302,9 +302,9 @@
 | 資料庫核心業務解套演進 | [Value of Deliverables 5](./docs/Evolution-of-Database-Core.md)<br>`Direct Read` vs. `MV` vs. `CDC` | `TBD` |
 | 透過監控系統<br>觀察業務系統瓶頸 | [Value of Deliverables 6](./docs/Workload-Benchmark.md)<br>Workload Benchmark | `TBD` |
 | Deployment Delivery Baseline | [Value of Deliverables 7](./docs/CI-CD.md)<br>怎麼交付比較有效率 ? | 2026-06-13 |
-| K8s Feature Validation |  [Value of Deliverables 8](./docs/K8s-Feature-Validation.md) | 2026-06-17 |
+| Kubernetes Feature Validation |  [Value of Deliverables 8](./docs/K8s-Feature-Validation.md)<br>K8s 原生功能驗證 | 2026-06-17 |
 | Observability Platform | [Value of Deliverables 9](./docs/Observability-Platform.md)<br>`Logging` `Metrics` `Tracing` `Alert Manager` | Expected in `202607` |
-| Vault Distribution Key | [Value of Deliverables 10](./docs/Vault.md) | Expected in `202607` |
+| Vault Distribution Key | [Value of Deliverables 10](./docs/Vault.md)<br>Vault 如何管理並注入密鑰 | Expected in `202607` |
 | DevOps | [Value of Deliverables 11](./docs/DevOps.md)<br>`Code Review` `PR` `TEST` `STAGE` `PROD` | Expected in `202606` |
 | Deployment Governance  | [Value of Deliverables 12](./docs/Deployment-Governance.md)<br>GitOps 怎麼治理叢集 ? | Expected in `202606` |
 

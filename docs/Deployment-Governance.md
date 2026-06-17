@@ -1,4 +1,4 @@
-## *⭐ GitOps - 部署治理 ( Deployment Governance ) ⭐*
+## *⭐ GitOps - Deployment Governance ⭐*
 
 <br>
 
@@ -114,6 +114,110 @@ Tier 3 : Platform Recovery
 Tier 4 : Repository Governance
  • Multi-Environment Isolation
  • GitOps Repository Architecture
+```
+
+</ul>
+</details>
+
+<br>
+
+### *★　Tier 1 : State Reconciliation*
+
+<details>
+<summary><b><i>　Drift Detection </i></b></summary>
+<ul>
+
+```
+
+```
+
+</ul>
+</details>
+
+<details>
+<summary><b><i>　Auto Heal </i></b></summary>
+<ul>
+
+```
+
+```
+
+</ul>
+</details>
+
+<br>
+
+### *★　Tier 2 : Deployment Lifecycle*
+
+<details>
+<summary><b><i>　Git Rollback </i></b></summary>
+<ul>
+
+```
+
+```
+
+</ul>
+</details>
+
+<details>
+<summary><b><i>　Environment Promotion </i></b></summary>
+<ul>
+
+```
+
+```
+
+</ul>
+</details>
+
+<br>
+
+### *★　Tier 3 : Platform Recovery*
+
+<details>
+<summary><b><i>　Cluster Bootstrap </i></b></summary>
+<ul>
+
+```
+
+```
+
+</ul>
+</details>
+
+<details>
+<summary><b><i>　Disaster Recovery </i></b></summary>
+<ul>
+
+```
+
+```
+
+</ul>
+</details>
+
+<br>
+
+### *★　Tier 4 : Repository Governance*
+
+<details>
+<summary><b><i>　Multi-Environment Isolation </i></b></summary>
+<ul>
+
+```
+
+```
+
+</ul>
+</details>
+
+<details>
+<summary><b><i>　GitOps Repository Architecture </i></b></summary>
+<ul>
+
+```
+
 ```
 
 </ul>

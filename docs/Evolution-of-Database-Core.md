@@ -2,7 +2,7 @@
 
 <br>
 
-### *A.　流程說明*
+### *A.　Document*
 ```
 Direct Read vs. MV vs. CDC
 ```

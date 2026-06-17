@@ -1,8 +1,8 @@
-## *⭐ K8s - DevOps 流程 ⭐*
+## *⭐ K8s - DevOps ⭐*
 
 <br>
 
-### *A.　流程說明*
+### *A.　Document*
 ```
 Code Review -> PR -> TEST -> STAGE -> PROD
 ```
