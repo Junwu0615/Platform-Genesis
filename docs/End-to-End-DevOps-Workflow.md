@@ -4,8 +4,7 @@
 
 ### *★　Objective*
 > This document presents the reference DevOps operating model
-> implemented on the Kubernetes platform.
->
+> implemented on the Kubernetes platform. 
 > The architecture integrates software delivery, GitOps deployment,
 > platform operations, observability, and incident response into
 > a unified operational workflow.
@@ -251,7 +250,7 @@
 
 <br>
 
-<details>
+<details open>
 <summary><b><i>　Supporting Validation Reports </i></b></summary>
 <ul>
 
