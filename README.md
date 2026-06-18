@@ -96,7 +96,8 @@
 | Project Breakdown | `5` Major Categories | 2026-05-08 |
 | Architecture Diagram | `VERSION 1.0` | 2026-05-16 |
 | Architecture Diagram | `VERSION 2.0` | 2026-06-14 |
-| Break | After a 4-month sprint<br>( `2026-03` to `2026-07` ) | 2026-07-XX |
+| Platform Genesis Sprint | `2026-03` to `2026-07` | 2026-07-XX |
+| Pause | After `2026-07` | 2026-07-XX |
 
 </ul>
 </details>
