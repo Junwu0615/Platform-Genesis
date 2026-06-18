@@ -909,20 +909,10 @@ gantt
     Resume & Job Search                         :milestone, a7, 2026-07, 1d
 
     section Future
-    Datahouse & Production-grade Enhancements   :crit, a8, 2026-07, 1M
+    Datahouse                                   :crit, a8, 2026-07, 1M
 ```
 
-[//]: # (> ###### Built independently during a 4-month learning sprint &#40;Mar 2026 – Jul 2026&#41;, )
-> ###### Built independently learning sprint (2026/03 – Present), 
-> ###### evolving from a data infrastructure problem into a cloud-native platform engineering 
-> ###### practice through continuous implementation, validation, and documentation.
-
-> ##### Built independently learning sprint (2026/03 – Present), 
-> ##### evolving from a data infrastructure problem into a cloud-native platform engineering 
-> ##### practice through continuous implementation, validation, and documentation.
-
-> #### Built independently learning sprint (2026/03 – Present), 
-> #### evolving from a data infrastructure problem into a cloud-native platform engineering 
-> #### practice through continuous implementation, validation, and documentation.
+[//]: # (> ##### Built independently during a 4-month learning sprint &#40;Mar 2026 – Jul 2026&#41;, )
+> ##### Built independently learning sprint ( 2026/03 – Present ), evolving from a data infrastructure problem into a cloud-native platform engineering practice through continuous implementation, validation, and documentation.
 
 <br><br><br>
