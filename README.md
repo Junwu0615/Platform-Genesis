@@ -867,15 +867,29 @@ tree -I 'venv|.git|__pycache__|docs|logs|assets|kafka_data|charts'
 
 <br>
 
-### *D.　Lessons Learned & Outlook*
-> The Platform Genesis initiative serves as an ambitious exploration of 
-> cloud-native data ecosystems. While the initial PoC scope was broad—spanning 
-> from edge telemetry to lakehouse analytics—the reality of single-developer 
-> maintenance has necessitated a shift in focus. The primary challenge remains 
-> the consolidation of these diverse technologies into a unified, high-availability 
-> architecture. Moving forward, the focus will narrow from horizontal expansion to 
-> optimizing system stability and automating the reconciliation processes, 
-> ensuring that each component contributes directly to a production-ready standard.
+### *D.　Lessons Learned & Evolution*
+> Platform Genesis began as an attempt to address a practical data
+> infrastructure challenge: consolidating OLTP and OLAP workloads
+> into a unified architecture.
+>
+> As the project evolved, the scope naturally expanded beyond data
+> engineering into infrastructure automation, Kubernetes operations,
+> GitOps workflows, observability, secret management, and reliability
+> validation.
+>
+> Through continuous implementation and validation, the project
+> gradually shifted from technology exploration toward architecture
+> convergence and operational standardization.
+>
+> The most important lesson learned was that building individual
+> components is relatively straightforward; integrating them into a
+> maintainable, highly available, and operationally sustainable
+> platform is significantly more challenging.
+>
+> As a result, the current focus has shifted from expanding the
+> technology stack to improving reliability, reducing operational
+> complexity, and establishing production-oriented engineering
+> practices.
 
 
 <br>
@@ -912,7 +926,7 @@ gantt
     Datahouse                                   :crit, a8, 2026-07, 1M
 ```
 
-[//]: # (> ##### Built independently during a 4-month learning sprint &#40;Mar 2026 – Jul 2026&#41;, )
-> ##### Built independently learning sprint ( 2026/03 – Present ), evolving from a data infrastructure problem into a cloud-native platform engineering practice through continuous implementation, validation, and documentation.
+[//]: # (> &#40; Mar 2026 – Jul 2026 &#41;)
+> ##### Built independently during a self-directed learning sprint ( Mar 2026 – Present ), demonstrating a progression from data engineering concerns toward platform engineering practices through continuous implementation, validation, documentation, and iterative refinement.
 
 <br><br><br>
