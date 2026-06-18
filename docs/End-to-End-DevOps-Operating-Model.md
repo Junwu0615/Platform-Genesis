@@ -20,6 +20,8 @@
 ```
   • Developer
        ↓
+  • Push Code
+       ↓
   • Feature Branch
        ↓
   • Pull Request
@@ -30,29 +32,39 @@
     
 -------------------------------
        
-  • GitLab CI
+  • GitLab CI Pipeline Triggered
        ↓
-  • Unit Test
+  • Unit Test Passed
        ↓
-  • Container Build
+  • Container Image Built & Scan
        ↓
-  • Container Scan
-       ↓
-  • Container Registry
+  • Image Pushed To Container Registry
     
 -------------------------------
 
-  • GitOps Repository Update
+  • GitOps Repository Updated
        ↓
-  • Argo CD
+  • Argo CD Sync
        ↓
+  • Kubernetes Deployment
+       ↓
+  • Vault Secret Injection
+       ↓
+  • Application Startup
+
+-------------------------------
+
   • Test Environment ( TEST )
        ↓
-  • Promotion
+  • Validation & Verification
+       ↓
+  • Promotion Approval
        ↓
   • Staging Environment ( STAGE )
        ↓
-  • Promotion
+  • Validation & Verification
+       ↓
+  • Promotion Approval
        ↓
   • Production Environment ( PROD )
 
@@ -64,9 +76,15 @@
        ↓
   • AlertManager
        ↓
-  • Incident Response
+  • Runbook Execution
+       ↓
+  • Incident Investigation
+       ↓
+  • Mitigation
        ↓
   • Rollback / Recovery
+       ↓
+  • Postmortem
 ```
 
 </ul>
@@ -79,6 +97,22 @@
 <ul>
 
 ```
+ [ Infrastructure as Code ]
+  • Resource Provisioning
+  • Infrastructure Automation
+  • Configuration Management
+  • Environment Standardization
+
+-------------------------------
+
+ [ Platform Services ]
+  • Container Registry
+  • Secret Management
+  • GitOps Controller
+  • Observability Stack
+ 
+-------------------------------
+
  [ Development Governance ]
   • Feature Branch Workflow
   • Pull Request Review
@@ -109,8 +143,22 @@
   • Self-Healing
   • Horizontal Scaling
   • Stateful Workload Management
-  • High Availability
+  • Resiliency & High Availability
+    • Application Resiliency
+    • Node Resiliency
+    • Traffic Failover
+    • Control Plane HA
 
+-------------------------------
+
+ [ Security Controls ]
+   • RBAC
+   • Secret Management
+   • Secret Distribution
+   • Network Policies
+   • Container Image Scanning
+   • Image Vulnerability Scanning
+ 
 -------------------------------
 
  [ Observability ]
@@ -168,7 +216,7 @@
     
   Logging
     • Loki
-    • ELK
+    • ELK ( Optional )
     
   Tracing
     • Tempo
@@ -217,9 +265,12 @@
   • Automated Build & Testing
   • Container Image Management
   • GitOps-Based Deployment
+  • Secret Management & Distribution
   • Environment Promotion
   • Kubernetes Self-Healing
-  • High Availability Architecture
+  • Resiliency & Failover Validation
+  • Control Plane High Availability
+  • Workload Resiliency Validation
   • Metrics, Logging, and Tracing
   • Alerting and Operational Response
 ```
@@ -230,7 +281,7 @@
 <br>
 
 <details>
-<summary><b><i>　Architecture Characteristics </i></b></summary>
+<summary><b><i>　Platform Engineering </i></b></summary>
 <ul>
 
 ```
@@ -238,6 +289,8 @@
   • Git-Centric Change Management
   • Automated Deployment Reconciliation
   • Centralized Deployment Governance
+  • Resilient Platform Design
+  • Secure Secret Distribution
   • Observable Platform Operations
   • Standardized Recovery Procedures
 ```
@@ -273,18 +326,19 @@
 ==================================================================================
                     End-to-End DevOps Operating Model Overview
 ==================================================================================
-
-       • The implemented platform demonstrates a complete software
-         delivery workflow spanning development, deployment,
-         operations, monitoring, and recovery processes.
+         
+       • The implemented platform demonstrates an end-to-end DevOps 
+         operating model covering software delivery, GitOps deployment 
+         governance, platform resiliency, observability, secret management, 
+         and operational recovery.
 
        • Rather than validating individual technologies in isolation,
          the workflow illustrates how multiple platform capabilities
          can be integrated into a cohesive DevOps operating model.
 
        • The objective of this document is to provide a reference
-         architecture of the implemented DevOps workflow rather than
-         a quantitative validation report.
+         architecture and operating model of the implemented DevOps platform 
+         rather than a quantitative validation report.
 
        • Detailed validation results for Kubernetes resiliency,
          deployment delivery, and GitOps governance are documented

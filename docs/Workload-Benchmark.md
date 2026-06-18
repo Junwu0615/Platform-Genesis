@@ -7,27 +7,21 @@
 # 以製造工廠為主題情境
   - 定義機台 [mach] : machine
   - 定義訂單 [prod] : product
-  - 生產訂單 [prod_order] : production_orders <- [product]
+  - 生產訂單 [prod_order] : production_orders ← [product]
   - 機台狀態 [mach_st_log] : machine_status_logs
-  - 生產產出 [prod_recd] : production_records <- [production_orders, machine, product]
+  - 生產產出 [prod_recd] : production_records ← [production_orders, machine, product]
 
 
    建立訂單 [prod_order]
-      │
-      ▼
+      ↓
    開始生產 [prod_order.start_at]
-      │
-      ▼
+      ↓
   狀態發生變化 [mach_st_log.status]
-      ▲
-      │
-      ▼
+      ↕
    持續生產 [prod_recd.quantity]
-      │
-      ▼
+      ↓
     達到 [prod_order.quantity]
-      │
-      ▼
+      ↓
    完成訂單 [prod_order.end_at]
 ```
 
@@ -65,11 +59,11 @@
   
 # 導入監控工具： 
                 PostgreSQL ( pg_stat_statements 擴展 )
-                   │
+                   ↓
                 postgres_exporter
-                   │
+                   ↓
                 Prometheus
-                   │
+                   ↓
                 Grafana
 
 # 多開腳本壓測： 漸進式開腳本，觀測同時對同一個資料庫灌資料的影響
