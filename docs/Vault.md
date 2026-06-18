@@ -1,4 +1,4 @@
-## *⭐ K8s - Vault Distribution Key ⭐*
+## *⭐ Vault Secret Management & Distribution ⭐*
 
 <br>
 

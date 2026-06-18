@@ -436,7 +436,7 @@ These values do not include:
 | Post-Adoption<br>Operational Comparison | 70%<br>( Steps: 10 → 3 ) |
 | Deployment<br>Access Centralization | 移除個人 KubeConfig / 直接 Cluster 存取權限<br>/ 部署操作統一經由 Argo CD RBAC 控管<br><br>• GitLab 尚有權限 ( Registry / Repo / Pipeline ) |
 | Rollback<br>Process Simplification | Manual rollback procedures replaced<br>by Git-based version reversion workflow |
-| Deployment Governance Improvement | Git became the authoritative deployment source and approval boundary |
+| Deployment<br>Governance Improvement | Git became the authoritative deployment source<br>and approval boundary |
 | Multi-node Deployment<br>Efficiency Improvement | Linear → Near-constant |
 
 ```
