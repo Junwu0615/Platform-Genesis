@@ -1,4 +1,4 @@
-## *⭐ K8s - End-to-End DevOps Workflow ⭐*
+## *⭐ K8s - End-to-End DevOps Operating Model ⭐*
 
 <br>
 
@@ -26,7 +26,7 @@
        ↓
   • Code Review
        ↓
-  • Merge
+  • Merge Main/Master
     
 -------------------------------
        
@@ -46,21 +46,21 @@
        ↓
   • Argo CD
        ↓
-  • Development
+  • Test Environment ( TEST )
        ↓
   • Promotion
        ↓
-  • Staging
+  • Staging Environment ( STAGE )
        ↓
   • Promotion
        ↓
-  • Production
+  • Production Environment ( PROD )
 
 -------------------------------
 
-  • Prometheus
+  • Prometheus / Loki / Tempo
        ↓
-  • Grafana
+  • Grafana Dashboard
        ↓
   • AlertManager
        ↓
@@ -150,15 +150,12 @@
     
   Container Registry
     • Harbor
-    • Docker Registry
     
   GitOps Controller
     • Argo CD
     
   Container Platform
     • K3s
-    • Kubeadm
-    • GKE
     
   Ingress
     • NGINX Ingress
@@ -274,7 +271,7 @@
 ### *★　Conclusion*
 ```
 ==================================================================================
-                    End-to-End DevOps Workflow Overview
+                    End-to-End DevOps Operating Model Overview
 ==================================================================================
 
        • The implemented platform demonstrates a complete software

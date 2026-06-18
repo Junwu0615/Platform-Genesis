@@ -59,7 +59,7 @@
 | Build `GitOps` | `GitLab CI` + `ArgoCD` | 2026-06-05 |
 | Value of Deliverables 7 | Deployment Delivery Baseline | 2026-06-13 |
 | Value of Deliverables 8 |  Kubernetes Feature Validation | 2026-06-17 |
-| Value of Deliverables 11 | End-to-End DevOps Workflow | 2026-06-17 |
+| Value of Deliverables 11 | End-to-End DevOps Operating Model | 2026-06-17 |
 | Value of Deliverables 12 | Deployment Governance | Expected in `202606`|
 | Add `HashiCorp Vault` | Enterprise Key Management System | Expected in `202607` |
 | Value of Deliverables 10 | Vault Secret<br>Management & Distribution | Expected in `202607` |
@@ -296,7 +296,7 @@
 <ul>
 
 |**Item**|**Description**|**Time**|
-|--:|:--|:--|
+|--:|:--|:- -|
 | DB Role-Based Access Control | [Value of Deliverables 1](./docs/DB-RBAC.md) | 2026-04-01 |
 | DB Generic Benchmark | [Value of Deliverables 2](./docs/DB-Generic-Benchmark.md)<br>`Docker Desktop` vs. `WSL2` | 2026-04-04 |
 | OLTP OLAP Unified DB | [Value of Deliverables 3](./docs/OLTP-OLAP-Unified-DB.md)<br>如何基於成本優化提出解決方案 ? | `TBD` |
@@ -304,10 +304,10 @@
 | Evolution of Database Core | [Value of Deliverables 5](./docs/Evolution-of-Database-Core.md)<br>資料庫核心業務解套演進<br>`Direct Read` vs. `MV` vs. `CDC` | `TBD` |
 | Workload Benchmark | [Value of Deliverables 6](./docs/Workload-Benchmark.md)<br>透過監控系統觀察業務系統瓶頸 | `TBD` |
 | Deployment Delivery Baseline | [Value of Deliverables 7](./docs/Deployment-Delivery-Baseline.md)<br>怎麼交付比較有效率 ? | 2026-06-13 |
-| Kubernetes Feature Validation |  [Value of Deliverables 8](./docs/K8s-Feature-Validation.md)<br>K8s 原生功能驗證 | 2026-06-17 |
+| Kubernetes Feature Validation |  [Value of Deliverables 8](./docs/K8s-Feature-Validation.md)<br>K8s 原生功能驗證 | 2026-06-16 |
 | Observability Platform | [Value of Deliverables 9](./docs/Observability-Platform.md)<br>`Logging` `Metrics` `Tracing` `Alert Manager` | Expected in `202607` |
 | Vault Secret<br>Management & Distribution | [Value of Deliverables 10](./docs/Vault.md)<br>Vault 如何管理並注入密鑰 ? | Expected in `202607` |
-| End-to-End DevOps Workflow | [Value of Deliverables 11](./docs/End-to-End-DevOps-Workflow.md)<br>`Code Review` `PR` `TEST` `STAGE` `PROD` | 2026-06-17 |
+| End-to-End DevOps Operating Model | [Value of Deliverables 11](./docs/End-to-End-DevOps-Operating-Model.md)<br>`Code Review` `PR` `TEST` `STAGE` `PROD` | 2026-06-17 |
 | Deployment Governance  | [Value of Deliverables 12](./docs/Deployment-Governance.md)<br>GitOps 怎麼治理叢集 ? | Expected in `202606` |
 
 </ul>
