@@ -1,4 +1,4 @@
-## *⭐ 資料庫核心業務解套演進 ⭐*
+## *⭐ Evolution of Core Data Architecture ⭐*
 
 <br>
 

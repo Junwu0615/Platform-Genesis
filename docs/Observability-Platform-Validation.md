@@ -1,4 +1,4 @@
-## *⭐ K8s - Observability Platform ⭐*
+## *⭐ Observability Platform Validation ⭐*
 
 <br>
 

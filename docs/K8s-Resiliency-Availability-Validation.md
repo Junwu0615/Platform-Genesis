@@ -1,4 +1,4 @@
-## *⭐ K8s - Feature Validation ⭐*
+## *⭐ Kubernetes Resiliency & Availability Validation ⭐*
 
 <br>
 
@@ -1070,7 +1070,7 @@ Validation: ✅
 ### *⭐　Final Statistics*
 ```
 ==================================================================================
-                       K3s Native Feature Validation Report
+              Kubernetes Resiliency & Availability Validation Report              
 ==================================================================================
 [ Cluster Topology ]
  • 3 Control Plane Nodes ( k3s-master-0, 1, 2 ) | Embedded dqlite HA Mode

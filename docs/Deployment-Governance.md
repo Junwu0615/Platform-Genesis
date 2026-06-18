@@ -1,4 +1,4 @@
-## *⭐ GitOps - Deployment Governance ⭐*
+## *⭐ Deployment Governance ⭐*
 
 <br>
 

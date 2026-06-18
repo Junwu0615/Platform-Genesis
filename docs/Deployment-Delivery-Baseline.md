@@ -1,4 +1,4 @@
-## *⭐ K8s - Deployment Delivery Baseline ⭐*
+## *⭐ Deployment Delivery Baseline ⭐*
 
 <br>
 
@@ -318,7 +318,7 @@
 
 
 <details>
-<summary><b><i>　★　Deployment Scalability Estimation </i></b></summary>
+<summary><b><i>　★　Operational Effort Scaling Estimation </i></b></summary>
 <ul>
 
 ```
@@ -414,12 +414,12 @@ These values do not include:
 
 | Capability | SSH | CI/CD | GitOps |
 |--:|:--:|:--:|:--:|
-| Automated Deployment | N | Y | Y |
 | Git Traceability | N | Partial | Y |
+| Automated Deployment | N | Y | Y |
 | Drift Detection | N | N | Y |
-| Self Healing | N | N | Y |
-| Disaster Recovery | Partial | Partial | Y |
-| RBAC Centralization | N | Partial | Y |
+| Desired-State Recovery | N | Partial | Y |
+| Automated Rollback Workflow | N | Partial | Y |
+| Deployment Access Centralization | N | Partial | Y |
 
 <br>
 
@@ -436,6 +436,7 @@ These values do not include:
 | Post-Adoption<br>Operational Comparison | 70%<br>( Steps: 10 → 3 ) |
 | Deployment<br>Access Centralization | 移除個人 KubeConfig / 直接 Cluster 存取權限<br>/ 部署操作統一經由 Argo CD RBAC 控管<br><br>• GitLab 尚有權限 ( Registry / Repo / Pipeline ) |
 | Rollback<br>Process Simplification | Manual rollback procedures replaced<br>by Git-based version reversion workflow |
+| Deployment Governance Improvement | Git became the authoritative deployment source and approval boundary |
 | Multi-node Deployment<br>Efficiency Improvement | Linear → Near-constant |
 
 ```
@@ -477,8 +478,8 @@ These values do not include:
 
  • Measurements were collected from a single homelab environment.
 
- • Multi-node scalability results are estimated projections,
-   not directly measured observations.
+ • Multi-node operational effort scaling estimation results are 
+   estimated projections, not directly measured observations.
 
  • Build time, image push time, and CI queue latency were excluded
    from deployment lifecycle measurements.

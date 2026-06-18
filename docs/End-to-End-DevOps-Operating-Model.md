@@ -1,4 +1,4 @@
-## *⭐ K8s - End-to-End DevOps Operating Model ⭐*
+## *⭐ End-to-End DevOps Operating Model ⭐*
 
 <br>
 
@@ -143,11 +143,12 @@
   • Self-Healing
   • Horizontal Scaling
   • Stateful Workload Management
-  • Resiliency & High Availability
+  • High Availability & Failover & Resiliency
     • Application Resiliency
     • Node Resiliency
     • Traffic Failover
     • Control Plane HA
+    • Leader Re-election
 
 -------------------------------
 
@@ -304,13 +305,13 @@
 <summary><b><i>　Supporting Validation Reports </i></b></summary>
 <ul>
 
-- #### *[Kubernetes Native Feature Validation](https://github.com/Junwu0615/Platform-Genesis/blob/main/docs/K8s-Feature-Validation.md)*
+- #### *[Kubernetes Native Feature Validation](https://github.com/Junwu0615/Platform-Genesis/blob/main/docs/K8s-Resiliency-Availability-Validation.md)*
     > ###### Workload resiliency, node recovery, stateful recovery, and HA validation.
 - #### *[Deployment Delivery Baseline Validation](https://github.com/Junwu0615/Platform-Genesis/blob/main/docs/Deployment-Delivery-Baseline.md)*
     > ###### Deployment workflow comparison and operational efficiency analysis.
 - #### *[GitOps Deployment Governance Validation](https://github.com/Junwu0615/Platform-Genesis/blob/main/docs/Deployment-Governance.md)*
     > ###### Drift detection, reconciliation, rollback, and promotion validation.
-- #### *[Observability & Incident Response Validation](https://github.com/Junwu0615/Platform-Genesis/blob/main/docs/Observability-Platform.md)*
+- #### *[Observability & Incident Response Validation](https://github.com/Junwu0615/Platform-Genesis/blob/main/docs/Observability-Platform-Validation.md)*
     > ###### Metrics, logging, tracing, and alerting validation.
 - #### *[Vault Secret Management & Distribution](https://github.com/Junwu0615/Platform-Genesis/blob/main/docs/Vault.md)*
     > ###### Secret lifecycle management and secure workload integration.
