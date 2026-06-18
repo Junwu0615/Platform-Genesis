@@ -309,7 +309,7 @@
     > ###### Workload resiliency, node recovery, stateful recovery, and HA validation.
 - #### *[Deployment Delivery Baseline Validation](https://github.com/Junwu0615/Platform-Genesis/blob/main/docs/Deployment-Delivery-Baseline.md)*
     > ###### Deployment workflow comparison and operational efficiency analysis.
-- #### *[GitOps Deployment Governance Validation](https://github.com/Junwu0615/Platform-Genesis/blob/main/docs/Deployment-Governance.md)*
+- #### *[GitOps Deployment Governance Validation](https://github.com/Junwu0615/Platform-Genesis/blob/main/docs/GitOps-Deployment-Governance-Validation.md)*
     > ###### Drift detection, reconciliation, rollback, and promotion validation.
 - #### *[Observability & Incident Response Validation](https://github.com/Junwu0615/Platform-Genesis/blob/main/docs/Observability-Platform-Validation.md)*
     > ###### Metrics, logging, tracing, and alerting validation.

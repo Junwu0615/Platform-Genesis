@@ -46,8 +46,8 @@
 | Create Project | - | 2026-03-20 |
 | Add `PostgreSQL` | - | 2026-03-20 |
 | Add `Airflow` | for `OLAP` | 2026-03-21 |
-| Value of Deliverables 1 | DB Role-Based Access Control | 2026-04-01 |
-| Value of Deliverables 2 | `Docker Desktop` vs. `WSL2` | 2026-04-04 |
+| PED 1 | DB Role-Based Access Control | 2026-04-01 |
+| PED 2 | `Docker Desktop` vs. `WSL2` | 2026-04-04 |
 | Add `Monitoring` | - | 2026-04-04 |
 | Terraform | Modularization | 2026-04-20 |
 | Ansible | Modularization | 2026-04-20 |
@@ -57,18 +57,18 @@
 | K8s | Advanced : `K3s` + `VMware` | 2026-05-10 |
 | Build `Hierarchical`<br>`Log Management` | `Loki` + `ELK` | 2026-05-14 |
 | Build `GitOps` | `GitLab CI` + `ArgoCD` | 2026-06-05 |
-| Value of Deliverables 7 | Deployment Delivery Baseline | 2026-06-13 |
-| Value of Deliverables 8 |  Kubernetes Resiliency & Availability Validation | 2026-06-17 |
-| Value of Deliverables 11 | End-to-End<br>DevOps Operating Model | 2026-06-17 |
-| Value of Deliverables 12 | Deployment Governance | Expected in `202606`|
+| PED 7 | Deployment Delivery Baseline | 2026-06-13 |
+| PED 8 |  Kubernetes Resiliency & Availability Validation | 2026-06-17 |
+| PED 11 | End-to-End<br>DevOps Operating Model | 2026-06-17 |
+| PED 12 | GitOps Deployment Governance Validation | Expected in `202606`|
 | Add `HashiCorp Vault` | Enterprise Key Management System | Expected in `202607` |
-| Value of Deliverables 10 | Vault Secret<br>Management & Distribution | Expected in `202607` |
-| Value of Deliverables 9 | Observability Platform Validation | Expected in `202607` |
+| PED 10 | Vault Secret<br>Management & Distribution | Expected in `202607` |
+| PED 9 | Observability Platform Validation | Expected in `202607` |
 | Build `Lakehouse` | - | `TBD` |
-| Value of Deliverables 5 | Evolution of Core Data Architecture Business :<br>`Direct Read` vs. `MV` vs. `CDC` | `TBD` |
-| Value of Deliverables 4 | Query Efficiency Optimization<br>`Before` vs. `After` | `TBD` |
-| Value of Deliverables 6 | Application Workload Performance Analysis | `TBD` |
-| Value of Deliverables 3 | OLTP-OLAP Consolidation Strategy | `TBD` |
+| PED 5 | Evolution of Core Data Architecture Business :<br>`Direct Read` vs. `MV` vs. `CDC` | `TBD` |
+| PED 4 | Query Efficiency Optimization<br>`Before` vs. `After` | `TBD` |
+| PED 6 | Application Workload Performance Analysis | `TBD` |
+| PED 3 | OLTP-OLAP Consolidation Strategy | `TBD` |
 | K8s | Bottom Layer : `Kubeadm` + `VMware` | `TBD` |
 | K8s | Public Cloud : `GKE` | `TBD` |
 
@@ -292,23 +292,23 @@
 
 
 <details open>
-<summary><b><i>　b.2.5　Value of Deliverables </i></b></summary>
+<summary><b><i>　b.2.5　Platform Engineering Deliverables ( PED ) </i></b></summary>
 <ul>
 
 |**Item**|**Description**|**Time**|
 |--:|:--|:--|
-| DB Role-Based Access Control | [Value of Deliverables 1](./docs/DB-RBAC.md) | 2026-04-01 |
-| Database Environment Benchmark | [Value of Deliverables 2](./docs/Database-Environment-Benchmark.md)<br>`Docker Desktop` vs. `WSL2` | 2026-04-04 |
-| OLTP-OLAP Consolidation Strategy | [Value of Deliverables 3](./docs/OLTP-OLAP-Consolidation-Strategy.md)<br>如何基於成本優化提出解決方案 ? | `TBD` |
-| Database Query Performance Optimization | [Value of Deliverables 4](./docs/Database-Query-Performance-Optimization.md)<br>資料庫查詢優化比較測試<br>`Before` vs. `After` | `TBD` |
-| Evolution of Core Data Architecture | [Value of Deliverables 5](./docs/Evolution-of-Core-Data-Architecture.md)<br>資料庫核心業務解套演進<br>`Direct Read` vs. `MV` vs. `CDC` | `TBD` |
-| Application Workload Performance Analysis | [Value of Deliverables 6](./docs/Application-Workload-Performance-Analysis.md)<br>透過監控系統觀察業務系統瓶頸 | `TBD` |
-| Deployment Delivery Baseline | [Value of Deliverables 7](./docs/Deployment-Delivery-Baseline.md)<br>怎麼交付比較有效率 ? | 2026-06-13 |
-| Kubernetes Resiliency & Availability Validation |  [Value of Deliverables 8](./docs/K8s-Resiliency-Availability-Validation.md)<br>K8s 原生功能驗證 | 2026-06-16 |
-| Observability Platform Validation | [Value of Deliverables 9](./docs/Observability-Platform-Validation.md)<br>`Logging` `Metrics` `Tracing` `Alert Manager` | Expected in `202607` |
-| Vault Secret<br>Management & Distribution | [Value of Deliverables 10](./docs/Vault.md)<br>Vault 如何管理並注入密鑰 ? | Expected in `202607` |
-| End-to-End<br>DevOps Operating Model | [Value of Deliverables 11](./docs/End-to-End-DevOps-Operating-Model.md)<br>`PR` `Code Review` `TEST` `STAGE` `PROD` | 2026-06-17 |
-| Deployment Governance  | [Value of Deliverables 12](./docs/Deployment-Governance.md)<br>GitOps 怎麼治理叢集 ? | Expected in `202606` |
+| DB Role-Based<br>Access Control | [PED 1](./docs/DB-RBAC.md)<br>How can database access be governed securely across teams and environments ? | 2026-04-01 |
+| Database<br>Environment Benchmark | [PED 2](./docs/Database-Environment-Benchmark.md)<br>How does the runtime environment impact database performance and resource efficiency ?<br>`Docker Desktop` vs. `WSL2` | 2026-04-04 |
+| OLTP-OLAP<br>Consolidation Strategy | [PED 3](./docs/OLTP-OLAP-Consolidation-Strategy.md)<br>How can analytical workloads be consolidated while minimizing infrastructure cost ? | `TBD` |
+| Database Query<br>Performance Optimization | [PED 4](./docs/Database-Query-Performance-Optimization.md)<br>How much performance improvement can be achieved through query optimization ?<br>`Before` vs. `After` | `TBD` |
+| Evolution of Core<br>Data Architecture | [PED 5](./docs/Evolution-of-Core-Data-Architecture.md)<br>How should data access architecture evolve as business scale and complexity increase ?<br>`Direct Read` vs. `MV` vs. `CDC` | `TBD` |
+| Application Workload Performance Analysis | [PED 6](./docs/Application-Workload-Performance-Analysis.md)<br>How can observability data reveal performance bottlenecks and capacity limits ? | `TBD` |
+| Deployment Delivery Baseline | [PED 7](./docs/Deployment-Delivery-Baseline.md)<br>How does GitOps improve deployment efficiency and operational consistency ? | 2026-06-13 |
+| Kubernetes Resiliency<br>& Availability Validation |  [PED 8](./docs/K8s-Resiliency-Availability-Validation.md)<br>How resilient is Kubernetes under node, workload, network, and control-plane failures ? | 2026-06-16 |
+| Observability Platform Validation | [PED 9](./docs/Observability-Platform-Validation.md)<br>How can metrics, logs, traces, and alerts accelerate operational visibility and troubleshooting ?<br>`Logging` `Metrics` `Tracing` `Alert Manager` | Expected in `202607` |
+| Vault Secret<br>Management & Distribution | [PED 10](./docs/Vault.md)<br>How can secrets be managed, distributed, and rotated securely across Kubernetes workloads ? | Expected in `202607` |
+| End-to-End<br>DevOps Operating Model | [PED 11](./docs/End-to-End-DevOps-Operating-Model.md)<br>How can development, delivery, operations, and recovery be integrated into a unified platform workflow ?<br>`PR` `Code Review` `TEST` `STAGE` `PROD` | 2026-06-17 |
+| GitOps Deployment<br>Governance Validation  | [PED 12](./docs/GitOps-Deployment-Governance-Validation.md)<br>How can GitOps enforce deployment governance, drift control, and operational traceability ? | Expected in `202606` |
 
 </ul>
 </details>
