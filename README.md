@@ -879,35 +879,6 @@ tree -I 'venv|.git|__pycache__|docs|logs|assets|kafka_data|charts'
 
 <br><br><br>
 
-```mermaid
-gantt
-    title Platform Genesis Journey (2026)
-    dateFormat  YYYY-MM
-
-    section Problem Discovery
-    OLTP-OLAP Consolidation Strategy      :done, p1, 2026-03, 1M
-
-    section Foundation
-    Docker & IaC Standardization          :done, p2, 2026-03, 1M
-    GitLab CI/CD                          :done, p3, 2026-03, 1M
-
-    section Cloud Native
-    Kubernetes Migration                  :done, p4, 2026-04, 1M
-    ArgoCD GitOps                         :done, p5, 2026-04, 1M
-
-    section Platform Services
-    PostgreSQL HA                         :done, p6, 2026-05, 1M
-    Kafka Streaming                       :done, p7, 2026-05, 1M
-    Airflow Orchestration                 :done, p8, 2026-05, 1M
-
-    section Governance & Reliability
-    Observability Validation              :active, p9, 2026-06, 1M
-    Vault Secret Management               :active, p10, 2026-06, 1M
-    GitOps Governance Validation          :active, p11, 2026-06, 1M
-
-    section Next Phase
-    Datahouse & Lakehouse                 :crit, p12, 2026-07, 2M
-```
 
 ```mermaid
 gantt
@@ -916,31 +887,60 @@ gantt
     dateFormat YYYY-MM
 
     section Phase 1
-    Problem Identification (OLTP-OLAP Consolidation)     :done, a1, 2026-03, 1M
+    OLTP-OLAP Consolidation Strategy            :done, a1, 2026-03, 1M
 
     section Phase 2
-    Technology Exploration        :done, a2, 2026-03, 2M
+    Technology Exploration                      :done, a2, 2026-03, 2M
 
     section Phase 3
-    Infrastructure Standardization (Docker / Terraform / GitLab) :done, a3, 2026-04, 1M
+    Docker / Terraform / GitLab Standardization :done, a3, 2026-04, 1M
 
     section Phase 4
-    Cloud-Native Adoption  (Kubernetes / GitOps)         :done, a4, 2026-05, 1M
+    Kubernetes / GitOps Adoption                :done, a4, 2026-05, 1M
 
     section Phase 5
-    Reliability Engineering (HA / DR / Validation)        :active, a5, 2026-06, 1M
+    HA / DR / Validation                        :active, a5, 2026-06, 1M
 
     section Phase 6
-    Lessons Learned & Scope Control Architecture Convergence      :active, a6, 2026-06, 1M
+    Lessons Learned & Scope Control             :active, a6, 2026-06, 1M
 
     section Phase 7
-    Career Transition Resume & Job Search           :milestone, a7, 2026-07, 1d
+    Resume & Job Search                         :milestone, a7, 2026-07, 1d
 
     section Future
-    Datahouse & Production-grade Enhancements :crit, a8, 2026-07, 2M
+    Datahouse & Production-grade Enhancements   :crit, a8, 2026-07, 2M
 ```
 
+```mermaid
+gantt
+    title Platform Genesis Journey
 
-> ###### Built independently during a 4-month learning sprint (Mar 2026 – Jul 2026), 
+    dateFormat YYYY-MM
+
+    section Discover
+    Problem Discovery        :done, a1, 2026-03, 1M
+
+    section Explore
+    Technology Exploration   :done, a2, 2026-03, 2M
+
+    section Build
+    Platform Foundation      :done, a3, 2026-04, 1M
+    Cloud-Native Platform    :done, a4, 2026-05, 1M
+
+    section Validate
+    Reliability Validation   :active, a5, 2026-06, 1M
+
+    section Reflect
+    Architecture Convergence :active, a6, 2026-06, 1M
+
+    section Transition
+    Resume & Job Search      :milestone, a7, 2026-07, 1d
+
+    section Future
+    Datahouse Roadmap        :crit, a8, 2026-07, 2M
+```
+
+[//]: # (> ###### Built independently during a 4-month learning sprint &#40;Mar 2026 – Jul 2026&#41;, )
+> ###### Built independently learning sprint (2026/03 – Present), 
 > ###### evolving from a data infrastructure problem into a cloud-native platform engineering 
 > ###### practice through continuous implementation, validation, and documentation.
