@@ -27,7 +27,7 @@
 |*Project Name*|*Responsibilities*|*Tech Stack*|
 |--:|:--|:--|
 | [Platform Genesis](https://github.com/Junwu0615/Platform-Genesis) | **Homepage :**<br>Construction Records & Quantitative Testing | - |
-| [PG-Infrastructure](https://github.com/Junwu0615/PG-Infrastructure) | **IaC & Automation :**<br>Orchestrates environment lifecycles via<br>Terraform, Ansible, and Makefiles. | `GKE` `Kubernetes` `Terraform` `Ansible`<br>`Docker` `Makefile` |
+| [PG-Infrastructure](https://github.com/Junwu0615/PG-Infrastructure) | **IaC & Automation :**<br>Orchestrates environment lifecycles via<br>Terraform, Ansible, and Makefiles. | `GKE` `Kubernetes` `Terraform` `Ansible` `Docker` `Makefile` |
 | [PG-APP-Core](https://github.com/Junwu0615/PG-APP-Core) | **Business & Stream Logic :**<br>Core engine for multi-version factory simulations,<br>stream processing, and data infrastructure optimization. | `PG-Shared-Lib` `Python` |
 | [PG-Shared-Lib](https://github.com/Junwu0615/PG-Shared-Lib) | **Core Library :**<br>Provides standardized,<br>high-reusability modules across the ecosystem. | `EntryPoint` `Logger` `MqttServer`<br>`KafkaConsumerManager`<br>`KafkaProducerManager` |
 | [PG-Edge-Container](https://github.com/Junwu0615/PG-Edge-Container) | **Edge Deployment :**<br>Lightweight IoT units for data acquisition<br>and real-time MQTT/SQLite HA processing. | `PG-APP-Core` `MQTT` `SQLite` |
@@ -118,7 +118,7 @@
 | Generate Rigorous<br>Static Data | - | 2026-03-26 |
 | Rigorous Calibration<br>of Dynamic Data | 單一機台同時間只允許做一件事 /<br>排隊消化訂單 / 訂單生產週期戳記 | 2026-03-27 |
 | Adjusting Contextual | ~~insert machine event :<br>machine_events~~ | 2026-03-28 |
-| execute → execute_batch | batch sending + batch submission :<br>不適用於目前模擬方式 | X |
+| execute ➔ execute_batch | batch sending + batch submission :<br>不適用於目前模擬方式 | X |
 | Adjusting Contextual | insert machine status :<br>machine_status_logs | 2026-03-30 |
 | Increase Data Volume | - | 2026-03-30 |
 | Create OLAP DDL | Star Schema [ 5 ] | 2026-04-06 |
@@ -195,12 +195,12 @@
 | Add `Jenkins` | for `CD` | 2026-05-12 |
 | Add `Docker Registry` | for `CI/CD` & `Manage Images` | 2026-05-12 |
 | Build `Hierarchical`<br>`Log Management` | `Loki` + `ELK` | 2026-05-14 |
-| Build `CD` | `CD` → `Airflow DAGs` | 2026-05-20 |
-| Build `WSL2 Homelab` | `Chrome` → `Windows:8080`<br>→ `WSL2:80` → `ingress-nginx` | 2026-05-25 |
+| Build `CD` | `CD` ➔ `Airflow DAGs` | 2026-05-20 |
+| Build `WSL2 Homelab` | `Chrome` ➔ `Windows:8080`<br>➔ `WSL2:80` ➔ `ingress-nginx` | 2026-05-25 |
 | Update Migration Matrix | `Hybrid deployment` | 2026-05-26 |
 | Add `ArgoCD` | for `CD` | 2026-05-28 |
 | Build `GitOps` | `GitLab CI` + `ArgoCD` | 2026-06-05 |
-| Build `CD` | `CD` → `Edge Container` | 2026-06-13 |
+| Build `CD` | `CD` ➔ `Edge Container` | 2026-06-13 |
 | Add `HashiCorp Vault` | Enterprise Key Management System | Expected in `202607` |
 | Add `Debezium` | Change Data Capture | `TBD` |
 | Add `Apache Iceberg` | Data Lake | `TBD` |
@@ -251,7 +251,7 @@
 | CI/CD | Experience : Git-Runner | 2026-05-19 |
 | CI/CD | 採用 `tar` 流處理對 Airflow 容器<br>以兩側`記憶體對接灌入達成熱更新` | 2026-05-20 |
 | VM | Terraform `Gateway` | 2026-05-24 |
-| Kubernetes | Experience :<br>Win → `Portproxy` → WSL2 | 2026-05-25 |
+| Kubernetes | Experience :<br>Win ➔ `Portproxy` ➔ WSL2 | 2026-05-25 |
 | Kubernetes | Experience : `ingress-nginx` | 2026-05-25 |
 | Kubernetes | Experience : `OOM Kill` | 2026-05-25 |
 | GitOps | update tree `App-of-Apps` | 2026-05-28 |
@@ -260,7 +260,7 @@
 | GitOps | Build : `Observability` `Prometheus` | 2026-05-30 |
 | GitOps | Build : `Observability` `Prometheus Stack` | 2026-05-30 |
 | GitOps | Build : `Observability` `Promtail` | 2026-05-31 |
-| Helm Chart | `Helm Values 渲染大坑` → 退至穩定版 | 2026-05-31 |
+| Helm Chart | `Helm Values 渲染大坑` ➔ 退至穩定版 | 2026-05-31 |
 | GitOps | Build : `Observability` `Loki` | 2026-05-31 |
 | Kubernetes | Experience : `Fluent Bit ( DaemonSet )` | 2026-05-31 |
 | GitOps | Build : `Observability` `Tempo` | 2026-06-01 |
@@ -327,13 +327,11 @@
 <summary><b><i>　Service Support Form </i></b></summary>
 <ul>
 
-```
-已實現 ( ✔ )
-已棄用 ( ✘ )
-未實現 ( - )
-不遷移 ( * ) → 記憶體 OOM Kill ( 折衷打退回為 Docker Compose )
-不遷移 ( △ ) → 省作業時間 ( 部分與重型服務 Docker Compose 綑綁 )
-``` 
+> ##### 已實現 ( ✔ )
+> ##### 已棄用 ( ✘ )
+> ##### 未實現 ( - )
+> ##### 不遷移 ( * ) ➔ 記憶體 OOM Kill ( 折衷打退回為 Docker Compose )
+> ##### 不遷移 ( △ ) ➔ 省作業時間 ( 部分與重型服務 Docker Compose 綑綁 )
 
 |**Service**|**Docker**|**Terraform<br>( Docker )**|**MiniKube**|**K3d**|**K3s**|**K3s<br>Migration**|**Kubeadm**|**GKE**|
 |--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|
