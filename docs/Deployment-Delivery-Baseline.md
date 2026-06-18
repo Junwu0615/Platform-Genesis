@@ -433,7 +433,7 @@ These values do not include:
 |--:|:--|
 | Measured Deployment<br>Time Reduction | 53.3%<br>( 225 sec → 105 sec ) |
 | Estimated Multi-Node<br>Operational Scaling Benefit | Derived from single-deployment measurements<br>and linear operational effort assumptions |
-| Post-Adoption<br>Operational Comparison | 70%<br>( Steps: 10 → 3 ) |
+| Post-Adoption<br>Operational Comparison | 70%<br>( 10 steps → 3 steps ) |
 | Deployment<br>Access Centralization | 移除個人 KubeConfig / 直接 Cluster 存取權限<br>/ 部署操作統一經由 Argo CD RBAC 控管<br><br>• GitLab 尚有權限 ( Registry / Repo / Pipeline ) |
 | Rollback<br>Process Simplification | Manual rollback procedures replaced<br>by Git-based version reversion workflow |
 | Deployment<br>Governance Improvement | Git became the authoritative deployment source<br>and approval boundary |
