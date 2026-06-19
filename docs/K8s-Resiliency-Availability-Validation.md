@@ -11,34 +11,79 @@
 ```
 Tier ??? : ???
 
-Objective: 驗證 ??? 能力
-
-Situation: 測試前狀態
-
-Action: 執行動作
-
+[X] Failure Scenario
+ • 描述故障模型
+ • 說明實際模擬的風險事件
+ 
+Objective
+ • 驗證 XXX 能力
+ • 驗證 XXX 是否符合預期行為
+ 
+[X] Scope
+ • 本次驗證範圍
+ • 涵蓋元件
+ • 不涵蓋元件
+ 
+Situation
+ • 測試前狀態
+ • Cluster State
+ • Application State
+ 
+Action
+ • 執行動作
+ • 故障注入方式
+ • 操作指令
+ 
 Metrics:
  • Recovery Time
- • Downtime
- • Failed Requests
-   ...
- • Data Loss
+ • Recovery Point
+ • Detection Latency
+ • Reconciliation Time
  • Availability
+ • Failed Requests
+ • Error Rate
+ • Data Loss
+ • Consistency
+ • Throughput Impact
     
-Pass Criteria: 通過標準
-
-Result: 實際量測結果
-
-Observation:
- • kubectl get pods
- • Grafana Screenshot
+Pass Criteria
+ • 通過標準
+ • 預期行為
+ • 可接受門檻
+ 
+[X] Evidence
+ • kubectl output
+ • ArgoCD Screenshot
+ • Grafana Dashboard
  • Prometheus Metrics
  • Application Screenshot
+ • Logs
+ 
+Observation:
+ • 現象描述
+ • 系統行為分析
+ • 與預期是否一致
     
-[X] Failure Scenario
-[X] Evidence
+[X] Risk Assessment [ Unknown / Not Evaluated / Low / Medium / High ]
+ • Availability Risk ....... Low
+ • Operational Risk ........ Low
+ • Data Integrity Risk ..... Low
+
+Result
+ • 實際量測結果
+ • 指標數值
+ • Timeline
+
 [X] Limitation
+ • 測試環境限制
+ • 樣本數限制
+ • 工作負載限制
+
 [X] Known Limitation
+ • 架構限制
+ • 未覆蓋情境
+ • 尚未驗證項目
+
 
 Validation: 
  • ✅ PASS
@@ -46,6 +91,7 @@ Validation:
  • 📝 PLANNED
  • ⚪ NOT EVALUATED
  • ⛔ NOT APPLICABLE
+ • 🗑️ SKIP TO IMPLEMENTED
 ```
 
 </ul>
@@ -104,12 +150,13 @@ Tier 6 : Control Plane HA
       
       
 Quantitation Coverage
- • ✅ PASS .............. 14
- • ❌ FAIL .............. 0
- • 📝 PLANNED ........... 0
- • ⚪ NOT EVALUATED ..... 0
- • ⛔ NOT APPLICABLE .... 1
-   Coverage ............. 93%
+ • ✅ PASS .................. 14
+ • ❌ FAIL .................. 0
+ • 📝 PLANNED ............... 0
+ • ⚪ NOT EVALUATED ......... 0
+ • ⛔ NOT APPLICABLE ........ 1
+ • 🗑️ SKIP TO IMPLEMENTED ... 0
+   Coverage ................. 93%
 ```
 
 </ul>

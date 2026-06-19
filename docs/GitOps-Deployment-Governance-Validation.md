@@ -84,12 +84,14 @@ Known Limitation
  • 未覆蓋情境
  • 尚未驗證項目
 
+
 Validation
  • ✅ PASS
  • ❌ FAIL
  • 📝 PLANNED
  • ⚪ NOT EVALUATED
  • ⛔ NOT APPLICABLE
+ • 🗑️ SKIP TO IMPLEMENTED
 ```
 
 </ul>
@@ -118,7 +120,7 @@ Tier 2 : Deployment Lifecycle
 
 
 Tier 3 : Platform Recovery
- • ⚪ 一鍵集群啟動 : Cluster Bootstrap
+ • ✅ 一鍵集群啟動 : Cluster Bootstrap
  • ⚪ 災難復原 : Disaster Recovery
 
 
@@ -130,17 +132,22 @@ Tier 4 : Repository Governance
  
 Tier 5 : Operational Governance
  • ⚪ 可審計性 : Auditability
- • ⚪ 配置回滾 : Configuration Rollback
+ • ⚪ 變更審批工作流程 : Change Approval Workflow
+ • 🗑️ 配置回滾 : Configuration Rollback
+    • 和 Tier 2 : Configuration Rollout Failure 高度重複 只是恢復角度不同
+      - [未知狀況] 打算先回到穩定版本 所以用 Git Rollback
+      - [已知狀況] 所以直接從源頭修正配置 所以直接重新提交 Git Push
  
  
  
 Quantitation Coverage
- • ✅ PASS .............. 6
- • ❌ FAIL .............. 0
- • 📝 PLANNED ........... 1
- • ⚪ NOT EVALUATED ..... 5
- • ⛔ NOT APPLICABLE .... 0
-   Coverage ............. 50%
+ • ✅ PASS .................. 7
+ • ❌ FAIL .................. 0
+ • 📝 PLANNED ............... 1
+ • ⚪ NOT EVALUATED ......... 4
+ • ⛔ NOT APPLICABLE ........ 0
+ • 🗑️ SKIP TO IMPLEMENTED ... 1
+   Coverage ................. 53%
 ```
 
 </ul>
@@ -1328,58 +1335,6 @@ Validation
 
 <details>
 <summary><b><i>　Change Approval Workflow </i></b></summary>
-<ul>
-
-```
-Failure Scenario
- • 
-
-Objective
- • 
-
-Scope
- • 
-
-Situation
- • 
-
-Action
- • 
-
-Metrics
- • 
-
-Pass Criteria
- • 
-
-Evidence
- • 
-
-Observation
- • 
-
-⚠️ Risk Assessment
- • 
-
-Result
- • 
- 
-Limitation
- • 
-
-Known Limitation
- • 
-
-
-Validation
- • 
-```
-
-</ul>
-</details>
-
-<details>
-<summary><b><i>　Change Traceability </i></b></summary>
 <ul>
 
 ```
