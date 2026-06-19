@@ -10,33 +10,42 @@
 
 ```
 Tier ??? : ???
- • Objective: 驗證 ??? 能力
- • Situation: 測試前狀態
- • Action: 執行動作
- • Metrics:
-    • Recovery Time
-    • Downtime
-    • Failed Requests
-      ...
-    • Data Loss
-    • Availability
- • Pass Criteria: 通過標準
- • Result: 實際量測結果
- • Observation:
-    • kubectl get pods
-    • Grafana Screenshot
-    • Prometheus Metrics
-    • Application Screenshot
-    
- • [X] Failure Scenario
- • [X] Evidence
- • [X] Limitation
- • [X] Known Limitation
 
- • Validation: 
-    • Pass : ✅
-    • Fail : ❌
-    • NOT APPLICABLE : ⛔
+Objective: 驗證 ??? 能力
+
+Situation: 測試前狀態
+
+Action: 執行動作
+
+Metrics:
+ • Recovery Time
+ • Downtime
+ • Failed Requests
+   ...
+ • Data Loss
+ • Availability
+    
+Pass Criteria: 通過標準
+
+Result: 實際量測結果
+
+Observation:
+ • kubectl get pods
+ • Grafana Screenshot
+ • Prometheus Metrics
+ • Application Screenshot
+    
+[X] Failure Scenario
+[X] Evidence
+[X] Limitation
+[X] Known Limitation
+
+Validation: 
+ • ✅ PASS
+ • ❌ FAIL
+ • 📝 PLANNED
+ • ⚪ NOT EVALUATED
+ • ⛔ NOT APPLICABLE
 ```
 
 </ul>
@@ -133,8 +142,9 @@ Result:
 
 Observation:
  • kubectl get pods -n pg-apps-homelab-test -w
- 
-Validation: ✅
+
+
+Validation: ✅ PASS
 ```
 
 <details>
@@ -203,7 +213,7 @@ $ kubectl get pod inst-homelab-test-7fd9d5b99-lgk4m -n pg-apps-homelab-test -o j
 {"containerID":"containerd://18a09beded9ccfc4fc5c59844146af9fb676fa3db46b07f3757bf472fb69fc13","exitCode":137,"finishedAt":"2026-06-14T15:58:53Z","reason":"OOMKilled","startedAt":"2026-06-14T15:58:34Z"}p
 
 
-Validation: ✅
+Validation: ✅ PASS
 ```
 
 <details>
@@ -274,7 +284,8 @@ Observation:
  • Kafka Consumer Group Matrix ( 確認 Lag 沒有異常堆積, 且重啟後能繼續正常消費 )
  • 實驗最終比較像 Crash Recovery => 而非 Process 還活著，但服務卡死
  
-Validation: ✅
+
+Validation: ✅ PASS
 ```
 
 <details>
@@ -332,8 +343,9 @@ Observation:
  • K9s: 觀察狀態是否遵循 [ Running ] → [ Terminating ] → 完全消失 → [ ContainerCreating ] → [ Running ]
  • kubectl get image: 確認新 Pod 確實是吃進了新版 Tag
  • 非 Rolling Update 而是 Deployment Recreate Update, 因為兩者策略彼此矛盾
- 
-Validation: ✅
+
+
+Validation: ✅ PASS
 ```
 
 <details>
@@ -383,8 +395,9 @@ Observation:
  • kubectl rollout history deployment <name> ( 查看 K8s 歷史版本紀錄清單 )
  • K9s: 觀察 Pod 的 RESTART 欄位與 IMAGE 欄位是否倒回舊版
  • 本測試是 Deployment Rollback ; 而非 Application Rollback ( 常見 )
- 
-Validation: ✅
+
+
+Validation: ✅ PASS
 ```
 
 <details>
@@ -472,7 +485,7 @@ Timeline:
  • Service Available ---------- T+07s
 
 
-Validation: ✅
+Validation: ✅ PASS
 ```
 
 <details>
@@ -548,7 +561,7 @@ Timeline:
  • Application Ready --------- T+73s
     
 
-Validation: ✅
+Validation: ✅ PASS
 ```
 
 <details>
@@ -618,7 +631,7 @@ Observation:
 ⭐ HTTP 成功率: 100.00%
 
 
-Validation: ✅
+Validation: ✅ PASS
 ```
 
 <details>
@@ -678,7 +691,7 @@ Observation:
 ⭐ HTTP 成功率: 100.00%
 
 
-Validation: ✅
+Validation: ✅ PASS
 ```
 
 <details>
@@ -723,7 +736,8 @@ Observation:
  • 檢視持久化位置: mount | grep /app/data
  • 砍掉容器後觀察日誌是否一致性: K9s 中對該 Pod 按 l
 
-Validation: ✅
+
+Validation: ✅ PASS
 ```
 
 <details>
@@ -790,8 +804,9 @@ Observation:
  • 查看 PVC 狀態： 確認該 PVC 在短暫釋放後, 立刻被重新綁定 ( Bound ) 到新的同名 Pod 上
  • 臨時建立的 recovery_token.txt 將容器銷毀後 再次確認也依然存在
  • Environment Specific Result: 本測試局限於 local-path 單機磁碟, 更複雜環境未能實現
- 
-Validation: ✅
+
+
+Validation: ✅ PASS
 ```
 
 <details>
@@ -849,8 +864,9 @@ Observation:
     • 觀察狀態是否從原本只有 1 隻, 幾十秒內會突然蹦出第 2 隻 ( ContainerCreating )
     • 進入: hpa 畫面, 觀察 TARGETS 欄位是否呈現破表狀態 ( 1% )
  • 本測試屬於 Configuration Trigger Test 而非真實 Load Test
- 
-Validation: ✅
+
+
+Validation: ✅ PASS
 ```
 
 <details>
@@ -893,6 +909,7 @@ Pass Criteria:
 Result:
  • Scale-In Cooldown Delay ( 通常預設為 5 分鐘, 防震盪 ) ..... N/A sec 
  • ⭐ Final Replica Count ................................ 2 -> 1
+
 
 Validation: ⛔
 
@@ -968,8 +985,9 @@ Observation:
  • 底層 dqlite 共識機制 ( Quorum=2 ) 完全成立, 但此時突顯出物理盲點：
    因本機連線目前單點綁定於 0 號機, 若未來改關閉 0 號機將引發客戶端外部路由斷線 ( SPOF )
    • 解決方案：下一階段 ( 選舉測試 ) 將導入 Keepalived VIP 技術, 徹底抹平外部存取單點故障
- 
-Validation: ✅
+
+
+Validation: ✅ PASS
 ```
 
 <details>
@@ -1040,8 +1058,9 @@ Observation:
    HOLDER 自動由舊節點變更為活著的健康 Master 節點
  • 同步驗證外部連線, 因 Keepalived VIP 於毫秒級完成網路層飄移, 即便物理拔除 0 號機, 
    外網監聽指令完全未發生任何中斷與 i/o timeout, 完美落實入口與核心元件的雙層高可用
- 
-Validation: ✅
+
+
+Validation: ✅ PASS
 ```
 
 <details>

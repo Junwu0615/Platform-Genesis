@@ -51,11 +51,6 @@ Pass Criteria
  • 預期行為
  • 可接受門檻
 
-Result
- • 實際量測結果
- • 指標數值
- • Timeline
-
 Evidence
  • kubectl output
  • ArgoCD Screenshot
@@ -69,11 +64,16 @@ Observation
  • 系統行為分析
  • 與預期是否一致
 
-Risk Assessment [ Unknown / Not Evaluated / Low / Medium / High ]
+⚠️ Risk Assessment [ Unknown / Not Evaluated / Low / Medium / High ]
  • Availability Risk : Low
  • Operational Risk : Low
  • Data Integrity Risk : Low
 
+Result
+ • 實際量測結果
+ • 指標數值
+ • Timeline
+ 
 Limitation
  • 測試環境限制
  • 樣本數限制
@@ -85,9 +85,11 @@ Known Limitation
  • 尚未驗證項目
 
 Validation
- • PASS : ✅
- • FAIL : ❌
- • NOT APPLICABLE : ⛔
+ • ✅ PASS
+ • ❌ FAIL
+ • 📝 PLANNED
+ • ⚪ NOT EVALUATED
+ • ⛔ NOT APPLICABLE
 ```
 
 </ul>
@@ -100,20 +102,30 @@ Validation
 
 ```
 Tier 1 : State Reconciliation
- • Drift Detection
- • Auto Heal
+ • 漂移檢測 : Drift Detection
+ • 自動修復 : Auto Heal
 
 Tier 2 : Deployment Lifecycle
- • Git Rollback
- • Environment Promotion
+ • ✅ 發布錯誤版本 : Git Rollback
+    • target object: Images
+ • 錯誤配置 : Configuration Rollout Failure
+    • target object: Ingress / ConfigMap / Service
+ • 📝 漸進式部署 : Progressive Deployment
+    • 打算多開 N 個指定應用 Pod 按照百分比漸進更新
+ • ⚪ 多環境擴展 : Multi-Environment Promotion
 
 Tier 3 : Platform Recovery
- • Cluster Bootstrap
- • Disaster Recovery
+ • 一鍵集群啟動 : Cluster Bootstrap
+ • 災難復原 : Disaster Recovery
 
 Tier 4 : Repository Governance
- • Multi-Environment Isolation
- • GitOps Repository Architecture
+ • 多環境配置隔離 : Multi-Environment Configuration Isolation
+    • 變更不同環境設定檔不會影響到其餘環境
+ • GitOps 儲存庫設計 : GitOps Repository Design
+ 
+Tier 5 : Operational Governance
+ • 可審計性 : Auditability
+ • 配置回滾 : Configuration Rollback
 ```
 
 </ul>
@@ -154,6 +166,117 @@ Tier 4 : Repository Governance
 <ul>
 
 ```
+Failure Scenario
+ • 部署引用了不存在的映像標籤
+ • 新工作負載無法啟動並進入 ImagePullBackOff 狀態
+ • 由於發布工件無效，服務升級失敗
+
+Objective
+ • 驗證 GitOps 部署流程於錯誤版本發佈後，是否能透過 Git Commit Rollback 快速恢復至上一個穩定版本
+ • 驗證 ArgoCD Reconciliation 機制是否能正確同步回滾結果
+ • 驗證回滾過程是否維持服務一致性與資料完整性
+ 
+Scope
+ • Git Repository
+ • ArgoCD Application
+ • Kubernetes Deployment
+ • Container Image Version
+ 
+Situation
+ • Application 正常運作
+ • Deployment Image Tag 指向穩定版本
+ • ArgoCD Application 狀態為 Synced / Healthy
+ • Kafka 與相關資料流正常運行
+  
+Action
+ • 修改 Helm Values 將 Image Tag 更新為不存在版本 tags=v99
+ • Commit 並 Push 至 Git Repository
+ • ArgoCD 自動同步後觸發 Deployment 更新
+ • Pod 因無法拉取映像檔進入 ImagePullBackOff
+ • 於 ArgoCD UI 執行 Rollback 至前一版 Git Commit
+ 
+Metric
+ • Detection Latency
+ • Reconciliation Time
+ • Recovery Time
+ • Availability
+ • Failed Requests
+ • Error Rate
+ • Data Loss
+ • Consistency
+ 
+Pass Criteria
+ • 壞版本可被快速識別並停止部署
+ • Rollback 後 Deployment 成功恢復至上一穩定版本
+ • Pod 全數恢復 Ready 狀態
+ • Recovery Time < 15 sec
+ • 無資料遺失或資料一致性問題
+ 
+Evidence
+ • ArgoCD Rollback History
+ • ArgoCD Application Status
+ • kubectl rollout history deployment
+ • kubectl get pods
+ • K9s Workload Status
+ • Application Health Check
+
+Observation
+ • 壞版本部署後，Pod 無法拉取映像檔並進入 ImagePullBackOff
+ • Rollback 指令下達後，ArgoCD 立即觸發 Reconciliation
+ • Deployment 成功恢復至前一穩定版本
+ • Kafka 與應用程式資料流未觀察到異常
+ • 本測試驗證的是 Infrastructure / Deployment Rollback，
+   不涵蓋 Application-Level Transaction Rollback
+
+⚠️ Risk Assessment
+ • Availability Risk : Low
+ • Operational Risk : Low
+ • Data Integrity Risk : Low
+ 
+Result
+ • Detection Latency ......... 2 sec
+ • ⭐ Recovery Time .......... 8 sec
+ • Availability .............. Service Restored
+ • Data Loss ................. None
+ • Consistency ............... Verified
+ • Timeline:
+    T+0s   Deploy Invalid Image
+    T+2s   Failure Detected
+    T+3s   Rollback Triggered
+    T+8s   Deployment Recovered
+ 
+Limitation
+ • 僅驗證單一 Deployment
+ • 未模擬高流量生產環境
+ • 未驗證 Stateful Workload
+
+Known Limitation
+ • 未驗證資料庫 Schema Migration 回滾情境
+ • 未驗證跨服務相依性回滾情境
+ • 未驗證 Multi-Service Release Coordination
+
+
+Validation: ✅ PASS
+```
+
+<details>
+<summary><b><i>　🎬　Demo </i></b></summary>
+<ul>
+
+![GIF](../assets/gif/Rollback.gif)
+
+</ul>
+</details>
+
+
+</ul>
+</details>
+
+<details>
+<summary><b><i>　Configuration Rollout Failure </i></b></summary>
+<ul>
+
+```
 
 ```
 
@@ -161,11 +284,166 @@ Tier 4 : Repository Governance
 </details>
 
 <details>
-<summary><b><i>　Environment Promotion </i></b></summary>
+<summary><b><i>　Progressive Deployment </i></b></summary>
 <ul>
 
 ```
+Failure Scenario
+ • 新版本部署後導致功能退化 ( Regression ) 或服務不穩定
+ • RollingUpdate 過程中可能出現 Pod 啟動失敗、Readiness Probe 異常或應用程式錯誤，進而影響服務可用性
 
+Objective
+ • 驗證工作負載更新是否能以漸進方式完成部署，同時將服務中斷時間降至最低
+ • 驗證 Kubernetes RollingUpdate 機制是否符合預期行為
+
+Scope
+ • Kubernetes Deployment
+ • RollingUpdate Strategy
+ • ArgoCD Sync Process
+ • Application Availability
+
+Situation
+ • Application 正常運行中
+ • Deployment 副本數大於 1
+ • RollingUpdate 策略已啟用
+ • ArgoCD 處於 Synced / Healthy 狀態
+
+Action
+ • 更新 Deployment Image Tag
+ • 透過 Git Commit 觸發 ArgoCD Sync
+ • 觀察 RollingUpdate 過程中的 Pod 替換行為
+ • 監控服務可用性與錯誤率變化
+
+Metrics
+ • Availability
+ • Failed Requests
+ • Error Rate
+ • Rollout Completion Time
+ • Rollback Time
+
+Pass Criteria
+ • 部署期間服務持續可用
+ • 新版 Pod 成功取代舊版 Pod
+ • 無異常 CrashLoopBackOff
+ • Error Rate 維持於可接受範圍內
+ • Rollout 完成後 ArgoCD 狀態維持 Healthy
+
+Evidence
+ • kubectl rollout status
+ • kubectl get pods
+ • ArgoCD Application Status
+ • Grafana Dashboard
+
+Observation
+ • 預期 RollingUpdate 將逐步替換 Pod，而非一次性終止所有工作負載
+ • 預期部署期間服務可維持連續運作
+
+⚠️ Risk Assessment
+ • Availability Risk : Medium
+ • Operational Risk : Low
+ • Data Integrity Risk : Low
+ 
+Result: 尚未驗證
+
+Limitation
+ • Homelab 環境工作負載規模有限
+ • 無法模擬高併發流量場景
+ • 無法驗證大型叢集部署行為
+
+Known Limitation
+ • Canary Deployment 與 Blue-Green Deployment 尚未納入目前 Homelab 驗證範圍
+ • 本次規劃僅聚焦於 Kubernetes RollingUpdate 行為
+ • 尚未驗證 Progressive Delivery Controller ( ex: Argo Rollouts )
+
+
+Validation: 📝 PLANNED
+```
+
+</ul>
+</details>
+
+<details>
+<summary><b><i>　Multi-Environment Promotion </i></b></summary>
+<ul>
+
+```
+Failure Scenario
+ • 版本升級流程涉及 TEST、STAGE 與 PROD 等多個環境
+ • Promotion 過程若配置錯誤，可能導致錯誤版本被發布至非目標環境
+ • 環境隔離不足可能造成跨環境設定互相污染
+
+Objective
+ • 驗證 GitOps Repository 是否具備 Multi-Environment Promotion 設計能力
+ • 驗證環境配置是否具備獨立管理與隔離能力
+ • 驗證未來擴展至多環境部署流程的可行性
+
+Scope
+ • GitOps Repository Architecture
+ • Helm Values
+ • Environment Overlay
+ • ArgoCD Application Definition
+
+Situation
+ • Homelab 目前僅運行單一 Kubernetes Cluster
+ • 所有服務部署於同一叢集內
+ • Repository 已建立環境配置分層結構
+ • 尚未建立獨立 TEST、STAGE、PROD Cluster
+
+Action
+ • 檢視 GitOps Repository 結構設計
+ • 檢查環境配置分離策略
+ • 評估未來 Multi-Environment Promotion 工作流程
+ • 分析 Promotion 所需之 Repository Organization
+
+Metrics
+ • Environment Isolation
+ • Configuration Segregation
+ • Promotion Path Completeness
+ • Repository Maintainability
+
+Pass Criteria
+ • Repository 能支援環境配置分離
+ • 不同環境設定具備獨立管理能力
+ • Promotion Workflow 具備可擴展性
+ • 未來可擴展至 Multi-Cluster Architecture
+
+Evidence
+ • Git Repository Structure
+ • Directory Layout
+ • Helm Values Hierarchy
+ • Environment Overlay Design
+ • Architecture Diagram
+
+Observation
+ • Repository 已建立環境配置分離設計
+ • Environment-specific Values 可支援未來環境隔離需求
+ • Promotion Workflow 已完成架構規劃
+ • 由於缺乏額外 Cluster 資源，實際 Promotion 流程尚未驗證
+
+⚠️ Risk Assessment
+ • Availability Risk : Not Evaluated
+ • Operational Risk : Medium
+ • Data Integrity Risk : Unknown
+
+Result
+ • Repository Architecture Review Completed
+ • Multi-Environment Design Verified
+ • Cross-Environment Promotion Not Evaluated
+
+Limitation
+ • Homelab 硬體資源不足以同時運行多個 Kubernetes Clusters
+ • 無法建立完整 TEST / STAGE / PROD 環境
+ • 無法驗證實際 Promotion Workflow
+
+Known Limitation
+ • Multi-Cluster Promotion Workflow 尚未驗證
+ • Cross-Environment Deployment 尚未驗證
+ • Promotion Failure Recovery 尚未驗證
+ • Validation 結果僅限於 Repository 與 Architecture Design Review
+ • 未來需於多叢集環境進行實際驗證
+
+
+Validation: ⚪ NOT EVALUATED
 ```
 
 </ul>
@@ -202,7 +480,7 @@ Tier 4 : Repository Governance
 ### *★　Tier 4 : Repository Governance*
 
 <details>
-<summary><b><i>　Multi-Environment Isolation </i></b></summary>
+<summary><b><i>　Multi-Environment Configuration Isolation </i></b></summary>
 <ul>
 
 ```
@@ -213,7 +491,7 @@ Tier 4 : Repository Governance
 </details>
 
 <details>
-<summary><b><i>　GitOps Repository Architecture </i></b></summary>
+<summary><b><i>　GitOps Repository Design </i></b></summary>
 <ul>
 
 ```
@@ -223,15 +501,63 @@ Tier 4 : Repository Governance
 </ul>
 </details>
 
+### *★　Tier 5 : Operational Governance*
+
+<details>
+<summary><b><i>　Auditability </i></b></summary>
+<ul>
+
+```
+
+```
+
+</ul>
+</details>
+
+<details>
+<summary><b><i>　Change Approval Workflow </i></b></summary>
+<ul>
+
+```
+
+```
+
+</ul>
+</details>
+
+<details>
+<summary><b><i>　Change Traceability </i></b></summary>
+<ul>
+
+```
+
+```
+
+</ul>
+</details>
+
+<details>
+<summary><b><i>　Configuration Rollback </i></b></summary>
+<ul>
+
+```
+
+```
+
+</ul>
+</details>
+
+
 <br>
+
 
 ### *⭐　Final Statistics*
 ```
-Platform Engineering
-    +
-GitOps Governance
-    +
-Disaster Recovery
-    +
-Operational Excellence
+Validated Capabilities
+
+✓ ???
+✓ ???
+✓ ???
+✓ ???
+✓ ???
 ```
