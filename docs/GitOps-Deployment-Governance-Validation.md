@@ -109,7 +109,7 @@ Tier 1 : State Reconciliation
 Tier 2 : Deployment Lifecycle
  • ✅ 發布錯誤版本 : Git Rollback
     • target object: Images
- • ⚪ 錯誤配置 : Configuration Rollout Failure
+ • ✅ 錯誤配置 : Configuration Rollout Failure
     • target object: Ingress / ConfigMap / Service
     • 配置錯誤 : → 發布 → 故障 → 發現 → 修復
  • 📝 漸進式部署 : Progressive Deployment
@@ -135,12 +135,12 @@ Tier 5 : Operational Governance
  
  
 Quantitation Coverage
- • ✅ PASS .............. 4
+ • ✅ PASS .............. 5
  • ❌ FAIL .............. 0
  • 📝 PLANNED ........... 1
  • ⚪ NOT EVALUATED ..... 7
  • ⛔ NOT APPLICABLE .... 0
-   Coverage ............. 33%
+   Coverage ............. 41%
 ```
 
 </ul>
@@ -469,48 +469,108 @@ Validation: ✅ PASS
 
 ```
 Failure Scenario
- • 
-
+ • 透過 GitOps 工作流程部署無效配置
+ • 應用程式保持運行，但服務無法存取
+ • 配置變更會導致功能中斷
+ 
 Objective
- • 
+ • 驗證錯誤配置經由 GitOps 發布後，是否能被快速識別與修復
+ • 驗證 ArgoCD 是否能正確同步配置變更
+ • 驗證系統於配置錯誤情境下之可恢復性
 
 Scope
- • 
+ • Git Repository
+ • ArgoCD
+ • Kubernetes Ingress
+ • Application Service
 
 Situation
- • 
+ • Application 正常運行
+ • ArgoCD Status = Synced / Healthy
+ • Ingress 配置正確
+ • Service 可正常存取
 
 Action
- • 
+ • 持續發送需求確認服務健康狀態
+   TOTAL=0; SUCCESS=0; FAIL=0; echo "🚀 開始高頻容災測試 ( 每秒 20 次 )... 按 Ctrl+C 結束並查看統計報告"; trap 'echo -e "\n📊 【 容災統計報告 】\n總請求數: $TOTAL\n成功數 (302/200): $SUCCESS\n失敗數 (502/504/000): $FAIL\n⭐ HTTP 成功率: $(echo "scale=2; $SUCCESS * 100 / $TOTAL" | bc)%"' INT; while true; do CODE=$(curl -o /dev/null -s -w "%{http_code}" -H "Host: docker-registry.k8s.local" http://10.88.0.20/ --connect-timeout 1); TOTAL=$((TOTAL+1)); if [ "$CODE" = "200" ] || [ "$CODE" = "302" ]; then SUCCESS=$((SUCCESS+1)); echo "✅ Ingress 狀態正常 狀態碼: $CODE"; else FAIL=$((FAIL+1)); echo "❌ 抓到斷線! 狀態碼: $CODE"; fi; sleep 0.05; done
+   
+ • 修改 Ingress Host 為錯誤值
+ • Commit 並 Push 至 Git Repository
+ • 等待 ArgoCD 自動同步
+ • 驗證服務存取失敗
+ • 修正配置並再次提交 Git
 
 Metrics
- • 
+ • Detection Latency
+ • Reconciliation Time
+ • Recovery Time
+ • Availability
+ • Failed Requests
+ • Error Rate
 
 Pass Criteria
- • 
+ • 錯誤配置成功同步至 Cluster
+ • 故障現象可被明確觀察
+ • 修正配置後服務恢復正常
+ • Recovery Time < 5 min
+ • 無需直接修改 Cluster 資源
 
 Evidence
- • 
+ • Git Commit History
+ • ArgoCD Sync History
+ • kubectl get ingress
+ • Browser Access Result
+ • Application Logs
 
 Observation
- • 
+ • Application Pod 維持 Running
+ • Ingress 配置錯誤導致外部流量無法正確導向
+ • ArgoCD 正常同步配置變更
+ • 修正配置後服務恢復正常
+ • 驗證 GitOps Workflow 為唯一變更入口
 
 ⚠️ Risk Assessment
- • 
+ • Availability Risk ......... Medium
+ • Operational Risk .......... Low
+ • Data Integrity Risk ....... None
 
 Result
- • 
+ • Detection Latency .......... 2 sec
+ • Reconciliation Time ........ 2 sec
+ • Recovery Time ............. 20 sec
+ • Failed Requests .......... 286 count
+ • Error Rate ............... 43.40%
  
+
+📊 【 容災統計報告 】
+總請求數: 659
+成功數 (302/200): 373
+失敗數 (502/504/000): 286
+⭐ HTTP 成功率: 56.60%
+
+
 Limitation
- • 
+ • 僅驗證 Ingress Configuration
+ • 未驗證 ConfigMap 與 Service Configuration
 
 Known Limitation
- • 
+ • 未驗證 Application Runtime Configuration
+ • 未驗證 Database Connection Configuration
+ • 未驗證 Multi-Service Dependency Configuration
 
 
-Validation
- • 
+Validation: ✅ PASS
 ```
+
+<details>
+<summary><b><i>　🎬　Demo </i></b></summary>
+<ul>
+
+![GIF](../assets/gif/Configuration%20Rollout%20Failure.gif)
+
+</ul>
+</details>
+
 
 </ul>
 </details>
