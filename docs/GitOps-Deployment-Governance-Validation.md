@@ -105,23 +105,28 @@ Tier 1 : State Reconciliation
  • ✅ 漂移檢測 : Drift Detection
  • ✅ 自動修復 : Auto Heal
 
+
 Tier 2 : Deployment Lifecycle
  • ✅ 發布錯誤版本 : Git Rollback
     • target object: Images
  • ⚪ 錯誤配置 : Configuration Rollout Failure
     • target object: Ingress / ConfigMap / Service
+    • 配置錯誤 : → 發布 → 故障 → 發現 → 修復
  • 📝 漸進式部署 : Progressive Deployment
     • 打算多開 N 個指定應用 Pod 按照百分比漸進更新
  • ⚪ 多環境擴展 : Multi-Environment Promotion
+
 
 Tier 3 : Platform Recovery
  • ⚪ 一鍵集群啟動 : Cluster Bootstrap
  • ⚪ 災難復原 : Disaster Recovery
 
+
 Tier 4 : Repository Governance
  • ⚪ 多環境配置隔離 : Multi-Environment Configuration Isolation
     • 變更不同環境設定檔不會影響到其餘環境
  • ✅ GitOps 儲存庫設計 : GitOps Repository Architecture Validation
+ 
  
 Tier 5 : Operational Governance
  • ⚪ 可審計性 : Auditability
@@ -130,14 +135,12 @@ Tier 5 : Operational Governance
  
  
 Quantitation Coverage
-
-PASS .............. 4
-FAIL .............. 0
-PLANNED ........... 1
-NOT EVALUATED ..... 7
-NOT APPLICABLE .... 0
-
-Coverage .......... 33%
+ • ✅ PASS .............. 4
+ • ❌ FAIL .............. 0
+ • 📝 PLANNED ........... 1
+ • ⚪ NOT EVALUATED ..... 7
+ • ⛔ NOT APPLICABLE .... 0
+   Coverage ............. 33%
 ```
 
 </ul>
@@ -201,9 +204,9 @@ Observation
  • 未觀察到誤判情況
 
 ⚠️ Risk Assessment
- • Availability Risk : Low
- • Operational Risk : Low
- • Data Integrity Risk : None
+ • Availability Risk ........ Low
+ • Operational Risk ......... Low
+ • Data Integrity Risk ...... None
 
 Result
  • Detection Latency ........ 2 sec
@@ -301,9 +304,9 @@ Observation
  • 全流程無需人工執行 Sync 或 Rollback
 
 ⚠️ Risk Assessment
- • Availability Risk : Low
- • Operational Risk : Low
- • Data Integrity Risk : None
+ • Availability Risk ......... Low
+ • Operational Risk .......... Low
+ • Data Integrity Risk ....... None
 
 Result
  • Detection Latency ......... 2 sec

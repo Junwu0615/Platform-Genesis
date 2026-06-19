@@ -100,6 +100,16 @@ Tier 6 : Control Plane HA
     • K8s 的核心組件 ( ex: kube-scheduler, kube-controller-manager )
       在高可用 ( HA ) 架構下會用租約 ( Lease ) 鎖定 Leader, 
       倒下時會自動 Leader Re-election ( 領導者重選 )
+      
+      
+      
+Quantitation Coverage
+ • ✅ PASS .............. 14
+ • ❌ FAIL .............. 0
+ • 📝 PLANNED ........... 0
+ • ⚪ NOT EVALUATED ..... 0
+ • ⛔ NOT APPLICABLE .... 1
+   Coverage ............. 93%
 ```
 
 </ul>
