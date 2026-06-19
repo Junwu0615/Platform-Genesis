@@ -102,8 +102,8 @@ Validation
 
 ```
 Tier 1 : State Reconciliation
- • ⚪ 漂移檢測 : Drift Detection
- • ⚪ 自動修復 : Auto Heal
+ • ✅ 漂移檢測 : Drift Detection
+ • ✅ 自動修復 : Auto Heal
 
 Tier 2 : Deployment Lifecycle
  • ✅ 發布錯誤版本 : Git Rollback
@@ -126,6 +126,18 @@ Tier 4 : Repository Governance
 Tier 5 : Operational Governance
  • ⚪ 可審計性 : Auditability
  • ⚪ 配置回滾 : Configuration Rollback
+ 
+ 
+ 
+Quantitation Coverage
+
+PASS .............. 4
+FAIL .............. 0
+PLANNED ........... 1
+NOT EVALUATED ..... 7
+NOT APPLICABLE .... 0
+
+Coverage .......... 33%
 ```
 
 </ul>
@@ -143,48 +155,82 @@ Tier 5 : Operational Governance
 
 ```
 Failure Scenario
- • 
+ • 叢集配置漂移
+ • 在 GitOps 工作流程之外修改資源狀態
+ • 期望狀態和實際狀態變得不一致
 
 Objective
- • 
+ • 驗證 ArgoCD 是否能偵測 Cluster 與 Git Repository 間的狀態偏移
+ • 驗證未經 Git 提交流程的變更是否能被標記為 OutOfSync
 
 Scope
- • 
+ • ArgoCD
+ • Kubernetes Deployment
+ • Git Repository
 
 Situation
- • 
+ • Application 已正常運行
+ • ArgoCD Status = Synced / Healthy
+ • Git Repository 為最新版本
 
 Action
- • 
+ • 使用 kubectl scale 修改 Deployment Replica  => replicas 從 1 調整為 5
+   kubectl scale deployment cp-homelab-test -n pg-apps-homelab-test --replicas=5
+      
+ • 不更新 Git Repository
 
 Metrics
- • 
+ • Detection Latency
+ • Drift Identification Accuracy
+ • Sync Status Transition Time
 
 Pass Criteria
- • 
+ • ArgoCD 正確偵測 Drift
+ • Application 狀態變更為 OutOfSync
+ • Drift 可於 UI 與 CLI 被觀察到
+ • Detection Latency < 30 sec
 
 Evidence
- • 
+ • ArgoCD Application Status
+ • kubectl get deployment
+ • ArgoCD UI Screenshot
 
 Observation
- • 
+ • Cluster State 與 Desired State 發生偏離
+ • ArgoCD 成功將 Application 標記為 OutOfSync
+ • 未觀察到誤判情況
 
 ⚠️ Risk Assessment
- • 
+ • Availability Risk : Low
+ • Operational Risk : Low
+ • Data Integrity Risk : None
 
 Result
- • 
- 
+ • Detection Latency ........ 2 sec
+ • Drift Identification ..... ✅
+ • Sync Status .............. OutOfSync
+
 Limitation
- • 
+ • 僅驗證 Deployment Replica Drift
+ • 未驗證 CRD 與 StatefulSet
 
 Known Limitation
- • 
+ • 未驗證跨 Cluster GitOps 管理情境
+ • 未驗證大規模 Resource Drift
 
 
-Validation
- • 
+Validation: ✅ PASS
 ```
+
+<details>
+<summary><b><i>　🎬　Demo ( Drift Detection → Auto Heal ) </i></b></summary>
+<ul>
+
+![GIF](../assets/gif/State%20Reconciliation.gif)
+
+</ul>
+</details>
+
 
 </ul>
 </details>
@@ -195,48 +241,104 @@ Validation
 
 ```
 Failure Scenario
- • 
-
+ • 叢集配置漂移
+ • 在 GitOps 工作流程之外修改資源狀態
+ • 期望狀態和實際狀態變得不一致
+ • 未經授權的操作變更仍保留在叢集中
+ 
 Objective
- • 
+ • 驗證 ArgoCD Auto Sync 與 Self-Heal 機制是否能自動修復 Drift
+ • 驗證系統是否能將實際狀態恢復至 Git Repository 定義之 Desired State
+ • 驗證修復過程是否不需人工介入
 
 Scope
- • 
+ • ArgoCD
+ • Kubernetes Deployment
+ • Git Repository
+ • State Reconciliation
 
 Situation
- • 
+ • Application 已正常運行
+ • ArgoCD Status = Synced / Healthy
+ • Auto Sync 已啟用
+ • Self Heal 已啟用
+ • Deployment Replica = 1
 
 Action
- • 
+ • 使用 kubectl scale 修改 Deployment Replica => replicas 從 1 調整為 5
+   kubectl scale deployment cp-homelab-test -n pg-apps-homelab-test --replicas=5
+
+ • 不更新 Git Repository
+ • 觀察 ArgoCD 是否自動執行 Reconciliation
 
 Metrics
- • 
+ • Detection Latency
+ • Reconciliation Time
+ • Recovery Time
+ • Availability
+ • Consistency
 
 Pass Criteria
- • 
+ • ArgoCD 成功偵測 Drift
+ • Application 狀態轉為 OutOfSync
+ • ArgoCD 自動觸發 Reconciliation
+ • Replica 數量恢復至 Git 定義值
+ • Recovery Time < 60 sec
+ • 全程不需人工介入
 
 Evidence
- • 
+ • ArgoCD Application Status
+ • ArgoCD Sync History
+ • kubectl get deployment
+ • kubectl describe deployment
+ • ArgoCD UI Screenshot
 
 Observation
- • 
+ • Replica 被手動調整後，Application 狀態變為 OutOfSync
+ • ArgoCD 自動啟動 Reconciliation
+ • Deployment Replica 恢復至 Git Repository 定義值
+ • Application 狀態重新回到 Synced / Healthy
+ • 全流程無需人工執行 Sync 或 Rollback
 
 ⚠️ Risk Assessment
- • 
+ • Availability Risk : Low
+ • Operational Risk : Low
+ • Data Integrity Risk : None
 
 Result
- • 
- 
+ • Detection Latency ......... 2 sec
+ • Reconciliation Time ...... 42 sec
+ • Recovery Time ............ 44 sec
+ • Availability ............. Maintained
+ • Consistency .............. Restored
+
 Limitation
- • 
+ • 僅驗證 Deployment Replica Drift
+ • 未驗證 StatefulSet
+ • 未驗證 Persistent Volume 相關資源
 
 Known Limitation
- • 
+ • 未驗證 CRD Drift Recovery
+ • 未驗證 Secret Rotation 情境
+ • 未驗證跨 Namespace 大規模 Drift
+ • 未驗證 Multi-Cluster GitOps 管理情境
 
 
-Validation
- • 
+Validation: ✅ PASS
 ```
+
+
+<details>
+<summary><b><i>　🎬　Demo ( Drift Detection → Auto Heal ) </i></b></summary>
+<ul>
+
+![GIF](../assets/gif/State%20Reconciliation.gif)
+
+</ul>
+</details>
+
+
+
 
 </ul>
 </details>
@@ -749,6 +851,94 @@ Validation
 <ul>
 
 ```
+Failure Scenario
+ • GitOps Repository 缺乏標準化結構
+ • 應用程式、平台元件與環境設定混雜於同一層級
+ • 隨專案規模成長導致維護成本增加
+ • 環境設定耦合造成變更風險提升
+
+Objective
+ • 驗證 GitOps Repository 是否具備清晰的分層架構
+ • 驗證 Repository 是否支援環境隔離與未來擴展需求
+ • 驗證 GitOps 管理模式是否符合 Infrastructure-as-Code 原則
+
+Scope
+ • Git Repository Structure
+ • ArgoCD ApplicationSet
+ • Helm Charts
+ • Environment Configuration
+ • Bootstrap Components
+
+Situation
+ • Homelab 採用 Monorepo GitOps Repository
+ • 所有 Kubernetes 資源透過 Git 作為唯一事實來源 ( Single Source of Truth )
+ • ArgoCD 負責持續同步與狀態管理
+
+Action
+ • 檢視 Repository 分層架構
+ • 檢查 Application、Chart、Environment 是否完成職責分離
+ • 檢查 Bootstrap 與 Day-2 Operation 是否分離管理
+ • 檢查是否具備多環境配置能力
+
+Metrics
+ • Repository Layer Separation
+ • Environment Isolation Capability
+ • Application Onboarding Complexity
+ • Configuration Reusability
+ • Structural Consistency
+
+Pass Criteria
+ • 應用程式與平台元件具備獨立管理邊界
+ • Chart 與 Environment Configuration 完成解耦
+ • Bootstrap 元件與 Day-2 Operations 分離
+ • Repository 可支援未來新增環境而無須重構目錄結構
+ • GitOps 管理流程具備一致性
+
+Evidence
+ • Repository Tree Structure
+ • ArgoCD Root Application
+ • ApplicationSet Definitions
+ • Environment Values Files
+ • Bootstrap Scripts
+
+Observation
+ • 採用 Domain-based 結構管理平台元件
+ • Helm Chart 與 Environment Values 分離
+ • ApplicationSet 統一管理應用程式生命週期
+ • Bootstrap 流程可獨立完成 Cluster 初始化
+ • Repository 已預留 test / stage / prod 環境配置能力
+
+⚠️ Risk Assessment
+ • Availability Risk .................. Low
+ • Operational Risk ................... Low
+ • Data Integrity Risk ................ Not Applicable
+
+Result
+ • Repository Layer Separation ........ ✅
+ • Environment Isolation Capability ... ✅
+ • Configuration Reusability .......... ✅
+ • Structural Consistency ............. ✅
+
+Limitation
+ • 本驗證屬架構設計審查
+ • 未涵蓋實際多團隊協作情境
+ • 未量測大型組織規模下之維運成本
+
+Known Limitation
+ • test / stage / prod 環境目前共用單一 Kubernetes Cluster
+ • Multi-Cluster GitOps Architecture 尚未實際部署驗證
+ • Environment Promotion Workflow 尚未完成驗證
+
+
+Validation: ✅ PASS
+```
+
+
+<details>
+<summary><b><i>　GitOps Repository Tree </i></b></summary>
+<ul>
+
+```
 .
 ├── README.md
 ├── argocd
@@ -959,88 +1149,8 @@ Validation
     └── ingress-template.yaml
 ```
 
-```
-Failure Scenario
- • GitOps Repository 缺乏標準化結構
- • 應用程式、平台元件與環境設定混雜於同一層級
- • 隨專案規模成長導致維護成本增加
- • 環境設定耦合造成變更風險提升
-
-Objective
- • 驗證 GitOps Repository 是否具備清晰的分層架構
- • 驗證 Repository 是否支援環境隔離與未來擴展需求
- • 驗證 GitOps 管理模式是否符合 Infrastructure-as-Code 原則
-
-Scope
- • Git Repository Structure
- • ArgoCD ApplicationSet
- • Helm Charts
- • Environment Configuration
- • Bootstrap Components
-
-Situation
- • Homelab 採用 Monorepo GitOps Repository
- • 所有 Kubernetes 資源透過 Git 作為唯一事實來源 ( Single Source of Truth )
- • ArgoCD 負責持續同步與狀態管理
-
-Action
- • 檢視 Repository 分層架構
- • 檢查 Application、Chart、Environment 是否完成職責分離
- • 檢查 Bootstrap 與 Day-2 Operation 是否分離管理
- • 檢查是否具備多環境配置能力
-
-Metrics
- • Repository Layer Separation
- • Environment Isolation Capability
- • Application Onboarding Complexity
- • Configuration Reusability
- • Structural Consistency
-
-Pass Criteria
- • 應用程式與平台元件具備獨立管理邊界
- • Chart 與 Environment Configuration 完成解耦
- • Bootstrap 元件與 Day-2 Operations 分離
- • Repository 可支援未來新增環境而無須重構目錄結構
- • GitOps 管理流程具備一致性
-
-Evidence
- • Repository Tree Structure
- • ArgoCD Root Application
- • ApplicationSet Definitions
- • Environment Values Files
- • Bootstrap Scripts
-
-Observation
- • 採用 Domain-based 結構管理平台元件
- • Helm Chart 與 Environment Values 分離
- • ApplicationSet 統一管理應用程式生命週期
- • Bootstrap 流程可獨立完成 Cluster 初始化
- • Repository 已預留 test / stage / prod 環境配置能力
-
-⚠️ Risk Assessment
- • Availability Risk .................. Low
- • Operational Risk ................... Low
- • Data Integrity Risk ................ Not Applicable
-
-Result
- • Repository Layer Separation ........ ✅
- • Environment Isolation Capability ... ✅
- • Configuration Reusability .......... ✅
- • Structural Consistency ............. ✅
-
-Limitation
- • 本驗證屬架構設計審查
- • 未涵蓋實際多團隊協作情境
- • 未量測大型組織規模下之維運成本
-
-Known Limitation
- • test / stage / prod 環境目前共用單一 Kubernetes Cluster
- • Multi-Cluster GitOps Architecture 尚未實際部署驗證
- • Environment Promotion Workflow 尚未完成驗證
-
-
-Validation: ✅ PASS
-```
+</ul>
+</details>
 
 </ul>
 </details>
@@ -1265,18 +1375,6 @@ Validation
 
 ### *⭐　Final Statistics*
 ```
-Quantitation Coverage
-
-PASS .............. 2
-FAIL .............. 0
-PLANNED ........... 1
-NOT EVALUATED ..... 9
-NOT APPLICABLE .... 0
-
-Coverage .......... 16%
-
-------
-
 Validated Capabilities
 
 ✓ ???
