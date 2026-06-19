@@ -140,7 +140,48 @@ Tier 5 : Operational Governance
 <ul>
 
 ```
+Failure Scenario
+ • 
 
+Objective
+ • 
+
+Scope
+ • 
+
+Situation
+ • 
+
+Action
+ • 
+
+Metrics
+ • 
+
+Pass Criteria
+ • 
+
+Evidence
+ • 
+
+Observation
+ • 
+
+⚠️ Risk Assessment
+ • 
+
+Result
+ • 
+ 
+Limitation
+ • 
+
+Known Limitation
+ • 
+
+
+Validation
+ • 
 ```
 
 </ul>
@@ -151,7 +192,48 @@ Tier 5 : Operational Governance
 <ul>
 
 ```
+Failure Scenario
+ • 
 
+Objective
+ • 
+
+Scope
+ • 
+
+Situation
+ • 
+
+Action
+ • 
+
+Metrics
+ • 
+
+Pass Criteria
+ • 
+
+Evidence
+ • 
+
+Observation
+ • 
+
+⚠️ Risk Assessment
+ • 
+
+Result
+ • 
+ 
+Limitation
+ • 
+
+Known Limitation
+ • 
+
+
+Validation
+ • 
 ```
 
 </ul>
@@ -277,7 +359,48 @@ Validation: ✅ PASS
 <ul>
 
 ```
+Failure Scenario
+ • 
 
+Objective
+ • 
+
+Scope
+ • 
+
+Situation
+ • 
+
+Action
+ • 
+
+Metrics
+ • 
+
+Pass Criteria
+ • 
+
+Evidence
+ • 
+
+Observation
+ • 
+
+⚠️ Risk Assessment
+ • 
+
+Result
+ • 
+ 
+Limitation
+ • 
+
+Known Limitation
+ • 
+
+
+Validation
+ • 
 ```
 
 </ul>
@@ -458,7 +581,48 @@ Validation: ⚪ NOT EVALUATED
 <ul>
 
 ```
+Failure Scenario
+ • 
 
+Objective
+ • 
+
+Scope
+ • 
+
+Situation
+ • 
+
+Action
+ • 
+
+Metrics
+ • 
+
+Pass Criteria
+ • 
+
+Evidence
+ • 
+
+Observation
+ • 
+
+⚠️ Risk Assessment
+ • 
+
+Result
+ • 
+ 
+Limitation
+ • 
+
+Known Limitation
+ • 
+
+
+Validation
+ • 
 ```
 
 </ul>
@@ -469,7 +633,48 @@ Validation: ⚪ NOT EVALUATED
 <ul>
 
 ```
+Failure Scenario
+ • 
 
+Objective
+ • 
+
+Scope
+ • 
+
+Situation
+ • 
+
+Action
+ • 
+
+Metrics
+ • 
+
+Pass Criteria
+ • 
+
+Evidence
+ • 
+
+Observation
+ • 
+
+⚠️ Risk Assessment
+ • 
+
+Result
+ • 
+ 
+Limitation
+ • 
+
+Known Limitation
+ • 
+
+
+Validation
+ • 
 ```
 
 </ul>
@@ -484,7 +689,48 @@ Validation: ⚪ NOT EVALUATED
 <ul>
 
 ```
+Failure Scenario
+ • 
 
+Objective
+ • 
+
+Scope
+ • 
+
+Situation
+ • 
+
+Action
+ • 
+
+Metrics
+ • 
+
+Pass Criteria
+ • 
+
+Evidence
+ • 
+
+Observation
+ • 
+
+⚠️ Risk Assessment
+ • 
+
+Result
+ • 
+ 
+Limitation
+ • 
+
+Known Limitation
+ • 
+
+
+Validation
+ • 
 ```
 
 </ul>
@@ -495,7 +741,48 @@ Validation: ⚪ NOT EVALUATED
 <ul>
 
 ```
+Failure Scenario
+ • 
 
+Objective
+ • 
+
+Scope
+ • 
+
+Situation
+ • 
+
+Action
+ • 
+
+Metrics
+ • 
+
+Pass Criteria
+ • 
+
+Evidence
+ • 
+
+Observation
+ • 
+
+⚠️ Risk Assessment
+ • 
+
+Result
+ • 
+ 
+Limitation
+ • 
+
+Known Limitation
+ • 
+
+
+Validation
+ • 
 ```
 
 </ul>
@@ -508,7 +795,48 @@ Validation: ⚪ NOT EVALUATED
 <ul>
 
 ```
+Failure Scenario
+ • 
 
+Objective
+ • 
+
+Scope
+ • 
+
+Situation
+ • 
+
+Action
+ • 
+
+Metrics
+ • 
+
+Pass Criteria
+ • 
+
+Evidence
+ • 
+
+Observation
+ • 
+
+⚠️ Risk Assessment
+ • 
+
+Result
+ • 
+ 
+Limitation
+ • 
+
+Known Limitation
+ • 
+
+
+Validation
+ • 
 ```
 
 </ul>
@@ -519,7 +847,48 @@ Validation: ⚪ NOT EVALUATED
 <ul>
 
 ```
+Failure Scenario
+ • 
 
+Objective
+ • 
+
+Scope
+ • 
+
+Situation
+ • 
+
+Action
+ • 
+
+Metrics
+ • 
+
+Pass Criteria
+ • 
+
+Evidence
+ • 
+
+Observation
+ • 
+
+⚠️ Risk Assessment
+ • 
+
+Result
+ • 
+ 
+Limitation
+ • 
+
+Known Limitation
+ • 
+
+
+Validation
+ • 
 ```
 
 </ul>
@@ -530,7 +899,48 @@ Validation: ⚪ NOT EVALUATED
 <ul>
 
 ```
+Failure Scenario
+ • 
 
+Objective
+ • 
+
+Scope
+ • 
+
+Situation
+ • 
+
+Action
+ • 
+
+Metrics
+ • 
+
+Pass Criteria
+ • 
+
+Evidence
+ • 
+
+Observation
+ • 
+
+⚠️ Risk Assessment
+ • 
+
+Result
+ • 
+ 
+Limitation
+ • 
+
+Known Limitation
+ • 
+
+
+Validation
+ • 
 ```
 
 </ul>
@@ -541,7 +951,48 @@ Validation: ⚪ NOT EVALUATED
 <ul>
 
 ```
+Failure Scenario
+ • 
 
+Objective
+ • 
+
+Scope
+ • 
+
+Situation
+ • 
+
+Action
+ • 
+
+Metrics
+ • 
+
+Pass Criteria
+ • 
+
+Evidence
+ • 
+
+Observation
+ • 
+
+⚠️ Risk Assessment
+ • 
+
+Result
+ • 
+ 
+Limitation
+ • 
+
+Known Limitation
+ • 
+
+
+Validation
+ • 
 ```
 
 </ul>
