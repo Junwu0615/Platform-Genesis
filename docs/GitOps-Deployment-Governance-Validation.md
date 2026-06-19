@@ -91,7 +91,7 @@ Validation
  • 📝 PLANNED
  • ⚪ NOT EVALUATED
  • ⛔ NOT APPLICABLE
- • 🗑️ SKIP TO IMPLEMENTED
+ • 🗑️ SKIP ( OVERLAPPED )
 ```
 
 </ul>
@@ -134,7 +134,7 @@ Tier 5 : Operational Governance
  • ⚪ 可審計性 : Auditability
  • ⚪ 變更審批工作流程 : Change Approval Workflow
  • 🗑️ 配置回滾 : Configuration Rollback
-    • 和 Tier 2 : Configuration Rollout Failure 高度重複 只是恢復角度不同
+    • 和 Tier 2 : Configuration Rollout Failure 高度重複
       - [未知狀況] 打算先回到穩定版本 所以用 Git Rollback
       - [已知狀況] 所以直接從源頭修正配置 所以直接重新提交 Git Push
  
@@ -146,7 +146,7 @@ Quantitation Coverage
  • 📝 PLANNED ............... 1
  • ⚪ NOT EVALUATED ......... 4
  • ⛔ NOT APPLICABLE ........ 0
- • 🗑️ SKIP TO IMPLEMENTED ... 1
+ • 🗑️ SKIP ( OVERLAPPED ) ... 1
    Coverage ................. 53%
 ```
 
@@ -1287,47 +1287,57 @@ Validation: ✅ PASS
 
 ```
 Failure Scenario
- • 
+ • 發生服務異常後，無法追溯配置變更來源、操作者及變更時間
 
 Objective
- • 
+ • 驗證 GitOps Workflow 是否具備變更可追溯能力
+ • 驗證系統狀態是否可對應至 Git Commit History
 
 Scope
- • 
+ • Git Repository
+ • ArgoCD
+ • Git Commit History
 
 Situation
- • 
+ • 所有 Kubernetes 資源皆透過 GitOps 管理
 
 Action
- • 
+ • 檢查 Git Commit History
+ • 檢查 ArgoCD Sync History
+ • 比對目前 Cluster State
 
 Metrics
- • 
+ • Change Traceability
+ • Commit Attribution
+ • Deployment History Retention
 
 Pass Criteria
- • 
+ • 所有配置變更皆可對應 Git Commit
+ • 可識別變更時間與內容
+ • ArgoCD 可顯示同步歷史紀錄
 
 Evidence
- • 
+ • None
 
 Observation
- • 
+ • None
 
 ⚠️ Risk Assessment
- • 
+ • None
 
 Result
- • 
+ • 未實施
  
 Limitation
- • 
+ • None
 
 Known Limitation
- • 
+ • 單人維運環境
+ • 未導入 Pull Request Review、Branch Protection、RBAC Approval Workflow
+ • 僅驗證技術層面的 Traceability，未驗證組織層級的 Governance Process
 
 
-Validation
- • 
+Validation: ⚪ NOT EVALUATED
 ```
 
 </ul>
@@ -1339,47 +1349,76 @@ Validation
 
 ```
 Failure Scenario
- • 
+ • 未經審核的配置變更直接進入正式環境
+ • 錯誤配置、錯誤映像版本或高風險變更缺乏事前審查機制
+ • 發生事故後無法確認變更是否經過授權與批准
 
 Objective
- • 
+ • 驗證 GitOps Workflow 是否具備變更審批能力
+ • 驗證正式環境變更是否可透過標準化流程進行控制與授權
+ • 驗證高風險配置變更是否具備事前審查機制
 
 Scope
- • 
+ • Git Repository
+ • Pull Request Workflow
+ • Branch Protection
+ • ArgoCD Deployment Workflow
 
 Situation
- • 
+ • 所有 Kubernetes 配置皆透過 Git Repository 管理
+ • Homelab 採單人維運模式
+ • 未導入 Pull Request Review 與 Branch Protection 機制
 
 Action
- • 
+ • 檢查現行 GitOps 工作流程
+ • 評估 Pull Request Approval 整合可行性
+ • 評估 Branch Protection Policy 設計方案
 
 Metrics
- • 
+ • Approval Coverage
+ • Unauthorized Change Rate
+ • Change Review Rate
+ • Approval Latency
 
 Pass Criteria
- • 
+ • 所有正式環境變更皆需經過審批流程
+ • 未授權變更不得直接進入部署流程
+ • 變更紀錄可追溯至審批紀錄
 
 Evidence
- • 
+ • Git Repository Structure
+ • Branch Strategy Documentation
+ • Git Workflow Design
+ • Future Governance Architecture
 
 Observation
- • 
+ • GitOps 已提供配置集中管理與版本追蹤能力
+ • 目前仍缺乏組織層級 Change Approval 機制
+ • 單人維運環境無法驗證 Reviewer 與 Approver 分離情境
 
 ⚠️ Risk Assessment
- • 
+ • Availability Risk ...... Not Evaluated
+ • Operational Risk ....... Medium
+ • Data Integrity Risk .... Not Evaluated
 
 Result
- • 
- 
+ • 未實施
+ • 未建立正式 Change Approval Workflow
+ • 未驗證 Pull Request Review 與 Branch Protection Policy
+
 Limitation
- • 
+ • Homelab 為單人開發與維運環境
+ • 缺乏獨立 Reviewer 與 Approver 角色
+ • 無法模擬企業級變更管理流程
 
 Known Limitation
- • 
+ • 未導入 Pull Request Approval
+ • 未導入 Branch Protection Rules
+ • 未導入 RBAC-based Change Governance
+ • 未驗證多角色協作情境
 
 
-Validation
- • 
+Validation: ⚪ NOT EVALUATED
 ```
 
 </ul>

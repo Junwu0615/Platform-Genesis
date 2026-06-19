@@ -91,7 +91,7 @@ Validation:
  • 📝 PLANNED
  • ⚪ NOT EVALUATED
  • ⛔ NOT APPLICABLE
- • 🗑️ SKIP TO IMPLEMENTED
+ • 🗑️ SKIP ( OVERLAPPED )
 ```
 
 </ul>
@@ -155,7 +155,7 @@ Quantitation Coverage
  • 📝 PLANNED ............... 0
  • ⚪ NOT EVALUATED ......... 0
  • ⛔ NOT APPLICABLE ........ 1
- • 🗑️ SKIP TO IMPLEMENTED ... 0
+ • 🗑️ SKIP ( OVERLAPPED ) ... 0
    Coverage ................. 93%
 ```
 
