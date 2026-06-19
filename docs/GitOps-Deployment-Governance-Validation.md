@@ -123,7 +123,7 @@ Tier 3 : Platform Recovery
 
 
 Tier 4 : Repository Governance
- • ⚪ 多環境配置隔離 : Multi-Environment Configuration Isolation
+ • ✅ 多環境配置隔離 : Multi-Environment Configuration Isolation
     • 變更不同環境設定檔不會影響到其餘環境
  • ✅ GitOps 儲存庫設計 : GitOps Repository Architecture Validation
  
@@ -135,12 +135,12 @@ Tier 5 : Operational Governance
  
  
 Quantitation Coverage
- • ✅ PASS .............. 5
+ • ✅ PASS .............. 6
  • ❌ FAIL .............. 0
  • 📝 PLANNED ........... 1
- • ⚪ NOT EVALUATED ..... 7
+ • ⚪ NOT EVALUATED ..... 5
  • ⛔ NOT APPLICABLE .... 0
-   Coverage ............. 41%
+   Coverage ............. 50%
 ```
 
 </ul>
@@ -177,7 +177,7 @@ Situation
  • Git Repository 為最新版本
 
 Action
- • 使用 kubectl scale 修改 Deployment Replica  => replicas 從 1 調整為 5
+ • 使用 kubectl scale 修改 Deployment Replica  → replicas 從 1 調整為 5
    kubectl scale deployment cp-homelab-test -n pg-apps-homelab-test --replicas=5
       
  • 不更新 Git Repository
@@ -268,7 +268,7 @@ Situation
  • Deployment Replica = 1
 
 Action
- • 使用 kubectl scale 修改 Deployment Replica => replicas 從 1 調整為 5
+ • 使用 kubectl scale 修改 Deployment Replica → replicas 從 1 調整為 5
    kubectl scale deployment cp-homelab-test -n pg-apps-homelab-test --replicas=5
 
  • 不更新 Git Repository
@@ -863,48 +863,98 @@ Validation
 
 ```
 Failure Scenario
- • 
+ • 修改 test 環境配置時，意外影響 stage 或 prod 環境設定
+ • Environment-specific Values 發生交叉引用或配置污染
+ • GitOps Repository 缺乏環境邊界，導致不同環境部署結果不一致
 
 Objective
- • 
+ • 驗證不同環境配置是否具備隔離能力
+ • 驗證變更單一 Environment Values 後，不會影響其他環境配置
+ • 驗證 GitOps Repository 是否具備 Environment Boundary
 
 Scope
- • 
+ • Git Repository
+ • Environment Values Files
+ • ArgoCD ApplicationSet
+ • Helm Values Overlay
 
 Situation
- • 
+ • Repository 已建立:
+       environments/
+       ├── homelab-test
+       ├── homelab-stage
+       └── homelab-prod
+
+ • 各環境皆維護獨立 Values File
+ • ApplicationSet 依環境載入對應設定
 
 Action
- • 
+ • 修改 homelab-test ex: replicaCount: 1 -> 2
+ • 執行： git commit & push
+ • 檢查對應 Values File
+     • homelab-stage
+     • homelab-prod
+ • 確認未產生非預期變更
 
 Metrics
- • 
+ • 受影響的環境計數
+ • 意外的配置漂移
+ • 配置隔離率
+ • Git 更改範圍
 
 Pass Criteria
- • 
+ • 僅目標 Environment 發生配置變更
+ • Stage / Prod Values File 無變動
+ • Git Diff 僅出現在目標環境目錄
+ • Isolation Rate = 100%
 
 Evidence
- • 
+ • Git Diff
+ • Pull Request
+ • Repository Tree
+ • ArgoCD Application
+ • Environment Values Files
 
 Observation
- • 
+ • Environment-specific Values 可獨立維護
+ • Repository Structure 已具備環境隔離能力
+ • Git 變更範圍可透過目錄結構清楚追蹤
+ • 未觀察到配置交叉污染
 
 ⚠️ Risk Assessment
- • 
+ • Availability Risk ............. Low
+ • Operational Risk .............. Low
+ • Data Integrity Risk ........... Low
 
 Result
- • 
+ • 受影響的環境計數 ................... 1 ( TEST 受變更影響 → 其餘 STAGE / PROD 皆未干擾到 TEST )
+ • 意外的配置漂移 .................... 0%
+ • 配置隔離率 ..................... 100%
+ • Validation Time .............. 90 sec
  
 Limitation
- • 
+ • 測試於單一 Kubernetes Cluster 進行
+ • 未驗證實際跨環境部署行為
+ • 未驗證不同 Cluster 間的 Promotion 流程
 
 Known Limitation
- • 
+ • Homelab 硬體資源不足以維運多套 Kubernetes Cluster
+ • Stage / Prod Environment 為邏輯隔離設計
+ • 尚未驗證實際 Multi-Cluster Promotion
 
 
-Validation
- • 
+Validation: ✅ PASS
 ```
+
+<details>
+<summary><b><i>　🎬　Demo </i></b></summary>
+<ul>
+
+![GIF](../assets/gif/Multi-Environment%20Configuration%20Isolation.gif)
+
+</ul>
+</details>
+
 
 </ul>
 </details>
