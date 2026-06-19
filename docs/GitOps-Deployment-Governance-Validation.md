@@ -1424,59 +1424,6 @@ Validation: ⚪ NOT EVALUATED
 </ul>
 </details>
 
-<details>
-<summary><b><i>　Configuration Rollback </i></b></summary>
-<ul>
-
-```
-Failure Scenario
- • 
-
-Objective
- • 
-
-Scope
- • 
-
-Situation
- • 
-
-Action
- • 
-
-Metrics
- • 
-
-Pass Criteria
- • 
-
-Evidence
- • 
-
-Observation
- • 
-
-⚠️ Risk Assessment
- • 
-
-Result
- • 
- 
-Limitation
- • 
-
-Known Limitation
- • 
-
-
-Validation
- • 
-```
-
-</ul>
-</details>
-
-
 <br>
 
 
