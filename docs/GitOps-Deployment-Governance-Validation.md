@@ -5,84 +5,70 @@
 ### *Document*
 
 <details>
-<summary><b><i>　I.　Quantitative Format </i></b></summary>
+<summary><b><i>　I.　Quantitative Framework Specification </i></b></summary>
 <ul>
 
 ```
 Tier ??? : ???
 
 Failure Scenario
- • 描述故障模型
- • 說明實際模擬的風險事件
+ • 故障模型定義：明確描述注入之異常型態或技術失效邊界
+ • 風險事件模擬：說明實際執行的破壞性測試情境
 
 Objective
- • 驗證 XXX 能力
- • 驗證 XXX 是否符合預期行為
+ • 驗證範疇與特定控制目標
+ • 評估系統收斂行為是否符合預期安全合規基準
 
 Scope
- • 本次驗證範圍
- • 涵蓋元件
- • 不涵蓋元件
+ • 驗證涵蓋之核心資源與組件
+ • 明確排除之邊界組件
 
 Situation
- • 測試前狀態
- • Cluster State
- • Application State
+ • 變更前基準狀態 ( Baseline Cluster State )
+ • 應用程式初始運行狀態 ( Initial Application State )
 
 Action
- • 執行動作
- • 故障注入方式
- • 操作指令
+ • 變更執行步驟與具體操作指令
+ • 故障注入路徑與自動化變更手段
 
 Metrics
- • Recovery Time
- • Recovery Point
- • Detection Latency
- • Reconciliation Time
- • Availability
- • Failed Requests
- • Error Rate
- • Data Loss
- • Consistency
- • Throughput Impact
+ • Detection Latency ( 偵測延遲 )
+ • Reconciliation Time ( 狀態收斂耗時 )
+ • Total Recovery Time ( 服務恢復時間, RTO )
+ • Availability Impact ( 可用性受損評估 )
+ • Error Rate / Failed Requests ( 錯誤率與失效請求數 )
+ • Data Integrity & Consistency ( 資料一致性與損益評估 )
 
 Pass Criteria
- • 通過標準
- • 預期行為
- • 可接受門檻
+ • 自動化收斂標準與預期行為
+ • 生產環境可容忍之最大門檻
 
 Evidence
- • kubectl output
- • ArgoCD Screenshot
- • Grafana Dashboard
- • Prometheus Metrics
- • Application Screenshot
- • Logs
+ • 系統稽核日誌
+ • ArgoCD 狀態截圖
+ • Prometheus/Grafana 指標
+ • CLI 輸出憑證
+ • 其他
 
 Observation
- • 現象描述
- • 系統行為分析
- • 與預期是否一致
+ • 系統行為實測觀察
+ • 實測結果與預期安全基準之偏差分析
 
 ⚠️ Risk Assessment [ Unknown / Not Evaluated / Low / Medium / High ]
- • Availability Risk ....... Low
- • Operational Risk ........ Low
- • Data Integrity Risk ..... Low
+ • Availability Risk ( 可用性風險 )
+ • Operational Risk ( 運維風險 )
+ • Data Integrity Risk ( 資料完整性風險 )
 
 Result
- • 實際量測結果
- • 指標數值
- • Timeline
+ • 實際量測量化數據、時序指標 ( Timeline ) 與最終狀態
  
 Limitation
- • 測試環境限制
- • 樣本數限制
- • 工作負載限制
+ • 驗證環境之硬體、網路或拓撲限制
+ • 測試負載與樣本規模限制
 
 Known Limitation
- • 架構限制
- • 未覆蓋情境
- • 尚未驗證項目
+ • 既定架構限制
+ • 未覆蓋之邊界情境與後續待驗證項目
 
 
 Validation
@@ -284,7 +270,7 @@ Action
 Metrics
  • Detection Latency
  • Reconciliation Time
- • Recovery Time
+ • Total Recovery Time ( RTO )
  • Availability
  • Consistency
 
@@ -293,7 +279,7 @@ Pass Criteria
  • Application 狀態轉為 OutOfSync
  • ArgoCD 自動觸發 Reconciliation
  • Replica 數量恢復至 Git 定義值
- • Recovery Time < 60 sec
+ • Total Recovery Time < 60 sec
  • 全程不需人工介入
 
 Evidence
@@ -318,7 +304,7 @@ Observation
 Result
  • Detection Latency ......... 2 sec
  • Reconciliation Time ...... 42 sec
- • Recovery Time ............ 44 sec
+ • Total Recovery Time ...... 44 sec
  • Availability ............. Maintained
  • Consistency .............. Restored
 
@@ -396,7 +382,7 @@ Action
 Metric
  • Detection Latency
  • Reconciliation Time
- • Recovery Time
+ • Total Recovery Time ( RTO )
  • Availability
  • Failed Requests
  • Error Rate
@@ -407,7 +393,7 @@ Pass Criteria
  • 壞版本可被快速識別並停止部署
  • Rollback 後 Deployment 成功恢復至上一穩定版本
  • Pod 全數恢復 Ready 狀態
- • Recovery Time < 15 sec
+ • Total Recovery Time < 15 sec
  • 無資料遺失或資料一致性問題
  
 Evidence
@@ -432,11 +418,11 @@ Observation
  • Data Integrity Risk ....... Low
  
 Result
- • Detection Latency ......... 2 sec
- • ⭐ Recovery Time .......... 8 sec
- • Availability .............. Service Restored
- • Data Loss ................. None
- • Consistency ............... Verified
+ • Detection Latency .............. 2 sec
+ • ⭐ Total Recovery Time ......... 8 sec
+ • Availability ................... Service Restored
+ • Data Loss ...................... None
+ • Consistency .................... Verified
  • Timeline:
     T+0s   Deploy Invalid Image
     T+2s   Failure Detected
@@ -476,77 +462,61 @@ Validation: ✅ PASS
 
 ```
 Failure Scenario
- • 透過 GitOps 工作流程部署無效配置
- • 應用程式保持運行，但服務無法存取
- • 配置變更會導致功能中斷
+ • 透過 GitOps 工作流發布無效網路配置 ( Ingress 路由規則域名/路徑錯誤 )
+ • 應用程式 Pod 本身維持 Running，但外部流量無法正確導向，導致服務實質中斷
  
 Objective
- • 驗證錯誤配置經由 GitOps 發布後，是否能被快速識別與修復
- • 驗證 ArgoCD 是否能正確同步配置變更
- • 驗證系統於配置錯誤情境下之可恢復性
+ • 驗證錯誤配置穿透 GitOps 管道後，系統的故障檢測速度與可恢復性
+ • 驗證 GitOps 工作流為該受控環境下之唯一變更與修復入口
 
 Scope
- • Git Repository
- • ArgoCD
- • Kubernetes Ingress
- • Application Service
+ • Kubernetes Ingress Controller (Ingress-NGINX)
+ • External Traffic Routing Rules
+ • ArgoCD Automated Sync Engine
 
 Situation
- • Application 正常運行
- • ArgoCD Status = Synced / Healthy
- • Ingress 配置正確
- • Service 可正常存取
+ • 應用程式處於基準運行狀態
+ • ArgoCD 狀態為 Synced / Healthy，外部存取正常
 
 Action
- • 持續發送需求確認服務健康狀態
+ • 啟動自動化腳本進行高頻存取測試 ( 每秒 20 次請求 )，模擬生產環境持續流量
    TOTAL=0; SUCCESS=0; FAIL=0; echo "🚀 開始高頻容災測試 ( 每秒 20 次 )... 按 Ctrl+C 結束並查看統計報告"; trap 'echo -e "\n📊 【 容災統計報告 】\n總請求數: $TOTAL\n成功數 (302/200): $SUCCESS\n失敗數 (502/504/000): $FAIL\n⭐ HTTP 成功率: $(echo "scale=2; $SUCCESS * 100 / $TOTAL" | bc)%"' INT; while true; do CODE=$(curl -o /dev/null -s -w "%{http_code}" -H "Host: docker-registry.k8s.local" http://10.88.0.20/ --connect-timeout 1); TOTAL=$((TOTAL+1)); if [ "$CODE" = "200" ] || [ "$CODE" = "302" ]; then SUCCESS=$((SUCCESS+1)); echo "✅ Ingress 狀態正常 狀態碼: $CODE"; else FAIL=$((FAIL+1)); echo "❌ 抓到斷線! 狀態碼: $CODE"; fi; sleep 0.05; done
    
- • 修改 Ingress Host 為錯誤值
- • Commit 並 Push 至 Git Repository
- • 等待 ArgoCD 自動同步
- • 驗證服務存取失敗
- • 修正配置並再次提交 Git
+ • 修改 Ingress Host 為錯誤值，Commit 並 Push 至 Git 儲存庫，等待 ArgoCD 自動同步
+ • 確認外部流量中斷後，迅速於 Git 提交修正案，觀測系統恢復時序
 
 Metrics
  • Detection Latency
  • Reconciliation Time
- • Recovery Time
- • Availability
- • Failed Requests
- • Error Rate
+ • Total Recovery Time (RTO)
+ • Transient Error Rate / Failed Requests
 
 Pass Criteria
- • 錯誤配置成功同步至 Cluster
- • 故障現象可被明確觀察
- • 修正配置後服務恢復正常
- • Recovery Time < 5 min
- • 無需直接修改 Cluster 資源
+ • 錯誤配置能正確同步至叢集 ( 反映宣告式之高傳真度 )
+ • 修正配置再次提交後，系統需於安全閾值內 ( < 30s ) 自動收斂並恢復服務
+ • 故障排除全程禁止使用命令列就地修改 ( Live-Fixing )
 
 Evidence
- • Git Commit History
- • ArgoCD Sync History
- • kubectl get ingress
- • Browser Access Result
- • Application Logs
+ • Automated Synthetic Traffic Telemetry Report
+ • Ingress Controller Access Logs (HTTP 502/504)
+ • Git Audit Log
 
 Observation
- • Application Pod 維持 Running
- • Ingress 配置錯誤導致外部流量無法正確導向
- • ArgoCD 正常同步配置變更
- • 修正配置後服務恢復正常
- • 驗證 GitOps Workflow 為唯一變更入口
+ • 錯誤配置生效後，Pod 雖維持運行，但外部入口中斷，高頻測試點立即捕捉到 HTTP 異常碼
+ • 再次提交修正案後，ArgoCD 於秒級內完成覆蓋，路由自動收斂恢復
+ • 實測證實變更期間存在暫時性可用性中斷，但系統具備高度宣告式自癒能力
 
 ⚠️ Risk Assessment
- • Availability Risk ......... Medium
- • Operational Risk .......... Low
- • Data Integrity Risk ....... None
+ • Availability Risk ......... High ( Direct ingress traffic disruption )
+ • Operational Risk .......... Low ( Process remained standardized )
+ • Data Integrity Risk ....... Controlled ( Stateless layer connection drop only )
 
 Result
  • Detection Latency .......... 2 sec
  • Reconciliation Time ........ 2 sec
- • Recovery Time ............. 20 sec
- • Failed Requests .......... 286 count
- • Error Rate ............... 43.40%
+ • Total Recovery Time ........ 20 sec
+ • Failed Requests ............ 286 count
+ • Error Rate ................. 43.40%
  
 
 📊 【 容災統計報告 】
@@ -561,10 +531,9 @@ Limitation
  • 未驗證 ConfigMap 與 Service Configuration
 
 Known Limitation
- • 未驗證 Application Runtime Configuration
- • 未驗證 Database Connection Configuration
- • 未驗證 Multi-Service Dependency Configuration
-
+ • 未涉及應用程式執行期運行配置 ( Application Runtime Configuration ) 的動態變更失效驗證
+ • 缺乏分散式資料庫連線池配置失敗之連帶損害評估
+ 
 
 Validation: ✅ PASS
 ```
@@ -900,7 +869,7 @@ Example Fault Injection
 Metrics
  • Detection Latency
  • Reconciliation Time
- • Recovery Time
+ • Total Recovery Time ( RTO )
  • Manual Intervention Count
  • Configuration Consistency
 
@@ -940,7 +909,7 @@ Result
  • Fault Injection Target ...................... kubectl delete namespace pg-apps-homelab-test
  • Detection Latency ........................... 2 sec
  • Reconciliation Time ......................... Not Evaluated
- • Recovery Time ............................... 14 sec
+ • Total Recovery Time  ........................ 14 sec
  • Service Availability ........................ ✅ SUCCESS
  • Failed Requests ............................. Not Evaluated
  • Error Rate .................................. Not Evaluated

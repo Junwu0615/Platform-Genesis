@@ -5,85 +5,71 @@
 ### *Document*
 
 <details>
-<summary><b><i>　I.　Quantitative Format </i></b></summary>
+<summary><b><i>　I.　Quantitative Framework Specification </i></b></summary>
 <ul>
 
 ```
 Tier ??? : ???
 
 [X] Failure Scenario
- • 描述故障模型
- • 說明實際模擬的風險事件
- 
+ • 故障模型定義：明確描述注入之異常型態或技術失效邊界
+ • 風險事件模擬：說明實際執行的破壞性測試情境
+
 Objective
- • 驗證 XXX 能力
- • 驗證 XXX 是否符合預期行為
- 
+ • 驗證範疇與特定控制目標
+ • 評估系統收斂行為是否符合預期安全合規基準
+
 [X] Scope
- • 本次驗證範圍
- • 涵蓋元件
- • 不涵蓋元件
- 
+ • 驗證涵蓋之核心資源與組件
+ • 明確排除之邊界組件
+
 Situation
- • 測試前狀態
- • Cluster State
- • Application State
- 
+ • 變更前基準狀態 ( Baseline Cluster State )
+ • 應用程式初始運行狀態 ( Initial Application State )
+
 Action
- • 執行動作
- • 故障注入方式
- • 操作指令
- 
-Metrics:
- • Recovery Time
- • Recovery Point
- • Detection Latency
- • Reconciliation Time
- • Availability
- • Failed Requests
- • Error Rate
- • Data Loss
- • Consistency
- • Throughput Impact
-    
+ • 變更執行步驟與具體操作指令
+ • 故障注入路徑與自動化變更手段
+
+Metrics
+ • Detection Latency ( 偵測延遲 )
+ • Reconciliation Time ( 狀態收斂耗時 )
+ • Recovery Time ( 服務恢復時間 - RTO )
+ • Availability Impact ( 可用性受損評估 )
+ • Error Rate / Failed Requests ( 錯誤率與失效請求數 )
+ • Data Integrity & Consistency ( 資料一致性與損益評估 )
+
 Pass Criteria
- • 通過標準
- • 預期行為
- • 可接受門檻
- 
+ • 自動化收斂標準與預期行為
+ • 生產環境可容忍之最大門檻
+
 [X] Evidence
- • kubectl output
- • ArgoCD Screenshot
- • Grafana Dashboard
- • Prometheus Metrics
- • Application Screenshot
- • Logs
- 
-Observation:
- • 現象描述
- • 系統行為分析
- • 與預期是否一致
+ • 系統稽核日誌
+ • ArgoCD 狀態截圖
+ • Prometheus/Grafana 指標
+ • CLI 輸出憑證
+ • 其他
     
-[X] Risk Assessment [ Unknown / Not Evaluated / Low / Medium / High ]
- • Availability Risk ....... Low
- • Operational Risk ........ Low
- • Data Integrity Risk ..... Low
+Observation
+ • 系統行為實測觀察
+ • 實測結果與預期安全基準之偏差分析
+
+[X] ⚠️ Risk Assessment [ Unknown / Not Evaluated / Low / Medium / High ]
+ • Availability Risk ( 可用性風險 )
+ • Operational Risk ( 運維風險 )
+ • Data Integrity Risk ( 資料完整性風險 )
 
 Result
- • 實際量測結果
- • 指標數值
- • Timeline
-
+ • 實際量測量化數據、時序指標 ( Timeline ) 與最終狀態
+ 
 [X] Limitation
- • 測試環境限制
- • 樣本數限制
- • 工作負載限制
+ • 驗證環境之硬體、網路或拓撲限制
+ • 測試負載與樣本規模限制
 
 [X] Known Limitation
- • 架構限制
- • 未覆蓋情境
- • 尚未驗證項目
-
+ • 既定架構限制
+ • 未覆蓋之邊界情境與後續待驗證項目
+ 
 
 Validation: 
  • ✅ PASS
