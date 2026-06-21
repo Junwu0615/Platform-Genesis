@@ -937,8 +937,6 @@ gantt
 [//]: # (> &#40; Mar 2026 – Jul 2026 &#41;)
 > ##### *Platform Engineering Learning Sprint ( Mar 2026 – Present )*
 >
-> ##### *A self-built platform engineering environment focused on infrastructure automation, Kubernetes operations, GitOps delivery, observability, and quantitative validation.*
->
-> ##### *The project evolved from an OLTP/OLAP data platform initiative into a broader platform engineering practice emphasizing reliability, governance, recovery, and operational standardization.*
+> ##### *A self-built platform engineering environment focused on infrastructure automation, Kubernetes operations, GitOps delivery, observability, and quantitative validation. The project evolved from an OLTP/OLAP data platform initiative into a broader platform engineering practice emphasizing reliability, governance, recovery, and operational standardization.*
 
 <br><br><br>

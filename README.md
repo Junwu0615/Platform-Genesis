@@ -39,13 +39,11 @@ gantt
 
 > ##### *Platform Engineering Learning Sprint ( Mar 2026 – Present )*
 >
-> ##### *A self-built platform engineering environment focused on infrastructure automation, Kubernetes operations, GitOps delivery, observability, and quantitative validation.*
->
-> ##### *The project evolved from an OLTP/OLAP data platform initiative into a broader platform engineering practice emphasizing reliability, governance, recovery, and operational standardization.*
+> ##### *A self-built platform engineering environment focused on infrastructure automation, Kubernetes operations, GitOps delivery, observability, and quantitative validation. The project evolved from an OLTP/OLAP data platform initiative into a broader platform engineering practice emphasizing reliability, governance, recovery, and operational standardization.*
 
 <br>
 
-## *🚀 Key Achievements*
+## *🚀　Key Achievements*
 
 - ### Infrastructure Automation
   * Built repeatable infrastructure provisioning using Terraform and Ansible
@@ -72,7 +70,7 @@ gantt
 
 <br>
 
-## *📊 Platform Engineering Deliverables (PED)*
+## *📊　Platform Engineering Deliverables (PED)*
 
 | ID | Deliverable | Status |
 |:--|:-- |:--:|
@@ -91,7 +89,7 @@ gantt
 
 <br>
 
-## *🏗 Architecture Domains*
+## *🏗　Architecture Domains*
 
 [//]: # (| Domain | Technologies |)
 
@@ -131,7 +129,7 @@ gantt
 
 <br>
 
-## *📁 Repository Structure*
+## *📁　Repository Structure*
 
 | Repository | Purpose |
 | :-- | :-- |
@@ -143,7 +141,7 @@ gantt
 
 <br>
 
-## *🔍 Engineering Highlights*
+## *🔍　Engineering Highlights*
 
 - ### Kubernetes
   * Multi-master control plane
@@ -166,18 +164,7 @@ gantt
 
 <br>
 
-## *📚 Further Reading*
-
-- ### Platform Evolution
-    > #### **Detailed implementation records, architecture evolution, infrastructure journey, engineering challenges, and construction history:** 
-    > #### **[Platform Evolution & Full Project History](./docs/Platform-Evolution.md)**
-
-- ### Validation Reports
-    > #### **All Platform Engineering Deliverables (PED): [All docs library](./docs/)**
-
-<br>
-
-## *Lessons Learned & Evolution*
+## *⚖️　Lessons Learned & Evolution*
 > *Platform Genesis began as an attempt to address a practical data*
 > *infrastructure challenge: consolidating OLTP and OLAP workloads*
 > *into a unified architecture.*
@@ -206,6 +193,8 @@ gantt
 > *⛏　Platform Genesis v1.0　|　Platform Foundation Release　|　Status: In Progress*
 >
 > *🚀　Platform Genesis v2.0　|　Data Platform & Lakehouse Expansion　|　Status: Future Work*
+> 
+> *📚 Further Reading　|　[Platform Evolution & Full Project History](./docs/Platform-Evolution.md)*
 
 [//]: # (> *⛏　Platform Genesis v1.0　|　Platform Foundation Release　|　Status: Feature Complete &#40; 2026-07 &#41;*)
 
