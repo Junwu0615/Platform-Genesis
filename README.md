@@ -40,7 +40,7 @@
 | Build `Hierarchical`<br>`Log Management` | `Loki` + `ELK` | 2026-05-14 |
 | Build `GitOps` | `GitLab CI` + `ArgoCD` | 2026-06-05 |
 | 7. PED | Deployment Delivery Baseline | 2026-06-13 |
-| 8. PED |  Kubernetes Resiliency & Availability Validation | 2026-06-17 |
+| 8. PED |  Kubernetes Resiliency & Availability Validation | 2026-06-16 |
 | 11. PED | End-to-End<br>DevOps Operating Model | 2026-06-17 |
 | 12. PED | GitOps Deployment Governance Validation | Expected in `202606`|
 | Add `HashiCorp Vault` | Enterprise Key Management System | Expected in `202607` |
@@ -133,10 +133,10 @@
 | Import Shared Lib | - | 2026-05-13 |
 | Add `SQLite`<br>to Edge scripts  | Improve the HA<br>of Consumer Transactions | 2026-05-13 |
 | loki logic | - | 2026-05-14 |
-| `IS_KUBERNETES` | 布林注入強制轉換配置 | 2026-05-14 |
+| `IS_KUBERNETES` | Boolean Injection<br>Forced Type Configuration | 2026-05-14 |
 | make `v2` Dockerfile | - | 2026-05-14 |
-| lint `CI` | 推送前自動檢測<br>`.pre-commit-config.yaml` | 2026-05-18 |
-| lint `CI` | 語法檢查 `black` `flake8` | 2026-05-18 |
+| lint `CI` | Automatic Detection Before Push<br>`.pre-commit-config.yaml` | 2026-05-18 |
+| lint `CI` | Syntax Checking `black` `flake8` | 2026-05-18 |
 | test `CI` | common tests scripts | 2026-05-18 |
 | build `CI` | - | 2026-05-19 |
 | deploy `CI` | - | 2026-05-20 |
@@ -146,7 +146,7 @@
 | Create MV | Materialized View | `TBD` |
 | Analytical Queries | - | `TBD` |
 | Security Message :<br>`Message Queue Layer` | Encryption ( `kafka` + `mqtt` ) | `TBD` |
-| Security Message :<br>`Software Layer` | 非對稱加密 | `TBD` |
+| Security Message :<br>`Software Layer` | Asymmetric encryption | `TBD` |
 
 </ul>
 </details>

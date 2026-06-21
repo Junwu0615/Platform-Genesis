@@ -121,7 +121,7 @@ Tier 2 : Deployment Lifecycle
 
 Tier 3 : Platform Recovery
  • ✅ 一鍵建立新環境 : Cluster Bootstrap
- • ⚪ 從災難恢復服務 : Disaster Recovery
+ • ✅ GitOps 設定恢復 : GitOps Configuration Recovery
 
 
 Tier 4 : Repository Governance
@@ -141,13 +141,13 @@ Tier 5 : Operational Governance
  
  
 Quantitation Coverage
- • ✅ PASS .................. 7
+ • ✅ PASS .................. 8
  • ❌ FAIL .................. 0
  • 📝 PLANNED ............... 1
- • ⚪ NOT EVALUATED ......... 4
+ • ⚪ NOT EVALUATED ......... 3
  • ⛔ NOT APPLICABLE ........ 0
  • 🗑️ SKIP ( OVERLAPPED ) ... 1
-   Coverage ................. 53%
+   Coverage ................. 61%
 ```
 
 </ul>
@@ -851,81 +851,143 @@ Validation: ✅ PASS
 </details>
 
 <details>
-<summary><b><i>　Disaster Recovery </i></b></summary>
+<summary><b><i>　GitOps Configuration Recovery </i></b></summary>
 <ul>
 
 ```
 Failure Scenario
- • Kubernetes Cluster 發生重大故障
- • Control Plane 或 Worker Node 不可用
- • 關鍵平台服務中斷
+ • 發生平台配置漂移
+ • GitOps 管理資源遭意外刪除
+ • Cluster State 不再符合 Git Repository 定義
+ • Application Availability 可能暫時受到影響
 
 Objective
- • 驗證平台在災難事件後的恢復能力
- • 驗證 GitOps 架構是否能協助快速恢復服務
- • 驗證平台服務恢復後是否維持配置一致性
+ • 驗證 GitOps Configuration Recovery 能力
+ • 驗證 ArgoCD 是否能偵測 Configuration Drift
+ • 驗證平台是否可自動恢復至 Git Repository 定義狀態
+ • 驗證恢復後服務是否維持配置一致性
 
 Scope
- • K3s Cluster
+ • Kubernetes Cluster
  • ArgoCD
- • Platform Services
- • Application Workloads
+ • GitOps Repository
+ • GitOps Managed Applications
+
+Not In Scope
+ • 基礎架構配置
+ • 節點復原
+ • 持久卷恢復
+ • 資料庫備份與復原
 
 Situation
- • 平台服務正常運行
- • Git Repository 維持最新狀態
- • ArgoCD Sync 正常
+ • 集群健康
+ • 所有應用程式均已同步
+ • 所有應用程式均運作良好
+ • Git 儲存庫狀態是最新的
+ • 未偵測到現有漂移
 
 Action
- • 模擬 Cluster 故障
- • 重新建立 Cluster
- • 執行 Bootstrap 流程
+ • 選擇目標應用程式
+ • 注入 Configuration Drift
+ • 刪除目標 Namespace
+ • 觀察 Drift Detection
+ • 觀察 ArgoCD Reconciliation
  • 驗證 Application Recovery
 
+Example Fault Injection
+ • kubectl delete namespace pg-apps-homelab-test
+
 Metrics
- • Recovery Time Objective (RTO)
- • Recovery Point Objective (RPO)
- • Platform Recovery Time
- • Service Availability
+ • Detection Latency
+ • Reconciliation Time
+ • Recovery Time
+ • Manual Intervention Count
+ • Configuration Consistency
 
 Pass Criteria
- • 平台服務成功恢復
- • GitOps Repository 可重建目標狀態
- • 應用程式恢復正常運作
- • 配置與 Git Repository 保持一致
+ • ArgoCD 偵測配置漂移
+ • 自動重新建立目標應用程式
+ • 應用程式恢復正常狀態
+ • 所需狀態與 Git 儲存庫匹配
+ • 無需手動重新部署資源
+ • 未觀察到資料遺失
+ • 在目標 RTO 內完成恢復
 
 Evidence
  • kubectl Output
  • ArgoCD Screenshot
  • Application Health Status
- • Video ( PG-Infrastructure-GitOps Demo.mp4 )
-     • total time ..... 00:23:02
-     
+ • Resource Re-Creation Timeline
+ • Grafana Dashboard
+ • Prometheus Metrics
+ • Application Logs
+
 Observation
- • GitOps 可作為平台重建來源
- • 平台服務可快速恢復至既定狀態
- • 配置漂移未被觀察到
+ • ArgoCD 成功偵測到配置漂移
+ • 自動重新建立已刪除的資源
+ • 平台狀態收斂回所需狀態
+ • 無需人工重新部署資源
+ • 未觀察到永久性服務退化
+ • 恢復後不存在配置漂移
 
 ⚠️ Risk Assessment
- • Availability Risk ...... Medium
- • Operational Risk ....... Medium
- • Data Integrity Risk .... High
+ • Availability Risk ....... Medium
+ • Operational Risk ........ Low
+ • Data Integrity Risk ..... Not Evaluated
 
 Result
- • 
+ • Recovery Status ............................. ✅ SUCCESS
+ • Fault Injection Target ...................... kubectl delete namespace pg-apps-homelab-test
+ • Detection Latency ........................... 2 sec
+ • Reconciliation Time ......................... Not Evaluated
+ • Recovery Time ............................... 14 sec
+ • Service Availability ........................ ✅ SUCCESS
+ • Failed Requests ............................. Not Evaluated
+ • Error Rate .................................. Not Evaluated
+ • Data Loss ................................... Not Evaluated
+ • Consistency Check ........................... ✅ Argo Sync
+ • Throughput Impact ........................... Not Evaluated
+ • Manual Intervention Count ................... 0
+
+
+Timeline
+ • Fault Injected ......... T+00s 
+      ↓
+ • Drift Detected ......... T+02s 
+      ↓
+ • Resource Recreated ..... T+08s 
+      ↓
+ • Application Healthy .... T+14s 
+      ↓
+ • Recovery Completed ..... T+15s 
+
 
 Limitation
- • 未驗證實際硬體故障情境
- • 未驗證異地備援
+ • 家庭實驗室環境
+ • 單一叢集驗證
+ • 工作負載規模有限
+ • 有限的併發用戶流量
 
 Known Limitation
- • PostgreSQL Persistent Volume 恢復能力依賴底層儲存
- • 未驗證完整資料備份與還原流程
- • 僅驗證 Platform Recovery，未驗證 Business Continuity
+ • 無驗證有狀態應用
+ • 無驗證基礎設施故障
+ • 無驗證持久性磁碟區復原
+ • 無驗證資料庫備份還原
+ • 無驗證多區域恢復
+ • 無驗證叢集是否已完全銷毀
 
 
 Validation: ✅ PASS
 ```
+
+<details>
+<summary><b><i>　🎬　Demo </i></b></summary>
+<ul>
+
+![GIF](../assets/gif/GitOps%20Configuration%20Recovery.gif)
+
+</ul>
+</details>
 
 </ul>
 </details>
