@@ -291,7 +291,7 @@
 | Kubernetes Resiliency<br>& Availability Validation |  [PED 8](./docs/K8s-Resiliency-Availability-Validation.md)　➔　<br>How resilient is Kubernetes under node, workload, network, and control-plane failures ? | 2026-06-16 |
 | Observability Platform Validation | [PED 9](./docs/Observability-Platform-Validation.md)　➔　`Logging` `Metrics` `Tracing` `Alert Manager`<br>How can metrics, logs, traces, and alerts accelerate operational visibility and troubleshooting ? | Expected in `202607` |
 | Vault Secret<br>Management & Distribution | [PED 10](./docs/Vault.md)　➔　<br>How can secrets be managed, distributed, and rotated securely across Kubernetes workloads ? | Expected in `202607` |
-| End-to-End DevOps<br>Operating Model | [PED 11](./docs/End-to-End-DevOps-Operating-Model.md)　➔　`PR` `Code Review` `TEST` `STAGE` `PROD`<br>How can development, delivery, operations, and recovery be integrated into a unified platform workflow ? | 2026-06-17 |
+| End-to-End<br>DevOps Operating Model | [PED 11](./docs/End-to-End-DevOps-Operating-Model.md)　➔　`PR` `Code Review` `TEST` `STAGE` `PROD`<br>How can development, delivery, operations, and recovery be integrated into a unified platform workflow ? | 2026-06-17 |
 | GitOps Deployment<br>Governance Validation  | [PED 12](./docs/GitOps-Deployment-Governance-Validation.md)　➔　<br>How can GitOps enforce deployment governance, drift control, and operational traceability ? | 2026-06-21 |
 
 </ul>
@@ -851,29 +851,34 @@ tree -I 'venv|.git|__pycache__|docs|logs|assets|kafka_data|charts'
 <br><br>
 
 ### *D.　Lessons Learned & Evolution*
-> Platform Genesis began as an attempt to address a practical data
-> infrastructure challenge: consolidating OLTP and OLAP workloads
-> into a unified architecture.
+> *Platform Genesis began as an attempt to address a practical data*
+> *infrastructure challenge: consolidating OLTP and OLAP workloads*
+> *into a unified architecture.*
 >
-> As the project evolved, the scope naturally expanded beyond data
-> engineering into infrastructure automation, Kubernetes operations,
-> GitOps workflows, observability, secret management, and reliability
-> validation.
+> *As the project evolved, the scope naturally expanded beyond data*
+> *engineering into infrastructure automation, Kubernetes operations,*
+> *GitOps workflows, observability, secret management, and reliability*
+> *validation.*
 >
-> Through continuous implementation and validation, the project
-> gradually shifted from technology exploration toward architecture
-> convergence and operational standardization.
+> *Through continuous implementation and validation, the project*
+> *gradually shifted from technology exploration toward architecture*
+> *convergence and operational standardization.*
 >
-> The most important lesson learned was that building individual
-> components is relatively straightforward; integrating them into a
-> maintainable, highly available, and operationally sustainable
-> platform is significantly more challenging.
+> *The most important lesson learned was that building individual*
+> *components is relatively straightforward; integrating them into a*
+> *maintainable, highly available, and operationally sustainable*
+> *platform is significantly more challenging.*
 >
-> As a result, the current focus has shifted from expanding the
-> technology stack to improving reliability, reducing operational
-> complexity, and establishing production-oriented engineering
-> practices.
+> *As a result, the current focus has shifted from expanding the*
+> *technology stack to improving reliability, reducing operational*
+> *complexity, and establishing production-oriented engineering*
+> *practices.*
 
+> *⛏　Platform Genesis v1.0　|　Status: In Progress*
+> 
+> *⛏　Platform Genesis v2.0　|　Future Roadmap: Data Platform Extension ( Lakehouse )*
+
+[//]: # (> *Platform Genesis v1.0　|　Status: Feature Complete　|　Completion Time: 2026-07*)
 
 <br>
 
@@ -924,7 +929,7 @@ gantt
     Resume & Job Search                         :milestone, a7, 2026-07, 1d
 
     section Future
-    Datahouse                                   :crit, a8, 2026-07, 1M
+    Lakehouse                                   :crit, a8, 2026-07, 1M
 ```
 
 [//]: # (> &#40; Mar 2026 – Jul 2026 &#41;)
