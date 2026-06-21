@@ -37,7 +37,7 @@ gantt
     Lakehouse                                   :crit, a8, 2026-07, 1M
 ```
 
-> ##### *Platform Engineering Learning Sprint (2026-03 ~ Present)*
+> ##### *Platform Engineering Learning Sprint ( Mar 2026 – Present )*
 >
 > ##### *A self-built platform engineering environment focused on infrastructure automation, Kubernetes operations, GitOps delivery, observability, and quantitative validation.*
 >
@@ -75,19 +75,19 @@ gantt
 ## *📊 Platform Engineering Deliverables (PED)*
 
 | ID | Deliverable | Status |
-| :-- | -- | -- |
-| PED-1 | Database RBAC Validation                        | ✅      |
-| PED-2 | Environment Benchmark                           | ✅      |
-| PED-3 | OLTP-OLAP Consolidation Strategy                | 🚧     |
-| PED-4 | Query Performance Optimization                  | 🚧     |
-| PED-5 | Core Data Architecture Evolution                | 🚧     |
-| PED-6 | Application Workload Analysis                   | 🚧     |
-| PED-7 | Deployment Delivery Baseline                    | ✅      |
-| PED-8 | Kubernetes Resiliency & Availability Validation | ✅      |
-| PED-9 | Observability Platform Validation               | 🚧     |
-| PED-10 | Vault Secret Management & Distribution          | 🚧     |
-| PED-11 | End-to-End DevOps Operating Model               | ✅      |
-| PED-12 | GitOps Deployment Governance Validation         | ✅      |
+|:--|:-- |:--:|
+| [PED-1](./docs/DB-RBAC.md) | Database RBAC Validation | ✅ |
+| [PED-2](./docs/Database-Environment-Benchmark.md) | Environment Benchmark | ✅ |
+| [PED-3](./docs/OLTP-OLAP-Consolidation-Strategy.md) | OLTP-OLAP Consolidation Strategy | 🚧 |
+| [PED-4](./docs/Database-Query-Performance-Optimization.md) | Query Performance Optimization | 🚧 |
+| [PED-5](./docs/Evolution-of-Core-Data-Architecture.md) | Core Data Architecture Evolution | 🚧 |
+| [PED-6](./docs/Application-Workload-Performance-Analysis.md) | Application Workload Analysis | 🚧 |
+| [PED-7](./docs/Deployment-Delivery-Baseline.md) | Deployment Delivery Baseline | ✅ |
+| [PED-8](./docs/K8s-Resiliency-Availability-Validation.md) | Kubernetes Resiliency & Availability Validation | ✅ |
+| [PED-9](./docs/Observability-Platform-Validation.md) | Observability Platform Validation | 🚧 |
+| [PED-10](./docs/Vault.md) | Vault Secret Management & Distribution | 🚧 |
+| [PED-11](./docs/End-to-End-DevOps-Operating-Model.md) | End-to-End DevOps Operating Model | ✅ |
+| [PED-12](./docs/GitOps-Deployment-Governance-Validation.md) | GitOps Deployment Governance Validation | ✅ |
 
 <br>
 
@@ -169,12 +169,11 @@ gantt
 ## *📚 Further Reading*
 
 - ### Platform Evolution
-    > Detailed implementation records, architecture evolution, infrastructure journey, engineering challenges, and construction history:
-    👉 **[Platform Evolution & Full Project History](./docs/Platform-Evolution.md)**
+    > #### **Detailed implementation records, architecture evolution, infrastructure journey, engineering challenges, and construction history:** 
+    > #### **[Platform Evolution & Full Project History](./docs/Platform-Evolution.md)**
 
 - ### Validation Reports
-    > All Platform Engineering Deliverables (PED):
-    👉 **[docs/](./docs/)**
+    > #### **All Platform Engineering Deliverables (PED): [All docs library](./docs/)**
 
 <br>
 
