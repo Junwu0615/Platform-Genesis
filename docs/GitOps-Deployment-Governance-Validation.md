@@ -760,8 +760,10 @@ Validation: ⚪ NOT EVALUATED
 
 ```
 Failure Scenario
- • Kubernetes Cluster 完全不存在
- • 新節點或新環境需要重新建立平台基礎設施
+ • Kubernetes Cluster 完全遺失
+ • 從頭開始重建控制平面與工作節點
+ • 平台服務不再存在
+ • 復原需要重新建立平台基礎設施
 
 Objective
  • 驗證平台是否能透過標準化流程快速完成 Cluster 初始化
@@ -780,11 +782,12 @@ Situation
  • Git Repository 保持最新狀態
 
 Action
- • 安裝 K3s Cluster
- • 執行 bootstrap-cluster.sh
- • 部署 ArgoCD
+ • IaC Bootstrap 預處理 ( Ground-based Pre-loaded Resources )
+ • 部署 IaC Bootstrap ( 安裝 K3s Cluster )
+ • 部署 ArgoCD Bootstrap 流程
  • 啟動 Root Application
  • 等待所有 Application 完成 Sync
+ • 驗證 Application Ready
 
 Metrics
  • Bootstrap Time
@@ -798,25 +801,37 @@ Pass Criteria
  • Root Application 成功同步
  • 所有平台服務恢復至預期狀態
  • 無需手動部署個別服務
+ • 無需特定於元件的部署
 
 Evidence
  • Bootstrap Script Output
  • kubectl Output
  • ArgoCD Screenshot
  • Application Sync Status
+ • Video ( PG-Infrastructure-GitOps Demo.mp4 )
+     • total time ................... 00:23:02
 
 Observation
- • 平台元件可透過 GitOps 自動部署
+ • 已從 Git 儲存庫成功配置平台狀態
+ • 透過 GitOps 自動恢復平台組件
  • Bootstrap 流程具備可重複執行能力
- • 系統狀態與 Git Repository 保持一致
+ • 不需要特定於元件的部署
+ • 所需狀態與 Git Repository 保持一致
 
 ⚠️ Risk Assessment
- • Availability Risk ....... Low
+ • Availability Risk ....... Not Applicable
  • Operational Risk ........ Low
- • Data Integrity Risk ..... Not Evaluated
+ • Data Integrity Risk ..... Not Applicable
+ • Recovery Risk ........... Not Applicable
 
 Result
- • 
+ • Provisioning Status ........................ ✅ SUCCESS
+ • Ground-based Pre-loaded Resources .......... 2 min
+ • Cluster Bootstrap Time ..................... 7 min
+ • Platform Ready Time ........................ 23 min
+ • GitOps Synchronization Success Rate ........ 100%
+ • Expected Operational Steps ................. 11
+ • Unplanned Manual Intervention .............. 0
 
 Limitation
  • 驗證環境為 Homelab
@@ -829,6 +844,8 @@ Known Limitation
 
 Validation: ✅ PASS
 ```
+
+#### *[🎬　Demo Video](https://drive.google.com/file/d/1vWuUyFMPcFKblNyfY9LbY48dC-HnePPz/view?usp=sharing)*
 
 </ul>
 </details>
@@ -909,8 +926,6 @@ Known Limitation
 
 Validation: ✅ PASS
 ```
-
-![Demo](https://drive.google.com/file/d/1vWuUyFMPcFKblNyfY9LbY48dC-HnePPz/view?usp=sharing)
 
 </ul>
 </details>
