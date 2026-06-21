@@ -123,17 +123,6 @@ Tier 5 : Operational Governance
     • 和 Tier 2 : Configuration Rollout Failure 高度重複
       - [未知狀況] 打算先回到穩定版本 所以用 Git Rollback
       - [已知狀況] 所以直接從源頭修正配置 所以直接重新提交 Git Push
- 
- 
- 
-Quantitation Coverage
- • ✅ PASS .................. 8
- • ❌ FAIL .................. 0
- • 📝 PLANNED ............... 1
- • ⚪ NOT EVALUATED ......... 3
- • ⛔ NOT APPLICABLE ........ 0
- • 🗑️ SKIP ( OVERLAPPED ) ... 1
-   Coverage ................. 61%
 ```
 
 </ul>
@@ -1521,6 +1510,7 @@ Validation: ⚪ NOT EVALUATED
 ==================================================================================
                  GitOps Deployment Governance Validation Report
 ==================================================================================
+
 [ Platform & GitOps Architecture ]
  • GitOps Engine         ( ArgoCD v3.4.4 | Automated Sync & Self-Heal Enabled )
  • Deployment Pattern    ( Monorepo Structure | Domain-based AppSets Layout )
@@ -1528,16 +1518,20 @@ Validation: ⚪ NOT EVALUATED
  • Version Control       ( Git-Centric Single Source of Truth )
 
 [ Result Summary ]
- • 8 / 13 validation scenarios passed
+ • 8 / 13 validation scenarios passed.
    ( Remaining: 1 Planned, 3 Not Evaluated, 1 Overlapped Skip )
 
- • Verified GitOps reconciliation, deployment recovery,
-   platform bootstrap automation, and repository governance controls
+ • Verified GitOps reconciliation,
+   deployment recovery,
+   platform bootstrap automation,
+   repository architecture,
+   and configuration isolation controls
    within the validated homelab scope.
 
 --------------------------------------------------------------------------------
 [ Validation Result Matrix ]
 --------------------------------------------------------------------------------
+
  Tier 1 : State Reconciliation
    ✔ Drift Detection ............... ( Local Replica Modification ) ....... [ PASS ]
    ✔ Auto Heal ..................... ( Automated State Recovery ) ......... [ PASS ]
@@ -1564,23 +1558,24 @@ Validation: ⚪ NOT EVALUATED
 --------------------------------------------------------------------------------
 [ Performance & Resiliency Metrics ]
 --------------------------------------------------------------------------------
+
  • Replica Drift Detection Latency ..................... 2 sec
- • Local Replica Modification Auto-Heal Time .......... 42 sec ( Total RTO: 44s )
+ • Local Replica Modification Auto-Heal Time .......... 42 sec  ( Total RTO: 44s )
 
  • Invalid Image Release Failure Detection Latency ..... 2 sec
- • Git Commit Rollback Completion Time ................. 8 sec ( Recovery at T+8s )
+ • Git Commit Rollback Completion Time ................. 8 sec  ( Recovery at T+8s )
 
  • Ingress Routing Failure Detection Latency ........... 2 sec
- • Ingress Routing Error Reconciliation Time ........... 2 sec ( Total RTO: 20s )
+ • Ingress Routing Error Reconciliation Time ........... 2 sec  ( Total RTO: 20s )
  • Ingress Outage Window Synthetic Traffic Impact ...... 43.40% Error Rate ( 286/659 failed )
- • Ingress Post-Recovery Traffic Success Rate .......... 100% ( HTTP 200/302 restored )
+ • Ingress Post-Recovery Traffic Success Rate .......... 100%   ( HTTP 200/302 restored )
 
  • Ground-Based Pre-loaded Resources Time .............. 2 min
  • Bare Cluster Bootstrap Provisioning Time ............ 7 min
  • Full Platform Ready Time (Root-App Sync) ............ 23 min ( 100% GitOps Sync )
 
  • Destructive Namespace Deletion Detection Latency .... 2 sec
- • Automated Resource Re-Creation Latency .............. 6 sec ( Recreated at T+8s )
+ • Automated Resource Re-Creation Latency .............. 6 sec  ( Recreated at T+8s )
  • Total Namespace Disaster Recovery Time (RTO) ........ 14 sec ( Healthy at T+14s )
 
  • Cross-Environment Configuration Contamination Rate .. 0%
@@ -1590,74 +1585,82 @@ Validation: ⚪ NOT EVALUATED
 --------------------------------------------------------------------------------
 [ Key Findings ]
 --------------------------------------------------------------------------------
- • ArgoCD successfully maintained Git as the authoritative source of
-   desired cluster configuration throughout all validated scenarios.
 
- • Out-of-band cluster modifications introduced via direct kubectl
-   operations were consistently detected and reconciled.
+ • Git remained the authoritative source of desired state throughout all
+   validated scenarios.
 
- • Git-based rollback procedures successfully restored deployment
-   functionality following an invalid image release.
+ • Out-of-band cluster modifications introduced outside the GitOps workflow
+   were consistently detected and reconciled by ArgoCD.
 
- • Configuration failures introduced through the GitOps workflow
-   were automatically reconciled after corrective Git commits.
+ • Git-based rollback procedures successfully restored service operation
+   following deployment of an invalid container image version.
 
- • Namespace-level destructive configuration loss was successfully
-   recovered through automated resource re-creation and state convergence.
+ • Configuration failures introduced through controlled Git changes were
+   recoverable through standard GitOps reconciliation mechanisms.
 
- • Repository-level environment configuration isolation was verified,
-   with no observed cross-environment configuration contamination.
+ • Namespace-level destructive configuration loss was automatically recovered
+   through resource re-creation and state convergence without unplanned
+   manual intervention.
+
+ • Repository architecture and environment-specific configuration boundaries
+   demonstrated predictable separation within the validated scope.
 
 --------------------------------------------------------------------------------
 [ Scope Limitation ]
 --------------------------------------------------------------------------------
- • Validation metrics were collected from a single-region,
-   single-cluster homelab environment operating at limited scale.
 
- • Evaluated workloads were primarily limited to stateless services
-   and declarative Kubernetes resources.
+ • Validation metrics were collected from a single-cluster homelab
+   environment operating at limited workload scale.
 
- • Stateful application recovery, database consistency validation,
-   backup and restore procedures, transaction recovery boundaries,
-   and PV/PVC lifecycle recovery were not evaluated.
+ • Evaluated workloads were primarily limited to stateless services and
+   declarative Kubernetes resources.
 
- • Multi-cluster deployment operations, cross-region recovery,
-   and large-scale workload behavior remain outside the validated scope.
+ • Stateful workload recovery, database consistency validation, backup and
+   restore procedures, transaction recovery boundaries, and PV/PVC lifecycle
+   recovery were not evaluated.
+
+ • Multi-cluster operations, cross-region recovery scenarios, and large-scale
+   workload behavior remain outside the validated scope.
 
  • Organizational governance controls, including Pull Request approval,
-   Branch Protection enforcement, multi-role RBAC segregation,
-   and formal change management workflows, remain unverified.
+   Branch Protection enforcement, multi-role RBAC segregation, and formal
+   change management workflows, remain unverified.
 
 --------------------------------------------------------------------------------
 [ Validation Interpretation ]
 --------------------------------------------------------------------------------
- • Validation results demonstrate that the tested GitOps operational
-   controls functioned as expected within the defined validation scope.
 
- • Results should not be interpreted as full platform governance,
-   compliance, disaster recovery, or production readiness certification.
+ • Validation results demonstrate that the tested GitOps operational controls
+   functioned as expected within the defined validation scope.
 
- • Multi-Environment Promotion, Auditability, and Change Approval
-   Workflow controls remain pending future validation activities.
+ • Results should not be interpreted as evidence of complete platform
+   readiness, organizational governance maturity, or full disaster recovery
+   capability.
+
+ • Multi-Environment Promotion, Auditability, and Change Approval Workflow
+   controls remain pending future validation activities.
 
 ==================================================================================
 
-               OVERALL VALIDATION STATUS: PASS FOR VALIDATED SCENARIOS ✅
+            OVERALL VALIDATION STATUS: VALIDATED WITHIN TESTED SCOPE ✅
 
-                [ Validated Scope ]
-                 • GitOps Continuous Declarative Reconciliation
-                 • Automated Configuration Drift Remediation
-                 • Git-Based Deployment Recovery
-                 • Namespace-Level Configuration Recovery
-                 • Cluster Bootstrap Automation
-                 • Repository Configuration Governance
-
-                [ Validation Coverage ]
-                 • PASS ................. 8
-                 • PLANNED .............. 1
-                 • NOT EVALUATED ........ 3
-                 • SKIP (OVERLAPPED) .... 1
-                 • Quantitative Coverage: 61%
+             [ Validated Scope ]
+              • GitOps Continuous Reconciliation
+              • Automated Drift Detection & Remediation
+              • Git-Based Deployment Recovery
+              • Namespace-Level Configuration Recovery
+              • Cluster Bootstrap Automation
+              • Repository Architecture Validation
+              • Environment Configuration Isolation
+            
+             [ Validation Coverage ]
+              • PASS .................... 8
+              • FAIL .................... 0
+              • PLANNED ................. 1
+              • NOT EVALUATED ........... 3
+              • NOT APPLICABLE .......... 0
+              • SKIP ( OVERLAPPED ) ..... 1
+              • Quantitative Coverage ... 61.53%
 
 ==================================================================================
 ```
