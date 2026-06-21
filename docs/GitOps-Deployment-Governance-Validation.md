@@ -1539,8 +1539,8 @@ Validation: ⚪ NOT EVALUATED
  Tier 2 : Deployment Lifecycle
    ✔ Git Rollback .................. ( Bad Image Tag v99 Recovery ) ....... [ PASS ]
    ✔ Configuration Rollout Failure . ( Ingress Route Host Corruption ) .... [ PASS ]
-   📝 Progressive Deployment ....... ( Metric-Driven Canary/Rollouts ) .... [ PLANNED ]
-   ⚪ Multi-Environment Promotion .. ( Cross-Cluster Overlay Promotion ) .. [ NOT EVALUATED ]
+   ✘ Progressive Deployment ....... ( Metric-Driven Canary/Rollouts ) .... [ PLANNED ]
+   ✘ Multi-Environment Promotion .. ( Cross-Cluster Overlay Promotion ) .. [ NOT EVALUATED ]
 
  Tier 3 : Platform Recovery
    ✔ Cluster Bootstrap ............. ( K3s + ArgoCD Root-App Bootstrap ) .. [ PASS ]
@@ -1551,9 +1551,9 @@ Validation: ⚪ NOT EVALUATED
    ✔ Repository Architecture ....... ( Domain/AppSet Separation Review ) .. [ PASS ]
 
  Tier 5 : Operational Governance
-   ⚪ Auditability ................. ( Audit Trail Verification ) ......... [ NOT EVALUATED ]
-   ⚪ Change Approval Workflow ..... ( Approval Governance Review ) ....... [ NOT EVALUATED ]
-   🗑️ Configuration Rollback ....... ( Duplicated with Tier 2 Rollout ) ... [ SKIP ]
+   ✘ Auditability ................. ( Audit Trail Verification ) ......... [ NOT EVALUATED ]
+   ✘ Change Approval Workflow ..... ( Approval Governance Review ) ....... [ NOT EVALUATED ]
+   ✘️ Configuration Rollback ....... ( Duplicated with Tier 2 Rollout ) ... [ SKIP ]
 
 --------------------------------------------------------------------------------
 [ Performance & Resiliency Metrics ]

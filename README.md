@@ -42,7 +42,7 @@
 | 7. PED | Deployment Delivery Baseline | 2026-06-13 |
 | 8. PED |  Kubernetes Resiliency & Availability Validation | 2026-06-16 |
 | 11. PED | End-to-End<br>DevOps Operating Model | 2026-06-17 |
-| 12. PED | GitOps Deployment Governance Validation | Expected in `202606`|
+| 12. PED | GitOps Deployment Governance Validation | 2026-06-21|
 | Add `HashiCorp Vault` | Enterprise Key Management System | Expected in `202607` |
 | 10. PED | Vault Secret<br>Management & Distribution | Expected in `202607` |
 | 9. PED | Observability Platform Validation | Expected in `202607` |
@@ -292,7 +292,7 @@
 | Observability Platform Validation | [PED 9](./docs/Observability-Platform-Validation.md)　➔　`Logging` `Metrics` `Tracing` `Alert Manager`<br>How can metrics, logs, traces, and alerts accelerate operational visibility and troubleshooting ? | Expected in `202607` |
 | Vault Secret<br>Management & Distribution | [PED 10](./docs/Vault.md)　➔　<br>How can secrets be managed, distributed, and rotated securely across Kubernetes workloads ? | Expected in `202607` |
 | End-to-End DevOps<br>Operating Model | [PED 11](./docs/End-to-End-DevOps-Operating-Model.md)　➔　`PR` `Code Review` `TEST` `STAGE` `PROD`<br>How can development, delivery, operations, and recovery be integrated into a unified platform workflow ? | 2026-06-17 |
-| GitOps Deployment<br>Governance Validation  | [PED 12](./docs/GitOps-Deployment-Governance-Validation.md)　➔　<br>How can GitOps enforce deployment governance, drift control, and operational traceability ? | Expected in `202606` |
+| GitOps Deployment<br>Governance Validation  | [PED 12](./docs/GitOps-Deployment-Governance-Validation.md)　➔　<br>How can GitOps enforce deployment governance, drift control, and operational traceability ? | 2026-06-21 |
 
 </ul>
 </details>

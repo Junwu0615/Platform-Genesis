@@ -1142,7 +1142,7 @@ Validation: ✅ PASS
  • L3 Network Gateway    ( Keepalived VRRP HA VIP: 10.88.0.99 )
  
 [ Result ]
- • 15 / 16 validation scenarios passed
+ • 14 / 15 validation scenarios passed
  • 1 scenario identified architectural incompatibility
    ( HPA Scale-In vs Recreate Deployment Strategy )
 
@@ -1190,9 +1190,9 @@ Validation: ✅ PASS
  • Node Disaster Failure Recovery Time ................ 73 sec ( K8s Node NotReady: 52s )
  
  • Service Layer Failover Success Rate .................. 100% ( HTTP Outage Duration: 0s ; 103 requests observed )
- • Observed Ingress Dynamic Config Sync Latency ....... < 1 sec
+ • Observed Ingress Dynamic Config Sync Latency ...... < 1 sec
  
- • StatefulSet Self-Healing Time ..................... 20  sec ( No Data Loss Observed )
+ • StatefulSet Self-Healing Time ...................... 20 sec ( No Data Loss Observed )
  • HPA Scale-Out Trigger Latency ..................... 100 sec
  
  • Observed Control Plane VRRP VIP Failover Latency .. < 1 sec ( Millisecond level )
@@ -1205,6 +1205,7 @@ Validation: ✅ PASS
  • Workloads were successfully rescheduled during node-level failures.
  • Stateful workloads preserved identity and persisted data after recovery.
  • Service and ingress traffic remained available during tested failover events.
+   ( except for planned single-replica workloads during migration )
  • Control-plane quorum and leader election behaved consistently with HA design expectations.
  
 --------------------------------------------------------------------------------
