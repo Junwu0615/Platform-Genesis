@@ -1238,10 +1238,6 @@ Validation: ✅ PASS
                          • Stateful Workload Recovery
                          • Service Failover Behaviors
                          • Control Plane High Availability
-                        
-                        [ Validation Coverage ]
-                         • 15 Passed
-                         • 1 Not Applicable ( Architectural Constraint )
                          
                         [ Validation Coverage ]
                          • PASS .................... 14
