@@ -45,47 +45,47 @@ gantt
 
 ## *🚀　Key Achievements*
 
-- ### Infrastructure Automation
-  * Built repeatable infrastructure provisioning using Terraform and Ansible
-  * Automated Kubernetes cluster bootstrap and node lifecycle management
-  * Implemented multi-master K3s architecture with HA control plane
+- ### *Infrastructure Automation*
+  * #### *Built repeatable infrastructure provisioning using Terraform and Ansible*
+  * #### *Automated Kubernetes cluster bootstrap and node lifecycle management*
+  * #### *Implemented multi-master K3s architecture with HA control plane*
 
-- ### GitOps Delivery
-  * Implemented GitLab CI + ArgoCD deployment workflow
-  * Adopted Layered GitOps and App-of-Apps architecture
-  * Established deployment governance and drift control validation
+- ### *GitOps Delivery*
+  * #### *Implemented GitLab CI + ArgoCD deployment workflow*
+  * #### *Adopted Layered GitOps and App-of-Apps architecture*
+  * #### *Established deployment governance and drift control validation*
 
-- ### Observability
-  * Metrics: Prometheus
-  * Logging: Loki + ELK
-  * Tracing: Tempo
-  * Visualization: Grafana
+- ### *Observability*
+  * #### *Metrics: Prometheus*
+  * #### *Logging: Loki + ELK*
+  * #### *Tracing: Tempo*
+  * #### *Visualization: Grafana*
 
-- ### Reliability Engineering
-  * Node failure recovery validation
-  * Workload recovery validation
-  * Control plane resiliency validation
-  * GitOps recovery validation
-  * Deployment governance validation
+- ### *Reliability Engineering*
+  * #### *Node failure recovery validation*
+  * #### *Workload recovery validation*
+  * #### *Control plane resiliency validation*
+  * #### *GitOps recovery validation*
+  * #### *Deployment governance validation*
 
 <br>
 
-## *📊　Platform Engineering Deliverables (PED)*
+## *📊　Platform Engineering Deliverables ( PED )*
 
 | ID | Deliverable | Status |
 |:--|:-- |:--:|
-| [PED-1](./docs/DB-RBAC.md) | Database RBAC Validation | ✅ |
-| [PED-2](./docs/Database-Environment-Benchmark.md) | Environment Benchmark | ✅ |
-| [PED-3](./docs/OLTP-OLAP-Consolidation-Strategy.md) | OLTP-OLAP Consolidation Strategy | 🚧 |
-| [PED-4](./docs/Database-Query-Performance-Optimization.md) | Query Performance Optimization | 🚧 |
-| [PED-5](./docs/Evolution-of-Core-Data-Architecture.md) | Core Data Architecture Evolution | 🚧 |
-| [PED-6](./docs/Application-Workload-Performance-Analysis.md) | Application Workload Analysis | 🚧 |
-| [PED-7](./docs/Deployment-Delivery-Baseline.md) | Deployment Delivery Baseline | ✅ |
-| [PED-8](./docs/K8s-Resiliency-Availability-Validation.md) | Kubernetes Resiliency & Availability Validation | ✅ |
-| [PED-9](./docs/Observability-Platform-Validation.md) | Observability Platform Validation | 🚧 |
-| [PED-10](./docs/Vault.md) | Vault Secret Management & Distribution | 🚧 |
-| [PED-11](./docs/End-to-End-DevOps-Operating-Model.md) | End-to-End DevOps Operating Model | ✅ |
-| [PED-12](./docs/GitOps-Deployment-Governance-Validation.md) | GitOps Deployment Governance Validation | ✅ |
+| [PED-1](./docs/DB-RBAC.md) | *Database RBAC* | ✅ |
+| [PED-2](./docs/Database-Environment-Benchmark.md) | *Database Environment Benchmark* | ✅ |
+| [PED-3](./docs/OLTP-OLAP-Consolidation-Strategy.md) | *OLTP-OLAP Consolidation Strategy* | 🚧 |
+| [PED-4](./docs/Database-Query-Performance-Optimization.md) | *Database Query Performance Optimization* | 🚧 |
+| [PED-5](./docs/Evolution-of-Core-Data-Architecture.md) | *Core Data Architecture Evolution* | 🚧 |
+| [PED-6](./docs/Application-Workload-Performance-Analysis.md) | *Application Workload Analysis* | 🚧 |
+| [PED-7](./docs/Deployment-Delivery-Baseline.md) | *Deployment Delivery Baseline* | ✅ |
+| [PED-8](./docs/K8s-Resiliency-Availability-Validation.md) | *Kubernetes Resiliency & Availability Validation* | ✅ |
+| [PED-9](./docs/Observability-Platform-Validation.md) | *Observability Platform Validation* | 🚧 |
+| [PED-10](./docs/Vault.md) | *Vault Secret Management & Distribution* | 🚧 |
+| [PED-11](./docs/End-to-End-DevOps-Operating-Model.md) | *End-to-End DevOps Operating Model* | ✅ |
+| [PED-12](./docs/GitOps-Deployment-Governance-Validation.md) | *GitOps Deployment Governance Validation* | ✅ |
 
 <br>
 
@@ -133,34 +133,34 @@ gantt
 
 | Repository | Purpose |
 | :-- | :-- |
-| [PG-Infrastructure](https://github.com/Junwu0615/PG-Infrastructure) | Infrastructure as Code & Automation |
-| [PG-APP-Core](https://github.com/Junwu0615/PG-APP-Core) | Business Logic & Simulation Engine  |
-| [PG-Shared-Lib](https://github.com/Junwu0615/PG-Shared-Lib) | Shared Framework Components |
-| [PG-Edge-Container](https://github.com/Junwu0615/PG-Edge-Container) | Edge Runtime Deployment |
-| [PG-Airflow-DAGs](https://github.com/Junwu0615/PG-Airflow-DAGs) | Data Orchestration |
+| [*PG-Infrastructure*](https://github.com/Junwu0615/PG-Infrastructure) |  *Infrastructure as Code & Automation* |
+| [*PG-APP-Core*](https://github.com/Junwu0615/PG-APP-Core) |  *Business Logic & Simulation Engine*  |
+| [*PG-Shared-Lib*](https://github.com/Junwu0615/PG-Shared-Lib) |  *Shared Framework Components* |
+| [*PG-Edge-Container*](https://github.com/Junwu0615/PG-Edge-Container) |  *Edge Runtime Deployment* |
+| [*PG-Airflow-DAGs*](https://github.com/Junwu0615/PG-Airflow-DAGs) |  *Data Orchestration* |
 
 <br>
 
 ## *🔍　Engineering Highlights*
 
-- ### Kubernetes
-  * Multi-master control plane
-  * Lease re-election validation
-  * Affinity / Anti-affinity scheduling
-  * HPA scaling validation
-  * NFS-backed persistent workloads
+- ### *Kubernetes*
+  * #### *Multi-master control plane*
+  * #### *Lease re-election validation*
+  * #### *Affinity / Anti-affinity scheduling*
+  * #### *HPA scaling validation*
+  * #### *NFS-backed persistent workloads*
 
-- ### GitOps
-  * App-of-Apps architecture
-  * ApplicationSet automation
-  * Environment-based deployment model
-  * Drift detection and reconciliation
+- ### *GitOps*
+  * #### *App-of-Apps architecture*
+  * #### *ApplicationSet automation*
+  * #### *Environment-based deployment model*
+  * #### *Drift detection and reconciliation*
 
-- ### Infrastructure
-  * Terraform modularization
-  * Ansible role-based architecture
-  * Automated VM provisioning
-  * HA cluster bootstrap
+- ### *Infrastructure*
+  * #### *Terraform modularization*
+  * #### *Ansible role-based architecture*
+  * #### *Automated VM provisioning*
+  * #### *HA cluster bootstrap*
 
 <br>
 
@@ -194,7 +194,7 @@ gantt
 >
 > *🚀　Platform Genesis v2.0　|　Data Platform & Lakehouse Expansion　|　Status: Future Work*
 > 
-> *📚 Further Reading　|　[Platform Evolution & Full Project History](./docs/Platform-Evolution.md)*
+> *📚　Further Reading　|　[Platform Evolution & Full Project History](./docs/Platform-Evolution.md)*
 
 [//]: # (> *⛏　Platform Genesis v1.0　|　Platform Foundation Release　|　Status: Feature Complete &#40; 2026-07 &#41;*)
 
