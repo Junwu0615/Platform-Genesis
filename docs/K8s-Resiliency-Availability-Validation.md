@@ -1136,6 +1136,7 @@ Validation: ✅ PASS
 ==================================================================================
               Kubernetes Resiliency & Availability Validation Report              
 ==================================================================================
+
 [ Cluster Topology ]
  • 3 Control Plane Nodes ( k3s-master-0, 1, 2 ) | Embedded dqlite HA Mode
  • 4 Worker Nodes        ( k3s-agent-1, 2, 3, 4 )
@@ -1149,6 +1150,7 @@ Validation: ✅ PASS
 --------------------------------------------------------------------------------
 [ Validation Result Matrix ]
 --------------------------------------------------------------------------------
+
  Tier 1 : Workload Resiliency
    ✔ Pod Crash Recovery ................................................. [ PASS ]
    ✔ OOMKill Recovery  ( Exit Code 137 / No Data Loss Observed ) ........ [ PASS ]
@@ -1180,6 +1182,7 @@ Validation: ✅ PASS
 --------------------------------------------------------------------------------
 [ Performance & Resiliency Metrics ]
 --------------------------------------------------------------------------------
+
  • Pod Crash Recovery Time ............................. 5 sec
  • OOMKill Self-Healing Time .......................... 15 sec
  • Liveness Probe Self-Healing Time ................... 12 sec
@@ -1201,6 +1204,7 @@ Validation: ✅ PASS
 --------------------------------------------------------------------------------
 [ Key Findings ]
 --------------------------------------------------------------------------------
+
  • Kubernetes self-healing mechanisms operated as expected.
  • Workloads were successfully rescheduled during node-level failures.
  • Stateful workloads preserved identity and persisted data after recovery.
@@ -1211,6 +1215,7 @@ Validation: ✅ PASS
 --------------------------------------------------------------------------------
 [ Scope Limitation ]
 --------------------------------------------------------------------------------
+
  • The tested K3s cluster successfully demonstrated the expected behavior of
    the evaluated Kubernetes native features under the defined failure scenarios.
 
