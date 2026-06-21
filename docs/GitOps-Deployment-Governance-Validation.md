@@ -120,8 +120,8 @@ Tier 2 : Deployment Lifecycle
 
 
 Tier 3 : Platform Recovery
- • ✅ 一鍵集群啟動 : Cluster Bootstrap
- • ⚪ 災難復原 : Disaster Recovery
+ • ✅ 一鍵建立新環境 : Cluster Bootstrap
+ • ⚪ 從災難恢復服務 : Disaster Recovery
 
 
 Tier 4 : Repository Governance
@@ -760,47 +760,74 @@ Validation: ⚪ NOT EVALUATED
 
 ```
 Failure Scenario
- • 
+ • Kubernetes Cluster 完全不存在
+ • 新節點或新環境需要重新建立平台基礎設施
 
 Objective
- • 
+ • 驗證平台是否能透過標準化流程快速完成 Cluster 初始化
+ • 驗證 GitOps Bootstrap 機制是否可自動建立平台基礎元件
+ • 驗證平台是否具備可重複部署 ( Reproducibility ) 能力
 
 Scope
- • 
+ • K3s Cluster
+ • Bootstrap Scripts
+ • ArgoCD
+ • GitOps Repository
 
 Situation
- • 
+ • 目標 Cluster 為全新安裝狀態
+ • 無任何 Platform Component
+ • Git Repository 保持最新狀態
 
 Action
- • 
+ • 安裝 K3s Cluster
+ • 執行 bootstrap-cluster.sh
+ • 部署 ArgoCD
+ • 啟動 Root Application
+ • 等待所有 Application 完成 Sync
 
 Metrics
- • 
+ • Bootstrap Time
+ • Platform Ready Time
+ • Application Sync Success Rate
+ • Manual Intervention Count
 
 Pass Criteria
- • 
+ • Cluster 成功建立
+ • ArgoCD 成功部署
+ • Root Application 成功同步
+ • 所有平台服務恢復至預期狀態
+ • 無需手動部署個別服務
 
 Evidence
- • 
+ • Bootstrap Script Output
+ • kubectl Output
+ • ArgoCD Screenshot
+ • Application Sync Status
 
 Observation
- • 
+ • 平台元件可透過 GitOps 自動部署
+ • Bootstrap 流程具備可重複執行能力
+ • 系統狀態與 Git Repository 保持一致
 
 ⚠️ Risk Assessment
- • 
+ • Availability Risk ....... Low
+ • Operational Risk ........ Low
+ • Data Integrity Risk ..... Not Evaluated
 
 Result
  • 
- 
+
 Limitation
- • 
+ • 驗證環境為 Homelab
+ • 不包含跨機房部署情境
 
 Known Limitation
- • 
+ • 未驗證大型叢集規模
+ • 未驗證多區域部署
 
 
-Validation
- • 
+Validation: ✅ PASS
 ```
 
 </ul>
@@ -812,48 +839,78 @@ Validation
 
 ```
 Failure Scenario
- • 
+ • Kubernetes Cluster 發生重大故障
+ • Control Plane 或 Worker Node 不可用
+ • 關鍵平台服務中斷
 
 Objective
- • 
+ • 驗證平台在災難事件後的恢復能力
+ • 驗證 GitOps 架構是否能協助快速恢復服務
+ • 驗證平台服務恢復後是否維持配置一致性
 
 Scope
- • 
+ • K3s Cluster
+ • ArgoCD
+ • Platform Services
+ • Application Workloads
 
 Situation
- • 
+ • 平台服務正常運行
+ • Git Repository 維持最新狀態
+ • ArgoCD Sync 正常
 
 Action
- • 
+ • 模擬 Cluster 故障
+ • 重新建立 Cluster
+ • 執行 Bootstrap 流程
+ • 驗證 Application Recovery
 
 Metrics
- • 
+ • Recovery Time Objective (RTO)
+ • Recovery Point Objective (RPO)
+ • Platform Recovery Time
+ • Service Availability
 
 Pass Criteria
- • 
+ • 平台服務成功恢復
+ • GitOps Repository 可重建目標狀態
+ • 應用程式恢復正常運作
+ • 配置與 Git Repository 保持一致
 
 Evidence
- • 
-
+ • kubectl Output
+ • ArgoCD Screenshot
+ • Application Health Status
+ • Video ( PG-Infrastructure-GitOps Demo.mp4 )
+     • total time ..... 00:23:02
+     
 Observation
- • 
+ • GitOps 可作為平台重建來源
+ • 平台服務可快速恢復至既定狀態
+ • 配置漂移未被觀察到
 
 ⚠️ Risk Assessment
- • 
+ • Availability Risk ...... Medium
+ • Operational Risk ....... Medium
+ • Data Integrity Risk .... High
 
 Result
  • 
- 
+
 Limitation
- • 
+ • 未驗證實際硬體故障情境
+ • 未驗證異地備援
 
 Known Limitation
- • 
+ • PostgreSQL Persistent Volume 恢復能力依賴底層儲存
+ • 未驗證完整資料備份與還原流程
+ • 僅驗證 Platform Recovery，未驗證 Business Continuity
 
 
-Validation
- • 
+Validation: ✅ PASS
 ```
+
+![Demo](https://drive.google.com/file/d/1vWuUyFMPcFKblNyfY9LbY48dC-HnePPz/view?usp=sharing)
 
 </ul>
 </details>

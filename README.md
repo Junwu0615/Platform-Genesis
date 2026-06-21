@@ -173,17 +173,26 @@
 | Kubernetes | Beginner : `Minikube` | 2026-05-09 |
 | Kubernetes | Advanced : `K3d` | 2026-05-10 |
 | Kubernetes | Advanced : `K3s` + `VMware` | 2026-05-10 |
+| VM | 開源全生命週期自動化堆疊<br>`Terraform` `Ansible` `libvirt` | 2026-05-10 |
+| VM | Terraform 安裝基礎設施 | 2026-05-11 |
+| VM | 橫向擴展 Node | 2026-05-12 |
 | Add `Monitoring` | `Loki` | 2026-05-12 |
 | Add `Gitlab` | for `CI` & `Manage Projects` | 2026-05-12 |
 | Add `Jenkins` | for `CD` | 2026-05-12 |
 | Add `Docker Registry` | for `CI/CD` & `Manage Images` | 2026-05-12 |
 | Build `Hierarchical`<br>`Log Management` | `Loki` + `ELK` | 2026-05-14 |
 | Build `CD` | `CD` ➔ `Airflow DAGs` | 2026-05-20 |
+| VM | Terraform + Ansible `Gateway` | 2026-05-24 |
 | Build `WSL2 Homelab` | `Chrome` ➔ `Windows:8080`<br>➔ `WSL2:80` ➔ `ingress-nginx` | 2026-05-25 |
 | Update Migration Matrix | `Hybrid deployment` | 2026-05-26 |
 | Add `ArgoCD` | for `CD` | 2026-05-28 |
 | Build `GitOps` | `GitLab CI` + `ArgoCD` | 2026-06-05 |
+| VM | Terraform + Ansible `Multi-Master` | 2026-06-06 |
 | Build `CD` | `CD` ➔ `Edge Container` | 2026-06-13 |
+| VM | Ansible `Storge 持久化權限路徑` 設定 | 2026-06-16 |
+| VM | Ansible `Keepalived`<br>`VRRP 虛擬 IP ( VIP: 10.88.0.99 )` | 2026-06-16 |
+| VM | Ansible `Restructuring`  | 2026-06-21 |
+| VM | 預載資源避免 Ansible 卡死外網索取資源 | 2026-06-21 |
 | Add `HashiCorp Vault` | Enterprise Key Management System | Expected in `202607` |
 | Add `Debezium` | Change Data Capture | `TBD` |
 | Add `Apache Iceberg` | Data Lake | `TBD` |
@@ -224,16 +233,11 @@
 | Kubernetes | Experience : Ansible 初始化節點 | 2026-05-10 |
 | Kubernetes | Experience : K3d | 2026-05-10 |
 | VM | Experience : Manual Create Oracle VM | 2026-05-10 |
-| Kubernetes | K3s + VM | 2026-05-10 |
-| VM | 開源全生命週期自動化堆疊<br>`Terraform` `Ansible` `libvirt` | 2026-05-10 |
 | VM | Experience : 以 Ping 自動喚醒 VM 防止深度睡眠 | X |
-| VM | Terraform 安裝基礎設施 | 2026-05-11 |
 | Kubernetes | Experience : 簡化 kubectl 指令 | 2026-05-12 |
-| VM | 橫向擴展 Node | 2026-05-12 |
 | Kubernetes | Experience : `k9s` | 2026-05-12 |
 | CI/CD | Experience : Git-Runner | 2026-05-19 |
 | CI/CD | 採用 `tar` 流處理對 Airflow 容器<br>以兩側`記憶體對接灌入達成熱更新` | 2026-05-20 |
-| VM | Terraform `Gateway` | 2026-05-24 |
 | Kubernetes | Experience :<br>Win ➔ `Portproxy` ➔ WSL2 | 2026-05-25 |
 | Kubernetes | Experience : `ingress-nginx` | 2026-05-25 |
 | Kubernetes | Experience : `OOM Kill` | 2026-05-25 |
@@ -253,7 +257,6 @@
 | GitOps | update tree `Automated Multi-Tenant`<br>`Environment Provisioning` | 2026-06-05 |
 | GitOps | Ingress-Nginx `切換 Namespace 環境坑` | 2026-06-06 |
 | Kubernetes | 親和/反親合標籤設置 | 2026-06-06 |
-| VM | Terraform `Master` 多節點設置 | 2026-06-06 |
 | GitOps | Build : `Observability` `Postgres Exporter` | 2026-06-07 |
 | GitOps | Build : `Platform` `Registry` | 2026-06-07 |
 | Helm Chart | Vanishing 6H `Bitnami 腳本底層對底線 _ 敏感性` | 2026-06-08 |
@@ -263,12 +266,10 @@
 | Kubernetes | Experience : NFS 儲存機制 ( SQLite ) | 2026-06-13 |
 | Kubernetes | Experience : `HPA 擴展/縮容` | 2026-06-15 |
 | GitOps | Experience : `無限套娃動態死鎖` | 2026-06-15 |
-| VM | Ansible `Storge 持久化權限路徑` 設定 | 2026-06-16 |
-| VM | Ansible `Keepalived`<br>`VRRP 虛擬 IP ( VIP: 10.88.0.99 )` | 2026-06-16 |
-| Kubernetes | Master Control Plane<br>`dqlite ( Distributed SQLite / Raft 共識協定 )` | 2026-06-16 |
-| Kubernetes + VM | Master Control Plane<br>`控制面組件租約選舉 ( Lease Re-election )` | 2026-06-17 |
+| Kubernetes | Experience : Master Control Plane<br>`dqlite ( Distributed SQLite / Raft 共識協定 )` | 2026-06-16 |
+| Kubernetes + VM | Experience : Master Control Plane<br>`控制面組件租約選舉 ( Lease Re-election )` | 2026-06-17 |
 | GitOps | Build : `Security` `Vault` | Expected in `202607` |
-| GitOps | Maintain 2 repo ( `CI` + `CD` ) | Expected in `202607` |
+| GitOps | Maintain 2 repo ( `CI` + `CD` ) | `TBD` |
 
 </ul>
 </details>
