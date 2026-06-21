@@ -9,7 +9,7 @@
 <ul>
 
 ```
-Tier ??? : ???
+Tier 1-6 : Kubernetes Resiliency & Availability Validation
 
 [X] Failure Scenario
  • 故障模型定義：明確描述注入之異常型態或技術失效邊界

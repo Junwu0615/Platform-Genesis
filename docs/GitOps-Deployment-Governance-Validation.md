@@ -9,7 +9,7 @@
 <ul>
 
 ```
-Tier ??? : ???
+Tier 1-5 : GitOps Deployment Governance Validation
 
 Failure Scenario
  • 故障模型定義：明確描述注入之異常型態或技術失效邊界
@@ -825,16 +825,12 @@ Validation: ✅ PASS
 
 ```
 Failure Scenario
- • 發生平台配置漂移
- • GitOps 管理資源遭意外刪除
- • Cluster State 不再符合 Git Repository 定義
- • Application Availability 可能暫時受到影響
+ • 核心命名空間 ( Namespace ) 遭非預期人為誤刪或惡意抹除
+ • 內部所有動態資源 ( Deployment, Service, Ingress ) 瞬間蒸發，引發全面性服務中斷
 
 Objective
- • 驗證 GitOps Configuration Recovery 能力
- • 驗證 ArgoCD 是否能偵測 Configuration Drift
- • 驗證平台是否可自動恢復至 Git Repository 定義狀態
- • 驗證恢復後服務是否維持配置一致性
+ • 驗證當核心受控範疇 ( Scope ) 遭遇毀滅性配置遺失時，
+   ArgoCD 的自癒 ( Self-Healing ) 速度與全自動重建能力
 
 Scope
  • Kubernetes Cluster
@@ -856,31 +852,26 @@ Situation
  • 未偵測到現有漂移
 
 Action
- • 選擇目標應用程式
- • 注入 Configuration Drift
- • 刪除目標 Namespace
- • 觀察 Drift Detection
- • 觀察 ArgoCD Reconciliation
- • 驗證 Application Recovery
+ • 選擇目標應用程式所屬之受控命名空間 Namespace
+ • 執行破壞性故障注入：直接於叢集端強制刪除該目標 Namespace
+ • 監控控制器的 Drift 識別時序、自動調和 ( Reconciliation ) 與資源再造行為
+ • 驗證服務最終可恢復性
 
 Example Fault Injection
  • kubectl delete namespace pg-apps-homelab-test
 
 Metrics
- • Detection Latency
- • Reconciliation Time
+ • Drift Detection Latency
+ • Configuration Consistency
+ • Resource Re-Creation Time
  • Total Recovery Time ( RTO )
  • Manual Intervention Count
- • Configuration Consistency
 
 Pass Criteria
- • ArgoCD 偵測配置漂移
- • 自動重新建立目標應用程式
- • 應用程式恢復正常狀態
- • 所需狀態與 Git 儲存庫匹配
- • 無需手動重新部署資源
- • 未觀察到資料遺失
- • 在目標 RTO 內完成恢復
+ • ArgoCD 必須能主動、無誤判地偵測到 Namespace 級別之重大配置漂移
+ • 控制器需自動觸發調和機制，於無人工干預下完全重新建立目標 Namespace 及其內部所有宣告物件
+ • 重建後之叢集物件狀態 ( Desired State ) 必須與 Git 儲存庫達成 100% 配置一致性
+ • 服務必須於目標 RTO ( 安全閾值 ) 內完成重建並恢復健康狀態
 
 Evidence
  • kubectl Output
@@ -900,22 +891,17 @@ Observation
  • 恢復後不存在配置漂移
 
 ⚠️ Risk Assessment
- • Availability Risk ....... Medium
- • Operational Risk ........ Low
+ • Availability Risk ....... High ( 核心命名空間刪除導致服務實質中斷 )
+ • Operational Risk ........ Low ( 流程完全標準化自動收斂 )
  • Data Integrity Risk ..... Not Evaluated
 
 Result
  • Recovery Status ............................. ✅ SUCCESS
  • Fault Injection Target ...................... kubectl delete namespace pg-apps-homelab-test
  • Detection Latency ........................... 2 sec
- • Reconciliation Time ......................... Not Evaluated
  • Total Recovery Time  ........................ 14 sec
- • Service Availability ........................ ✅ SUCCESS
- • Failed Requests ............................. Not Evaluated
- • Error Rate .................................. Not Evaluated
- • Data Loss ................................... Not Evaluated
- • Consistency Check ........................... ✅ Argo Sync
- • Throughput Impact ........................... Not Evaluated
+ • Service Availability ........................ ✅ Fully Restored
+ • Consistency Check ........................... ✅ 100% Reconverged via Argo Sync
  • Manual Intervention Count ................... 0
 
 
