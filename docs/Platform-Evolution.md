@@ -878,7 +878,7 @@ tree -I 'venv|.git|__pycache__|docs|logs|assets|kafka_data|charts'
 
 > *⛏　Platform Genesis v1.0　[ Platform Foundation Release • Status: In Progress ]*
 >
-> *🚀　Platform Genesis v2.0　[ Data Platform & Lakehouse Expansion • Status: Future Work ]*
+> *🚀　Platform Genesis v2.0　[ Data Platform & Data Platform Extension • Status: Future Work ]*
 
 [//]: # (> *⛏　Platform Genesis v1.0　[ Platform Foundation Release　•　Status: Feature Completed Jul 2026 ]*)
 
@@ -932,7 +932,7 @@ gantt
     Resume & Job Search                         :milestone, a7, 2026-07, 1d
 
     section Future
-    Lakehouse                                   :crit, a8, 2026-08, 1M
+    Data Platform Extension                     :crit, a8, 2026-08, 1M
 ```
 
 > ##### *•　Self-built platform engineering environment focused on infrastructure automation, Kubernetes operations, GitOps delivery, observability, and reliability engineering.*
