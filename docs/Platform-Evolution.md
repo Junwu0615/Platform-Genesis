@@ -903,11 +903,11 @@ tree -I 'venv|.git|__pycache__|docs|logs|assets|kafka_data|charts'
 
 <br>
 
+[//]: # (> &#40; Mar 2026 – Jul 2026 &#41;)
+> ##### *Platform Engineering Learning Sprint ( Mar 2026 – Present )*
 
 ```mermaid
 gantt
-    title Platform Genesis Evolution
-
     dateFormat YYYY-MM
 
     section Phase 1
@@ -935,9 +935,8 @@ gantt
     Lakehouse                                   :crit, a8, 2026-07, 1M
 ```
 
-[//]: # (> &#40; Mar 2026 – Jul 2026 &#41;)
-> ##### *Platform Engineering Learning Sprint ( Mar 2026 – Present )*
+> ##### *Self-built platform engineering environment focused on infrastructure automation, Kubernetes operations, GitOps delivery, observability, and reliability engineering.*
 >
-> ##### *A self-built platform engineering environment focused on infrastructure automation, Kubernetes operations, GitOps delivery, observability, and quantitative validation. The project evolved from an OLTP/OLAP data platform initiative into a broader platform engineering practice emphasizing reliability, governance, recovery, and operational standardization.*
+> ##### *The project evolved from an OLTP/OLAP data platform initiative into a platform engineering practice emphasizing automation, governance, recovery, and operational standardization.*
 
 <br><br><br>
