@@ -42,7 +42,7 @@ gantt
 >
 > ##### *The project evolved from an OLTP/OLAP data platform initiative into a platform engineering practice emphasizing automation, governance, recovery, and operational standardization.*
 
-<br>
+<br><br>
 
 ## *🚀　Key Achievements*
 
@@ -69,7 +69,7 @@ gantt
   * #### *Validated GitOps Recovery Workflows*
   * #### *Established Quantitative Validation Methodology*
 
-<br>
+<br><br>
 
 ## *📊　Selected Engineering Evidence*
 
@@ -82,7 +82,7 @@ gantt
 | Observability Platform Validation | [PED-9](./docs/Observability-Platform-Validation.md) |
 | Platform Evolution & Architecture Journey | [Full Project History](./docs/Platform-Evolution.md) |
 
-<br>
+<br><br>
 
 ## *🏗　Core Platform Capabilities*
 
@@ -96,7 +96,7 @@ gantt
 | Data Platform | `PostgreSQL` `Airflow` `Kafka` |
 | Reliability | `Recovery Testing` `Governance Validation` |
 
-<br>
+<br><br>
 
 ## *📁　Repository Structure*
 
@@ -109,7 +109,7 @@ gantt
 | [*PG-Airflow-DAGs*](https://github.com/Junwu0615/PG-Airflow-DAGs) |  *Data Orchestration Workflows* |
 
 
-<br>
+<br><br>
 
 ## *⚖️　Engineering Philosophy*
 > *•　Building individual technologies is relatively straightforward.*
@@ -118,15 +118,15 @@ gantt
 >
 > *•　Platform Genesis focuses on integrating infrastructure automation, Kubernetes operations, GitOps workflows, observability, governance, and reliability validation into a cohesive engineering system.*
 
-<br>
+<br><br>
 
 ## *📚　Further Reading*
 
-> *⛏　Platform Genesis v1.0　•　Platform Foundation Release　•　Status: In Progress*
+> *⛏　Platform Genesis v1.0　[ Platform Foundation Release • Status: In Progress ]*
 >
-> *🚀　Platform Genesis v2.0　•　Data Platform & Lakehouse Expansion　•　Status: Future Work*
+> *🚀　Platform Genesis v2.0　[ Data Platform & Lakehouse Expansion • Status: Future Work ]*
 > 
-> *📚　Further Reading　•　[Platform Evolution & Full Project History](./docs/Platform-Evolution.md)*
+> *🛎️️　[Platform Evolution & Full Project History](./docs/Platform-Evolution.md)*
 
 [//]: # (> *⛏　Platform Genesis v1.0　•　Platform Foundation Release　•　Status: Feature Complete &#40; 2026-07 &#41;*)
 
