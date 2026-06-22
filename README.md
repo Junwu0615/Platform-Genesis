@@ -24,16 +24,16 @@ gantt
     Kubernetes & GitOps                         :done, a4, 2026-05, 2M
 
     section Phase 5
-    HA & DR & Validation                        :active, a5, 2026-06, 1M
+    HA & DR & Validation                        :active, a5, 2026-06, 2M
 
     section Phase 6
-    Lessons Learned & Scope Control             :active, a6, 2026-06, 1M
+    Lessons Learned & Scope Control             :active, a6, 2026-06, 2M
 
     section Phase 7
     Resume & Job Search                         :milestone, a7, 2026-07, 1d
 
     section Future
-    Lakehouse                                   :crit, a8, 2026-07, 1M
+    Lakehouse                                   :crit, a8, 2026-08, 1M
 ```
 
 > ##### *Self-built platform engineering environment focused on infrastructure automation, Kubernetes operations, GitOps delivery, observability, and reliability engineering.*
