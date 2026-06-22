@@ -1,7 +1,8 @@
 ## *⭐ Platform Genesis ⭐*
 
 [//]: # (![PNG]&#40;../assets/png/roadmap_00.png&#41;)
-![PNG](../assets/png/roadmap_01.png)
+[//]: # (![PNG]&#40;../assets/png/roadmap_01.png&#41;)
+![PNG](../assets/png/roadmap_02.png)
 
 <br>
 
@@ -78,6 +79,7 @@
 | Project Breakdown | `5` Major Categories | 2026-05-08 |
 | Architecture Diagram | `VERSION 1.0` | 2026-05-16 |
 | Architecture Diagram | `VERSION 2.0` | 2026-06-14 |
+| Architecture Diagram | `VERSION 2.1` | 2026-06-22 |
 | Platform Genesis Sprint | `2026-03` to `2026-07` | 2026-07-XX |
 | Pause | After `2026-07` | 2026-07-XX |
 
