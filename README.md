@@ -9,8 +9,6 @@
 
 ```mermaid
 gantt
-    title Platform Genesis Evolution
-
     dateFormat YYYY-MM
 
     section Phase 1
@@ -75,11 +73,11 @@ gantt
 
 | Area | Documentation |
 |:--|:--|
-| Kubernetes Resiliency & Availability Validation | [PED-8](./docs/K8s-Resiliency-Availability-Validation.md) |
-| GitOps Deployment Governance Validation | [PED-12](./docs/GitOps-Deployment-Governance-Validation.md) |
-| End-to-End DevOps Operating Model | [PED-11](./docs/End-to-End-DevOps-Operating-Model.md) |
 | Deployment Delivery Baseline | [PED-7](./docs/Deployment-Delivery-Baseline.md) |
+| Kubernetes Resiliency & Availability Validation | [PED-8](./docs/K8s-Resiliency-Availability-Validation.md) |
 | Observability Platform Validation | [PED-9](./docs/Observability-Platform-Validation.md) |
+| End-to-End DevOps Operating Model | [PED-11](./docs/End-to-End-DevOps-Operating-Model.md) |
+| GitOps Deployment Governance Validation | [PED-12](./docs/GitOps-Deployment-Governance-Validation.md) |
 | Platform Evolution & Architecture Journey | [Full Project History](./docs/Platform-Evolution.md) |
 
 <br><br>
@@ -128,7 +126,7 @@ gantt
 > 
 > *🛎️️　[Platform Evolution & Full Project History](./docs/Platform-Evolution.md)*
 
-[//]: # (> *⛏　Platform Genesis v1.0　•　Platform Foundation Release　•　Status: Feature Complete &#40; 2026-07 &#41;*)
+[//]: # (> *⛏　Platform Genesis v1.0　[ Platform Foundation Release　•　Status: Feature Completed Jul 2026 ]*)
 
 
 <br><br><br>
