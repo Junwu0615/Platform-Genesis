@@ -71,34 +71,34 @@ gantt
 
 ## *📊　Selected Engineering Evidence*
 
-| Area | Documentation |
+| _Area_ | _Documentation_ |
 |:--|:--|
-| Deployment Delivery Baseline | [PED-7](./docs/Deployment-Delivery-Baseline.md) |
-| Kubernetes Resiliency & Availability Validation | [PED-8](./docs/K8s-Resiliency-Availability-Validation.md) |
-| Observability Platform Validation | [PED-9](./docs/Observability-Platform-Validation.md) |
-| End-to-End DevOps Operating Model | [PED-11](./docs/End-to-End-DevOps-Operating-Model.md) |
-| GitOps Deployment Governance Validation | [PED-12](./docs/GitOps-Deployment-Governance-Validation.md) |
-| Platform Evolution & Architecture Journey | [Full Project History](./docs/Platform-Evolution.md) |
+| _Deployment Delivery Baseline_ | [_PED-7_](./docs/Deployment-Delivery-Baseline.md) |
+| _Kubernetes Resiliency & Availability Validation_ | [_PED-8_](./docs/K8s-Resiliency-Availability-Validation.md) |
+| _Observability Platform Validation_ | [_PED-9_](./docs/Observability-Platform-Validation.md) |
+| _End-to-End DevOps Operating Model_ | [_PED-11_](./docs/End-to-End-DevOps-Operating-Model.md) |
+| _GitOps Deployment Governance Validation_ | [_PED-12_](./docs/GitOps-Deployment-Governance-Validation.md) |
+| _Platform Evolution & Architecture Journey_ | [_Full Project History_](./docs/Platform-Evolution.md) |
 
 <br><br>
 
 ## *🏗　Core Platform Capabilities*
 
-| Domain | Technologies |
+| _Domain_ | _Technologies_ |
 |:--|:--|
-| Infrastructure | `Terraform` `Ansible` `Libvirt` `Automated Provisioning` |
-| Kubernetes | `HA Control Plane` `Scheduling` `Recovery Validation` |
-| GitOps | `GitLab CI` `Argo CD` `App-of-Apps` `Drift Control` |
-| Observability | `Metrics` `Logs` `Traces` `Alerting` |
-| Security | `Vault-based Secret Management` |
-| Data Platform | `PostgreSQL` `Airflow` `Kafka` |
-| Reliability | `Recovery Testing` `Governance Validation` |
+| _Infrastructure_ | `Terraform` `Ansible` `Libvirt` `Automated Provisioning` |
+| _Kubernetes_ | `HA Control Plane` `Scheduling` `Recovery Validation` |
+| _GitOps_ | `GitLab CI` `Argo CD` `App-of-Apps` `Drift Control` |
+| _Observability_ | `Metrics` `Logs` `Traces` `Alerting` |
+| _Security_ | `Vault-based Secret Management` |
+| _Data Platform_ | `PostgreSQL` `Airflow` `Kafka` |
+| _Reliability_ | `Recovery Testing` `Governance Validation` |
 
 <br><br>
 
 ## *📁　Repository Structure*
 
-| Repository | Purpose |
+| _Repository_ | _Purpose_ |
 |:--|:--|
 | [*PG-Infrastructure*](https://github.com/Junwu0615/PG-Infrastructure) |  *Infrastructure as Code & Platform Automation* |
 | [*PG-APP-Core*](https://github.com/Junwu0615/PG-APP-Core) |  *Application Services & Workload Simulation*  |
