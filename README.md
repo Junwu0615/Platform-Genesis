@@ -33,7 +33,7 @@ gantt
     Resume & Job Search                         :milestone, a7, 2026-07, 1d
 
     section Future
-    Lakehouse                                   :crit, a8, 2026-08, 1M
+    Data Platform Extension                                   :crit, a8, 2026-08, 1M
 ```
 
 > ##### *•　Self-built platform engineering environment focused on infrastructure automation, Kubernetes operations, GitOps delivery, observability, and reliability engineering.*
@@ -84,7 +84,7 @@ gantt
 
 ## *🏗　Core Platform Capabilities*
 
-| _Domain_ | _Technologies_ |
+| _Domain_ | _Capabilities_ |
 |:--|:--|
 | _Infrastructure_ | `Terraform` `Ansible` `Libvirt` `Automated Provisioning` |
 | _Kubernetes_ | `HA Control Plane` `Scheduling` `Recovery Validation` |
@@ -122,7 +122,7 @@ gantt
 
 > *⛏　Platform Genesis v1.0　[ Platform Foundation Release • Status: In Progress ]*
 >
-> *🚀　Platform Genesis v2.0　[ Data Platform & Lakehouse Expansion • Status: Future Work ]*
+> *🚀　Platform Genesis v2.0　[ Data Platform & Data Platform Extension • Status: Future Work ]*
 > 
 > *🛎️️　[Platform Evolution & Full Project History](./docs/Platform-Evolution.md)*
 
