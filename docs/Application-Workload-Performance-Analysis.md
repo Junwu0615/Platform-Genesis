@@ -30,7 +30,7 @@
 ### *B.　Table Features*
 - #### *OLTP*
 |**Name**|**Type**|**Streaming**|**Description**|**Remark**|
-|--:|:--:|:--:|:--|:--:|
+|--:|:--:|:--:|:--|:--|
 | machine | 靜態 | - | 機台基本資訊 | ⚠ 預處理 |
 | product | 靜態 | - | 產品基本資訊 | ⚠ 預處理 |
 | 🗑️ machine_events | 動態 | 低頻 | 記錄機台運行過程中的各類事件 | - |
@@ -40,8 +40,8 @@
 
 - #### *OLAP*
 |**Name**| **Description**|**Remark**|
-|--:|:--|:--:|
-| dim_date | 時間維度表 | 不需從 OLTP 抽 ; ⚠ 預處理 |
+|--:|:--|:--|
+| dim_date | 時間維度表 | ⚠ 預處理 |
 | dim_machine | 機台維度表 | - |
 | dim_product | 產品維度表 | - |
 | fact_machine_status | 機台狀態事實表 | - |
@@ -51,81 +51,16 @@
 
 ### *C.　Settings Before Action*
 ```
-# 定義監控目標
-  - OS 層監控： CPU、Memory、Disk I/O、Network I/O、Load
-  - DB 層監控： TPS、Latency、Lock、Connection Count、Buffer Cache Hit Ratio
-  - WAL 壓力監控： WAL 生成速率、WAL 傳輸速率、WAL 傳輸延遲
-  - Table bloat / vacuum 監控： bloat ratio、vacuum 活動頻率、dead tuples 數量
-  
-# 導入監控工具： 
-                PostgreSQL ( pg_stat_statements 擴展 )
-                   ↓
-                postgres_exporter
-                   ↓
-                Prometheus
-                   ↓
-                Grafana
-
-# 多開腳本壓測： 漸進式開腳本，觀測同時對同一個資料庫灌資料的影響
-  - 開到第 N 個 Python 實例，BATCH_SIZE 的提交速度開始變慢？
-  - 加入 OLAP 查詢時，production_records 的插入延遲是否翻倍？
-
-# OLAP 腳本: 產品生產排名 / 機台效率 / 每小時產量
-# 用 pgbench 執行 OLAP 查詢，同時啟動 OLTP 腳本，觀察 OLAP 查詢對 OLTP 的影響
-
-# 找瓶頸
-  - CPU  → query optimization
-  - IO   → table partition
-  - WAL  → async commit ( SET synchronous_commit = OFF; )
-    - Notice: if Generic (1000 inserts = 1000 commit = 1000 WAL flush)
-              if BATCH commit (1000 inserts = 1 commit = 1 WAL flush)
-  - Lock → query redesign
 ```
 
 <br>
 
 ### *D.　Simulation Data Volume*
 ```
-Products:            5
-Machines:            20
-Orders:              30
-Status logs:         ~5000+
-Production records:  500
-Machine events:      100
-
-
-# OLTP TPS
-OFF_PEAK : ~3/sec
-NORMAL   : ~10/sec
-PEAK     : ~25/sec
-
-
-# By Day
-| table               | rows/day |
-| ------------------- | -------- |
-| machine_status_logs | ~200k    |
-| production_records  | ~80k     |
-| machine_events      | ~10k     |
 ```
 
 <br>
 
-### *E.　Startup Simulate Script*
-- #### *1.　Go to Env*
-    ```
-    .\.venv\Scripts\activate
-    ```
-- #### *2.　Initialize Factory Data*
-    ```
-    python src/scripts/init_factory_data.py
-    ```
-- #### *3.　Simulate Factory Stream*
-    ```
-    python src/scripts/simulate_factory_stream.py
-    ```
-
-<br>
-
-### *F.　Benchmark*
+### *E.　Benchmark*
 
 <br><br><br>
