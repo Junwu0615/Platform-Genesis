@@ -75,11 +75,12 @@ gantt
 
 | _Area_ | _Documentation_ |
 |:--|:--|
-| _Deployment Delivery Baseline_ | [_PED-7_](./docs/Deployment-Delivery-Baseline.md) |
-| _Kubernetes Resiliency & Availability Validation_ | [_PED-8_](./docs/K8s-Resiliency-Availability-Validation.md) |
+| _⭐ Deployment Delivery Baseline_ | [_PED-7_](./docs/Deployment-Delivery-Baseline.md) |
+| _⭐ Kubernetes Resiliency & Availability Validation_ | [_PED-8_](./docs/K8s-Resiliency-Availability-Validation.md) |
 | _Observability Platform Validation_ | [_PED-9_](./docs/Observability-Platform-Validation.md) |
+| _Vault Secret<br>Management & Distribution_ | [_PED-10_](./docs/Vault.md) |
 | _End-to-End DevOps Operating Model_ | [_PED-11_](./docs/End-to-End-DevOps-Operating-Model.md) |
-| _GitOps Deployment Governance Validation_ | [_PED-12_](./docs/GitOps-Deployment-Governance-Validation.md) |
+| _⭐ GitOps Deployment Governance Validation_ | [_PED-12_](./docs/GitOps-Deployment-Governance-Validation.md) |
 | _Platform Evolution & Architecture Journey_ | [_Full Project History_](./docs/Platform-Evolution.md) |
 
 <br><br>
