@@ -44,9 +44,9 @@
 | 8. PED |  Kubernetes Resiliency & Availability Validation | 2026-06-16 |
 | 11. PED | End-to-End<br>DevOps Operating Model | 2026-06-17 |
 | 12. PED | GitOps Deployment Governance Validation | 2026-06-21|
-| Add `HashiCorp Vault` | Enterprise Key Management System | Expected in `202607` |
-| 10. PED | Vault Secret<br>Management & Distribution | Expected in `202607` |
-| 9. PED | Observability Platform Validation | Expected in `202607` |
+| Add `HashiCorp Vault` | Enterprise Key Management System | `202607` |
+| 10. PED | Vault Secret<br>Management & Distribution | `202607` |
+| 9. PED | Observability Platform Validation | `202607` |
 | Build `Lakehouse` | - | `TBD` |
 | 5. PED | Evolution of Core Data Architecture Business :<br>`Direct Read` vs. `MV` vs. `CDC` | `TBD` |
 | 4. PED | Query Efficiency Optimization<br>`Before` vs. `After` | `TBD` |
@@ -142,9 +142,9 @@
 | test `CI` | common tests scripts | 2026-05-18 |
 | build `CI` | - | 2026-05-19 |
 | deploy `CI` | - | 2026-05-20 |
-| DAG | init.py + create_topic.py | Expected in `202607` |
-| Python-Tempo Logic | - | Expected in `202607` |
-| Grafana Dashboard | `htap_grafana.json` | Expected in `202607` |
+| DAG | init.py + create_topic.py | `202607` |
+| Python-Tempo Logic | - | `202607` |
+| Grafana Dashboard | `htap_grafana.json` | `202607` |
 | Create MV | Materialized View | `TBD` |
 | Analytical Queries | - | `TBD` |
 | Security Message :<br>`Message Queue Layer` | Encryption ( `kafka` + `mqtt` ) | `TBD` |
@@ -195,7 +195,7 @@
 | VM | Ansible `Keepalived`<br>`VRRP 虛擬 IP ( VIP: 10.88.0.99 )` | 2026-06-16 |
 | VM | Ansible `Restructuring`  | 2026-06-21 |
 | VM | 預載資源避免 Ansible 卡死外網索取資源 | 2026-06-21 |
-| Add `HashiCorp Vault` | Enterprise Key Management System | Expected in `202607` |
+| Add `HashiCorp Vault` | Enterprise Key Management System | `202607` |
 | Add `Debezium` | Change Data Capture | `TBD` |
 | Add `Apache Iceberg` | Data Lake | `TBD` |
 | Add `Apache Flink` | Consumer of CDC | `TBD` |
@@ -270,7 +270,7 @@
 | GitOps | Experience : `無限套娃動態死鎖` | 2026-06-15 |
 | Kubernetes | Experience : Master Control Plane<br>`dqlite ( Distributed SQLite / Raft 共識協定 )` | 2026-06-16 |
 | Kubernetes + VM | Experience : Master Control Plane<br>`控制面組件租約選舉 ( Lease Re-election )` | 2026-06-17 |
-| GitOps | Build : `Security` `Vault` | Expected in `202607` |
+| GitOps | Build : `Security` `Vault` | `202607` |
 | GitOps | Maintain 2 repo ( `CI` + `CD` ) | `TBD` |
 
 </ul>
@@ -287,14 +287,14 @@
 | Database<br>Environment Benchmark | [PED-2](../docs/Database-Environment-Benchmark.md)　➔　`Docker Desktop` vs. `WSL2`<br>How does the runtime environment impact database performance and resource efficiency ? | 2026-04-04 |
 | OLTP-OLAP<br>Consolidation Strategy | [PED-3](../docs/OLTP-OLAP-Consolidation-Strategy.md)　➔　`HTAP` `CDC` `Schema Sync`<br>How can analytical workloads be consolidated while minimizing infrastructure cost ? | `TBD` |
 | Database Query<br>Performance Optimization | [PED-4](../docs/Database-Query-Performance-Optimization.md)　➔　`Execution Plan` `Index Strategy` `Latency`<br>How much performance improvement can be achieved through query optimization ? | `TBD` |
-| Evolution of Core<br>Data Architecture | [PED-5](../docs/Evolution-of-Core-Data-Architecture.md)　➔　`Decoupling` `Scalability` `Consistency`<br>How should data access architecture evolve as business scale and complexity increase ?<br><br>Direct Read, MV, and CDC evolution strategies. | `TBD` |
+| Evolution of Core<br>Data Architecture | [PED-5](../docs/Evolution-of-Core-Data-Architecture.md)　➔　`Decoupling` `Scalability` `Consistency`<br>How should data access architecture evolve as business scale and complexity increase ?<br><br>•　Direct Read, MV, and CDC evolution strategies. | `TBD` |
 | Application Workload<br>Performance Analysis | [PED-6](../docs/Application-Workload-Performance-Analysis.md)　➔　`Resource Quota` `Throughput` `Saturation`<br>How can observability data reveal performance bottlenecks and capacity limits ? | `TBD` |
-| Deployment Delivery Baseline | [PED-7](../docs/Deployment-Delivery-Baseline.md)　➔　`GitOps` `App-of-Apps` `Idempotency`<br>How does GitOps improve deployment efficiency and operational consistency ? | 2026-06-13 |
+| Deployment<br>Delivery Baseline | [PED-7](../docs/Deployment-Delivery-Baseline.md)　➔　`GitOps` `App-of-Apps` `Idempotency`<br>How does GitOps improve deployment efficiency and operational consistency ? | 2026-06-13 |
 | Kubernetes Resiliency<br>& Availability Validation |  [PED-8](../docs/K8s-Resiliency-Availability-Validation.md)　➔　`Fault Injection` `Control-Plane` `Self-Healing`<br>How resilient is Kubernetes under node, workload, network, and control-plane failures ? | 2026-06-16 |
-| Observability Platform Validation | [PED-9](../docs/Observability-Platform-Validation.md)　➔　`Logging` `Metrics` `Tracing` `Alert Manager`<br>How can metrics, logs, traces, and alerts accelerate operational visibility and troubleshooting ?<br><br>Accelerating operational visibility and troubleshooting. | Expected in `202607` |
-| Vault Secret<br>Management & Distribution | [PED-10](../docs/Vault.md)　➔　`Dynamic Secret` `Encryption` `Zero Trust`<br>How can secrets be managed, distributed, and rotated securely across Kubernetes workloads ? | Expected in `202607` |
+| Observability<br>Platform Validation | [PED-9](../docs/Observability-Platform-Validation.md)　➔　`Logging` `Metrics` `Tracing` `Alert Manager`<br>How can metrics, logs, traces, and alerts accelerate operational visibility and troubleshooting ?<br><br>•　Accelerating operational visibility and troubleshooting. | `202607` |
+| Vault Secret Management<br>& Distribution | [PED-10](../docs/Vault.md)　➔　`Dynamic Secret` `Encryption` `Zero Trust`<br>How can secrets be managed, distributed, and rotated securely across Kubernetes workloads ? | `202607` |
 | End-to-End<br>DevOps Operating Model | [PED-11](../docs/End-to-End-DevOps-Operating-Model.md)　➔　`PR` `Code Review` `TEST` `STAGE` `PROD`<br>How can development, delivery, operations, and recovery be integrated into a unified platform workflow ? | 2026-06-17 |
-| GitOps Deployment<br>Governance Validation  | [PED-12](../docs/GitOps-Deployment-Governance-Validation.md)　➔　`Drift Detection` `Policy-as-Code` `Traceability`<br>How can GitOps enforce deployment governance, drift control, and operational traceability ?<br><br>Enforcing governance and operational traceability. | 2026-06-21 |
+| GitOps Deployment<br>Governance Validation  | [PED-12](../docs/GitOps-Deployment-Governance-Validation.md)　➔　`Drift Detection` `Policy-as-Code` `Traceability`<br>How can GitOps enforce deployment governance, drift control, and operational traceability ?<br><br>•　Enforcing governance and operational traceability. | 2026-06-21 |
 
 </ul>
 </details>
