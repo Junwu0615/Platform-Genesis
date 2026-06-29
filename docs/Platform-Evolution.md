@@ -282,7 +282,7 @@
 <ul>
 
 |**Item**|**Description**|**Time**|
-|--:|:--|:- -:|
+|--:|:--|:--:|
 | DB Role-Based<br>Access Control | [PED-1](../docs/DB-RBAC.md)　➔　`RBAC` `IAM` `Least Privilege`<br>How can database access be governed securely across teams and environments ? | 2026-04-01 |
 | Database<br>Environment Benchmark | [PED-2](../docs/Database-Environment-Benchmark.md)　➔　`Docker Desktop` vs. `WSL2`<br>How does the runtime environment impact database performance and resource efficiency ? | 2026-04-04 |
 | OLTP-OLAP<br>Consolidation Strategy | [PED-3](../docs/OLTP-OLAP-Consolidation-Strategy.md)　➔　`HTAP` `CDC` `Schema Sync`<br>How can analytical workloads be consolidated while minimizing infrastructure cost ? | `TBD` |
