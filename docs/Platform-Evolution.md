@@ -284,7 +284,7 @@
 |**Item**|**Description**|**Time**|
 |--:|:--|:--:|
 | DB Role-Based<br>Access Control | [PED-1](../docs/DB-RBAC.md)　➔　`RBAC` `IAM` `Least Privilege`<br>How can database access be governed securely across teams<br>and environments ? | 2026-04-01 |
-| Database<br>Environment Benchmark | [PED-2](../docs/Database-Environment-Benchmark.md)　➔　`Docker Desktop` vs. `WSL2`<br>How does the runtime environment impact database performance<br>and resource efficiency ? | 2026-04-04 |
+| Database<br>Environment Benchmark | [PED-2](../docs/Database-Environment-Benchmark.md)　➔　`Docker Desktop` `WSL2` `Windows` `Linux`<br>How does the runtime environment impact database performance<br>and resource efficiency ? | 2026-04-04 |
 | OLTP-OLAP<br>Consolidation Strategy | [PED-3](../docs/OLTP-OLAP-Consolidation-Strategy.md)　➔　`HTAP` `CDC` `Schema Sync`<br>How can analytical workloads be consolidated while minimizing<br>infrastructure cost ? | `TBD` |
 | Database Query<br>Performance Optimization | [PED-4](../docs/Database-Query-Performance-Optimization.md)　➔　`Execution Plan` `Index Strategy` `Latency`<br>How much performance improvement can be achieved through<br>query optimization ? | `TBD` |
 | Evolution of Core<br>Data Architecture | [PED-5](../docs/Evolution-of-Core-Data-Architecture.md)　➔　`Decoupling` `Scalability` `Consistency`<br>How should data access architecture evolve as business scale<br>and complexity increase ?<br><br>•　Direct Read, MV, and CDC evolution strategies. | `TBD` |
