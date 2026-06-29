@@ -282,17 +282,17 @@
 <ul>
 
 |**Item**|**Description**|**Time**|
-|--:|:--|:--:|
-| DB Role-Based<br>Access Control | [PED-1](../docs/DB-RBAC.md)　➔　<br>How can database access be governed securely across teams and environments ? | 2026-04-01 |
+|--:|:--|:- -:|
+| DB Role-Based<br>Access Control | [PED-1](../docs/DB-RBAC.md)　➔　`RBAC` `IAM` `Least Privilege`<br>How can database access be governed securely across teams and environments ? | 2026-04-01 |
 | Database<br>Environment Benchmark | [PED-2](../docs/Database-Environment-Benchmark.md)　➔　`Docker Desktop` vs. `WSL2`<br>How does the runtime environment impact database performance and resource efficiency ? | 2026-04-04 |
-| OLTP-OLAP<br>Consolidation Strategy | [PED-3](../docs/OLTP-OLAP-Consolidation-Strategy.md)　➔　<br>How can analytical workloads be consolidated while minimizing infrastructure cost ? | `TBD` |
-| Database Query<br>Performance Optimization | [PED-4](../docs/Database-Query-Performance-Optimization.md)　➔　`Before` vs. `After`<br>How much performance improvement can be achieved through query optimization ? | `TBD` |
-| Evolution of Core<br>Data Architecture | [PED-5](../docs/Evolution-of-Core-Data-Architecture.md)　➔　`Direct Read` vs. `MV` vs. `CDC`<br>How should data access architecture evolve as business scale and complexity increase ? | `TBD` |
-| Application Workload<br>Performance Analysis | [PED-6](../docs/Application-Workload-Performance-Analysis.md)　➔　<br>How can observability data reveal performance bottlenecks and capacity limits ? | `TBD` |
-| Deployment Delivery Baseline | [PED-7](../docs/Deployment-Delivery-Baseline.md)　➔　<br>How does GitOps improve deployment efficiency and operational consistency ? | 2026-06-13 |
-| Kubernetes Resiliency<br>& Availability Validation |  [PED-8](../docs/K8s-Resiliency-Availability-Validation.md)　➔　<br>How resilient is Kubernetes under node, workload, network, and control-plane failures ? | 2026-06-16 |
+| OLTP-OLAP<br>Consolidation Strategy | [PED-3](../docs/OLTP-OLAP-Consolidation-Strategy.md)　➔　`HTAP` `CDC` `Schema Sync`<br>How can analytical workloads be consolidated while minimizing infrastructure cost ? | `TBD` |
+| Database Query<br>Performance Optimization | [PED-4](../docs/Database-Query-Performance-Optimization.md)　➔　`Execution Plan` `Index Strategy` `Latency`<br>How much performance improvement can be achieved through query optimization ? | `TBD` |
+| Evolution of Core<br>Data Architecture | [PED-5](../docs/Evolution-of-Core-Data-Architecture.md)　➔　`Decoupling` `Scalability Consistency`<br>`Direct Read vs. MV vs. CDC`<br>How should data access architecture evolve as business scale and complexity increase ? | `TBD` |
+| Application Workload<br>Performance Analysis | [PED-6](../docs/Application-Workload-Performance-Analysis.md)　➔　`Resource Quota` `Throughput` `Saturation`<br>How can observability data reveal performance bottlenecks and capacity limits ? | `TBD` |
+| Deployment Delivery Baseline | [PED-7](../docs/Deployment-Delivery-Baseline.md)　➔　`GitOps` `App-of-Apps` `Idempotency`<br>How does GitOps improve deployment efficiency and operational consistency ? | 2026-06-13 |
+| Kubernetes Resiliency<br>& Availability Validation |  [PED-8](../docs/K8s-Resiliency-Availability-Validation.md)　➔　`Fault Injection` `Control-Plane` `Self-Healing`<br>How resilient is Kubernetes under node, workload, network, and control-plane failures ? | 2026-06-16 |
 | Observability Platform Validation | [PED-9](../docs/Observability-Platform-Validation.md)　➔　`Logging` `Metrics` `Tracing` `Alert Manager`<br>How can metrics, logs, traces, and alerts accelerate operational visibility and troubleshooting ? | Expected in `202607` |
-| Vault Secret<br>Management & Distribution | [PED-10](../docs/Vault.md)　➔　<br>How can secrets be managed, distributed, and rotated securely across Kubernetes workloads ? | Expected in `202607` |
+| Vault Secret<br>Management & Distribution | [PED-10](../docs/Vault.md)　➔　`Dynamic Secret` `Encryption` `Zero Trust`<br>How can secrets be managed, distributed, and rotated securely across Kubernetes workloads ? | Expected in `202607` |
 | End-to-End<br>DevOps Operating Model | [PED-11](../docs/End-to-End-DevOps-Operating-Model.md)　➔　`PR` `Code Review` `TEST` `STAGE` `PROD`<br>How can development, delivery, operations, and recovery be integrated into a unified platform workflow ? | 2026-06-17 |
 | GitOps Deployment<br>Governance Validation  | [PED-12](../docs/GitOps-Deployment-Governance-Validation.md)　➔　<br>How can GitOps enforce deployment governance, drift control, and operational traceability ? | 2026-06-21 |
 
