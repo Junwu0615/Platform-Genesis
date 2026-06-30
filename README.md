@@ -2,7 +2,8 @@
 
 [//]: # (![PNG]&#40;./assets/png/roadmap_00.png&#41;)
 [//]: # (![PNG]&#40;./assets/png/roadmap_01.png&#41;)
-![PNG](./assets/png/roadmap_02.png)
+[//]: # (![PNG]&#40;./assets/png/roadmap_02.png&#41;)
+![PNG](./assets/png/roadmap_03.png)
 
 
 <br>

@@ -2,7 +2,8 @@
 
 [//]: # (![PNG]&#40;../assets/png/roadmap_00.png&#41;)
 [//]: # (![PNG]&#40;../assets/png/roadmap_01.png&#41;)
-![PNG](../assets/png/roadmap_02.png)
+[//]: # (![PNG]&#40;../assets/png/roadmap_02.png&#41;)
+![PNG](../assets/png/roadmap_03.png)
 
 <br>
 
@@ -80,6 +81,7 @@
 | Architecture Diagram | `VERSION 1.0` | 2026-05-16 |
 | Architecture Diagram | `VERSION 2.0` | 2026-06-14 |
 | Architecture Diagram | `VERSION 2.1` | 2026-06-22 |
+| Architecture Diagram | `VERSION 2.2` | 2026-06-30 |
 | Platform Genesis Sprint | `2026-03` to `2026-07` | 2026-07-XX |
 | Pause | After `2026-07` | 2026-07-XX |
 
