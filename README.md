@@ -5,6 +5,7 @@
 <br><br>
 
 ## *🚀　Key Achievements*
+> _Engineering outcomes delivered by **PG-Core**_
 
 - ### *Infrastructure Automation*
   * #### *Built Repeatable Infrastructure Provisioning Using Terraform and Ansible*
@@ -32,6 +33,7 @@
 <br><br>
 
 ## *📊　Selected Engineering Evidence*
+> _Engineering validation reports from **PG-Core**_
 
 | _Engineering Capability_ | _Type_ | _Documentation_ |
 |:--|:--|:--|
@@ -45,6 +47,7 @@
 <br><br>
 
 ## *🏗　Core Platform Capabilities*
+> _Implemented in **PG-Core**_
 
 | _Domain_ | _Capabilities_ |
 |:--|:--|
