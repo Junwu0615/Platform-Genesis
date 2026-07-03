@@ -104,11 +104,11 @@ gantt
 > *building from a solid Cloud Native foundation into an intelligent operational ecosystem.*
 
 | _Phase_ | _Module_ | _Status_ | _Theme_ | _Scope_ |
-|:--|:--|:--:|:--|:--|
+|--:|:--|:--:|:--|:--|
 | *1* | [*PG-Core*](https://github.com/Junwu0615/PG-Core) | In Progress | *Cloud Native Platform* | `Kubernetes` `GitOps` `Observability`<br>`Infrastructure as Code` `Secrets Management` |
-| *2* | [*PG-Synapse*](https://github.com/Junwu0615/PG-Synapse) | Future Work | *Data Platform* | `Airflow` `Kafka` `CDC` `Iceberg` `Lakehouse` |
-| *3* | [*PG-Cortex*](https://github.com/Junwu0615/PG-Cortex) | Future Work |  *AI Platform* | `MLflow` `Kubeflow` `Ray` `LLMOps` `Model Serving` |
-| *4* | [*PG-Sentinel*](https://github.com/Junwu0615/PG-Sentinel) | Future Work |  *Intelligent Operations Platform*| `AIOps` `Chaos Engineering` `Reliability`<br>`Auto Remediation` |
+| *2* | [*PG-Synapse*](https://github.com/Junwu0615/PG-Synapse) | Future Work | *Data Platform* | `Airflow` `Kafka` `CDC`<br>`Iceberg` `Lakehouse` |
+| *3* | [*PG-Cortex*](https://github.com/Junwu0615/PG-Cortex) | Future Work |  *AI Platform* | `MLflow` `Kubeflow` `Ray`<br>`LLMOps` `Model Serving` |
+| *4* | [*PG-Sentinel*](https://github.com/Junwu0615/PG-Sentinel) | Future Work |  *Intelligent Operations Platform*| `AIOps` `Chaos Engineering`<br>`Reliability`<br>`Auto Remediation` |
 
 <br><br>
 
