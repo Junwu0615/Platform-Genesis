@@ -99,7 +99,20 @@ gantt
 
 <br><br>
 
-## *📁　Repository Structure*
+## *🌌　Platform Genesis Universe*
+> *The Evolution of Platform Engineering Platform Genesis is a multi-phased engineering journey,* 
+> *building from a solid Cloud Native foundation into an intelligent operational ecosystem.*
+
+| _Phase_ | _Module_ | _Theme_ | _Scope_ |
+|:--|:--|:--|:--|
+| Phase 1 | [*PG-Core*](https://github.com/Junwu0615/PG-Core) | *Cloud Native Platform* | `Kubernetes` `GitOps` `Observability`<br>`Infrastructure as Code` `Secrets Management` |
+| Phase 2 | [*PG-Synapse*](https://github.com/Junwu0615/PG-Synapse) | *Data Platform* | `Airflow` `Kafka` `CDC` `Iceberg` `Lakehouse` |
+| Phase 3 | [*PG-Cortex*](https://github.com/Junwu0615/PG-Cortex) | *AI Platform* | `MLflow` `Kubeflow` `Ray` `LLMOps` `Model Serving` |
+| Phase 4 | [*PG-Sentinel*](https://github.com/Junwu0615/PG-Sentinel) | *Intelligent Operations Platform*| `AIOps` `Chaos Engineering` `Reliability`<br>`Auto Remediation` |
+
+<br><br>
+
+## *📁　Platform Genesis Repository*
 
 | _Repository_ | _Purpose_ |
 |:--|:--|
@@ -109,7 +122,6 @@ gantt
 | [*PG-Edge-Container*](https://github.com/Junwu0615/PG-Edge-Container) |  *Edge Runtime Deployment* |
 | [*PG-Airflow-DAGs*](https://github.com/Junwu0615/PG-Airflow-DAGs) |  *Data Orchestration Workflows* |
 
-
 <br><br>
 
 ## *⚖️　Engineering Philosophy*
@@ -118,16 +130,6 @@ gantt
 > *•　Building an operationally sustainable platform is significantly harder.*
 >
 > *•　Platform Genesis focuses on integrating infrastructure automation, Kubernetes operations, GitOps workflows, observability, governance, and reliability validation into a cohesive engineering system.*
-
-<br><br>
-
-## *🌌　Platform Genesis Universe*
-| _Module_ | _Theme_ | _Scope_ |
-|:--|:--|:--|
-| [*PG Core*](https://github.com/Junwu0615/Platform-Genesis) | `v1.0` *Cloud Native Platform* | `Kubernetes` `GitOps` `Observability`<br>`Infrastructure as Code` `Secrets Management` |
-| [*PG Synapse*](https://github.com/Junwu0615/PG-Synapse) | `v2.0` *Data Platform* | `Airflow` `Kafka` `CDC` `Iceberg` `Lakehouse` |
-| [*PG Cortex*](https://github.com/Junwu0615/PG-Cortex) | `v3.0` *AI Platform* | `MLflow` `Kubeflow` `Ray` `LLMOps` `Model Serving` |
-| [*PG Sentinel*](https://github.com/Junwu0615/PG-Sentinel) | `v4.0` *Intelligent Operations Platform*| `AIOps` `Chaos Engineering` `Reliability`<br>`Auto Remediation` |
 
 <br><br>
 
