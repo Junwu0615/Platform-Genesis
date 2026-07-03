@@ -82,7 +82,6 @@ gantt
 | _Vault Secret Management & Distribution_ | [_PED-10_](./docs/Vault.md) |
 | _End-to-End DevOps Operating Model_ | [_PED-11_](./docs/End-to-End-DevOps-Operating-Model.md) |
 | _⭐ GitOps Deployment Governance Validation_ | [_PED-12_](./docs/GitOps-Deployment-Governance-Validation.md) |
-| _Platform Evolution & Architecture Journey_ | [_Full Project History_](./docs/Platform-Evolution.md) |
 
 <br><br>
 
@@ -113,16 +112,6 @@ gantt
 
 <br><br>
 
-## *🌌　Platform Genesis Universe*
-| _Module_ | _Theme_ | _Scope_ |
-|:--|:--|:--|
-| [*PG-Core*](https://github.com/Junwu0615/Platform-Genesis) | `v1.0` *Cloud Native Platform* | `Kubernetes` `GitOps` `Observability`<br>`Infrastructure as Code` `Secrets Management` |
-| [*PG-Synapse*](https://github.com/Junwu0615/PG-Synapse) | `v2.0` *Data Platform* | `Airflow` `Kafka` `CDC` `Iceberg` `Lakehouse` |
-| [*PG-Cortex*](https://github.com/Junwu0615/PG-Cortex) | `v3.0` *AI Platform* | `MLflow` `Kubeflow` `Ray` `LLMOps` `Model Serving` |
-| [*PG-Sentinel*](https://github.com/Junwu0615/PG-Sentinel) | `v4.0` *Intelligent Operations Platform*| `AIOps` `Chaos Engineering` `Reliability`<br>`Auto Remediation` |
-
-<br><br>
-
 ## *⚖️　Engineering Philosophy*
 > *•　Building individual technologies is relatively straightforward.*
 >
@@ -134,11 +123,15 @@ gantt
 
 ## *📚　Further Reading*
 
-> *⛏　Platform Genesis v1.0　[ Platform Foundation Release • Status: In Progress ]*
->
-> *🚀　Platform Genesis v2.0　[ Data Platform & Data Platform Extension • Status: Future Work ]*
-> 
-> *🛎️️　[Platform Evolution & Full Project History](./docs/Platform-Evolution.md)*
+### *🌌　Platform Genesis Universe*
+| _Module_ | _Theme_ | _Scope_ |
+|:--|:--|:--|
+| [*PG-Core*](https://github.com/Junwu0615/Platform-Genesis) | `v1.0` *Cloud Native Platform* | `Kubernetes` `GitOps` `Observability`<br>`Infrastructure as Code` `Secrets Management` |
+| [*PG-Synapse*](https://github.com/Junwu0615/PG-Synapse) | `v2.0` *Data Platform* | `Airflow` `Kafka` `CDC` `Iceberg` `Lakehouse` |
+| [*PG-Cortex*](https://github.com/Junwu0615/PG-Cortex) | `v3.0` *AI Platform* | `MLflow` `Kubeflow` `Ray` `LLMOps` `Model Serving` |
+| [*PG-Sentinel*](https://github.com/Junwu0615/PG-Sentinel) | `v4.0` *Intelligent Operations Platform*| `AIOps` `Chaos Engineering` `Reliability`<br>`Auto Remediation` |
+
+> *🛎️️　[Platform Evolution & Architecture Journey](./docs/Platform-Evolution.md)*
 
 [//]: # (> *⛏　Platform Genesis v1.0　[ Platform Foundation Release　•　Status: Feature Completed Jul 2026 ]*)
 
