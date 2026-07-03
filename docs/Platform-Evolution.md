@@ -70,7 +70,7 @@
 <ul>
 
 |**Item**|**Description**|**Time**|
-|--:|:--|:- -:|
+|--:|:--|:--:|
 | Create Project | - | 2026-03-20 |
 | Define Process | - | 2026-03-20 |
 | Define Event Story | - | 2026-03-21 |

@@ -116,10 +116,10 @@ gantt
 ## *🌌　Platform Genesis Universe*
 | _Module_ | _Theme_ | _Scope_ |
 |:--|:--|:--|
-| [*PG-Core*](https://github.com/Junwu0615/https://github.com/Junwu0615/Platform-Genesis) | `v1.0` *Cloud Native Platform* | `Kubernetes` `GitOps` `Infrastructure as Code` `Observability` `Secrets Management` |
+| [*PG-Core*](https://github.com/Junwu0615/https://github.com/Junwu0615/Platform-Genesis) | `v1.0` *Cloud Native Platform* | `Kubernetes` `GitOps` `Observability`<br>`Infrastructure as Code` `Secrets Management` |
 | [*PG-Synapse*](https://github.com/Junwu0615/PG-Synapse) | `v2.0` *Data Platform* | `Airflow` `Kafka` `CDC` `Iceberg` `Lakehouse` |
 | [*PG-Cortex*](https://github.com/Junwu0615/PG-Cortex) | `v3.0` *AI Platform* | `MLflow` `Kubeflow` `Ray` `LLMOps` `Model Serving` |
-| [*PG-Sentinel*](https://github.com/Junwu0615/PG-Sentinel) | `v4.0` *Intelligent Operations Platform*| `AIOps` `Chaos Engineering` `Reliability` `Auto Remediation` |
+| [*PG-Sentinel*](https://github.com/Junwu0615/PG-Sentinel) | `v4.0` *Intelligent Operations Platform*| `AIOps` `Chaos Engineering` `Reliability`<br>`Auto Remediation` |
 
 <br><br>
 
