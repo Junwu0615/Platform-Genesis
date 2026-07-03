@@ -64,11 +64,11 @@
 
 | _Module_ | _Status_ | _Theme_ | _Scope_ |
 |--|:--|:--|:--|
-| [*PG-Core*](https://github.com/Junwu0615/PG-Core) ⭐ | *⛏　In Progress* | *Cloud Native Platform* | `Kubernetes` `GitOps` `Observability`<br>`Infrastructure as Code` `Secrets Management` |
-| [*PG-Synapse*](https://github.com/Junwu0615/PG-Synapse) | *🚝　Future Work* | *Data Platform* | `Airflow` `Kafka` `CDC`<br>`Iceberg` `Lakehouse` |
-| [*PG-Cortex*](https://github.com/Junwu0615/PG-Cortex) | *🌐　Future Work* | *AI Platform* | `MLflow` `Kubeflow` `Ray`<br>`LLMOps` `Model Serving` |
-| [*PG-Sentinel*](https://github.com/Junwu0615/PG-Sentinel) | *🚀　Future Work* | *Intelligent<br>Operations Platform* | `AIOps` `Chaos Engineering`<br>`Reliability`<br>`Auto Remediation` |
-| [*PG-Analytics*](https://github.com/Junwu0615/PG-Analytics) ⭐ | *📊　Hot Update* | - | - |
+| ⭐ *PG-Core* | *⛏　[In Progress](https://github.com/Junwu0615/PG-Core)* | *Cloud Native Platform* | `Kubernetes` `GitOps` `Observability`<br>`Infrastructure as Code` `Secrets Management` |
+| *PG-Synapse* | *🚝　[Future Work](https://github.com/Junwu0615/PG-Synapse)* | *Data Platform* | `Airflow` `Kafka` `CDC`<br>`Iceberg` `Lakehouse` |
+| *PG-Cortex* | *🌐　[Future Work](https://github.com/Junwu0615/PG-Cortex)* | *AI Platform* | `MLflow` `Kubeflow` `Ray`<br>`LLMOps` `Model Serving` |
+| *PG-Sentinel* | *🚀　[Future Work](https://github.com/Junwu0615/PG-Sentinel)* | *Intelligent<br>Operations Platform* | `AIOps` `Chaos Engineering`<br>`Reliability`<br>`Auto Remediation` |
+| ⭐ *PG-Analytics* | *📊　[Hot Update](https://github.com/Junwu0615/PG-Analytics)* | - | - |
 
 <br><br>
 
