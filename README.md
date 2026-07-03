@@ -121,9 +121,7 @@ gantt
 
 <br><br>
 
-## *📚　Further Reading*
-
-### *🌌　Platform Genesis Universe*
+## *🌌　Platform Genesis Universe*
 | _Module_ | _Theme_ | _Scope_ |
 |:--|:--|:--|
 | [*PG-Core*](https://github.com/Junwu0615/Platform-Genesis) | `v1.0` *Cloud Native Platform* | `Kubernetes` `GitOps` `Observability`<br>`Infrastructure as Code` `Secrets Management` |
@@ -131,9 +129,9 @@ gantt
 | [*PG-Cortex*](https://github.com/Junwu0615/PG-Cortex) | `v3.0` *AI Platform* | `MLflow` `Kubeflow` `Ray` `LLMOps` `Model Serving` |
 | [*PG-Sentinel*](https://github.com/Junwu0615/PG-Sentinel) | `v4.0` *Intelligent Operations Platform*| `AIOps` `Chaos Engineering` `Reliability`<br>`Auto Remediation` |
 
+<br><br>
+
+## *📚　Further Reading*
 > *🛎️️　[Platform Evolution & Architecture Journey](./docs/Platform-Evolution.md)*
-
-[//]: # (> *⛏　Platform Genesis v1.0　[ Platform Foundation Release　•　Status: Feature Completed Jul 2026 ]*)
-
 
 <br><br><br>
