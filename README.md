@@ -36,7 +36,7 @@ gantt
     Resume & Job Search                         :milestone, a7, 2026-07, 1d
 
     section Future
-    Data Platform Extension                                   :crit, a8, 2026-08, 1M
+    PG Synapse                                   :crit, a8, 2026-08, 1M
 ```
 
 > ##### *•　Self-built platform engineering environment focused on infrastructure automation, Kubernetes operations, GitOps delivery, observability, and reliability engineering.*
@@ -74,14 +74,14 @@ gantt
 
 ## *📊　Selected Engineering Evidence*
 
-| _Area_ | _Documentation_ |
-|:--|:--|
-| _⭐ Deployment Delivery Baseline_ | [_PED-7_](./docs/Deployment-Delivery-Baseline.md) |
-| _⭐ Kubernetes Resiliency & Availability Validation_ | [_PED-8_](./docs/K8s-Resiliency-Availability-Validation.md) |
-| _Observability Platform Validation_ | [_PED-9_](./docs/Observability-Platform-Validation.md) |
-| _Vault Secret Management & Distribution_ | [_PED-10_](./docs/Vault.md) |
-| _End-to-End DevOps Operating Model_ | [_PED-11_](./docs/End-to-End-DevOps-Operating-Model.md) |
-| _⭐ GitOps Deployment Governance Validation_ | [_PED-12_](./docs/GitOps-Deployment-Governance-Validation.md) |
+| _Engineering Capability_ | _Type_ | _Documentation_ |
+|:--|:--|:--|
+| _⭐ Platform Delivery_ | `Platform Core` | [_PED-7_](./docs/Deployment-Delivery-Baseline.md) |
+| _⭐ Platform Reliability_ | `Platform Core` | [_PED-8_](./docs/K8s-Resiliency-Availability-Validation.md) |
+| _Platform Observability_ | `Platform Service` | [_PED-9_](./docs/Observability-Platform-Validation.md) |
+| _Platform Security_ | `Platform Service` | [_PED-10_](./docs/Vault.md) |
+| _Platform Operations_ | `Platform Integration` | [_PED-11_](./docs/End-to-End-DevOps-Operating-Model.md) |
+| _⭐ Platform Governance_ | `Platform Core` | [_PED-12_](./docs/GitOps-Deployment-Governance-Validation.md) |
 
 <br><br>
 

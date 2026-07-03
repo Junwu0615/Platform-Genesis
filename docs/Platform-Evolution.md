@@ -151,6 +151,9 @@
 | DAG | init.py + create_topic.py | `202607` |
 | Python-Tempo Logic | - | `202607` |
 | Grafana Dashboard | `htap_grafana.json` | `202607` |
+| `TTD` + `DDT` | `Pytest` `Mocking` `Integration Testing` | `TBD` |
+| `shared` logging | 日誌渲染更新 `rich` | `TBD` |
+| `shared` packages | 腳本頂部路徑初始化封裝 | `TBD` |
 | Create MV | Materialized View | `TBD` |
 | Analytical Queries | - | `TBD` |
 | Security Message :<br>`Message Queue Layer` | Encryption ( `kafka` + `mqtt` ) | `TBD` |
@@ -858,7 +861,7 @@ tree -I 'venv|.git|__pycache__|docs|logs|assets|kafka_data|charts'
 
 <br><br>
 
-## *D.　Platform Genesis Universe*
+### *D.　Platform Genesis Universe*
 
 > *⛏　PG Core v1.0　[ Cloud Native Platform • Status: In Progress ]*
 >
@@ -945,7 +948,7 @@ gantt
     Resume & Job Search                         :milestone, a7, 2026-07, 1d
 
     section Future
-    Data Platform Extension                     :crit, a8, 2026-08, 1M
+    PG Synapse                     :crit, a8, 2026-08, 1M
 ```
 
 > ##### *•　Self-built platform engineering environment focused on infrastructure automation, Kubernetes operations, GitOps delivery, observability, and reliability engineering.*
