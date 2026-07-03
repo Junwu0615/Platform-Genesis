@@ -5,7 +5,7 @@
 <br><br>
 
 ## *🚀　Key Achievements*
-> _Engineering outcomes delivered by **PG-Core**_
+> _Presented by **PG-Core ( v1.0 )**_
 
 - ### *Infrastructure Automation*
   * #### *Built Repeatable Infrastructure Provisioning Using Terraform and Ansible*
@@ -33,7 +33,7 @@
 <br><br>
 
 ## *📊　Selected Engineering Evidence*
-> _Engineering validation reports from **PG-Core**_
+> _Presented by **PG-Core ( v1.0 )**_
 
 | _Engineering Capability_ | _Type_ | _Documentation_ |
 |:--|:--|:--|
@@ -47,7 +47,7 @@
 <br><br>
 
 ## *🏗　Core Platform Capabilities*
-> _Implemented in **PG-Core**_
+> _Presented by **PG-Core ( v1.0 )**_
 
 | _Domain_ | _Capabilities_ |
 |:--|:--|
@@ -67,11 +67,11 @@
 > _toward Data Engineering, AI Engineering, and Autonomous Operations._
 
 | _Module_ | _Status_ | _Theme_ | _Scope_ |
-|--|:--|:--|:--|
-| ⭐ *PG-Core* | *⛏　[In Progress](https://github.com/Junwu0615/PG-Core)* | *Cloud Native Platform* | `Kubernetes` `GitOps` `Observability`<br>`Infrastructure as Code` `Secrets Management` |
-| *PG-Synapse* | *🚝　[Future Work](https://github.com/Junwu0615/PG-Synapse)* | *Data Platform* | `Airflow` `Kafka` `CDC`<br>`Iceberg` `Lakehouse` |
-| *PG-Cortex* | *🌐　[Future Work](https://github.com/Junwu0615/PG-Cortex)* | *AI Platform* | `MLflow` `Kubeflow` `Ray`<br>`LLMOps` `Model Serving` |
-| *PG-Sentinel* | *🚀　[Future Work](https://github.com/Junwu0615/PG-Sentinel)* | *Intelligent<br>Operations Platform* | `AIOps` `Chaos Engineering`<br>`Reliability`<br>`Auto Remediation` |
+|--|:--:|:--|:--|
+| ⭐ *PG-Core* | *⛏　[In Progress<br>( v1.0 )](https://github.com/Junwu0615/PG-Core)* | *Cloud Native Platform* | `Kubernetes` `GitOps` `Observability`<br>`Infrastructure as Code` `Secrets Management` |
+| *PG-Synapse* | *🚝　[Future Work<br>( v2.0 )](https://github.com/Junwu0615/PG-Synapse)* | *Data Platform* | `Airflow` `Kafka` `CDC`<br>`Iceberg` `Lakehouse` |
+| *PG-Cortex* | *🌐　[Future Work<br>( v3.0 )](https://github.com/Junwu0615/PG-Cortex)* | *AI Platform* | `MLflow` `Kubeflow` `Ray`<br>`LLMOps` `Model Serving` |
+| *PG-Sentinel* | *🚀　[Future Work<br>( v4.0 )](https://github.com/Junwu0615/PG-Sentinel)* | *Intelligent<br>Operations Platform* | `AIOps` `Chaos Engineering`<br>`Reliability`<br>`Auto Remediation` |
 | ⭐ *PG-Analytics* | *📊　[Hot Update](https://github.com/Junwu0615/PG-Analytics)* | *Repository Analytics* | `GitHub Traffic` `Repository Metrics`<br>`Growth Trend` `Historical Statistics` |
 
 <br><br>
