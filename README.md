@@ -103,12 +103,12 @@ gantt
 > *The Evolution of Platform Engineering Platform Genesis is a multi-phased engineering journey,* 
 > *building from a solid Cloud Native foundation into an intelligent operational ecosystem.*
 
-| _Phase_ | _Module_ | _Theme_ | _Scope_ |
-|:--|:--|:--|:--|
-| *Phase 1* | [*PG-Core*](https://github.com/Junwu0615/PG-Core) | *Cloud Native Platform* | `Kubernetes` `GitOps` `Observability`<br>`Infrastructure as Code` `Secrets Management` |
-| *Phase 2* | [*PG-Synapse*](https://github.com/Junwu0615/PG-Synapse) | *Data Platform* | `Airflow` `Kafka` `CDC` `Iceberg` `Lakehouse` |
-| *Phase 3* | [*PG-Cortex*](https://github.com/Junwu0615/PG-Cortex) | *AI Platform* | `MLflow` `Kubeflow` `Ray` `LLMOps` `Model Serving` |
-| *Phase 4* | [*PG-Sentinel*](https://github.com/Junwu0615/PG-Sentinel) | *Intelligent Operations Platform*| `AIOps` `Chaos Engineering` `Reliability`<br>`Auto Remediation` |
+| _Phase_ | _Module_ | _Status_ | _Theme_ | _Scope_ |
+|:--|:--|:--:|:--|:--|
+| *Phase 1* | [*PG-Core*](https://github.com/Junwu0615/PG-Core) | In Progress | *Cloud Native Platform* | `Kubernetes` `GitOps` `Observability`<br>`Infrastructure as Code` `Secrets Management` |
+| *Phase 2* | [*PG-Synapse*](https://github.com/Junwu0615/PG-Synapse) | Future Work | *Data Platform* | `Airflow` `Kafka` `CDC` `Iceberg` `Lakehouse` |
+| *Phase 3* | [*PG-Cortex*](https://github.com/Junwu0615/PG-Cortex) | Future Work |  *AI Platform* | `MLflow` `Kubeflow` `Ray` `LLMOps` `Model Serving` |
+| *Phase 4* | [*PG-Sentinel*](https://github.com/Junwu0615/PG-Sentinel) | Future Work |  *Intelligent Operations Platform*| `AIOps` `Chaos Engineering` `Reliability`<br>`Auto Remediation` |
 
 <br><br>
 
@@ -134,6 +134,6 @@ gantt
 <br><br>
 
 ## *📚　Further Reading*
-> *🛎️️　[Platform Evolution & Architecture Journey v1.0](https://github.com/Junwu0615/PG-Core)*
+> *🛎️️　[Platform Evolution & Architecture Journey　|　Phase 1](https://github.com/Junwu0615/PG-Core)*
 
 <br><br><br>
