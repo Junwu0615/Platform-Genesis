@@ -105,10 +105,10 @@ gantt
 
 | _Phase_ | _Module_ | _Theme_ | _Scope_ |
 |:--|:--|:--|:--|
-| Phase 1 | [*PG-Core*](https://github.com/Junwu0615/PG-Core) | *Cloud Native Platform* | `Kubernetes` `GitOps` `Observability`<br>`Infrastructure as Code` `Secrets Management` |
-| Phase 2 | [*PG-Synapse*](https://github.com/Junwu0615/PG-Synapse) | *Data Platform* | `Airflow` `Kafka` `CDC` `Iceberg` `Lakehouse` |
-| Phase 3 | [*PG-Cortex*](https://github.com/Junwu0615/PG-Cortex) | *AI Platform* | `MLflow` `Kubeflow` `Ray` `LLMOps` `Model Serving` |
-| Phase 4 | [*PG-Sentinel*](https://github.com/Junwu0615/PG-Sentinel) | *Intelligent Operations Platform*| `AIOps` `Chaos Engineering` `Reliability`<br>`Auto Remediation` |
+| *Phase 1* | [*PG-Core*](https://github.com/Junwu0615/PG-Core) | *Cloud Native Platform* | `Kubernetes` `GitOps` `Observability`<br>`Infrastructure as Code` `Secrets Management` |
+| *Phase 2* | [*PG-Synapse*](https://github.com/Junwu0615/PG-Synapse) | *Data Platform* | `Airflow` `Kafka` `CDC` `Iceberg` `Lakehouse` |
+| *Phase 3* | [*PG-Cortex*](https://github.com/Junwu0615/PG-Cortex) | *AI Platform* | `MLflow` `Kubeflow` `Ray` `LLMOps` `Model Serving` |
+| *Phase 4* | [*PG-Sentinel*](https://github.com/Junwu0615/PG-Sentinel) | *Intelligent Operations Platform*| `AIOps` `Chaos Engineering` `Reliability`<br>`Auto Remediation` |
 
 <br><br>
 
@@ -134,6 +134,6 @@ gantt
 <br><br>
 
 ## *📚　Further Reading*
-> *🛎️️　[Platform Evolution & Architecture Journey](./docs/Platform-Evolution.md)*
+> *🛎️️　[Platform Evolution & Architecture Journey v1.0](https://github.com/Junwu0615/PG-Core)*
 
 <br><br><br>
