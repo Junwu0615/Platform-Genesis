@@ -105,10 +105,10 @@ gantt
 
 | _Phase_ | _Module_ | _Status_ | _Theme_ | _Scope_ |
 |:--|:--|:--:|:--|:--|
-| *Phase 1* | [*PG-Core*](https://github.com/Junwu0615/PG-Core) | In Progress | *Cloud Native Platform* | `Kubernetes` `GitOps` `Observability`<br>`Infrastructure as Code` `Secrets Management` |
-| *Phase 2* | [*PG-Synapse*](https://github.com/Junwu0615/PG-Synapse) | Future Work | *Data Platform* | `Airflow` `Kafka` `CDC` `Iceberg` `Lakehouse` |
-| *Phase 3* | [*PG-Cortex*](https://github.com/Junwu0615/PG-Cortex) | Future Work |  *AI Platform* | `MLflow` `Kubeflow` `Ray` `LLMOps` `Model Serving` |
-| *Phase 4* | [*PG-Sentinel*](https://github.com/Junwu0615/PG-Sentinel) | Future Work |  *Intelligent Operations Platform*| `AIOps` `Chaos Engineering` `Reliability`<br>`Auto Remediation` |
+| *1* | [*PG-Core*](https://github.com/Junwu0615/PG-Core) | In Progress | *Cloud Native Platform* | `Kubernetes` `GitOps` `Observability`<br>`Infrastructure as Code` `Secrets Management` |
+| *2* | [*PG-Synapse*](https://github.com/Junwu0615/PG-Synapse) | Future Work | *Data Platform* | `Airflow` `Kafka` `CDC` `Iceberg` `Lakehouse` |
+| *3* | [*PG-Cortex*](https://github.com/Junwu0615/PG-Cortex) | Future Work |  *AI Platform* | `MLflow` `Kubeflow` `Ray` `LLMOps` `Model Serving` |
+| *4* | [*PG-Sentinel*](https://github.com/Junwu0615/PG-Sentinel) | Future Work |  *Intelligent Operations Platform*| `AIOps` `Chaos Engineering` `Reliability`<br>`Auto Remediation` |
 
 <br><br>
 
@@ -130,10 +130,5 @@ gantt
 > *•　Building an operationally sustainable platform is significantly harder.*
 >
 > *•　Platform Genesis focuses on integrating infrastructure automation, Kubernetes operations, GitOps workflows, observability, governance, and reliability validation into a cohesive engineering system.*
-
-<br><br>
-
-## *📚　Further Reading*
-> *🛎️️　[Platform Evolution & Architecture Journey　|　Phase 1](https://github.com/Junwu0615/PG-Core)*
 
 <br><br><br>
