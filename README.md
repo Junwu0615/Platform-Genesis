@@ -1,43 +1,8 @@
 ## *⭐ Platform Genesis ⭐*
 
-[//]: # (![PNG]&#40;./assets/png/roadmap_00.png&#41;)
-[//]: # (![PNG]&#40;./assets/png/roadmap_01.png&#41;)
-[//]: # (![PNG]&#40;./assets/png/roadmap_02.png&#41;)
 ![PNG](./assets/png/roadmap_03.png)
 
-
 <br>
-
-> ##### *Platform Engineering Learning Sprint ( Mar 2026 – Present )*
-
-```mermaid
-gantt
-    dateFormat YYYY-MM
-
-    section Phase 1
-    OLTP-OLAP Consolidation Strategy            :done, a1, 2026-03, 1M
-
-    section Phase 2
-    Technology Exploration                      :done, a2, 2026-03, 2M
-
-    section Phase 3
-    Construction Logic & Standardization        :done, a3, 2026-03, 2M
-
-    section Phase 4
-    Kubernetes & GitOps                         :done, a4, 2026-05, 2M
-
-    section Phase 5
-    HA & DR & Validation                        :active, a5, 2026-06, 2M
-
-    section Phase 6
-    Lessons Learned & Scope Control             :active, a6, 2026-06, 2M
-
-    section Phase 7
-    Resume & Job Search                         :milestone, a7, 2026-07, 1d
-
-    section Future
-    PG Synapse                                   :crit, a8, 2026-08, 1M
-```
 
 > ##### *•　Self-built platform engineering environment focused on infrastructure automation, Kubernetes operations, GitOps delivery, observability, and reliability engineering.*
 >
@@ -103,12 +68,12 @@ gantt
 > *The Evolution of Platform Engineering Platform Genesis is a multi-phased engineering journey,* 
 > *building from a solid Cloud Native foundation into an intelligent operational ecosystem.*
 
-| _Phase_ | _Module_ | _Status_ | _Theme_ | _Scope_ |
-|--:|:--|:--:|:--|:--|
-| *1* | [*PG-Core*](https://github.com/Junwu0615/PG-Core) | In Progress | *Cloud Native Platform* | `Kubernetes` `GitOps` `Observability`<br>`Infrastructure as Code` `Secrets Management` |
-| *2* | [*PG-Synapse*](https://github.com/Junwu0615/PG-Synapse) | Future Work | *Data Platform* | `Airflow` `Kafka` `CDC`<br>`Iceberg` `Lakehouse` |
-| *3* | [*PG-Cortex*](https://github.com/Junwu0615/PG-Cortex) | Future Work |  *AI Platform* | `MLflow` `Kubeflow` `Ray`<br>`LLMOps` `Model Serving` |
-| *4* | [*PG-Sentinel*](https://github.com/Junwu0615/PG-Sentinel) | Future Work |  *Intelligent Operations Platform*| `AIOps` `Chaos Engineering`<br>`Reliability`<br>`Auto Remediation` |
+| _Module_ | _Status_ | _Theme_ | _Scope_ |
+|:--|:--:|:--|:--|
+| [*PG-Core*](https://github.com/Junwu0615/PG-Core) | In Progress | *Cloud Native Platform* | `Kubernetes` `GitOps` `Observability`<br>`Infrastructure as Code` `Secrets Management` |
+| [*PG-Synapse*](https://github.com/Junwu0615/PG-Synapse) | Future Work | *Data Platform* | `Airflow` `Kafka` `CDC`<br>`Iceberg` `Lakehouse` |
+| [*PG-Cortex*](https://github.com/Junwu0615/PG-Cortex) | Future Work |  *AI Platform* | `MLflow` `Kubeflow` `Ray`<br>`LLMOps` `Model Serving` |
+| [*PG-Sentinel*](https://github.com/Junwu0615/PG-Sentinel) | Future Work |  *Intelligent Operations Platform*| `AIOps` `Chaos Engineering`<br>`Reliability`<br>`Auto Remediation` |
 
 <br><br>
 
