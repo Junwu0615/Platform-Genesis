@@ -59,8 +59,9 @@
 <br><br>
 
 ## *🌌　Platform Genesis Universe*
-> *The Evolution of Platform Engineering Platform Genesis is a multi-phased engineering journey,* 
-> *building from a solid Cloud Native foundation into an intelligent operational ecosystem.*
+> _Platform Genesis is an engineering ecosystem composed of multiple_
+> _platform modules, each extending the Cloud Native foundation_
+> _toward Data Engineering, AI Engineering, and Autonomous Operations._
 
 | _Module_ | _Status_ | _Theme_ | _Scope_ |
 |--|:--|:--|:--|
@@ -68,11 +69,14 @@
 | *PG-Synapse* | *🚝　[Future Work](https://github.com/Junwu0615/PG-Synapse)* | *Data Platform* | `Airflow` `Kafka` `CDC`<br>`Iceberg` `Lakehouse` |
 | *PG-Cortex* | *🌐　[Future Work](https://github.com/Junwu0615/PG-Cortex)* | *AI Platform* | `MLflow` `Kubeflow` `Ray`<br>`LLMOps` `Model Serving` |
 | *PG-Sentinel* | *🚀　[Future Work](https://github.com/Junwu0615/PG-Sentinel)* | *Intelligent<br>Operations Platform* | `AIOps` `Chaos Engineering`<br>`Reliability`<br>`Auto Remediation` |
-| ⭐ *PG-Analytics* | *📊　[Hot Update](https://github.com/Junwu0615/PG-Analytics)* | - | - |
+| ⭐ *PG-Analytics* | *📊　[Hot Update](https://github.com/Junwu0615/PG-Analytics)* | *Repository Analytics* | `GitHub Traffic` `Repository Metrics`<br>`Growth Trend` `Historical Statistics` |
 
 <br><br>
 
 ## *📁　Platform Genesis Repository*
+> _Supporting repositories that provide reusable platform components,_
+> _infrastructure automation, shared libraries, and workload implementations_
+> _across the entire Platform Genesis ecosystem._
 
 | _Repository_ | _Purpose_ |
 |:--|:--|
