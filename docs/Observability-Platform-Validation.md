@@ -231,8 +231,8 @@ Phase 4: Remediation & Verification ( Post-Incident )
 ```mermaid
 sequenceDiagram
     participant User as End User
-    participant App as FastAPI
-    participant DB as SQLite
+    participant App as App ( FastAPI )
+    participant DB as DB ( SQLite )
     participant P as Prometheus
     participant A as AlertManager
     participant G as Grafana
@@ -240,76 +240,34 @@ sequenceDiagram
     participant T as Tempo
     participant Argo as ArgoCD
     participant K8s as Kubernetes
-    participant Admin as Admin
 
-    Note over User, Admin: 針對 SQLite 故障注入 ( I/O Delay via Chaos Mesh )
+    Note over App, DB: 事件: SQLite 故障注入 By FastAPI ( I/O Delay via Chaos Mesh )
     User->>App: API Request
-    App->>DB: Execute SQL ( INSERT/SELECT )
-    DB-->>App: I/O Block ( Slow )
-    App-->>User: Timeout ( 500 Error )
+    App->>DB: Execute SQL<br>( INSERT/SELECT )
+    DB-->>App: I/O Block<br>( Slow )
+    App-->>User: Timeout<br>( 500 Error )
 
-    Note over P, A: Phase 1 : 檢測 ( Detection )
+    Note over P, A: Phase 1: Detection ( 檢測 )
     P->>P: Evaluate Rules ( e.g., P99 > 1s )
     P->>A: Fired Alert
-    A-->>Admin: Send Notification ( Slack/Email )
+    A-->>User: Send Notification ( Slack/Email )<br/>( Note: Admin 通常是被動接收 )
 
-    Note over G, T: Phase 2 : 關聯 ( Correlation )
-    Admin->>G: Open Dashboard ( 觀察到 Spike )
+    Note over G, T: Phase 2: Correlation ( 關聯分析 )
+    User->>G: Open Dashboard ( 觀察到 Latency Spike )
     G->>L: Click "Explore Logs" ( 自動帶入 Time Range/Labels )
     L-->>G: Display [ERROR] SQLite Busy logs
 
-    Note over G, T: Phase 3 : 定位 ( Root Cause )
-    Admin->>T: Query by TraceID ( 從 Log 中提取 )
+    Note over G, T: Phase 3: Root Cause ( 根本原因定位 )
+    User->>T: Query by TraceID ( 從 Log 中提取 )
     T-->>G: Display Flame Graph
     Note right of G: 兇手抓到了 !<br/>SQLite Span Blocked = 4.8s
 
-    Note over App, G: Phase 4 : 修復 ( Remediation )
-    Admin->>Argo: Trigger GitOps Rollback
-    Argo->>K8s: Reconcile State ( Force Pod Restart )
-    K8s->>App: New Pod Ready
-    App->>G: Metrics back to Normal
-```
-
-```mermaid
-sequenceDiagram
-    participant User as End User
-    participant App as App (FastAPI)
-    participant DB as DB (SQLite)
-    participant P as Prometheus
-    participant A as AlertManager
-    participant G as Grafana
-    participant L as Loki
-    participant T as Tempo
-    participant Argo as ArgoCD
-    participant K8s as Kubernetes
-
-    Note over App, DB: 故障注入 (I/O Delay via Chaos Mesh)
-    User->>App: API Request
-    App->>DB: Execute SQL (INSERT/SELECT)
-    DB-->>App: I/O Block (Slow)
-    App-->>User: Timeout (500 Error)
-
-    Note over P, A: Phase 1: Detection (檢測)
-    P->>P: Evaluate Rules (e.g., P99 > 1s)
-    P->>A: Fired Alert
-    A-->>User: Send Notification (Slack/Email)<br/>*(Note: Admin 通常是被動接收)*
-
-    Note over G, T: Phase 2: Correlation (關聯分析)
-    User->>G: Open Dashboard (觀察到 Latency Spike)
-    G->>L: Click "Explore Logs" (自動帶入 Time Range/Labels)
-    L-->>G: Display [ERROR] SQLite Busy logs
-
-    Note over G, T: Phase 3: Root Cause (根本原因定位)
-    User->>T: Query by TraceID (從 Log 中提取)
-    T-->>G: Display Flame Graph
-    Note right of G: 兇手抓到了 !<br/>SQLite Span Blocked = 4.8s
-
-    Note over App, G: Phase 4: Remediation & Recovery (修復與恢復)
-    User->>Argo: Trigger GitOps Rollback (或修正配置)
-    Argo->>K8s: Apply Desired State (Update Deployment)
+    Note over App, G: Phase 4: Remediation & Recovery ( 修復與恢復 )
+    User->>Argo: Trigger GitOps Rollback ( 或修正配置 )
+    Argo->>K8s: Apply Desired State<br>( Update Deployment )
     K8s->>App: Terminate Old Pod
-    K8s->>App: Create New Pod (Rolling Update)
-    App->>G: Metrics back to Normal (New Pods Healthy)
+    K8s->>App: Create New Pod<br>( Rolling Update )
+    App->>G: Metrics back to Normal<br>( New Pods Healthy )
 ```
 
 <br><br><br>
