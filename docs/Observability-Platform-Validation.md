@@ -228,6 +228,13 @@ Phase 4: Remediation & Verification ( Post-Incident )
 <br>
 
 ### *C.　Diagnostic Flow*
+> *Read from Top to Bottom ↓*
+> 
+> *Arrows Indicate the Course of Events*
+> 
+> *"Phase Marking" Response Task Design*
+
+
 ```mermaid
 sequenceDiagram
     participant User as End User
