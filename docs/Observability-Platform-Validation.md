@@ -10,11 +10,12 @@
 
 ```
 故障注入:
- • 對 FastAPI 應用掛載的 SQLite Volume 注入人工延遲 ( Fault Injection )
+ • 對 FastAPI 應用掛載的 SQLite Volume 
+   注入人工延遲 ( Fault Injection )
 
 預期行為:
  • Detection: Prometheus 觸發延遲告警
- • Correlation: 工程師利用 TraceID 关联 Logs 與 Traces
+ • Correlation: 工程師利用 TraceID 關聯 Logs 與 Traces
  • Root Cause: 定位問題點在於 SQLite 層而非應用程式邏輯
  • Recovery: GitOps 自動修復 ( 或手動 Rollback )恢復正常
 ```
@@ -109,7 +110,8 @@ Phase 4: Remediation & Verification ( Post-Incident )
 <ul>
 
 ```
- • 展示工程師如何從 Grafana 的 Alert 面板，一鍵跳轉至 Loki 查看該時間段的原始日誌
+ • 展示工程師如何從 Grafana 的 Alert 面板，
+   一鍵跳轉至 Loki 查看該時間段的原始日誌
  
  • 操作路徑：Alert Panel -> "Explore" -> Switch to Logs data source
  
@@ -147,7 +149,8 @@ Phase 4: Remediation & Verification ( Post-Incident )
 <ul>
 
 ```
- • 透過火焰圖 (Flame Graph) 視覺化展示，證實延遲並非發生在 FastAPI 業務邏輯，
+ • 透過火焰圖 ( Flame Graph ) 視覺化展示，
+   證實延遲並非發生在 FastAPI 業務邏輯，
    而是卡在底層的 SQLite I/O 操作
    
  • 瓶頸 Span: sqlite3.commit 或 execute 佔用了 95% 的時間
@@ -168,14 +171,15 @@ Phase 4: Remediation & Verification ( Post-Incident )
 <ul>
 
 ```
- • 執行 GitOps Rollback ( 或修正 PVC 掛載 )，ArgoCD 開始進行狀態調和 ( Reconciliation )
+ • 執行 GitOps Rollback ( 或修正 PVC 掛載 )，
+   ArgoCD 開始進行狀態調和 ( Reconciliation )
 ```
 
 </ul>
 </details>
 
 <details>
-<summary><b><i>　4.2 Verification (Grafana) </i></b></summary>
+<summary><b><i>　4.2 Verification ( Grafana ) </i></b></summary>
 <ul>
 
 ```
