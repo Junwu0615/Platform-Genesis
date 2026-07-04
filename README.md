@@ -5,7 +5,7 @@
 <br><br>
 
 ## *🚀　Key Achievements*
-> _Presented by **PG-Core ( v1.0 )**_
+> _Implemented in **PG-Core ( v1.0 )**_
 
 - ### *Infrastructure Automation*
   * #### *Built Repeatable Infrastructure Provisioning Using Terraform and Ansible*
@@ -33,7 +33,7 @@
 <br><br>
 
 ## *📊　Selected Engineering Evidence*
-> _Presented by **PG-Core ( v1.0 )**_
+> _Implemented in **PG-Core ( v1.0 )**_
 
 | _Engineering Capability_ | _Type_ | _Documentation_ |
 |:--|:--|:--|
@@ -47,7 +47,7 @@
 <br><br>
 
 ## *🏗　Core Platform Capabilities*
-> _Presented by **PG-Core ( v1.0 )**_
+> _Implemented in **PG-Core ( v1.0 )**_
 
 | _Domain_ | _Capabilities_ |
 |:--|:--|
@@ -66,7 +66,7 @@
 > _platform modules, each extending the Cloud Native foundation_
 > _toward Data Engineering, AI Engineering, and Autonomous Operations._
 
-| _Module_ | _Status_ | _Domain_ | _Scope_ |
+| _Module_ | _Status_ | _Domain_ | _Core Technologies_ |
 |--|:--|:--|:--|
 | ⭐ *PG-Core* | *[In Progress<br>( v1.0 )](https://github.com/Junwu0615/PG-Core)* | *⛏ Cloud Native Platform* | `Kubernetes` `GitOps` `Observability`<br>`Infrastructure as Code`<br>`Secrets Management` |
 | *PG-Synapse* | *[Future Work<br>( v2.0 )](https://github.com/Junwu0615/PG-Synapse)* | *🚝 Data Platform* | `Airflow` `Kafka` `CDC`<br>`Iceberg` `Lakehouse` |
