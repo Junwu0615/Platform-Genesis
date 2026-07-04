@@ -1,158 +1,243 @@
-## *⭐ Observability Platform Validation ⭐*
+## *⭐ Observability Platform Validation: SQLite I/O Hysteresis ⭐*
 
 <br>
 
-### *A.　Architecture*
+### *A.　Task Design*
+
+<details open>
+<summary><b><i>　Task Description </i></b></summary>
+<ul>
+
 ```
-Application
-    │
-    ├──  Metrics
-    │       ↓
-    │  Prometheus
-    │       ↓
-    │ AlertManager
-    │       ↓
-    │    Grafana
-    │
-    ├──   Logs
-    │       ↓
-    │    Promtail
-    │       ↓
-    │      Loki
-    │       ↓
-    │    Grafana
-    │
-    └──   Traces
-            ↓
-          Tempo
-            ↓
-         Grafana
+故障注入:
+ • 對 FastAPI 應用掛載的 SQLite Volume 注入人工延遲 ( Fault Injection )
+
+預期行為:
+ • Detection: Prometheus 觸發延遲告警
+ • Correlation: 工程師利用 TraceID 关联 Logs 與 Traces
+ • Root Cause: 定位問題點在於 SQLite 層而非應用程式邏輯
+ • Recovery: GitOps 自動修復 ( 或手動 Rollback )恢復正常
 ```
 
-![PNG](../assets/png/logging_00.png)
-![PNG](../assets/png/observability_00.png)
+</ul>
+</details>
+
+<details open>
+<summary><b><i>　Task Implementation Steps </i></b></summary>
+<ul>
+
+```
+Phase 1: Baseline ( Pre-Incident )
+ • 在故障注入前，確認系統處於健康基準線狀態
+
+Phase 2: Detection & Correlation ( Incident Simulation )
+ • 此階段開始注入故障。觀察觀測平台如何發出訊號並引導調查
+
+Phase 3: Root Cause Analysis ( Tempo Tracing )
+ • 此階段利用分散式追蹤技術，精準定位問題發生的 Span
+
+Phase 4: Remediation & Verification ( Post-Incident )
+ • 確認根因後，執行修復操作，並驗證系統恢復
+```
+
+</ul>
+</details>
+
+
+<br><br>
+
+#### *★　Phase 1 : Baseline ( Pre-Incident )*
+
+<details>
+<summary><b><i>　1.1 Application Overview ( Grafana ) </i></b></summary>
+<ul>
+
+```
+ • 展示 FastAPI 連接 SQLite 的正常服務狀態
+ 
+ • Request Rate: 穩定
+ 
+ • P99 Latency: 低於 200ms
+ 
+ • SQLite Connections: 正常
+ 
+ • Evidence: Pre-Incident Dashboard
+   [截圖: 正常狀態下的 Grafana Dashboard]
+```
+
+</ul>
+</details>
+
+<details>
+<summary><b><i>　1.2 Infrastructure Health ( Grafana ) </i></b></summary>
+<ul>
+
+```
+ • 展示節點與 Pod 的基礎資源使用率正常
+ 
+ • CPU/Memory: 平穩
+ 
+ • Disk I/O: 平穩
+ 
+ • Evidence: Pre-Incident Node Exporter
+   [截圖: 節點資源監控]
+```
+
+</ul>
+</details>
 
 <br>
 
-### *B.　Components*
-| Item | Purpose |
-|:--:|:--:|
-| Prometheus | Metrics Collection |
-| AlertManager | Alert Routing |
-| Grafana | Visualization |
-| Promtail | Log Collection |
-| Loki | Log Storage |
-| Tempo | Distributed Tracing |
+#### *★　Phase 2: Detection & Correlation ( Incident Simulation )*
+
+<details>
+<summary><b><i>　2.1 Alerting ( AlertManager UI ) </i></b></summary>
+<ul>
+
+```
+ • 模擬 I/O 壓力導致請求超時，觸發 Prometheus 告警規則
+ 
+ • Evidence: Fired Alert Rule
+   [截圖: AlertManager Firing 狀態]
+```
+
+</ul>
+</details>
+
+<details>
+<summary><b><i>　2.2 Metric to Log Correlation ( Grafana Explore ) </i></b></summary>
+<ul>
+
+```
+ • 展示工程師如何從 Grafana 的 Alert 面板，一鍵跳轉至 Loki 查看該時間段的原始日誌
+ 
+ • 操作路徑：Alert Panel -> "Explore" -> Switch to Logs data source
+ 
+ • 發現: 日誌中出現大量 [SQLITE_BUSY] 或連接超時錯誤
+ 
+ • Evidence: Grafana Explore - Logs correlated with Metrics
+   [截圖: Grafana Explore 畫面，展示 Log 與 Metric 重疊]
+```
+
+</ul>
+</details>
 
 <br>
 
-### *C.　Logging Validation*
-```
-k3s-master-0
-├── Kubelet
-├── Pods
-└── Promtail ( *DaemonSet ) # /var/log/containers/*
+#### *★　Phase 3: Root Cause Analysis ( Tempo Tracing )*
 
-k3s-master-1
-├── Kubelet
-├── Pods
-└── Promtail ( *DaemonSet ) # /var/log/containers/*
+<details>
+<summary><b><i>　3.1 Trace Contextualization </i></b></summary>
+<ul>
 
-  ...
-  
-k3s-agent-2
-├── Kubelet
-├── Pods
-└── Promtail ( *DaemonSet ) # /var/log/containers/*
-    ↓
-  Loki
-    ↓
- Grafana
 ```
+ • 工程師從日誌中提取 TraceID，並在 Tempo 中開啟完整的請求鏈路
+ 
+ • 發現: 單筆請求耗時從 200ms 飆升至 5s+
+ 
+ • Evidence: Tempo Trace View - Anomalous Trace
+   [截圖: Tempo 顯示單一長 Trace]
+```
+
+</ul>
+</details>
+
+<details>
+<summary><b><i>　3.2 Flame Graph Analysis ( Root Cause Identification ) </i></b></summary>
+<ul>
+
+```
+ • 透過火焰圖 (Flame Graph) 視覺化展示，證實延遲並非發生在 FastAPI 業務邏輯，
+   而是卡在底層的 SQLite I/O 操作
+   
+ • 瓶頸 Span: sqlite3.commit 或 execute 佔用了 95% 的時間
+ 
+ • Evidence: Tempo Flame Graph - SQLite I/O Block
+   [截圖: 在此處放入顯示 sqlite 呼叫耗時過長的火焰圖]
+```
+
+</ul>
+</details>
 
 <br>
 
-### *D.　Metrics Validation*
+#### *★　Phase 4: Remediation & Verification ( Post-Incident )*
+
+<details>
+<summary><b><i>　4.1 Remediation Action ( ArgoCD ) </i></b></summary>
+<ul>
+
 ```
-[ 
-  Node Exporter, 
-  Kube State Metrics,
-]
-       ↓
-    Prometheus
-       ↓
-    Grafana
+ • 執行 GitOps Rollback ( 或修正 PVC 掛載 )，ArgoCD 開始進行狀態調和 ( Reconciliation )
 ```
+
+</ul>
+</details>
+
+<details>
+<summary><b><i>　4.2 Verification (Grafana) </i></b></summary>
+<ul>
+
+```
+ • 驗證修復後的系統指標，P99 Latency 恢復至基準線
+
+ • Evidence: Post-Incident Dashboard ( Recovery Verified )
+   [截圖: Grafana Dashboard]
+```
+
+</ul>
+</details>
+
+<br><br>
+
+### *B.　End-to-End RCA Pipeline Statistics*
+| Phase | Metric | Definition | Time Measurement |
+|:--|:--:|:--|--:|
+| P2. Detection | MTTD | Mean Time To Detect<br>( 從故障注入到 AlertManager 發出通知 ) | - sec |
+| P3. Analysis | MTTI | Mean Time To Identify<br>( 從收到告警到在 Tempo 定位 Flame Graph ) | - sec |
+| P4. Recovery | MTTR | Mean Time To Recover<br>( 從執行修復指令到 Grafana 指標恢復 ) | - sec |
+| Total | TTR | Total Time to Resolution | - sec |
 
 <br>
 
-### *E.　Tracing Validation*
-```
-    TraceID
-    
-    Frontend
-      ↓
-    Backend
-      ↓
-    Kafka
-      ↓
-    PostgreSQL
+### *C.　Diagnostic Flow*
+```mermaid
+sequenceDiagram
+    participant User as End User
+    participant App as FastAPI (SQLite)
+    participant P as Prometheus
+    participant A as AlertManager
+    participant G as Grafana
+    participant L as Loki
+    participant T as Tempo
 
+    Note over App, SQLite: 故障注入 (I/O Delay)
+    User->>App: API Request
+    App->>SQLite: Execute SQL
+    SQLite-->>App: I/O Block (Slow)
+    App-->>User: Timeout (500)
 
-❌ 只有 Loki 的痛苦 →> Only Logging → 線索斷開
-每個 Pod 都是獨立印 Log，當並發量很高、一秒鐘有幾千筆 Log 湧入時，
-根本沒辦法把「前端 A 使用者的這一次點擊」、「Kafka 的某個事件」，
-以及「PostgreSQL 的某一條 SQL」精準綁在一起。
-                 ↓
-不知道這 5 秒鐘到底是被卡在 Kafka 還是卡在資料庫。
+    Note over P, A: 階段 1 : 檢測 (Detection)
+    P->>P: Evaluate Rules
+    P->>A: Fired Alert (Latency > 1s)
+    A-->>Admin: Send Notification
 
+    Note over G, T: 階段 2 : 關聯 (Correlation)
+    Admin->>G: Open Dashboard
+    G->>L: Click "Explore Logs"
+    L-->>G: Display [ERROR] SQLite Busy
 
-Tempo 引入了一個概念 → TraceID
-當 A 使用者點擊的瞬間，系統會產生一個獨一無二的 TraceID=abc123xyz。
-當這個請求流經所有服務時，這個 ID 會像接力棒一樣一直傳下去。
-在 Tempo (Grafana) 畫面上會看到一張完美的時間瀑布圖（Flame Graph）：
+    Note over G, T: 階段 3 : 定位 (Root Cause)
+    Admin->>T: Query by TraceID from Logs
+    T-->>G: Display Flame Graph
+    Note right of G: 兇手抓到了! <br/> SQLite Span = 4.8s
 
-[Gateway: /order] ────────────────────────────────────────── (總共 5.0s)
-  ├── [Auth-Service: Check Token] ── (0.1s)
-  ├── [Backend-API: Create Order] ────────────────────────── (4.9s)
-  │     ├── [PostgreSQL: INSERT Order] ─ (0.02s)  <-- 看到了吧！ DB 其實超快
-  │     └── [Kafka: Produce Message] ────────────────────── (4.8s) 🔥 兇手抓到了！
-```
-
-<br>
-
-### *F.　Alert Manager Validation*
-```
-* Test 1: CPU High Usage
-    - Action: stress-ng --cpu 4
-    - Alert Rule: CPU > 80%
-
-
-* Test 2: Pod Crash
-    - Action: kubectl delete pod
-    - Alert Rule: Pod Restart Count
-
-
-* Test 3: Node Down
-    - Action: shutdown now
-    - Alert Rule: Node Not Ready
+    Note over App, G: 階段 4 : 修復 (Remediation)
+    Admin->>ArgoCD: Trigger GitOps Rollback
+    ArgoCD->>K8s: Reconcile State
+    K8s->>App: Restart Pods
+    App->>G: Metrics back to Normal
 ```
 
-<br>
-
-### *G.　Failure Correlation Demo*
-```
-Observability Platform 主目的是為了【 定位問題 】
-
- * Scenario: User API Timeout
-     ↓
- * Metrics: CPU Usage Spike
-     ↓
- * Logs: Kafka Connection Timeout
-     ↓
- * Trace: Kafka Span = 4.8 sec
-     ↓
- * Root Cause: Kafka Latency
-```
 
 <br><br><br>
