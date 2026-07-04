@@ -241,7 +241,7 @@ sequenceDiagram
     participant Argo as ArgoCD
     participant K8s as Kubernetes
 
-    Note over App, DB: 事件: SQLite 故障注入 By FastAPI ( I/O Delay via Chaos Mesh )
+    Note over App, DB: 事件: SQLite 故障注入 By FastAPI<br>( I/O Delay via Chaos Mesh )
     User->>App: API Request
     App->>DB: Execute SQL<br>( INSERT/SELECT )
     DB-->>App: I/O Block<br>( Slow )
