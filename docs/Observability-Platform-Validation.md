@@ -52,6 +52,58 @@ Phase 4: Remediation & Verification ( Post-Incident )
 </details>
 
 
+<br>
+
+### *B.　Diagnostic Flow*
+> *Read from Top to Bottom ↓*
+> 
+> *Arrows Indicate the Course of Events*
+> 
+> *"Phase Marking" Response Task Design*
+
+
+```mermaid
+sequenceDiagram
+    participant User as End User
+    participant App as App ( FastAPI )
+    participant DB as DB ( SQLite )
+    participant P as Prometheus
+    participant A as AlertManager
+    participant G as Grafana
+    participant L as Loki
+    participant T as Tempo
+    participant Argo as ArgoCD
+    participant K8s as Kubernetes
+
+    Note over App, DB: 事件: SQLite 故障注入 By FastAPI<br>( I/O Delay via Chaos Mesh )
+    User->>App: API Request
+    App->>DB: Execute SQL<br>( INSERT/SELECT )
+    DB-->>App: I/O Block<br>( Slow )
+    App-->>User: Timeout<br>( 500 Error )
+
+    Note over P, A: Phase 1: Detection ( 檢測 )
+    P->>P: Evaluate Rules ( e.g., P99 > 1s )
+    P->>A: Fired Alert
+    A-->>User: Send Notification ( Slack/Email )<br/>( Note: Admin 通常是被動接收 )
+
+    Note over G, T: Phase 2: Correlation ( 關聯分析 )
+    User->>G: Open Dashboard ( 觀察到 Latency Spike )
+    G->>L: Click "Explore Logs" ( 自動帶入 Time Range/Labels )
+    L-->>G: Display [ERROR] SQLite Busy logs
+
+    Note over G, T: Phase 3: Root Cause ( 根本原因定位 )
+    User->>T: Query by TraceID ( 從 Log 中提取 )
+    T-->>G: Display Flame Graph
+    Note right of G: 兇手抓到了 !<br/>SQLite Span Blocked = 4.8s
+
+    Note over App, G: Phase 4: Remediation & Recovery ( 修復與恢復 )
+    User->>Argo: Trigger GitOps Rollback ( 或修正配置 )
+    Argo->>K8s: Apply Desired State<br>( Update Deployment )
+    K8s->>App: Terminate Old Pod
+    K8s->>App: Create New Pod<br>( Rolling Update )
+    App->>G: Metrics back to Normal<br>( New Pods Healthy )
+```
+
 <br><br>
 
 #### *★　Phase 1 : Baseline ( Pre-Incident )*
@@ -217,64 +269,12 @@ Phase 4: Remediation & Verification ( Post-Incident )
 
 <br><br>
 
-### *B.　End-to-End RCA Pipeline Statistics*
+### *C.　End-to-End RCA Pipeline Statistics*
 | **Phase** | **Metric** | **Definition** | **Time<br>Measurement** |
 |:--|:--:|:--|--:|
 | *P2. Detection* | *MTTD* | *Mean Time To Detect<br>( 從故障注入到 AlertManager 發出通知 )* | *- sec* |
 | *P3. Analysis* | *MTTI* | *Mean Time To Identify<br>( 從收到告警到在 Tempo 定位 Flame Graph )* | *- sec* |
 | *P4. Recovery* | *MTTR* | *Mean Time To Recover<br>( 從執行修復指令到 Grafana 指標恢復 )* | *- sec* |
 | *Total* | *TTR* | *Total Time to Resolution* | *- sec* |
-
-<br>
-
-### *C.　Diagnostic Flow*
-> *Read from Top to Bottom ↓*
-> 
-> *Arrows Indicate the Course of Events*
-> 
-> *"Phase Marking" Response Task Design*
-
-
-```mermaid
-sequenceDiagram
-    participant User as End User
-    participant App as App ( FastAPI )
-    participant DB as DB ( SQLite )
-    participant P as Prometheus
-    participant A as AlertManager
-    participant G as Grafana
-    participant L as Loki
-    participant T as Tempo
-    participant Argo as ArgoCD
-    participant K8s as Kubernetes
-
-    Note over App, DB: 事件: SQLite 故障注入 By FastAPI<br>( I/O Delay via Chaos Mesh )
-    User->>App: API Request
-    App->>DB: Execute SQL<br>( INSERT/SELECT )
-    DB-->>App: I/O Block<br>( Slow )
-    App-->>User: Timeout<br>( 500 Error )
-
-    Note over P, A: Phase 1: Detection ( 檢測 )
-    P->>P: Evaluate Rules ( e.g., P99 > 1s )
-    P->>A: Fired Alert
-    A-->>User: Send Notification ( Slack/Email )<br/>( Note: Admin 通常是被動接收 )
-
-    Note over G, T: Phase 2: Correlation ( 關聯分析 )
-    User->>G: Open Dashboard ( 觀察到 Latency Spike )
-    G->>L: Click "Explore Logs" ( 自動帶入 Time Range/Labels )
-    L-->>G: Display [ERROR] SQLite Busy logs
-
-    Note over G, T: Phase 3: Root Cause ( 根本原因定位 )
-    User->>T: Query by TraceID ( 從 Log 中提取 )
-    T-->>G: Display Flame Graph
-    Note right of G: 兇手抓到了 !<br/>SQLite Span Blocked = 4.8s
-
-    Note over App, G: Phase 4: Remediation & Recovery ( 修復與恢復 )
-    User->>Argo: Trigger GitOps Rollback ( 或修正配置 )
-    Argo->>K8s: Apply Desired State<br>( Update Deployment )
-    K8s->>App: Terminate Old Pod
-    K8s->>App: Create New Pod<br>( Rolling Update )
-    App->>G: Metrics back to Normal<br>( New Pods Healthy )
-```
 
 <br><br><br>
