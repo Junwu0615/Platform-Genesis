@@ -57,7 +57,7 @@ Phase 4: Remediation & Verification ( Post-Incident )
 #### *★　Phase 1 : Baseline ( Pre-Incident )*
 
 <details>
-<summary><b><i>　1.1 Application Overview ( Grafana ) </i></b></summary>
+<summary><b><i>　1.1.　Application Overview ( Grafana ) </i></b></summary>
 <ul>
 
 ```
@@ -78,7 +78,7 @@ Phase 4: Remediation & Verification ( Post-Incident )
 </details>
 
 <details>
-<summary><b><i>　1.2 Infrastructure Health ( Grafana ) </i></b></summary>
+<summary><b><i>　1.2.　Infrastructure Health ( Grafana ) </i></b></summary>
 <ul>
 
 ```
@@ -101,7 +101,7 @@ Phase 4: Remediation & Verification ( Post-Incident )
 #### *★　Phase 2: Detection & Correlation ( Incident Simulation )*
 
 <details>
-<summary><b><i>　2.1 Alerting ( AlertManager UI ) </i></b></summary>
+<summary><b><i>　2.1.　Alerting ( AlertManager UI ) </i></b></summary>
 <ul>
 
 ```
@@ -115,7 +115,7 @@ Phase 4: Remediation & Verification ( Post-Incident )
 </details>
 
 <details>
-<summary><b><i>　2.2 Metric to Log Correlation ( Grafana Explore ) </i></b></summary>
+<summary><b><i>　2.2.　Metric to Log Correlation ( Grafana Explore ) </i></b></summary>
 <ul>
 
 ```
@@ -142,7 +142,7 @@ Phase 4: Remediation & Verification ( Post-Incident )
 #### *★　Phase 3: Root Cause Analysis ( Tempo Tracing )*
 
 <details>
-<summary><b><i>　3.1 Trace Contextualization </i></b></summary>
+<summary><b><i>　3.1.　Trace Contextualization </i></b></summary>
 <ul>
 
 ```
@@ -158,7 +158,7 @@ Phase 4: Remediation & Verification ( Post-Incident )
 </details>
 
 <details>
-<summary><b><i>　3.2 Flame Graph Analysis ( Root Cause Identification ) </i></b></summary>
+<summary><b><i>　3.2.　Flame Graph Analysis ( Root Cause Identification ) </i></b></summary>
 <ul>
 
 ```
@@ -182,7 +182,7 @@ Phase 4: Remediation & Verification ( Post-Incident )
 #### *★　Phase 4: Remediation & Verification ( Post-Incident )*
 
 <details>
-<summary><b><i>　4.1 Remediation Action ( ArgoCD ) </i></b></summary>
+<summary><b><i>　4.1.　Remediation Action ( ArgoCD ) </i></b></summary>
 <ul>
 
 ```
@@ -198,7 +198,7 @@ Phase 4: Remediation & Verification ( Post-Incident )
 </details>
 
 <details>
-<summary><b><i>　4.2 Verification ( Grafana ) </i></b></summary>
+<summary><b><i>　4.2.　Verification ( Grafana ) </i></b></summary>
 <ul>
 
 ```
@@ -237,71 +237,32 @@ sequenceDiagram
     participant G as Grafana
     participant L as Loki
     participant T as Tempo
-
-    Note over App, SQLite: 故障注入 (I/O Delay)
-    User->>App: API Request
-    App->>SQLite: Execute SQL
-    SQLite-->>App: I/O Block (Slow)
-    App-->>User: Timeout (500)
-
-    Note over P, A: 階段 1 : 檢測 (Detection)
-    P->>P: Evaluate Rules
-    P->>A: Fired Alert (Latency > 1s)
-    A-->>Admin: Send Notification
-
-    Note over G, T: 階段 2 : 關聯 (Correlation)
-    Admin->>G: Open Dashboard
-    G->>L: Click "Explore Logs"
-    L-->>G: Display [ERROR] SQLite Busy
-
-    Note over G, T: 階段 3 : 定位 (Root Cause)
-    Admin->>T: Query by TraceID from Logs
-    T-->>G: Display Flame Graph
-    Note right of G: 兇手抓到了! <br/> SQLite Span = 4.8s
-
-    Note over App, G: 階段 4 : 修復 (Remediation)
-    Admin->>ArgoCD: Trigger GitOps Rollback
-    ArgoCD->>K8s: Reconcile State
-    K8s->>App: Restart Pods
-    App->>G: Metrics back to Normal
-```
-
-
-```mermaid
-sequenceDiagram
-    participant User as End User
-    participant App as FastAPI (SQLite)
-    participant P as Prometheus
-    participant A as AlertManager
-    participant G as Grafana
-    participant L as Loki
-    participant T as Tempo
     participant Argo as ArgoCD
 
-    Note over App, SQLite: 故障注入 (I/O Delay via Chaos Mesh)
+    Note over App, 事件: 針對 SQLite 故障注入 ( I/O Delay via Chaos Mesh )
     User->>App: API Request
-    App->>SQLite: Execute SQL (INSERT/SELECT)
-    SQLite-->>App: I/O Block (Slow)
-    App-->>User: Timeout (500 Error)
+    App->>SQLite: Execute SQL ( INSERT/SELECT )
+    SQLite-->>App: I/O Block ( Slow )
+    App-->>User: Timeout ( 500 Error )
 
-    Note over P, A: 階段 1 : 檢測 (Detection)
-    P->>P: Evaluate Rules (e.g., P99 > 1s)
+    Note over P, A: Phase 1 : 檢測 ( Detection )
+    P->>P: Evaluate Rules ( e.g., P99 > 1s )
     P->>A: Fired Alert
-    A-->>Admin: Send Notification (Slack/Email)
+    A-->>Admin: Send Notification ( Slack/Email )
 
-    Note over G, T: 階段 2 : 關聯 (Correlation)
-    Admin->>G: Open Dashboard (觀察到 Spike)
-    G->>L: Click "Explore Logs" (自動帶入 Time Range/Labels)
+    Note over G, T: Phase 2 : 關聯 ( Correlation )
+    Admin->>G: Open Dashboard ( 觀察到 Spike )
+    G->>L: Click "Explore Logs" ( 自動帶入 Time Range/Labels )
     L-->>G: Display [ERROR] SQLite Busy logs
 
-    Note over G, T: 階段 3 : 定位 (Root Cause)
-    Admin->>T: Query by TraceID (從 Log 中提取)
+    Note over G, T: Phase 3 : 定位 ( Root Cause )
+    Admin->>T: Query by TraceID ( 從 Log 中提取 )
     T-->>G: Display Flame Graph
-    Note right of G: 兇手抓到了! <br/> SQLite Span Blocked = 4.8s
+    Note right of G: 兇手抓到了 !<br/>SQLite Span Blocked = 4.8s
 
-    Note over App, G: 階段 4 : 修復 (Remediation)
+    Note over App, G: Phase 4 : 修復 ( Remediation )
     Admin->>Argo: Trigger GitOps Rollback
-    Argo->>K8s: Reconcile State (Force Pod Restart)
+    Argo->>K8s: Reconcile State ( Force Pod Restart )
     K8s->>App: New Pod Ready
     App->>G: Metrics back to Normal
 ```
