@@ -1,6 +1,6 @@
 ## *⭐ Platform Genesis ⭐*
 
-![PNG](./assets/png/roadmap_03.png)
+![PNG](./assets/png/roadmap_04.png)
 
 <br><br>
 
