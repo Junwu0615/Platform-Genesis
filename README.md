@@ -66,13 +66,13 @@
 > _platform modules, each extending the Cloud Native foundation_
 > _toward Data Engineering, AI Engineering, and Autonomous Operations._
 
-| _Module_ | _Status_ | _Theme_ | _Scope_ |
+| _Module_ | _Status_ | _Domain_ | _Scope_ |
 |--|:--:|:--|:--|
-| ⭐ *PG-Core* | *⛏　[In Progress<br>( v1.0 )](https://github.com/Junwu0615/PG-Core)* | *Cloud Native Platform* | `Kubernetes` `GitOps` `Observability`<br>`Infrastructure as Code` `Secrets Management` |
-| *PG-Synapse* | *🚝　[Future Work<br>( v2.0 )](https://github.com/Junwu0615/PG-Synapse)* | *Data Platform* | `Airflow` `Kafka` `CDC`<br>`Iceberg` `Lakehouse` |
-| *PG-Cortex* | *🌐　[Future Work<br>( v3.0 )](https://github.com/Junwu0615/PG-Cortex)* | *AI Platform* | `MLflow` `Kubeflow` `Ray`<br>`LLMOps` `Model Serving` |
-| *PG-Sentinel* | *🚀　[Future Work<br>( v4.0 )](https://github.com/Junwu0615/PG-Sentinel)* | *Intelligent<br>Operations Platform* | `AIOps` `Chaos Engineering`<br>`Reliability`<br>`Auto Remediation` |
-| ⭐ *PG-Analytics* | *📊　[Hot Update](https://github.com/Junwu0615/PG-Analytics)* | *Repository Analytics* | `GitHub Traffic` `Repository Metrics`<br>`Growth Trend` `Historical Statistics` |
+| ⭐ *PG-Core* | *[In Progress<br>( v1.0 )](https://github.com/Junwu0615/PG-Core)* | *⛏　Cloud Native<br>Platform* | `Kubernetes` `GitOps` `Observability`<br>`Infrastructure as Code` `Secrets Management` |
+| *PG-Synapse* | *[Future Work<br>( v2.0 )](https://github.com/Junwu0615/PG-Synapse)* | *🚝　Data<br>Platform* | `Airflow` `Kafka` `CDC`<br>`Iceberg` `Lakehouse` |
+| *PG-Cortex* | *[Future Work<br>( v3.0 )](https://github.com/Junwu0615/PG-Cortex)* | *🌐　AI<br>Platform* | `MLflow` `Kubeflow` `Ray`<br>`LLMOps` `Model Serving` |
+| *PG-Sentinel* | *[Future Work<br>( v4.0 )](https://github.com/Junwu0615/PG-Sentinel)* | *🚀　Intelligent Operations<br>Platform* | `AIOps` `Chaos Engineering`<br>`Reliability`<br>`Auto Remediation` |
+| ⭐ *PG-Analytics* | *[Hot Update](https://github.com/Junwu0615/PG-Analytics)* | *📊　Repository Analytics<br>Platform* | `GitHub Traffic` `Repository Metrics`<br>`Growth Trend` `Historical Statistics` |
 
 <br><br>
 
