@@ -68,11 +68,11 @@
 
 | _Module_ | _Status_ | _Domain_ | _Core Technologies_ |
 |--:|:--|:--|:--|
-| ⭐ _**[PG-Core](https://github.com/Junwu0615/PG-Core)<br>( v1.0 )**_ | _**In Progress**_ | _⛏ Cloud Native Platform_ | `Kubernetes` `GitOps` `Observability`<br>`Infrastructure as Code`<br>`Secrets Management` |
-| _**[PG-Synapse](https://github.com/Junwu0615/PG-Synapse)<br>( v2.0 )**_ | _**Future Work**_ | _🚝 Data Platform_ | `Airflow` `Kafka` `CDC`<br>`Iceberg` `Lakehouse` |
-| _**[PG-Cortex](https://github.com/Junwu0615/PG-Cortex)<br>( v3.0 )**_ | _**Future Work**_ | _🌐 AI Platform_ | `MLflow` `Kubeflow` `Ray`<br>`LLMOps` `Model Serving` |
-| _**[PG-Sentinel](https://github.com/Junwu0615/PG-Sentinel)<br>( v4.0 )**_ | _**Future Work**_ | _🚀 Intelligent Operations<br>Platform_ | `AIOps` `Chaos Engineering`<br>`Reliability`<br>`Auto Remediation` |
-| ⭐ _**[PG-Analytics](https://github.com/Junwu0615/PG-Analytics)**_ | _**Hot Update**_ | _📊 Repository Analytics<br>Platform_ | `GitHub Traffic` `Repository Metrics`<br>`Growth Trend` `Historical Statistics` |
+| ⭐ _**[PG-Core](https://github.com/Junwu0615/PG-Core)<br>( v1.0 )**_ | _In Progress_ | _⛏ Cloud Native Platform_ | `Kubernetes` `GitOps` `Observability`<br>`Infrastructure as Code`<br>`Secrets Management` |
+| _**[PG-Synapse](https://github.com/Junwu0615/PG-Synapse)<br>( v2.0 )**_ | _Future Work_ | _🚝 Data Platform_ | `Airflow` `Kafka` `CDC`<br>`Iceberg` `Lakehouse` |
+| _**[PG-Cortex](https://github.com/Junwu0615/PG-Cortex)<br>( v3.0 )**_ | _Future Work_ | _🌐 AI Platform_ | `MLflow` `Kubeflow` `Ray`<br>`LLMOps` `Model Serving` |
+| _**[PG-Sentinel](https://github.com/Junwu0615/PG-Sentinel)<br>( v4.0 )**_ | _Future Work_ | _🚀 Intelligent Operations Platform_ | `AIOps` `Chaos Engineering`<br>`Reliability`<br>`Auto Remediation` |
+| ⭐ _**[PG-Analytics](https://github.com/Junwu0615/PG-Analytics)**_ | _Hot Update_ | _📊 Repository Analytics Platform_ | `GitHub Traffic` `Repository Metrics`<br>`Growth Trend` `Historical Statistics` |
 
 <br><br>
 
