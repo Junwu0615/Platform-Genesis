@@ -37,12 +37,12 @@
 
 | _Engineering Capability_ | _Type_ | _Documentation_ |
 |:--|:--|:--|
-| _**⭐ Platform Delivery**_ | _Platform Core_ | _**[PED-7](./docs/Deployment-Delivery-Baseline.md)**_ |
-| _**⭐ Platform Reliability**_ | _Platform Core_ | _**[PED-8](./docs/K8s-Resiliency-Availability-Validation.md)**_ |
-| _**Platform Observability**_ | _Platform Service_ | _**[PED-9](./docs/Observability-Platform-Validation.md)**_ |
-| _**Platform Security**_ | _Platform Service_ | _**[PED-10](./docs/Vault.md)**_ |
-| _**Platform Operations**_ | _Platform Integration_ | _**[PED-11](./docs/End-to-End-DevOps-Operating-Model.md)**_ |
-| _**⭐ Platform Governance**_ | _Platform Core_ | _**[PED-12](./docs/GitOps-Deployment-Governance-Validation.md)**_ |
+| _⭐ Platform Delivery_ | _Platform Core_ | _**[PED-7](./docs/Deployment-Delivery-Baseline.md)**_ |
+| _⭐ Platform Reliability_ | _Platform Core_ | _**[PED-8](./docs/K8s-Resiliency-Availability-Validation.md)**_ |
+| _Platform Observability_ | _Platform Service_ | _**[PED-9](./docs/Observability-Platform-Validation.md)**_ |
+| _Platform Security_ | _Platform Service_ | _**[PED-10](./docs/Vault.md)**_ |
+| _Platform Operations_ | _Platform Integration_ | _**[PED-11](./docs/End-to-End-DevOps-Operating-Model.md)**_ |
+| _⭐ Platform Governance_ | _Platform Core_ | _**[PED-12](./docs/GitOps-Deployment-Governance-Validation.md)**_ |
 
 <br><br>
 
@@ -51,13 +51,13 @@
 
 | _Domain_ | _Capabilities_ |
 |:--|:--|
-| _**Infrastructure**_ | `Terraform` `Ansible` `Libvirt` `Automated Provisioning` |
-| _**Kubernetes**_ | `HA Control Plane` `Scheduling` `Recovery Validation` |
-| _**GitOps**_ | `GitLab CI` `Argo CD` `App-of-Apps` `Drift Control` |
-| _**Observability**_ | `Metrics` `Logs` `Traces` `Alerting` |
-| _**Security**_ | `Vault-based Secret Management` |
-| _**Data Platform**_ | `PostgreSQL` `Airflow` `Kafka` |
-| _**Reliability**_ | `Recovery Testing` `Governance Validation` |
+| _Infrastructure_ | `Terraform` `Ansible` `Libvirt` `Automated Provisioning` |
+| _Kubernetes_ | `HA Control Plane` `Scheduling` `Recovery Validation` |
+| _GitOps_ | `GitLab CI` `Argo CD` `App-of-Apps` `Drift Control` |
+| _Observability_ | `Metrics` `Logs` `Traces` `Alerting` |
+| _Security_ | `Vault-based Secret Management` |
+| _Data Platform_ | `PostgreSQL` `Airflow` `Kafka` |
+| _Reliability_ | `Recovery Testing` `Governance Validation` |
 
 <br><br>
 
@@ -68,11 +68,11 @@
 
 | _Module_ | _Status_ | _Domain_ | _Core Technologies_ |
 |--:|:--|:--|:--|
-| ⭐ _**PG-Core<br>( v1.0 )**_ | _**[In Progress](https://github.com/Junwu0615/PG-Core)**_ | _⛏ Cloud Native Platform_ | `Kubernetes` `GitOps` `Observability`<br>`Infrastructure as Code`<br>`Secrets Management` |
-| _**PG-Synapse<br>( v2.0 )**_ | _**[Future Work](https://github.com/Junwu0615/PG-Synapse)**_ | _🚝 Data Platform_ | `Airflow` `Kafka` `CDC`<br>`Iceberg` `Lakehouse` |
-| _**PG-Cortex<br>( v3.0 )**_ | _**[Future Work](https://github.com/Junwu0615/PG-Cortex)**_ | _🌐 AI Platform_ | `MLflow` `Kubeflow` `Ray`<br>`LLMOps` `Model Serving` |
-| _**PG-Sentinel<br>( v4.0 )**_ | _**[Future Work](https://github.com/Junwu0615/PG-Sentinel)**_ | _🚀 Intelligent Operations<br>Platform_ | `AIOps` `Chaos Engineering`<br>`Reliability`<br>`Auto Remediation` |
-| ⭐ _**PG-Analytics**_ | _**[Hot Update](https://github.com/Junwu0615/PG-Analytics)**_ | _📊 Repository Analytics<br>Platform_ | `GitHub Traffic` `Repository Metrics`<br>`Growth Trend` `Historical Statistics` |
+| ⭐ _**[PG-Core](https://github.com/Junwu0615/PG-Core)<br>( v1.0 )**_ | _**In Progress**_ | _⛏ Cloud Native Platform_ | `Kubernetes` `GitOps` `Observability`<br>`Infrastructure as Code`<br>`Secrets Management` |
+| _**[PG-Synapse](https://github.com/Junwu0615/PG-Synapse)<br>( v2.0 )**_ | _**Future Work**_ | _🚝 Data Platform_ | `Airflow` `Kafka` `CDC`<br>`Iceberg` `Lakehouse` |
+| _**[PG-Cortex](https://github.com/Junwu0615/PG-Cortex)<br>( v3.0 )**_ | _**Future Work**_ | _🌐 AI Platform_ | `MLflow` `Kubeflow` `Ray`<br>`LLMOps` `Model Serving` |
+| _**[PG-Sentinel](https://github.com/Junwu0615/PG-Sentinel)<br>( v4.0 )**_ | _**Future Work**_ | _🚀 Intelligent Operations<br>Platform_ | `AIOps` `Chaos Engineering`<br>`Reliability`<br>`Auto Remediation` |
+| ⭐ _**[PG-Analytics](https://github.com/Junwu0615/PG-Analytics)**_ | _**Hot Update**_ | _📊 Repository Analytics<br>Platform_ | `GitHub Traffic` `Repository Metrics`<br>`Growth Trend` `Historical Statistics` |
 
 <br><br>
 
