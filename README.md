@@ -37,12 +37,12 @@
 
 | _Engineering Capability_ | _Type_ | _Documentation_ |
 |:--|:--|:--|
-| _⭐ Platform Delivery_ | `Platform Core` | [_PED-7_](./docs/Deployment-Delivery-Baseline.md) |
-| _⭐ Platform Reliability_ | `Platform Core` | [_PED-8_](./docs/K8s-Resiliency-Availability-Validation.md) |
-| _Platform Observability_ | `Platform Service` | [_PED-9_](./docs/Observability-Platform-Validation.md) |
-| _Platform Security_ | `Platform Service` | [_PED-10_](./docs/Vault.md) |
-| _Platform Operations_ | `Platform Integration` | [_PED-11_](./docs/End-to-End-DevOps-Operating-Model.md) |
-| _⭐ Platform Governance_ | `Platform Core` | [_PED-12_](./docs/GitOps-Deployment-Governance-Validation.md) |
+| _**⭐ Platform Delivery**_ | _**Platform Core**_ | _**[PED-7](./docs/Deployment-Delivery-Baseline.md)**_ |
+| _**⭐ Platform Reliability**_ | _**Platform Core**_ | _**[PED-8](./docs/K8s-Resiliency-Availability-Validation.md)**_ |
+| _**Platform Observability**_ | _**Platform Service**_ | _**[PED-9](./docs/Observability-Platform-Validation.md)**_ |
+| _**Platform Security**_ | _**Platform Service**_ | _**[PED-10](./docs/Vault.md)**_ |
+| _**Platform Operations**_ | _**Platform Integration**_ | _**[PED-11](./docs/End-to-End-DevOps-Operating-Model.md)**_ |
+| _**⭐ Platform Governance**_ | _**Platform Core**_ | _**[PED-12](./docs/GitOps-Deployment-Governance-Validation.md)**_ |
 
 <br><br>
 
@@ -51,13 +51,13 @@
 
 | _Domain_ | _Capabilities_ |
 |:--|:--|
-| _Infrastructure_ | `Terraform` `Ansible` `Libvirt` `Automated Provisioning` |
-| _Kubernetes_ | `HA Control Plane` `Scheduling` `Recovery Validation` |
-| _GitOps_ | `GitLab CI` `Argo CD` `App-of-Apps` `Drift Control` |
-| _Observability_ | `Metrics` `Logs` `Traces` `Alerting` |
-| _Security_ | `Vault-based Secret Management` |
-| _Data Platform_ | `PostgreSQL` `Airflow` `Kafka` |
-| _Reliability_ | `Recovery Testing` `Governance Validation` |
+| _**Infrastructure**_ | `Terraform` `Ansible` `Libvirt` `Automated Provisioning` |
+| _**Kubernetes**_ | `HA Control Plane` `Scheduling` `Recovery Validation` |
+| _**GitOps**_ | `GitLab CI` `Argo CD` `App-of-Apps` `Drift Control` |
+| _**Observability**_ | `Metrics` `Logs` `Traces` `Alerting` |
+| _**Security**_ | `Vault-based Secret Management` |
+| _**Data Platform**_ | `PostgreSQL` `Airflow` `Kafka` |
+| _**Reliability**_ | `Recovery Testing` `Governance Validation` |
 
 <br><br>
 
@@ -71,8 +71,8 @@
 | ⭐ _**PG-Core<br>( v1.0 )**_ | _**[In Progress](https://github.com/Junwu0615/PG-Core)**_ | _**⛏ Cloud Native Platform**_ | `Kubernetes` `GitOps` `Observability`<br>`Infrastructure as Code`<br>`Secrets Management` |
 | _**PG-Synapse<br>( v2.0 )**_ | _**[Future Work](https://github.com/Junwu0615/PG-Synapse)**_ | _**🚝 Data Platform**_ | `Airflow` `Kafka` `CDC`<br>`Iceberg` `Lakehouse` |
 | _**PG-Cortex<br>( v3.0 )**_ | _**[Future Work](https://github.com/Junwu0615/PG-Cortex)**_ | _**🌐 AI Platform**_ | `MLflow` `Kubeflow` `Ray`<br>`LLMOps` `Model Serving` |
-| _**PG-Sentinel<br>( v4.0 )**_ | _**[Future Work](https://github.com/Junwu0615/PG-Sentinel)**_ | _**🚀 Intelligent Operations Platform**_ | `AIOps` `Chaos Engineering`<br>`Reliability`<br>`Auto Remediation` |
-| ⭐ _**PG-Analytics**_ | _**[Hot Update](https://github.com/Junwu0615/PG-Analytics)**_ | _**📊 Repository Analytics Platform**_ | `GitHub Traffic` `Repository Metrics`<br>`Growth Trend` `Historical Statistics` |
+| _**PG-Sentinel<br>( v4.0 )**_ | _**[Future Work](https://github.com/Junwu0615/PG-Sentinel)**_ | _**🚀 Intelligent Operations<br>Platform**_ | `AIOps` `Chaos Engineering`<br>`Reliability`<br>`Auto Remediation` |
+| ⭐ _**PG-Analytics**_ | _**[Hot Update](https://github.com/Junwu0615/PG-Analytics)**_ | _**📊 Repository Analytics<br>Platform**_ | `GitHub Traffic` `Repository Metrics`<br>`Growth Trend` `Historical Statistics` |
 
 <br><br>
 
