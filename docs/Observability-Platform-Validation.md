@@ -38,11 +38,14 @@
 Phase 1: Baseline ( Pre-Incident )
  • 在故障注入前，確認應用程式處於健康基準線狀態
 
+
 Phase 2: Detection & Correlation ( Incident Simulation )
  • 注入 I/O 延遲，觀察告警觸發與 Grafana 聯動診斷流程
 
+
 Phase 3: Root Cause Analysis ( Tempo Tracing )
  • 利用分散式追蹤，精準定位耗時過長之 SQLite Span
+
 
 Phase 4: Remediation & Verification ( Post-Incident )
  • 確認根因後，執行 GitOps 自動修復，驗證系統恢復正常服務水準
@@ -108,7 +111,44 @@ sequenceDiagram
 <ul>
 
 ```
- • 展示 FastAPI 連接 SQLite 的正常服務狀態
+ # 腳本權限問題 chmod 755 ./sh_scripts/xxx.sh
+ 
+ • 1. 打開臨時通道 Prometheus + Loki + Tempo => 傳輸進 k3s 集群
+   ./sh_scripts/port-forward-observability.sh
+   
+ • 2. 測試管道都在線
+   ./sh_scripts/check-pipeline.sh
+   
+   * 測試管道背景關閉 ( 一鍵清除所有 port-forward 進程 )
+     pkill -f "kubectl port-forward"
+   
+ • 3. 啟動 FastAPI => 注入故障入口 + 傳送數據至 Prometheus + Loki + Tempo
+   python -m uvicorn src.scripts.observational_simulation.api:app --host 0.0.0.0 --port 8000 --reload
+
+ • 4. 持續發送請求，每 0.5 秒一次，模擬正常負載
+   ./sh_scripts/load-test.sh
+   
+ • 5. 啟動 Python 無限迴圈 Connection SQLite => 觀察斷線/延遲狀況
+   python init_db.py
+   
+ • 6. 檢查是否有任何路徑回應
+   curl -v http://localhost:8000/metrics
+   
+ • 7. 將 FastAPI 監控配置部署至 Kubernetes 集群 
+   kubectl apply -f ./archive/test/fastapi-monitor.yaml
+   
+   * 確定有沒有成功 ( 出現 fastapi-monitor 服務監控 )
+     kubectl get servicemonitor -n observability-homelab-test
+ 
+   * 確認 FastAPI 數據有入庫 Prometheus 
+     http://127.0.0.1:9090/targets
+     http://127.0.0.1:9090/graph
+   
+   * 確認 Tempo API 存活
+     http://127.0.0.1:3100/ready
+     http://127.0.0.1:4318/v1/traces
+
+ 
  
  • Request Rate: 穩定 TPS
  
