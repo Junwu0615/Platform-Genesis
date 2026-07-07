@@ -132,7 +132,7 @@ sequenceDiagram
    python init_db.py
    
  • 6. 檢查是否有任何路徑回應
-   curl -v http://localhost:8000/metrics
+   curl -v http://127.0.0.1:8000/metrics
    
  • 7. 將 FastAPI 監控配置部署至 Kubernetes 集群 
    kubectl apply -f ./archive/test/fastapi-monitor.yaml
@@ -140,13 +140,19 @@ sequenceDiagram
    * 確定有沒有成功 ( 出現 fastapi-monitor 服務監控 )
      kubectl get servicemonitor -n observability-homelab-test
  
-   * 確認 FastAPI 數據有入庫 Prometheus 
-     http://127.0.0.1:9090/targets
-     http://127.0.0.1:9090/graph
+   * 確認 Prometheus API 存活 ( FastAPI 數據有入庫 ) 
+     curl -v http://127.0.0.1:9090/targets
+     curl -v http://127.0.0.1:9090/graph
    
    * 確認 Tempo API 存活
-     http://127.0.0.1:3100/ready
-     http://127.0.0.1:4318/v1/traces
+     curl -v http://127.0.0.1:4317/v1/traces
+   
+   * 確認 Loki API 存活
+     curl -v http://127.0.0.1:3100/loki/api/v1/labels
+     
+   * 確認 FastAPI 標籤設置
+     kubectl get pod -n observability-homelab-test -l app.kubernetes.io/name=fastapi -o jsonpath='{.items[0].metadata.labels}'
+
 
  
  
