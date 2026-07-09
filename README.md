@@ -1,6 +1,6 @@
 ## *⭐ Platform Genesis ⭐*
 
-![PNG](./assets/png/Architecture-Diagram-v3.1.png)
+![PNG](./assets/png/Architecture-Diagram-v3.2.png)
 
 <br><br>
 
