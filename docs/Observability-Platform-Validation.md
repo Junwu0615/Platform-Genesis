@@ -152,6 +152,18 @@ sequenceDiagram
      
    * 確認 FastAPI 標籤設置
      kubectl get pod -n observability-homelab-test -l app.kubernetes.io/name=fastapi -o jsonpath='{.items[0].metadata.labels}'
+     
+ • 8. 故障注入 
+   curl -X POST "http://127.0.0.1:8000/admin/inject-fault?duration_seconds=2"
+   
+   * 取消故障注入
+   curl -X GET "http://127.0.0.1:8000/admin/remove-inject"
+   
+   * 測試健康
+   curl -X GET "http://127.0.0.1:8000/health"
+   
+   * 確實殺死 FastAPI TCP 占用
+   fuser -k 8000/tcp
 
 
  
