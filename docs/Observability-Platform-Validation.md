@@ -113,28 +113,26 @@ sequenceDiagram
 ```
  # 腳本權限問題 chmod 755 ./sh_scripts/xxx.sh
  
- • 1. 打開臨時通道 Prometheus + Loki + Tempo => 傳輸進 k3s 集群
-   ./sh_scripts/port-forward-observability.sh
+ • 1. 打開 k3s 集群臨時通道 ( Prometheus + Loki + Tempo ) 
+      + 測試管道狀態   
+   make open-pipeline
    
- • 2. 測試管道都在線
-   ./sh_scripts/check-pipeline.sh
+   * 測試管道關閉 ( 一鍵清除所有臨時背景進程 )
+     make kill-pipeline
    
-   * 測試管道背景關閉 ( 一鍵清除所有 port-forward 進程 )
-     pkill -f "kubectl port-forward"
-   
- • 3. 啟動 FastAPI => 注入故障入口 + 傳送數據至 Prometheus + Loki + Tempo
+ • 2. 啟動 FastAPI => 注入故障入口 + 傳送數據至 Prometheus + Loki + Tempo
    python -m uvicorn src.scripts.observational_simulation.api:app --host 0.0.0.0 --port 8000 --reload
-
- • 4. 持續發送請求，每 0.5 秒一次，模擬正常負載
-   ./sh_scripts/load-test.sh
    
- • 5. 啟動 Python 無限迴圈 Connection SQLite => 觀察斷線/延遲狀況
-   python init_db.py
+   * 啟動 Python 無限迴圈 Connection SQLite => 觀察斷線/延遲狀況
+     python conn.py
+     
+ • 3. 持續發送請求，每 0.5 秒一次，模擬正常負載
+   make load-test
    
- • 6. 檢查是否有任何路徑回應
+ • 4. 檢查是否有任何路徑回應
    curl -v http://127.0.0.1:8000/metrics
    
- • 7. 將 FastAPI 監控配置部署至 Kubernetes 集群 
+ • 5. 將 FastAPI 監控配置部署至 Kubernetes 集群 
    kubectl apply -f ./archive/test/fastapi-monitor.yaml
    
    * 確定有沒有成功 ( 出現 fastapi-monitor 服務監控 )
@@ -153,17 +151,15 @@ sequenceDiagram
    * 確認 FastAPI 標籤設置
      kubectl get pod -n observability-homelab-test -l app.kubernetes.io/name=fastapi -o jsonpath='{.items[0].metadata.labels}'
      
- • 8. 故障注入 
+ • 6. 故障注入 
    curl -X POST "http://127.0.0.1:8000/admin/inject-fault?duration_seconds=2"
    
    * 取消故障注入
-   curl -X GET "http://127.0.0.1:8000/admin/remove-inject"
+     curl -X GET "http://127.0.0.1:8000/admin/remove-inject"
    
    * 測試健康
-   curl -X GET "http://127.0.0.1:8000/health"
-   
-   * 確實殺死 FastAPI TCP 占用
-   fuser -k 8000/tcp
+     curl -X GET "http://127.0.0.1:8000/health"
+
 
 
  
