@@ -122,15 +122,9 @@ sequenceDiagram
      
    * 提取並驗證工作負載 ( Pod ) 核心標籤元數據
      kubectl get pod -n observability-homelab-test -l app.kubernetes.io/name=fastapi -o jsonpath='{.items[0].metadata.labels}'
-     
- * 混沌工程故障注入 ( 控制變因：強制核心邏輯執行緒阻斷 2 秒 )
-   curl -X POST "http://127.0.0.1:8000/admin/inject-fault?duration_seconds=2"
-   
- * 故障回復指令 ( 移除執行緒阻斷機制 )
-   curl -X GET "http://127.0.0.1:8000/admin/remove-inject"
-   
- * 應用程式存活探針 ( Liveness / Readiness ) 狀態檢查
-   curl -X GET "http://127.0.0.1:8000/health"
+
+   * 應用程式存活探針 ( Liveness / Readiness ) 狀態檢查
+     curl -X GET "http://127.0.0.1:8000/health"
 ```
 
 </ul>
@@ -165,8 +159,10 @@ sequenceDiagram
 
 ```
  • 運作行為：模擬高負載或下游服務阻塞導致的 E2E 請求超時，觸發 Prometheus 告警規則 ( PromQL/LogQL alert rules )。
- • 故障注入實施：
+ 
+ • 故障注入實施：混沌工程故障注入 ( 控制變因：強制核心邏輯執行緒阻斷 2 秒 )
    curl -X POST "http://127.0.0.1:8000/admin/inject-fault?duration_seconds=2"
+   
  • 預期結果：AlertManager 狀態機從 [ Normal ] ➔ [ Pending ] ➔ [ Firing ] 成功捕獲高延遲事件。
 ```
 
@@ -182,11 +178,12 @@ sequenceDiagram
 
 ```  
  • 診斷行為：展示系統透過 時間序列指標異常 作為進入點，快速下鑽 ( Drill-down ) 至對應時間軸之結構化日誌。
+ 
  • 診斷發現：
-    • P95/P99 延遲從常態的 5-20ms 瞬間飆升至 2,000ms+。
+    • P95/P99 延遲從常態的 5-20ms 瞬間飆升至 2,000ms+
     • 痛點識別：由於此高延遲情境屬於非中斷型故障，API 回應狀態碼依然維持 HTTP 200。
-    這類隱性效能退化 (Silent Performance Degradation)傳統的 HTTP 狀態碼監控無法察覺，
-    必須依賴 Latency Metrics 與日誌層級的 latency_alert 關鍵字告警來捕捉。
+      此類隱性效能退化 ( Silent Performance Degradation ) 傳統的 HTTP 狀態碼監控無法察覺，
+      必須依賴 Latency Metrics 與日誌層級的 latency_alert 關鍵字告警來捕捉。
 ```
 
 ![PNG](../assets/png/alerting-phase2_02.png)
@@ -205,8 +202,12 @@ sequenceDiagram
 
 ```
  • 診斷行為：透過火焰圖 ( Flame Graph ) 與 Span 階層結構視覺化，分析單次呼叫的生命週期。
- • 診斷發現：單筆請求的端到端 ( E2E ) 耗時精確定位為 2.01s。其中，核心商務邏輯內部的特定執行緒（已被 OpenTelemetry Instrument 標註之延遲函式）佔據了 99.8% 的時間耗費。
- • 診斷結論：證實若在程式碼內部合理埋點 ( Instrumentation )，分散式追蹤能將排查顆粒度細化至函數級別 ( Function-level )，徹底消除開發與維運團隊間的猜測溝通成本。
+ 
+ • 診斷發現：單筆請求的端到端 ( E2E ) 耗時精確定位為 2.01s。其中，核心商務邏輯內部的特定執行緒
+  （已被 OpenTelemetry Instrument 標註之延遲函式）佔據了 99.8% 的時間耗費。
+ 
+ • 診斷結論：證實若在程式碼內部合理埋點 ( Instrumentation )，分散式追蹤能將排查顆粒度細化
+   至函數級別 ( Function-level )，徹底消除開發與維運團隊間的猜測溝通成本。
 ```
 
 ![PNG](../assets/png/alerting-phase3_00.png)
@@ -228,7 +229,7 @@ sequenceDiagram
 ```
  • 修復行為：呼叫故障移除 API，切斷阻斷程式碼，系統即時釋放被卡住的執行緒與連線池。
  
- • 狀態注入：
+ • 狀態注入：故障回復指令 ( 移除執行緒阻斷機制 )
    curl -X GET "http://127.0.0.1:8000/admin/remove-inject"
    
  • 指標觀測：即時延遲熱圖密度顯著發生位移（由高延遲區間的淺色，
