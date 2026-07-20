@@ -48,7 +48,7 @@ Phase 3: Root Cause Analysis ( Tempo Tracing )
 
 
 Phase 4: Remediation & Verification ( Post-Incident )
- • 確認根因後，執行 GitOps 自動修復，驗證系統恢復正常服務水準
+ • 確認根因後，執行故障解除，驗證系統恢復正常服務水準
 ```
 
 </ul>
@@ -107,7 +107,7 @@ sequenceDiagram
 #### *★　Phase 1 : Baseline ( Pre-Incident )*
 
 <details>
-<summary><b><i>　1.1.　Application Overview ( Grafana ) </i></b></summary>
+<summary><b><i>　1.1.　Testing-Prepare </i></b></summary>
 <ul>
 
 ```
@@ -121,10 +121,10 @@ sequenceDiagram
      make kill-pipeline
    
  • 2. 啟動 FastAPI => 注入故障入口 + 傳送數據至 Prometheus + Loki + Tempo
-   python -m uvicorn src.scripts.observational_simulation.api:app --host 0.0.0.0 --port 8000 --reload
+   python3 -m uvicorn src.scripts.observational_simulation.api:app --host 0.0.0.0 --port 8000 --reload
    
    * 啟動 Python 無限迴圈 Connection SQLite => 觀察斷線/延遲狀況
-     python conn.py
+     python3 conn.py
      
  • 3. 持續發送請求，每 0.5 秒一次，模擬正常負載
    make load-test
@@ -134,6 +134,9 @@ sequenceDiagram
    
  • 5. 將 FastAPI 監控配置部署至 Kubernetes 集群 
    kubectl apply -f ./archive/test/fastapi-monitor.yaml
+   
+   * 移除指令
+   kubectl delete -f ./archive/test/fastapi-monitor.yaml
    
    * 確定有沒有成功 ( 出現 fastapi-monitor 服務監控 )
      kubectl get servicemonitor -n observability-homelab-test
@@ -151,28 +154,14 @@ sequenceDiagram
    * 確認 FastAPI 標籤設置
      kubectl get pod -n observability-homelab-test -l app.kubernetes.io/name=fastapi -o jsonpath='{.items[0].metadata.labels}'
      
- • 6. 故障注入 
+ * 故障注入 
    curl -X POST "http://127.0.0.1:8000/admin/inject-fault?duration_seconds=2"
    
-   * 取消故障注入
-     curl -X GET "http://127.0.0.1:8000/admin/remove-inject"
+ * 取消故障注入
+   curl -X GET "http://127.0.0.1:8000/admin/remove-inject"
    
-   * 測試健康
-     curl -X GET "http://127.0.0.1:8000/health"
-
-
-
- 
- 
- • Request Rate: 穩定 TPS
- 
- • P99 Latency: 低於 200ms
- 
- • SQLite Connections: 正常建立池化連線
- 
- • Evidence: Pre-Incident Dashboard
-   [截圖: 正常狀態下的 Grafana Dashboard]
-   ( 顯示 Request Rate, Latency, Active Connections )
+ * 測試健康
+   curl -X GET "http://127.0.0.1:8000/health"
 ```
 
 </ul>
@@ -183,16 +172,14 @@ sequenceDiagram
 <ul>
 
 ```
- • 展示節點與 Pod 的基礎資源使用率正常
- 
- • CPU/Memory: 平穩 ( 無高負載 )
- 
- • Disk I/O: 平穩 ( 無異常 Wait )
- 
- • Evidence: Pre-Incident Node Exporter
-   [截圖: 節點資源監控]
-   ( CPU, Memory, Disk IOPS, Latency )
+ • 確認指標是否皆正常
+   - 熱圖
+   - 負載與飽和度
+ • Alerting UI 正常無預警
 ```
+
+![PNG](../assets/png/alerting-phase1_00.png)
+![PNG](../assets/png/alerting-phase1_01.png)
 
 </ul>
 </details>
@@ -207,33 +194,27 @@ sequenceDiagram
 
 ```
  • 模擬 I/O 壓力導致請求超時，觸發 Prometheus 告警規則
- 
- • Evidence: Fired Alert Rule
-   [截圖: AlertManager Firing 狀態，顯示觸發之告警詳情]
+ • 狀態注入 : curl -X POST "http://127.0.0.1:8000/admin/inject-fault?duration_seconds=2"
 ```
+
+![PNG](../assets/png/alerting-phase2_00.png)
+![PNG](../assets/png/alerting-phase2_01.png)
 
 </ul>
 </details>
 
 <details>
-<summary><b><i>　2.2.　Metric to Log Correlation ( Grafana Explore ) </i></b></summary>
+<summary><b><i>　2.2.　Metric to Log Correlation </i></b></summary>
 <ul>
 
 ```
- • 展示如何從 Grafana 的 Alert 面板，一鍵跳轉至 Loki 查看該時間段的原始日誌
- 
- • 操作路徑： Alert Panel
-            -> Explore
-            -> Switch to Loki data source
-              ( 自動篩選相同 Label 之 Pod )
- 
+ • 展示經由日誌偵測到異常事件後，會先在面板出現具體事件
  • 診斷發現
-    • 時間軸吻合：Latency Spike 同時出現大量 ERROR 日誌
-    • 關鍵錯誤訊息: 出現 [SQLITE_BUSY] database is locked 或操作超時 Timeout
- 
- • Evidence: Grafana Explore - Logs correlated with Metrics
-   [截圖: Grafana Explore 畫面，上方為 Metrics Panel，下方為對應時間點之 Loki Logs]
+    • 延遲時間從 5-20ms 延長到 2s+
+    • 因為是人為設計故障因此回應狀態依舊是 200
 ```
+
+![PNG](../assets/png/alerting-phase2_02.png)
 
 </ul>
 </details>
@@ -247,13 +228,10 @@ sequenceDiagram
 <ul>
 
 ```
- • 工程師從日誌中提取 TraceID，並在 Grafana Tempo 中貼上 TraceID 檢視完整鏈路
- 
- • 診斷發現: 單筆 Request E2E 耗時從 200ms 飆升至 5s+
- 
- • Evidence: Tempo Trace View - Anomalous Trace
-   [截圖: empo Trace View 顯示單一請求耗時過長]
+ • 從 Loki 日誌中提取 TraceID，並在 Grafana 直接檢視 Trace 鏈路
 ```
+
+![PNG](../assets/png/alerting-phase3_00.png)
 
 </ul>
 </details>
@@ -263,17 +241,12 @@ sequenceDiagram
 <ul>
 
 ```
- • 透過火焰圖 ( Flame Graph ) 視覺化展示，
-   證實延遲並非發生在 FastAPI 業務邏輯，
-   而是卡在底層的 SQLite I/O 操作
-   
- • 診斷結論
-     • 證實延遲非 FastAPI 業務代碼，而是底層 SQLite I/O 操作
-     • 瓶頸 Span: sqlite3.commit() 或 execute() 佔據絕大部分執行時間
- 
- • Evidence: Tempo Flame Graph - SQLite I/O Block
-   [截圖: Tempo Flame Graph 視覺化展示 sqlite3 呼叫耗時]
+ • 透過火焰圖視覺化展示，證實延遲事件發生在 FastAPI 業務邏輯 (已預先標註追蹤的延遲函式)
+ • 診斷發現 : 單筆 Request E2E 耗時從 20ms 飆升至 2s+
+ • 診斷結論 : 證實若是函示中有確實設計好幾個斷點是能得知延遲具體位置
 ```
+
+![PNG](../assets/png/alerting-phase3_01.png)
 
 </ul>
 </details>
@@ -283,35 +256,33 @@ sequenceDiagram
 #### *★　Phase 4: Remediation & Verification ( Post-Incident )*
 
 <details>
-<summary><b><i>　4.1.　Remediation Action ( ArgoCD ) </i></b></summary>
+<summary><b><i>　4.1.　Remediation Action </i></b></summary>
 <ul>
 
 ```
- • 執行 GitOps Rollback 或 修復 PVC 設定
- • ArgoCD 自動偵測狀態不一致 ( Drift Detected ) 並執行 Sync
- • 觀察點: 舊 Pod 終止，新 Pod 重啟 ( Re-deployed )
- 
- • Evidence: ArgoCD Sync in Progress
-   [截圖: ArgoCD UI 顯示 Syncing 或 Healthy 狀態轉變過程]
+ • 取消延遲故障 : 注入移除 API
+ • 狀態注入 : curl -X GET "http://127.0.0.1:8000/admin/remove-inject"
+ • 觀察點: 熱圖恢復正常，由淺變深色
 ```
+
+![PNG](../assets/png/alerting-phase4_00.png)
 
 </ul>
 </details>
 
 <details>
-<summary><b><i>　4.2.　Verification ( Grafana ) </i></b></summary>
+<summary><b><i>　4.2.　Verification </i></b></summary>
 <ul>
 
 ```
- • 驗證修復後的系統指標
- 
- • P99 Latency: 恢復至基準線 ( < 200ms )
- 
- • Request Rate: 恢復正常服務水平
- 
- • Evidence: Post-Incident Dashboard ( Recovery Verified )
-   [截圖: 恢復正常後的 Grafana Dashboard]
+ • 驗證修復後的指標恢復正常
+   - 熱圖
+   - 負載與飽和度
+ • 接收到報警解除訊號
 ```
+
+![PNG](../assets/png/alerting-phase4_01.png)
+![PNG](../assets/png/alerting-phase4_02.png)
 
 </ul>
 </details>
