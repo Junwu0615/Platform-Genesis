@@ -18,13 +18,13 @@
    模擬慢速磁碟 ( Slow Disk / I/O Bottleneck ) 行為。
 
 預期驗證目標 ( Expected Outcomes & Verification )
- • Detection ( 異常偵測 ): Prometheus 結合 LogQL 成功
+ • Detection ( 異常偵測 ) : Prometheus 結合 LogQL 成功
    捕捉效能退化特徵，觸發高延遲告警。
- • Correlation ( 訊號關聯 ): 利用 Trace Context Propagation 技術，
+ • Correlation ( 訊號關聯 ) : 利用 Trace Context Propagation 技術，
    無縫串聯 Metrics、Logs 與 Traces。
- • Root Cause ( 根因剖析 ): 透過 Tempo 火焰圖 ( Flame Graph ) 精確定位
+ • Root Cause ( 根因剖析 ) : 透過 Tempo 火焰圖 ( Flame Graph ) 精確定位
    延遲發生於 SQLite 讀寫或業務執行緒阻斷點，排除應用程式架構本身的瓶頸。
- • Recovery ( 自動復原 ): 透過管理 API 解除故障注入，驗證監控指標
+ • Recovery ( 自動復原 ) : 透過管理 API 解除故障注入，驗證監控指標
    與告警狀態的自動收斂 ( Convergence ) 能力。
 ```
 
@@ -37,8 +37,8 @@
 sequenceDiagram
     autonumber
     participant U as Engineer / On-Call
-    participant F as FastAPI (App)
-    participant S as SQLite (DB)
+    participant F as FastAPI ( App )
+    participant S as SQLite ( DB )
     participant P as Prometheus
     participant AM as AlertManager
     participant G as Grafana
