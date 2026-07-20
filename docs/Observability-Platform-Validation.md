@@ -73,7 +73,7 @@ sequenceDiagram
 <br><br>
 
 #### *★　Phase 1 : Baseline Setup & Environment Provisioning*
-> *本階段建立系統正常運行時的基準線 ( Baseline )，配置 Kubernetes 服務發現 ( Service Discovery ) 機制，並確保可觀測性數據管道 ( Data Pipeline ) 的動態擷取正常。*
+> *本階段建立系統正常運行時的基準線 ( Baseline )，配置 Kubernetes 服務發現 ( Service Discovery ) 機制，<br>並確保可觀測性數據管道 ( Data Pipeline ) 的動態擷取正常。*
 
 <details>
 <summary><b><i>　1.1.　Testing-Startup </i></b></summary>
@@ -157,7 +157,7 @@ sequenceDiagram
 <br>
 
 #### *★　Phase 2 : Incident Simulation*
-> *本階段透過模擬真實環境中的 I/O 阻斷或外部依賴逾時，觸發系統內部的自動化告警機制，並示範指標到日誌的多維度訊號關聯分析。*
+> *本階段透過模擬真實環境中的 I/O 阻斷或外部依賴逾時，觸發系統內部的自動化告警機制，<br>並示範指標到日誌的多維度訊號關聯分析。*
 
 <details>
 <summary><b><i>　2.1.　Automated Anomaly Detection </i></b></summary>
@@ -197,7 +197,7 @@ sequenceDiagram
 <br>
 
 #### *★　Phase 3 : Distributed Tracing & Deep Root Cause Analysis*
-> *本階段利用 OpenTelemetry 的 Trace Context Propagation ( 追蹤上下文傳遞 ) 技術，實現從日誌單鍵無縫跳轉至分散式追蹤火焰圖，精確定位應用程式內部的效能瓶頸點。*
+> *本階段利用 OpenTelemetry 的 Trace Context Propagation ( 追蹤上下文傳遞 ) 技術，<br>實現從日誌單鍵無縫跳轉至分散式追蹤火焰圖，精確定位應用程式內部的效能瓶頸點。*
 
 <details>
 <summary><b><i>　3.1.　Tempo Tracing </i></b></summary>
@@ -219,7 +219,7 @@ sequenceDiagram
 <br>
 
 #### *★　Phase 4 : Remediation Action & Metric Convergence*
-> *本階段執行故障排除，並驗證監控指標與熱圖的收斂速度，確保告警管道具備正確的自動復原 ( Resolve ) 狀態通知。*
+> *本階段執行故障排除，並驗證監控指標與熱圖的收斂速度，<br>確保告警管道具備正確的自動復原 ( Resolve ) 狀態通知。*
 
 <details>
 <summary><b><i>　4.1.　Post-Incident </i></b></summary>
@@ -255,8 +255,8 @@ sequenceDiagram
 | **Phase** | **Metric** | **Definition** | **Time<br>Measurement** |
 |:--|:--:|:--|--:|
 | *P2. Detection* | *MTTD* | *Mean Time To Detect<br>( 從故障注入到 AlertManager 發出通知 )* | *40 sec* |
-| *P3. Analysis* | *MTTI* | *Mean Time To Identify<br>( 從收到告警到在 Tempo 定位 Flame Graph )* | *5 sec* |
-| *P4. Recovery* | *MTTR* | *Mean Time To Recover<br>( 從執行修復指令到 Grafana 指標恢復 )* | *40 sec* |
-| *Total* | *TTR* | *Total Time to Resolution* | *85 sec* |
+| *P3. Analysis* | *MTTI* | *Mean Time To Identify<br>( 從收到告警到在 Tempo 定位火焰圖根因 )* | *5 sec* |
+| *P4. Recovery* | *MTTR* | *Mean Time To Recover<br>( 從執行修復指令到 Grafana 指標完全恢復 )* | *40 sec* |
+| *Total* | *TTR* | *Total Time to Resolution<br>( 全鏈路終止異常時間總計 )* | *85 sec* |
 
 <br><br><br>
