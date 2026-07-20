@@ -248,6 +248,7 @@ sequenceDiagram
 
 ![PNG](../assets/png/alerting-phase3_01.png)
 
+
 </ul>
 </details>
 
@@ -282,7 +283,6 @@ sequenceDiagram
 ```
 
 ![PNG](../assets/png/alerting-phase4_01.png)
-![PNG](../assets/png/alerting-phase4_02.png)
 
 </ul>
 </details>
@@ -290,11 +290,14 @@ sequenceDiagram
 <br><br>
 
 ### *C.　End-to-End RCA Pipeline Statistics*
+
+#### *[🎬　Demo Video](https://drive.google.com/file/d/1c4Una19CtaNZ09phAXH8quAlsWBEGjel/view?usp=sharing)*
+
 | **Phase** | **Metric** | **Definition** | **Time<br>Measurement** |
 |:--|:--:|:--|--:|
-| *P2. Detection* | *MTTD* | *Mean Time To Detect<br>( 從故障注入到 AlertManager 發出通知 )* | *- sec* |
-| *P3. Analysis* | *MTTI* | *Mean Time To Identify<br>( 從收到告警到在 Tempo 定位 Flame Graph )* | *- sec* |
-| *P4. Recovery* | *MTTR* | *Mean Time To Recover<br>( 從執行修復指令到 Grafana 指標恢復 )* | *- sec* |
-| *Total* | *TTR* | *Total Time to Resolution* | *- sec* |
+| *P2. Detection* | *MTTD* | *Mean Time To Detect<br>( 從故障注入到 AlertManager 發出通知 )* | *40 sec* |
+| *P3. Analysis* | *MTTI* | *Mean Time To Identify<br>( 從收到告警到在 Tempo 定位 Flame Graph )* | *5 sec* |
+| *P4. Recovery* | *MTTR* | *Mean Time To Recover<br>( 從執行修復指令到 Grafana 指標恢復 )* | *40 sec* |
+| *Total* | *TTR* | *Total Time to Resolution* | *85 sec* |
 
 <br><br><br>
