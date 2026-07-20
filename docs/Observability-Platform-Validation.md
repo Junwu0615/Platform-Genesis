@@ -2,11 +2,7 @@
 
 <br>
 
-### *A.　Task Design*
-
-<details open>
-<summary><b><i>　Task Description </i></b></summary>
-<ul>
+### *A.　Task Description*
 
 ```
 情境模擬:
@@ -15,45 +11,17 @@
 
 
 故障注入:
- • 工具: Chaos Mesh ( v2.0+ )
+ • 工具: Python (FastAPI) + LGTM
  • 對象: FastAPI 應用掛載之 SQLite Volume ( PVC )
- • 手段: 注入 500ms 之網路延遲抖動 ( Jitter )，模擬慢速磁碟 ( Slow Disk ) 行為
+ • 手段: 注入 200ms 之網路延遲抖動 ( Jitter )，模擬慢速磁碟 ( Slow Disk ) 行為
    
 
 預期行為:
  • Detection: Prometheus 觸發 P99 Latency 超時告警
- • Correlation: 工程師利用 TraceID 關聯 Logs 與 Traces
+ • Correlation: 利用 TraceID 關聯 Logs 與 Traces
  • Root Cause: 定位問題點在於 SQLite I/O Block，而非應用程式業務邏輯
- • Recovery: GitOps 自動觸發狀態調和 ( Reconciliation ) 並重啟 Pod 恢復正常
+ • Recovery: 用故障移除 API 使其恢復正常
 ```
-
-</ul>
-</details>
-
-<details open>
-<summary><b><i>　Task Implementation Steps </i></b></summary>
-<ul>
-
-```
-Phase 1: Baseline ( Pre-Incident )
- • 在故障注入前，確認應用程式處於健康基準線狀態
-
-
-Phase 2: Detection & Correlation ( Incident Simulation )
- • 注入 I/O 延遲，觀察告警觸發與 Grafana 聯動診斷流程
-
-
-Phase 3: Root Cause Analysis ( Tempo Tracing )
- • 利用分散式追蹤，精準定位耗時過長之 SQLite Span
-
-
-Phase 4: Remediation & Verification ( Post-Incident )
- • 確認根因後，執行故障解除，驗證系統恢復正常服務水準
-```
-
-</ul>
-</details>
-
 
 <br>
 
@@ -104,63 +72,64 @@ sequenceDiagram
 
 <br><br>
 
-#### *★　Phase 1 : Baseline ( Pre-Incident )*
+#### *★　Phase 1 : Baseline Setup & Environment Provisioning*
+> *本階段建立系統正常運行時的基準線 ( Baseline )，配置 Kubernetes 服務發現 ( Service Discovery ) 機制，並確保可觀測性數據管道 ( Data Pipeline ) 的動態擷取正常。*
 
 <details>
-<summary><b><i>　1.1.　Testing-Prepare </i></b></summary>
+<summary><b><i>　1.1.　Testing-Startup </i></b></summary>
 <ul>
 
 ```
- # 腳本權限問題 chmod 755 ./sh_scripts/xxx.sh
+ # 腳本權限初始化 
+ chmod 755 ./sh_scripts/xxx.sh
  
- • 1. 打開 k3s 集群臨時通道 ( Prometheus + Loki + Tempo ) 
-      + 測試管道狀態   
+ • 1. 初始化 K3s 叢集內部觀測性監控管道 ( Prometheus + Loki + Tempo )
    make open-pipeline
    
-   * 測試管道關閉 ( 一鍵清除所有臨時背景進程 )
+   * 監控管道資源一鍵回收清理 ( 釋放背景進程與併發連線 )
      make kill-pipeline
    
- • 2. 啟動 FastAPI => 注入故障入口 + 傳送數據至 Prometheus + Loki + Tempo
+ • 2. 啟動高效能異步 FastAPI 服務 ( 內嵌 OpenTelemetry SDK 與 Prometheus Exporter )
    python3 -m uvicorn src.scripts.observational_simulation.api:app --host 0.0.0.0 --port 8000 --reload
    
-   * 啟動 Python 無限迴圈 Connection SQLite => 觀察斷線/延遲狀況
+   * 啟動持久化資料庫連線監控 ( 觀察 SQLite 併發控制與 Session 延遲特徵 )
      python3 conn.py
      
- • 3. 持續發送請求，每 0.5 秒一次，模擬正常負載
+ • 3. 動態負載模擬：每 0.5 秒發送定時請求，建立穩定的背景流量基準線
    make load-test
    
- • 4. 檢查是否有任何路徑回應
+ • 4. 驗證 Prometheus 內建標準 Metrics Endpoint 暴露狀態
    curl -v http://127.0.0.1:8000/metrics
    
- • 5. 將 FastAPI 監控配置部署至 Kubernetes 集群 
+ • 5. 將 FastAPI 監控配置動態部署至 Kubernetes 叢集 ( 建立 ServiceMonitor 自定義資源 )
    kubectl apply -f ./archive/test/fastapi-monitor.yaml
    
-   * 移除指令
-   kubectl delete -f ./archive/test/fastapi-monitor.yaml
+   * 資源解除部署
+     kubectl delete -f ./archive/test/fastapi-monitor.yaml
    
-   * 確定有沒有成功 ( 出現 fastapi-monitor 服務監控 )
+   * 驗證自定義資源 ( CRD ) 狀態確認
      kubectl get servicemonitor -n observability-homelab-test
  
-   * 確認 Prometheus API 存活 ( FastAPI 數據有入庫 ) 
+   * 驗證 Prometheus 服務發現 ( Service Discovery ) 目標抓取狀態
      curl -v http://127.0.0.1:9090/targets
      curl -v http://127.0.0.1:9090/graph
    
-   * 確認 Tempo API 存活
+   * 驗證 Tempo 遙測數據 ( OTLP gRPC/HTTP Endpoint ) 監聽狀態
      curl -v http://127.0.0.1:4317/v1/traces
    
-   * 確認 Loki API 存活
+   * 驗證 Loki 日誌聚合引擎標籤索引 ( Label Indexing ) 存活狀態
      curl -v http://127.0.0.1:3100/loki/api/v1/labels
      
-   * 確認 FastAPI 標籤設置
+   * 提取並驗證工作負載 ( Pod ) 核心標籤元數據
      kubectl get pod -n observability-homelab-test -l app.kubernetes.io/name=fastapi -o jsonpath='{.items[0].metadata.labels}'
      
- * 故障注入 
+ * 混沌工程故障注入 ( 控制變因：強制核心邏輯執行緒阻斷 2 秒 )
    curl -X POST "http://127.0.0.1:8000/admin/inject-fault?duration_seconds=2"
    
- * 取消故障注入
+ * 故障回復指令 ( 移除執行緒阻斷機制 )
    curl -X GET "http://127.0.0.1:8000/admin/remove-inject"
    
- * 測試健康
+ * 應用程式存活探針 ( Liveness / Readiness ) 狀態檢查
    curl -X GET "http://127.0.0.1:8000/health"
 ```
 
@@ -168,14 +137,15 @@ sequenceDiagram
 </details>
 
 <details>
-<summary><b><i>　1.2.　Infrastructure Health ( Grafana ) </i></b></summary>
+<summary><b><i>　1.2.　Pre-Incident </i></b></summary>
 <ul>
 
 ```
- • 確認指標是否皆正常
-   - 熱圖
-   - 負載與飽和度
- • Alerting UI 正常無預警
+ • 監控指標與效能度量驗證：
+   - 即時請求延遲分佈熱圖 ( Latency Distribution Heatmap )：確認服務初期呈現高密度低延遲區塊。
+   - 飽和度與資源吞吐量 ( Saturation & Throughput )：API 請求資源處於健康區間。
+   
+ • Alerting UI 審查：告警引擎狀態為綠色 ( Inactive / Normal )，無任何待觸發之異常閾值。
 ```
 
 ![PNG](../assets/png/alerting-phase1_00.png)
@@ -186,15 +156,18 @@ sequenceDiagram
 
 <br>
 
-#### *★　Phase 2: Detection & Correlation ( Incident Simulation )*
+#### *★　Phase 2 : Incident Simulation*
+> *本階段透過模擬真實環境中的 I/O 阻斷或外部依賴逾時，觸發系統內部的自動化告警機制，並示範指標到日誌的多維度訊號關聯分析。*
 
 <details>
-<summary><b><i>　2.1.　Alerting ( AlertManager UI ) </i></b></summary>
+<summary><b><i>　2.1.　Automated Anomaly Detection </i></b></summary>
 <ul>
 
 ```
- • 模擬 I/O 壓力導致請求超時，觸發 Prometheus 告警規則
- • 狀態注入 : curl -X POST "http://127.0.0.1:8000/admin/inject-fault?duration_seconds=2"
+ • 運作行為：模擬高負載或下游服務阻塞導致的 E2E 請求超時，觸發 Prometheus 告警規則 ( PromQL/LogQL alert rules )。
+ • 故障注入實施：
+   curl -X POST "http://127.0.0.1:8000/admin/inject-fault?duration_seconds=2"
+ • 預期結果：AlertManager 狀態機從 [ Normal ] ➔ [ Pending ] ➔ [ Firing ] 成功捕獲高延遲事件。
 ```
 
 ![PNG](../assets/png/alerting-phase2_00.png)
@@ -204,14 +177,16 @@ sequenceDiagram
 </details>
 
 <details>
-<summary><b><i>　2.2.　Metric to Log Correlation </i></b></summary>
+<summary><b><i>　2.2.　Cross-Signal Correlation </i></b></summary>
 <ul>
 
-```
- • 展示經由日誌偵測到異常事件後，會先在面板出現具體事件
- • 診斷發現
-    • 延遲時間從 5-20ms 延長到 2s+
-    • 因為是人為設計故障因此回應狀態依舊是 200
+```  
+ • 診斷行為：展示系統透過 時間序列指標異常 作為進入點，快速下鑽 ( Drill-down ) 至對應時間軸之結構化日誌。
+ • 診斷發現：
+    • P95/P99 延遲從常態的 5-20ms 瞬間飆升至 2,000ms+。
+    • 痛點識別：由於此高延遲情境屬於非中斷型故障，API 回應狀態碼依然維持 HTTP 200。
+    這類隱性效能退化 (Silent Performance Degradation)傳統的 HTTP 狀態碼監控無法察覺，
+    必須依賴 Latency Metrics 與日誌層級的 latency_alert 關鍵字告警來捕捉。
 ```
 
 ![PNG](../assets/png/alerting-phase2_02.png)
@@ -221,31 +196,20 @@ sequenceDiagram
 
 <br>
 
-#### *★　Phase 3: Root Cause Analysis ( Tempo Tracing )*
+#### *★　Phase 3 : Distributed Tracing & Deep Root Cause Analysis*
+> *本階段利用 OpenTelemetry 的 Trace Context Propagation ( 追蹤上下文傳遞 ) 技術，實現從日誌單鍵無縫跳轉至分散式追蹤火焰圖，精確定位應用程式內部的效能瓶頸點。*
 
 <details>
-<summary><b><i>　3.1.　Trace Contextualization </i></b></summary>
+<summary><b><i>　3.1.　Tempo Tracing </i></b></summary>
 <ul>
 
 ```
- • 從 Loki 日誌中提取 TraceID，並在 Grafana 直接檢視 Trace 鏈路
+ • 診斷行為：透過火焰圖 ( Flame Graph ) 與 Span 階層結構視覺化，分析單次呼叫的生命週期。
+ • 診斷發現：單筆請求的端到端 ( E2E ) 耗時精確定位為 2.01s。其中，核心商務邏輯內部的特定執行緒（已被 OpenTelemetry Instrument 標註之延遲函式）佔據了 99.8% 的時間耗費。
+ • 診斷結論：證實若在程式碼內部合理埋點 ( Instrumentation )，分散式追蹤能將排查顆粒度細化至函數級別 ( Function-level )，徹底消除開發與維運團隊間的猜測溝通成本。
 ```
 
 ![PNG](../assets/png/alerting-phase3_00.png)
-
-</ul>
-</details>
-
-<details>
-<summary><b><i>　3.2.　Flame Graph Analysis ( Root Cause Identification ) </i></b></summary>
-<ul>
-
-```
- • 透過火焰圖視覺化展示，證實延遲事件發生在 FastAPI 業務邏輯 (已預先標註追蹤的延遲函式)
- • 診斷發現 : 單筆 Request E2E 耗時從 20ms 飆升至 2s+
- • 診斷結論 : 證實若是函示中有確實設計好幾個斷點是能得知延遲具體位置
-```
-
 ![PNG](../assets/png/alerting-phase3_01.png)
 
 
@@ -254,34 +218,29 @@ sequenceDiagram
 
 <br>
 
-#### *★　Phase 4: Remediation & Verification ( Post-Incident )*
+#### *★　Phase 4 : Remediation Action & Metric Convergence*
+> *本階段執行故障排除，並驗證監控指標與熱圖的收斂速度，確保告警管道具備正確的自動復原 ( Resolve ) 狀態通知。*
 
 <details>
-<summary><b><i>　4.1.　Remediation Action </i></b></summary>
+<summary><b><i>　4.1.　Post-Incident </i></b></summary>
 <ul>
 
 ```
- • 取消延遲故障 : 注入移除 API
- • 狀態注入 : curl -X GET "http://127.0.0.1:8000/admin/remove-inject"
- • 觀察點: 熱圖恢復正常，由淺變深色
+ • 修復行為：呼叫故障移除 API，切斷阻斷程式碼，系統即時釋放被卡住的執行緒與連線池。
+ 
+ • 狀態注入：
+   curl -X GET "http://127.0.0.1:8000/admin/remove-inject"
+   
+ • 指標觀測：即時延遲熱圖密度顯著發生位移（由高延遲區間的淺色，
+   快速回歸至低延遲區間的深色密集區），代表系統吞吐量已完全恢復。
+   
+ • 驗證結果：
+   - 核心指標（延遲、飽和度、錯誤率）全面收斂至正常基準線。
+   - AlertManager 偵測到連續評估週期內無異常數據，觸發狀態變更，
+     Telegram 告警通道成功接收到 [ Resolved ] 警報解除訊號。
 ```
 
 ![PNG](../assets/png/alerting-phase4_00.png)
-
-</ul>
-</details>
-
-<details>
-<summary><b><i>　4.2.　Verification </i></b></summary>
-<ul>
-
-```
- • 驗證修復後的指標恢復正常
-   - 熱圖
-   - 負載與飽和度
- • 接收到報警解除訊號
-```
-
 ![PNG](../assets/png/alerting-phase4_01.png)
 
 </ul>
