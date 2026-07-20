@@ -27,48 +27,48 @@
 <br>
 
 ### *B.　Diagnostic Flow*
-> *Read from Top to Bottom ↓ | Arrows Indicate the Course of Events | Phase Marking" Response Task Design*
+> *Read from Top to Bottom ↓ | Arrows Indicate the Course of Events | Phase-aligned RCA Pipeline*
 
 ```mermaid
 sequenceDiagram
-    participant User as End User
-    participant App as App ( FastAPI )
-    participant DB as DB ( SQLite )
+    autonumber
+    participant U as Engineer / On-Call
+    participant F as FastAPI (App)
+    participant S as SQLite (DB)
     participant P as Prometheus
-    participant A as AlertManager
+    participant AM as AlertManager
     participant G as Grafana
     participant L as Loki
-    participant T as Tempo
-    participant Argo as ArgoCD
-    participant K8s as Kubernetes
+    participant TP as Tempo
+    participant TG as Telegram Bot
 
-    Note over App, DB: 事件: SQLite 故障注入 By FastAPI<br>( I/O Delay via Chaos Mesh )
-    User->>App: API Request
-    App->>DB: Execute SQL<br>( INSERT/SELECT )
-    DB-->>App: I/O Block<br>( Slow )
-    App-->>User: Timeout<br>( 500 Error )
+    Note over F, S: Phase 1: Baseline & Fault Injection ( 基準建立與故障注入 )
+    U->>F: POST /admin/inject-fault ( 模擬 I/O 阻塞 / 執行緒鎖定 )
+    F->>S: 執行 SQL 操作 ( 遭遇延遲抖動 / Hysteresis )
+    
+    Note over P, AM: Phase 2: Detection ( 自動化偵測 )
+    P->>P: 評估 PromQL / LogQL 告警規則 ( P99 延遲飆升 / 捕獲 latency_alert )
+    P->>AM: 觸發 Firing 狀態告警
+    AM->>TG: 推送告警訊息 ( 包含 Annotations & Labels )
+    TG-->>U: 工程師被動接收 [Firing] 警報通知
 
-    Note over P, A: Phase 1: Detection ( 檢測 )
-    P->>P: Evaluate Rules ( e.g., P99 > 1s )
-    P->>A: Fired Alert
-    A-->>User: Send Notification ( Slack/Email )<br/>( Note: Admin 通常是被動接收 )
+    Note over U, L: Phase 3: Correlation & Contextualization ( 訊號關聯與下鑽 )
+    U->>G: 開啟 Dashboard ( 觀察到延遲熱圖與 P95/P99 Spike )
+    G->>L: 檢視結構化日誌 ( 透過 Latency 關鍵字與 Labels 定位事件 )
+    Note left of L: 發現隱性退化: 雖回傳 HTTP 200<br>但內部觸發 latency_alert
 
-    Note over G, T: Phase 2: Correlation ( 關聯分析 )
-    User->>G: Open Dashboard ( 觀察到 Latency Spike )
-    G->>L: Click "Explore Logs" ( 自動帶入 Time Range/Labels )
-    L-->>G: Display [ERROR] SQLite Busy logs
+    Note over U, TP: Phase 4: Root Cause Analysis ( 分散式鏈路根因定位 )
+    L-->>G: 提取 TraceID 進行 Context Propagation
+    G->>TP: 單鍵跳轉至 Tempo ( 載入分散式追蹤 )
+    TP-->>G: 渲染 Flame Graph ( 火焰圖 )
+    Note right of G: MTTI 5秒！精確定位<br>延遲發生於 SQLite 阻塞點 (函數級別)
 
-    Note over G, T: Phase 3: Root Cause ( 根本原因定位 )
-    User->>T: Query by TraceID ( 從 Log 中提取 )
-    T-->>G: Display Flame Graph
-    Note right of G: 兇手抓到了 !<br/>SQLite Span Blocked = 4.8s
-
-    Note over App, G: Phase 4: Remediation & Recovery ( 修復與恢復 )
-    User->>Argo: Trigger GitOps Rollback ( 或修正配置 )
-    Argo->>K8s: Apply Desired State<br>( Update Deployment )
-    K8s->>App: Terminate Old Pod
-    K8s->>App: Create New Pod<br>( Rolling Update )
-    App->>G: Metrics back to Normal<br>( New Pods Healthy )
+    Note over U, F: Phase 5: Remediation & Convergence ( 修復與指標收斂 )
+    U->>F: GET /admin/remove-inject ( 移除故障注入 / 解除鎖定 )
+    F->>S: I/O 恢復常態 ( 釋放執行緒與連線池 )
+    P->>P: 指標回歸基準線 ( Metrics Convergence )
+    AM->>TG: 推送 [Resolved] 警報解除訊號
+    TG-->>U: 確認系統全鏈路恢復正常
 ```
 
 <br><br>
