@@ -5,22 +5,23 @@
 ### *A.　Task Description*
 
 ```
-情境模擬:
- • 模擬真實場景：當底層儲存發生異常導致 I/O 延遲時，
-   觀測平台如何協助工程師在短時間內完成從「發現告警」到「定位根因」的全過程
+情境模擬 ( Scenario Description ):
+ • 模擬真實生產環境中的次佳狀況 ( Degraded State )：
+   當應用程式依賴的底層儲存 ( SQLite PVC ) 或 I/O 發生非預期阻塞時，
+   可觀測性平台如何協助維運與開發團隊，在黃金時間內完成從 自動化告警偵測 到 分散式鏈路根因定位 的完整閉環。
 
+故障注入機制 ( Fault Injection Mechanism ):
+ • 技術堆疊: Python ( FastAPI ) + LGTM 堆疊 ( Prometheus, Loki, Tempo, Grafana )
+ • 影響對象: FastAPI 應用程式所掛載之資料庫實體與資料處理執行緒
+ • 注入手段: 透過管理端點引入同步執行緒鎖定或 I/O 延遲抖動 ( Latency Jitter )，
+   模擬慢速磁碟 ( Slow Disk / I/O Bottleneck ) 行為。
 
-故障注入:
- • 工具: Python (FastAPI) + LGTM
- • 對象: FastAPI 應用掛載之 SQLite Volume ( PVC )
- • 手段: 注入 200ms 之網路延遲抖動 ( Jitter )，模擬慢速磁碟 ( Slow Disk ) 行為
-   
-
-預期行為:
- • Detection: Prometheus 觸發 P99 Latency 超時告警
- • Correlation: 利用 TraceID 關聯 Logs 與 Traces
- • Root Cause: 定位問題點在於 SQLite I/O Block，而非應用程式業務邏輯
- • Recovery: 用故障移除 API 使其恢復正常
+預期驗證目標 ( Expected Outcomes & Verification ):
+ • Detection ( 異常偵測 ): Prometheus 結合 LogQL 成功捕捉效能退化特徵，觸發高延遲告警。
+ • Correlation ( 訊號關聯 ): 利用 Trace Context Propagation 技術，無縫串聯 Metrics、Logs 與 Traces。
+ • Root Cause ( 根因剖析 ): 透過 Tempo 火焰圖 ( Flame Graph ) 精確定位延遲
+   發生於 SQLite 讀寫或業務執行緒阻斷點，排除應用程式架構本身的瓶頸。
+ • Recovery ( 自動復原 ): 透過管理 API 解除故障注入，驗證監控指標與告警狀態的自動收斂 ( Convergence ) 能力。
 ```
 
 <br>
@@ -158,7 +159,8 @@ sequenceDiagram
 <ul>
 
 ```
- • 運作行為：模擬高負載或下游服務阻塞導致的 E2E 請求超時，觸發 Prometheus 告警規則 ( PromQL/LogQL alert rules )。
+ • 運作行為：模擬高負載或下游服務阻塞導致的 E2E 請求超時，觸發 
+   Prometheus 告警規則 ( PromQL/LogQL alert rules )。
  
  • 故障注入實施：混沌工程故障注入 ( 控制變因：強制核心邏輯執行緒阻斷 2 秒 )
    curl -X POST "http://127.0.0.1:8000/admin/inject-fault?duration_seconds=2"
