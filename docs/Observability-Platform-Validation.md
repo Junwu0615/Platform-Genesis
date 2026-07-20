@@ -42,32 +42,31 @@ sequenceDiagram
     participant TP as Tempo
     participant TG as Telegram Bot
 
-    Note over F, S: Phase 1: Baseline & Fault Injection ( 基準建立與故障注入 )
-    U->>F: POST /admin/inject-fault ( 模擬 I/O 阻塞 / 執行緒鎖定 )
-    F->>S: 執行 SQL 操作 ( 遭遇延遲抖動 / Hysteresis )
-    
-    Note over P, AM: Phase 2: Detection ( 自動化偵測 )
-    P->>P: 評估 PromQL / LogQL 告警規則 ( P99 延遲飆升 / 捕獲 latency_alert )
+    Note over F, S: Phase 1 : 基準建立與環境部署
+    U->>F: 初始化管道與部署 FastAPI 監控配置
+    F->>S: 建立資料庫連線並透過 load-test 維持背景流量基準
+
+    Note over P, TG: Phase 2 : 故障注入與自動化偵測
+    U->>F: POST /admin/inject-fault ( 注入 2s 執行緒阻斷 / 延遲抖動 )
+    F->>S: 執行 SQL 操作遭遇 I/O 阻塞
+    P->>P: 評估告警規則 ( 捕捉 P99 Spike 與 latency_alert )
     P->>AM: 觸發 Firing 狀態告警
-    AM->>TG: 推送告警訊息 ( 包含 Annotations & Labels )
-    TG-->>U: 工程師被動接收 [Firing] 警報通知
+    AM->>TG: 推送告警訊息 ( 包含 Labels 與 Annotations )
+    TG-->>U: 工程師被動接收 [ Firing ] 警報通知
 
-    Note over U, L: Phase 3: Correlation & Contextualization ( 訊號關聯與下鑽 )
-    U->>G: 開啟 Dashboard ( 觀察到延遲熱圖與 P95/P99 Spike )
-    G->>L: 檢視結構化日誌 ( 透過 Latency 關鍵字與 Labels 定位事件 )
-    Note left of L: 發現隱性退化: 雖回傳 HTTP 200<br>但內部觸發 latency_alert
-
-    Note over U, TP: Phase 4: Root Cause Analysis ( 分散式鏈路根因定位 )
+    Note over U, TP: Phase 3 : 訊號關聯與根因定位
+    U->>G: 開啟 Dashboard ( 觀察到延遲熱圖與 P95/P99 異常 )
+    G->>L: 檢視結構化日誌 ( 發現雖回傳 HTTP 200，但內部觸發 latency_alert )
     L-->>G: 提取 TraceID 進行 Context Propagation
     G->>TP: 單鍵跳轉至 Tempo ( 載入分散式追蹤 )
     TP-->>G: 渲染 Flame Graph ( 火焰圖 )
-    Note right of G: MTTI 5秒！精確定位<br>延遲發生於 SQLite 阻塞點 (函數級別)
+    Note right of G: MTTI 耗時 5 秒精確定位<br>延遲發生於 SQLite 阻塞點 ( 函數級別 )
 
-    Note over U, F: Phase 5: Remediation & Convergence ( 修復與指標收斂 )
+    Note over U, P: Phase 4 : 修復與指標收斂
     U->>F: GET /admin/remove-inject ( 移除故障注入 / 解除鎖定 )
     F->>S: I/O 恢復常態 ( 釋放執行緒與連線池 )
-    P->>P: 指標回歸基準線 ( Metrics Convergence )
-    AM->>TG: 推送 [Resolved] 警報解除訊號
+    P->>P: 指標全面回歸基準線 ( Metrics Convergence )
+    AM->>TG: 推送 [ Resolved ] 警報解除訊號
     TG-->>U: 確認系統全鏈路恢復正常
 ```
 
@@ -151,7 +150,7 @@ sequenceDiagram
 
 <br>
 
-#### *★　Phase 2 : Incident Simulation*
+#### *★　Phase 2 : Incident Simulation & Detection*
 > *本階段透過模擬真實環境中的 I/O 阻斷或外部依賴逾時，觸發系統內部的自動化告警機制，<br>並示範指標到日誌的多維度訊號關聯分析。*
 
 <details>
@@ -195,7 +194,7 @@ sequenceDiagram
 
 <br>
 
-#### *★　Phase 3 : Distributed Tracing & Deep Root Cause Analysis*
+#### *★　Phase 3 : Tracing & Deep Root Cause Analysis*
 > *本階段利用 OpenTelemetry 的 Trace Context Propagation ( 追蹤上下文傳遞 ) 技術，<br>實現從日誌單鍵無縫跳轉至分散式追蹤火焰圖，精確定位應用程式內部的效能瓶頸點。*
 
 <details>
