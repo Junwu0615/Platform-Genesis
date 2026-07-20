@@ -1,27 +1,31 @@
-## *⭐ Observability Platform Validation: SQLite I/O Hysteresis ⭐*
+## *⭐ Observability Platform Validation : SQLite I/O Hysteresis ⭐*
 
 <br>
 
 ### *A.　Task Description*
 
 ```
-情境模擬 ( Scenario Description ):
- • 模擬真實生產環境中的次佳狀況 ( Degraded State )：
+情境模擬 ( Scenario Description )
+ • 模擬真實生產環境中的次佳狀況 ( Degraded State )
    當應用程式依賴的底層儲存 ( SQLite PVC ) 或 I/O 發生非預期阻塞時，
-   可觀測性平台如何協助維運與開發團隊，在黃金時間內完成從 自動化告警偵測 到 分散式鏈路根因定位 的完整閉環。
+   可觀測性平台如何協助維運與開發團隊，在黃金時間內完成
+   從【 自動化告警偵測 】到【 分散式鏈路根因定位 】的完整閉環。
 
-故障注入機制 ( Fault Injection Mechanism ):
+故障注入機制 ( Fault Injection Mechanism )
  • 技術堆疊: Python ( FastAPI ) + LGTM 堆疊 ( Prometheus, Loki, Tempo, Grafana )
  • 影響對象: FastAPI 應用程式所掛載之資料庫實體與資料處理執行緒
  • 注入手段: 透過管理端點引入同步執行緒鎖定或 I/O 延遲抖動 ( Latency Jitter )，
    模擬慢速磁碟 ( Slow Disk / I/O Bottleneck ) 行為。
 
-預期驗證目標 ( Expected Outcomes & Verification ):
- • Detection ( 異常偵測 ): Prometheus 結合 LogQL 成功捕捉效能退化特徵，觸發高延遲告警。
- • Correlation ( 訊號關聯 ): 利用 Trace Context Propagation 技術，無縫串聯 Metrics、Logs 與 Traces。
- • Root Cause ( 根因剖析 ): 透過 Tempo 火焰圖 ( Flame Graph ) 精確定位延遲
-   發生於 SQLite 讀寫或業務執行緒阻斷點，排除應用程式架構本身的瓶頸。
- • Recovery ( 自動復原 ): 透過管理 API 解除故障注入，驗證監控指標與告警狀態的自動收斂 ( Convergence ) 能力。
+預期驗證目標 ( Expected Outcomes & Verification )
+ • Detection ( 異常偵測 ): Prometheus 結合 LogQL 成功
+   捕捉效能退化特徵，觸發高延遲告警。
+ • Correlation ( 訊號關聯 ): 利用 Trace Context Propagation 技術，
+   無縫串聯 Metrics、Logs 與 Traces。
+ • Root Cause ( 根因剖析 ): 透過 Tempo 火焰圖 ( Flame Graph ) 精確定位
+   延遲發生於 SQLite 讀寫或業務執行緒阻斷點，排除應用程式架構本身的瓶頸。
+ • Recovery ( 自動復原 ): 透過管理 API 解除故障注入，驗證監控指標
+   與告警狀態的自動收斂 ( Convergence ) 能力。
 ```
 
 <br>
