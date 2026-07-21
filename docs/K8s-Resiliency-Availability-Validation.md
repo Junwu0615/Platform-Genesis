@@ -316,7 +316,7 @@ Observation
  • 檢查 容器日誌內部 是否監聽測到外部傳入自殺訊號
      • K9s: l
  • Kafka Consumer Group Matrix ( 確認 Lag 沒有異常堆積, 且重啟後能繼續正常消費 )
- • 實驗最終比較像 Crash Recovery => 而非 Process 還活著，但服務卡死
+ • 實驗最終比較像 Crash Recovery ➔ 而非 Process 還活著，但服務卡死
  
 
 Validation: ✅ PASS

@@ -99,7 +99,7 @@ k3s-agent-2
     PostgreSQL
 
 
-❌ 只有 Loki 的痛苦 →> Only Logging → 線索斷開
+❌ 只有 Loki 的痛苦 → Only Logging → 線索斷開
 每個 Pod 都是獨立印 Log，當並發量很高、一秒鐘有幾千筆 Log 湧入時，
 根本沒辦法把「前端 A 使用者的這一次點擊」、「Kafka 的某個事件」，
 以及「PostgreSQL 的某一條 SQL」精準綁在一起。

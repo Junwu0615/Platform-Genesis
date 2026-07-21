@@ -1,5 +1,5 @@
-> “*A Quantitatively Validated Production-Ready Platform Engineering Blueprint.*”
-> “*Demonstrating automated infrastructure, GitOps delivery, and end-to-end resiliency validation in a controlled environment.*”
+> “*A Quantitatively Validated Production-Ready Platform Engineering Blueprint.*
+> *Demonstrating automated infrastructure, GitOps delivery, and end-to-end resiliency validation in a controlled environment.*”
 
 ![PNG](./assets/png/Architecture-Diagram-v3.2.png)
 
