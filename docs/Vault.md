@@ -87,8 +87,8 @@ sequenceDiagram
    python3 request_secret.py --vault-addr http://127.0.0.1:8200
    
  • 運作行為
-   - 腳本呼叫 Vault API 取得 `v1/database/creds/dynamic-app-role`。
-   - 取得一組隨機產生的 `username` (如 v-token-dynamic-app-role-12345) 與 `password`。
+   - 腳本呼叫 Vault API 取得 v1/database/creds/dynamic-app-role。
+   - 取得一組隨機產生的 username (如 v-token-dynamic-app-role-12345) 與 password。
    - 立即使用該組帳密登入 PostgreSQL 進行簡單查詢，隨即主動斷開連線。
 ```
 
@@ -110,8 +110,8 @@ sequenceDiagram
    SELECT rolname, rolvaliduntil FROM pg_roles WHERE rolname LIKE 'v-token-%';
    
  • 觀察結果
-   - 當 Script A 發起請求時，監控端立即捕捉到畫面上新增一筆 `v-token-...` 記錄。
-   - 當 Script A 斷線且 TTL 到期後，監控端即時捕捉到該筆記錄自 `pg_roles` 中被徹底刪除（Drop User）。
+   - 當 Script A 發起請求時，監控端立即捕捉到畫面上新增一筆 v-token-xxx 記錄。
+   - 當 Script A 斷線且 TTL 到期後，監控端即時捕捉到該筆記錄自 pg_roles 中被徹底刪除。
    - 確保無任何長期殘留帳號，達成零信任動態防護目標。
 ```
 
