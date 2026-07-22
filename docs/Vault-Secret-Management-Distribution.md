@@ -73,7 +73,7 @@ sequenceDiagram
        connection_url="postgresql://{{username}}:{{password}}@postgresql-homelab-test.databases-homelab-test.svc.cluster.local:5432/pgdatabase?sslmode=disable" \
        username="pguser" \
        password="pgsecretpassword"
-   # 預期反饋 : Success! Data written to: database/config/postgresql-prod
+   # ✅ 預期反饋 : Success! Data written to: database/config/postgresql-prod
        
  • [容器內設定] 建立動態角色對應 (Create Role with TTL)
    vault write database/roles/dynamic-app-role \
@@ -81,7 +81,7 @@ sequenceDiagram
        creation_statements="CREATE ROLE \"{{name}}\" WITH LOGIN PASSWORD '{{password}}' VALID UNTIL 'infinity'; GRANT SELECT ON ALL TABLES IN SCHEMA public TO \"{{name}}\";" \
        default_ttl="2m" \
        max_ttl="5m"
-   # 預期反饋 : Success! Data written to: database/roles/dynamic-app-role
+   # ✅ 預期反饋 : Success! Data written to: database/roles/dynamic-app-role
 
  • 啟動 K3s 叢集內部 Vault 管道
    make open-pipeline
@@ -125,11 +125,20 @@ sequenceDiagram
 
 ### *C.　MVP Verification Summary*
 
+<details>
+<summary><b><i>　🎬　Demo </i></b></summary>
+<ul>
+
+![GIF](../assets/gif/Dynamic-Secret-Injection.gif)
+
+</ul>
+</details>
+
 | **Validation Step** | **Action Performed** | **Expected Result** | **Status** |
 |:--|:--|:--|:--|
-| *1.　Request* | *Script A 請求 Vault 產生憑證* | *成功回傳短效期動態帳密* | *-* |
-| *2.　Connect* | *使用動態帳密存取 PostgreSQL* | *順利建立連線並完成資料操作* | *-* |
-| *3.　Audit* | *Script B 輪詢 pg_roles 檢視* | *確實捕捉到動態帳號的即時新增* | *-* |
-| *4.　Revoke* | *斷線與 TTL 屆滿自動回收* | *資料庫確實執行 Drop User，無殘留* | *-* |
+| *1.　Request* | *Script A 請求 Vault 產生憑證* | *成功回傳短效期動態帳密* | *✅ PASS* |
+| *2.　Connect* | *使用動態帳密存取 PostgreSQL* | *順利建立連線並完成資料操作* | *✅ PASS* |
+| *3.　Audit* | *Script B 輪詢 pg_roles 檢視* | *確實捕捉到動態帳號的即時新增* | *✅ PASS* |
+| *4.　Revoke* | *斷線與 TTL 屆滿自動回收* | *資料庫確實執行 Drop User，無殘留* | *✅ PASS* |
 
 <br><br><br>
