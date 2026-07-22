@@ -69,11 +69,11 @@
 
 | _Module_ | _Status_ | _Domain Platform_ | _Core Technologies_ |
 |:--|:--|:--|:--|
-| _**PG - v1.0 : [Core](https://github.com/Junwu0615/PG-Core) ⭐**_ | _Release 2026-07-23_ | _Cloud Native_ | `Kubernetes` `GitOps`<br>`Observability`<br>`Infrastructure as Code`<br>`Secrets Management` |
-| _**PG - v2.0 : [Synapse](https://github.com/Junwu0615/PG-Synapse)**_ | _Future Work_ | _Data_ | `Airflow` `Kafka` `CDC`<br>`Iceberg` `Lakehouse` |
-| _**PG - v3.0 : [Cortex](https://github.com/Junwu0615/PG-Cortex)**_ | _Future Work_ | _AI_ | `MLflow` `Kubeflow` `Ray`<br>`LLMOps` `Model Serving` |
-| _**PG - v4.0 : [Sentinel](https://github.com/Junwu0615/PG-Sentinel)**_ | _Future Work_ | _Intelligent Operations_ | `AIOps` `Chaos Engineering`<br>`Reliability`<br>`Auto Remediation` |
-| _**Hot Update : [Analytics](https://github.com/Junwu0615/PG-Analytics) ⭐**_ | - | _Repository Analytics_ | `GitHub Traffic`<br>`Repository Metrics`<br>`Growth Trend`<br>`Historical Statistics` |
+| _**PG - [Core](https://github.com/Junwu0615/PG-Core)**_ | _v1.0 : Release 2026-07-23_ | _Cloud Native_ | `Kubernetes` `GitOps`<br>`Observability`<br>`Infrastructure as Code`<br>`Secrets Management` |
+| _**PG - [Synapse](https://github.com/Junwu0615/PG-Synapse)**_ | _v2.0 : Future Work_ | _Data_ | `Airflow` `Kafka` `CDC`<br>`Iceberg` `Lakehouse` |
+| _**PG - [Cortex](https://github.com/Junwu0615/PG-Cortex)**_ | _v3.0 : Future Work_ | _AI_ | `MLflow` `Kubeflow` `Ray`<br>`LLMOps` `Model Serving` |
+| _**PG - [Sentinel](https://github.com/Junwu0615/PG-Sentinel)**_ | _v4.0 : Future Work_ | _Intelligent Operations_ | `AIOps` `Chaos Engineering`<br>`Reliability`<br>`Auto Remediation` |
+| _**PG - [Analytics](https://github.com/Junwu0615/PG-Analytics)**_ | _Hot Update_ | _Repository Analytics_ | `GitHub Traffic`<br>`Repository Metrics`<br>`Growth Trend`<br>`Historical Statistics` |
 
 <br><br>
 
