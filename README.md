@@ -1,7 +1,7 @@
 > “*A Quantitatively Validated Production-Ready Platform Engineering Blueprint.*
 > *Demonstrating automated infrastructure, GitOps delivery, and end-to-end resiliency validation in a controlled environment.*”
 
-![PNG](./assets/png/Architecture-Diagram-v4.0.png)
+![PNG](./assets/png/Architecture-Diagram-v4.1.png)
 
 <br><br>
 
