@@ -18,18 +18,24 @@
   * #### *Adopted Layered GitOps and App-of-Apps Architecture*
   * #### *Established Deployment Governance and Drift Control Validation*
 
-- ### *Observability*
-  * #### *Metrics collection Using Prometheus*
-  * #### *Centralized Logging Using Loki and ELK*
-  * #### *Distributed Tracing Using Tempo*
-  * #### *Unified Visualization Using Grafana*
-
 - ### *Reliability Engineering*
   * #### *Validated Workload Recovery Behavior*  
   * #### *Validated Node failure Recovery*
   * #### *Validated Control Plane Resiliency*
   * #### *Validated GitOps Recovery Workflows*
   * #### *Established Quantitative Validation Methodology*
+
+- ### *Observability*
+  * #### *Metrics collection Using Prometheus*
+  * #### *Centralized Logging Using Loki and ELK*
+  * #### *Distributed Tracing Using Tempo*
+  * #### *Unified Visualization Using Grafana*
+  * #### *Established Real-time Audit & Observability Feedback Loops for Security Operations*
+
+- ### *Security & Zero-Trust Architecture*
+  * #### *Implemented HashiCorp Vault Database Secrets Engine for Dynamic Credentialing*
+  * #### *Validated Automated Just-In-Time (JIT) Provisioning and Complete Revocation Lifecycle*
+  * #### *Integrated Real-time Database Role Auditing and PostgreSQL Integration*
 
 <br><br>
 
@@ -38,12 +44,12 @@
 
 | _Engineering Capability_ | _Type_ | _Documentation_ |
 |:--|:--|:--|
-| _Platform Delivery_ | 🔴 _Platform Core_ | _**[PED-07](./docs/Deployment-Delivery-Baseline.md) ⭐**_ |
-| _Platform Reliability_ | 🔴 _Platform Core_ | _**[PED-08](./docs/K8s-Resiliency-Availability-Validation.md) ⭐**_ |
-| _Platform Observability_ | 🟡 _Platform Service_ | _**[PED-09](./docs/Observability-Platform-Validation.md) ⭐**_ |
-| _Platform Security_ | 🟡 _Platform Service_ | _**[PED-10](./docs/Vault-Secret-Management-Distribution.md) ⭐**_ |
-| _Platform Operations_ | 🟢 _Platform Integration_ | _**[PED-11](./docs/End-to-End-DevOps-Operating-Model.md)**_ |
-| _Platform Governance_ | 🔴 _Platform Core_ | _**[PED-12](./docs/GitOps-Deployment-Governance-Validation.md) ⭐**_ |
+| _Platform Delivery_ | 🔴 _Platform Core_ | _**[PED-07](./docs/Deployment-Delivery-Baseline.md) -  Delivery Baseline**_ |
+| _Platform Reliability_ | 🔴 _Platform Core_ | _**[PED-08](./docs/K8s-Resiliency-Availability-Validation.md) -  Resiliency Audit**_ |
+| _Platform Observability_ | 🟡 _Platform Service_ | _**[PED-09](./docs/Observability-Platform-Validation.md) -  Metrics & Traces**_ |
+| _Platform Security_ | 🟡 _Platform Service_ | _**[PED-10](./docs/Vault-Secret-Management-Distribution.md) -  Dynamic JIT & Audit**_ |
+| _Platform Operations_ | 🟢 _Platform Integration_ | _**[PED-11](./docs/End-to-End-DevOps-Operating-Model.md) -  Operating Model**_ |
+| _Platform Governance_ | 🔴 _Platform Core_ | _**[PED-12](./docs/GitOps-Deployment-Governance-Validation.md) -  Drift Control**_ |
 
 <br><br>
 
