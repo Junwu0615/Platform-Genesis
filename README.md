@@ -1,5 +1,5 @@
 > “*A Quantitatively Validated Production-Ready Platform Engineering Blueprint.*
-> *Demonstrating automated infrastructure, GitOps delivery, and end-to-end resiliency validation in a controlled environment.*”
+> *Demonstrating automated infrastructure, GitOps delivery, end-to-end resiliency, and zero-trust security validation in a controlled environment.*”
 
 ![PNG](./assets/png/Architecture-Diagram-v4.1.png)
 
@@ -62,7 +62,7 @@
 | _Kubernetes_ | `HA Control Plane` `Scheduling` `Recovery Validation` |
 | _GitOps_ | `GitLab CI` `Argo CD` `App-of-Apps` `Drift Control` |
 | _Observability_ | `Metrics` `Logs` `Traces` `Alerting` |
-| _Security_ | `Vault-based Secret Management` |
+| _Security_ | `Vault-based Secret Management` `Vault Dynamic Secrets`<br>`JIT Provisioning` `Zero-Trust Lifecycle` |
 | _Data Platform_ | `PostgreSQL` `Airflow` `Kafka` |
 | _Reliability_ | `Recovery Testing` `Governance Validation` |
 
