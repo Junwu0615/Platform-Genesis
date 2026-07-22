@@ -313,7 +313,7 @@
     > ###### Drift detection, reconciliation, rollback, and promotion validation.
 - #### *[Observability & Incident Response Validation](https://github.com/Junwu0615/Platform-Genesis/blob/main/docs/Observability-Platform-Validation.md)*
     > ###### Metrics, logging, tracing, and alerting validation.
-- #### *[Vault Secret Management & Distribution](https://github.com/Junwu0615/Platform-Genesis/blob/main/docs/Vault.md)*
+- #### *[Vault Secret Management & Distribution](https://github.com/Junwu0615/Platform-Genesis/blob/main/docs/Vault-Secret-Management-Distribution.md)*
     > ###### Secret lifecycle management and secure workload integration.
 
 </ul>
