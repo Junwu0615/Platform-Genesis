@@ -85,10 +85,10 @@
 | _Repository_ | _Purpose_ |
 |:--|:--|
 | _**[PG - Infrastructure](https://github.com/Junwu0615/PG-Infrastructure)**_ |  _Infrastructure as Code & Platform Automation_ |
-| _**[PG - APP - Core](https://github.com/Junwu0615/PG-APP-Core)**_ |  _Application Services & Workload Simulation_  |
-| _**[PG - Shared - Lib](https://github.com/Junwu0615/PG-Shared-Lib)**_ |  _Shared Components & Framework Utilities_ |
-| _**[PG - Edge - Container](https://github.com/Junwu0615/PG-Edge-Container)**_ |  _Edge Runtime Deployment_ |
-| _**[PG - Airflow - DAGs](https://github.com/Junwu0615/PG-Airflow-DAGs)**_ |  _Data Orchestration Workflows_ |
+| _**[PG - APP-Core](https://github.com/Junwu0615/PG-APP-Core)**_ |  _Application Services & Workload Simulation_  |
+| _**[PG - Shared-Lib](https://github.com/Junwu0615/PG-Shared-Lib)**_ |  _Shared Components & Framework Utilities_ |
+| _**[PG - Edge-Container](https://github.com/Junwu0615/PG-Edge-Container)**_ |  _Edge Runtime Deployment_ |
+| _**[PG - Airflow-DAGs](https://github.com/Junwu0615/PG-Airflow-DAGs)**_ |  _Data Orchestration Workflows_ |
 
 <br><br>
 
