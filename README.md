@@ -69,11 +69,11 @@
 
 | _Module_ | _Status_ | _Domain Platform_ | _Core Technologies_ |
 |:--|:--|:--|:--|
-| _**PG - [Core](https://github.com/Junwu0615/PG-Core)**_ | _v1.0 : Release 2026-07-23_ | _Cloud Native_ | `Kubernetes` `GitOps`<br>`Observability`<br>`Infrastructure as Code`<br>`Secrets Management` |
-| _**PG - [Synapse](https://github.com/Junwu0615/PG-Synapse)**_ | _v2.0 : Future Work_ | _Data_ | `Airflow` `Kafka` `CDC`<br>`Iceberg` `Lakehouse` |
-| _**PG - [Cortex](https://github.com/Junwu0615/PG-Cortex)**_ | _v3.0 : Future Work_ | _AI_ | `MLflow` `Kubeflow` `Ray`<br>`LLMOps` `Model Serving` |
-| _**PG - [Sentinel](https://github.com/Junwu0615/PG-Sentinel)**_ | _v4.0 : Future Work_ | _Intelligent Operations_ | `AIOps` `Chaos Engineering`<br>`Reliability`<br>`Auto Remediation` |
-| _**PG - [Analytics](https://github.com/Junwu0615/PG-Analytics)**_ | _Hot Update_ | _Repository Analytics_ | `GitHub Traffic`<br>`Repository Metrics`<br>`Growth Trend`<br>`Historical Statistics` |
+| _**[PG - Core](https://github.com/Junwu0615/PG-Core)**_ | _v1.0 : Release 2026-07-23_ | _Cloud Native_ | `Kubernetes` `GitOps`<br>`Observability`<br>`Infrastructure as Code`<br>`Secrets Management` |
+| _**[PG - Synapse](https://github.com/Junwu0615/PG-Synapse)**_ | _v2.0 : Future Work_ | _Data_ | `Airflow` `Kafka` `CDC`<br>`Iceberg` `Lakehouse` |
+| _**[PG - Cortex](https://github.com/Junwu0615/PG-Cortex)**_ | _v3.0 : Future Work_ | _AI_ | `MLflow` `Kubeflow` `Ray`<br>`LLMOps` `Model Serving` |
+| _**[PG - Sentinel](https://github.com/Junwu0615/PG-Sentinel)**_ | _v4.0 : Future Work_ | _Intelligent Operations_ | `AIOps` `Chaos Engineering`<br>`Reliability`<br>`Auto Remediation` |
+| _**[PG - Analytics](https://github.com/Junwu0615/PG-Analytics)**_ | _Hot Update_ | _Repository Analytics_ | `GitHub Traffic`<br>`Repository Metrics`<br>`Growth Trend`<br>`Historical Statistics` |
 
 <br><br>
 
@@ -84,11 +84,11 @@
 
 | _Repository_ | _Purpose_ |
 |:--|:--|
-| _**[PG-Infrastructure](https://github.com/Junwu0615/PG-Infrastructure)**_ |  _Infrastructure as Code & Platform Automation_ |
-| _**[PG-APP-Core](https://github.com/Junwu0615/PG-APP-Core)**_ |  _Application Services & Workload Simulation_  |
-| _**[PG-Shared-Lib](https://github.com/Junwu0615/PG-Shared-Lib)**_ |  _Shared Components & Framework Utilities_ |
-| _**[PG-Edge-Container](https://github.com/Junwu0615/PG-Edge-Container)**_ |  _Edge Runtime Deployment_ |
-| _**[PG-Airflow-DAGs](https://github.com/Junwu0615/PG-Airflow-DAGs)**_ |  _Data Orchestration Workflows_ |
+| _**[PG - Infrastructure](https://github.com/Junwu0615/PG-Infrastructure)**_ |  _Infrastructure as Code & Platform Automation_ |
+| _**[PG - APP - Core](https://github.com/Junwu0615/PG-APP-Core)**_ |  _Application Services & Workload Simulation_  |
+| _**[PG - Shared - Lib](https://github.com/Junwu0615/PG-Shared-Lib)**_ |  _Shared Components & Framework Utilities_ |
+| _**[PG - Edge - Container](https://github.com/Junwu0615/PG-Edge-Container)**_ |  _Edge Runtime Deployment_ |
+| _**[PG - Airflow - DAGs](https://github.com/Junwu0615/PG-Airflow-DAGs)**_ |  _Data Orchestration Workflows_ |
 
 <br><br>
 
