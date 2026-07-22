@@ -6,22 +6,27 @@
 ```
 情境模擬 ( Scenario Description )
  • 模擬雲原生與零信任架構下的動態密鑰派發與生命週期管理：
-   透過 HashiCorp Vault 的 Database Secrets Engine，實作用完即焚 ( Just-In-Time ) 與最小權限原則，
-   確保應用程式或背景服務不需硬編碼 ( Hardcode ) 任何長期有效的資料庫密碼。
+   透過 HashiCorp Vault 的 Database Secrets Engine，實作用完即焚 ( Just-In-Time ) 
+   與最小權限原則，確保應用程式或背景服務不需硬編碼 ( Hardcode ) 任何長期有效的資料庫密碼。
 
 實施機制 ( Implementation Mechanism )
  • 技術堆疊: HashiCorp Vault + PostgreSQL + Python ( Script-based Validation )
  • 核心流程: 
-   1. 定時索取 ( Dynamic Request ) : 測試腳本定期向 Vault 發送憑證申請，Vault 透過資料庫外掛 ( Plugin ) 
-      自動在 PostgreSQL 中動態建立具備時效性 ( TTL ) 的短效期帳號。
-   2. 自動回收 ( Revocation / Cleanup ) : 任務結束後主動斷線或等待 TTL 到期，Vault 自動執行回收與刪除。
-   3. 異動監控 ( Audit & Verification ) : 同步透過監控腳本檢視 PostgreSQL 系統檢視表 ( pg_roles / pg_stat_activity )，
+   1. 定時索取 ( Dynamic Request ) : 測試腳本定期向 Vault 發送憑證申請，Vault 透過
+      資料庫外掛 ( Plugin ) 自動在 PostgreSQL 中動態建立具備時效性 ( TTL ) 的短效期帳號。
+   2. 自動回收 ( Revocation / Cleanup ) : 
+      任務結束後主動斷線或等待 TTL 到期，Vault 自動執行回收與刪除。
+   3. 異動監控 ( Audit & Verification ) : 
+      同步透過監控腳本檢視 PostgreSQL 系統檢視表 ( pg_roles / pg_stat_activity )，
       即時驗證資料庫動態帳號的【 新增 】➔【 使用 】➔【 自動刪除 】生命週期完整性。
 
 預期驗證目標 ( Expected Outcomes & Verification )
- • Dynamic Credentialing ( 動態憑證 ) : 驗證 Vault 能依據請求即時產生不同帳號密碼，而非共用同一組靜態密鑰。
- • Lifecycle Management ( 生命週期管理 ) : 確認短效期帳號在逾時或斷線後，確實被資料庫端清除，無孤兒帳號殘留。
- • Zero-Trust Compliance ( 零信任合規 ) : 實踐憑證最小化與短期有效特性，大幅降低憑證外洩風險。
+ • Dynamic Credentialing ( 動態憑證 ) :
+   驗證 Vault 能依據請求即時產生不同帳號密碼，而非共用同一組靜態密鑰。
+ • Lifecycle Management ( 生命週期管理 ) :
+   確認短效期帳號在逾時或斷線後，確實被資料庫端清除，無孤兒帳號殘留。
+ • Zero-Trust Compliance ( 零信任合規 ) :
+   實踐憑證最小化與短期有效特性，大幅降低憑證外洩風險。
 ```
 
 <br>
