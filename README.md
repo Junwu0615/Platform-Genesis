@@ -68,12 +68,12 @@
 > _toward Data Engineering, AI Engineering, and Autonomous Operations._
 
 | _Module_ | _Status_ | _Domain_ | _Core Technologies_ |
-|:--|:--|:--|:--|
-| _**[PG-Core](https://github.com/Junwu0615/PG-Core)**_ | _In Progress ⭐<br>( v1.0 )_ | _⛏ Cloud Native Platform_ | `Kubernetes` `GitOps`<br>`Observability`<br>`Infrastructure as Code`<br>`Secrets Management` |
-| _**[PG-Synapse](https://github.com/Junwu0615/PG-Synapse)**_ | _Future Work<br>( v2.0 )_ | _🚝 Data Platform_ | `Airflow` `Kafka` `CDC`<br>`Iceberg` `Lakehouse` |
-| _**[PG-Cortex](https://github.com/Junwu0615/PG-Cortex)**_ | _Future Work<br>( v3.0 )_ | _🌐 AI Platform_ | `MLflow` `Kubeflow` `Ray`<br>`LLMOps` `Model Serving` |
-| _**[PG-Sentinel](https://github.com/Junwu0615/PG-Sentinel)**_ | _Future Work<br>( v4.0 )_ | _🚀 Intelligent Operations Platform_ | `AIOps` `Chaos Engineering`<br>`Reliability`<br>`Auto Remediation` |
-| _**[PG-Analytics](https://github.com/Junwu0615/PG-Analytics)**_ | _Hot Update ⭐_ | _📊 Repository Analytics Platform_ | `GitHub Traffic`<br>`Repository Metrics`<br>`Growth Trend`<br>`Historical Statistics` |
+|--:|:--|:--|:--|
+| _**[Core](https://github.com/Junwu0615/PG-Core)<br>⭐ PG - v1.0**_ | _Release 2026-07-23_ | _Cloud Native Platform_ | `Kubernetes` `GitOps`<br>`Observability`<br>`Infrastructure as Code`<br>`Secrets Management` |
+| _**[Synapse](https://github.com/Junwu0615/PG-Synapse)<br>PG - v2.0**_ | _Future Work_ | _Data Platform_ | `Airflow` `Kafka` `CDC`<br>`Iceberg` `Lakehouse` |
+| _**[Cortex](https://github.com/Junwu0615/PG-Cortex)<br>PG - v3.0**_ | _Future Work_ | _AI Platform_ | `MLflow` `Kubeflow` `Ray`<br>`LLMOps` `Model Serving` |
+| _**[Sentinel](https://github.com/Junwu0615/PG-Sentinel)<br>PG - v4.0**_ | _Future Work_ | _Intelligent Operations Platform_ | `AIOps` `Chaos Engineering`<br>`Reliability`<br>`Auto Remediation` |
+| _**[Analytics](https://github.com/Junwu0615/PG-Analytics)<br>⭐ Hot Update**_ | - | _Repository Analytics Platform_ | `GitHub Traffic`<br>`Repository Metrics`<br>`Growth Trend`<br>`Historical Statistics` |
 
 <br><br>
 
