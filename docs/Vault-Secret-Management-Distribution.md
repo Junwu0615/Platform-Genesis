@@ -63,31 +63,36 @@ sequenceDiagram
 <ul>
 
 ```
- • 啟用 Database Secret Engine
+ • [容器內設定] 啟用 Database Secret Engine
    vault secrets enable database
    
- • 設定 PostgreSQL 連線介面 (Connection Configuration)
+ • [容器內設定] 設定 PostgreSQL 連線介面 (Connection Configuration)
    vault write database/config/postgresql-prod \
        plugin_name=postgresql-database-plugin \
        allowed_roles="dynamic-app-role" \
-       connection_url="postgresql://{{username}}:{{password}}@postgres:5432/mydb?sslmode=disable" \
-       username="vault_admin" \
-       password="admin_secure_password"
+       connection_url="postgresql://{{username}}:{{password}}@postgresql-homelab-test.databases-homelab-test.svc.cluster.local:5432/pgdatabase?sslmode=disable" \
+       username="pguser" \
+       password="pgsecretpassword"
+   # 預期反饋 : Success! Data written to: database/config/postgresql-prod
        
- • 建立動態角色對應 (Create Role with TTL)
+ • [容器內設定] 建立動態角色對應 (Create Role with TTL)
    vault write database/roles/dynamic-app-role \
        db_name=postgresql-prod \
-       creation_statements="CREATE ROLE \"{{name}}\" LOGIN PASSWORD '{{password}}' VALID UNTIL 'timestamp ''now() + interval ''5 minutes'''; GRANT SELECT ON ALL TABLES IN SCHEMA public TO \"{{name}}D\";" \
+       creation_statements="CREATE ROLE \"{{name}}\" WITH LOGIN PASSWORD '{{password}}' VALID UNTIL 'infinity'; GRANT SELECT ON ALL TABLES IN SCHEMA public TO \"{{name}}\";" \
        default_ttl="2m" \
        max_ttl="5m"
-       
+   # 預期反饋 : Success! Data written to: database/roles/dynamic-app-role
+
+ • 啟動 K3s 叢集內部 Vault 管道
+   make open-pipeline
+
  • 執行腳本向 Vault 索取暫時密鑰並進行短暫連線
-   python3 request_secret.py --vault-addr http://127.0.0.1:8200
+   python3 request_secret.py
    
  • 運作行為
-   - 腳本呼叫 Vault API 取得 v1/database/creds/dynamic-app-role。
-   - 取得一組隨機產生的 username (如 v-token-dynamic-app-role-12345) 與 password。
-   - 立即使用該組帳密登入 PostgreSQL 進行簡單查詢，隨即主動斷開連線。
+   - 腳本呼叫 Vault API 取得 v1/database/creds/dynamic-app-role
+   - 取得一組隨機產生的 username (如 v-token-dynamic-app-role-xxx) 與 password
+   - 立即使用該組帳密登入 PostgreSQL 進行簡單查詢，隨即主動斷開連線
 ```
 
 </ul>
@@ -102,15 +107,15 @@ sequenceDiagram
 
 ```
  • 啟動資料庫角色監控腳本
-   python3 monitor_roles.py --interval 1s
+   python3 monitor_roles.py
    
  • 監控核心 SQL 邏輯
    SELECT rolname, rolvaliduntil FROM pg_roles WHERE rolname LIKE 'v-token-%';
    
  • 觀察結果
-   - 當 Script A 發起請求時，監控端立即捕捉到畫面上新增一筆 v-token-xxx 記錄。
-   - 當 Script A 斷線且 TTL 到期後，監控端即時捕捉到該筆記錄自 pg_roles 中被徹底刪除。
-   - 確保無任何長期殘留帳號，達成零信任動態防護目標。
+   - 當 Script A 發起請求時，監控端立即捕捉到畫面上新增一筆 v-token-xxx 記錄
+   - 當 Script A 斷線且 TTL 到期後，監控端即時捕捉到該筆記錄自 pg_roles 中被徹底刪除
+   - 確保無任何長期殘留帳號，達成零信任動態防護目標
 ```
 
 </ul>
