@@ -41,7 +41,7 @@
 | _Platform Delivery_ | 🔴 _Platform Core_ | _**[PED-7](./docs/Deployment-Delivery-Baseline.md) ⭐**_ |
 | _Platform Reliability_ | 🔴 _Platform Core_ | _**[PED-8](./docs/K8s-Resiliency-Availability-Validation.md) ⭐**_ |
 | _Platform Observability_ | 🟡 _Platform Service_ | _**[PED-9](./docs/Observability-Platform-Validation.md) ⭐**_ |
-| _Platform Security_ | 🟡 _Platform Service_ | _**[PED-10](./docs/Vault-Secret-Management-Distribution.md)**_ |
+| _Platform Security_ | 🟡 _Platform Service_ | _**[PED-10](./docs/Vault-Secret-Management-Distribution.md) ⭐**_ |
 | _Platform Operations_ | 🟢 _Platform Integration_ | _**[PED-11](./docs/End-to-End-DevOps-Operating-Model.md)**_ |
 | _Platform Governance_ | 🔴 _Platform Core_ | _**[PED-12](./docs/GitOps-Deployment-Governance-Validation.md) ⭐**_ |
 

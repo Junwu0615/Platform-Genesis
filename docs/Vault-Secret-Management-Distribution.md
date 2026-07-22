@@ -2,7 +2,7 @@
 
 <br>
 
-### *A.　Task Description*
+### *A.　Scenario & Objective*
 ```
 情境模擬 ( Scenario Description )
  • 模擬雲原生與零信任架構下的動態密鑰派發與生命週期管理：
@@ -37,20 +37,20 @@ sequenceDiagram
     participant DB as PostgreSQL ( DB )
     participant S2 as Script B ( Monitor )
 
-    Note over S1, DB: Phase 1 : 動態憑證配置與 Vault 整合
-    S1->>V: 呼叫 API 索取暫時密鑰 ( v1/database/creds/... )
-    V->>DB: 動態執行 CREATE USER ( 建立短效期帳號 )
-    DB-->>V: 回應建立成功
-    V-->>S1: 回傳隨機 v-token 帳號與密碼 ( 帶有 TTL )
-    S1->>DB: 使用動態憑證登入並進行簡單查詢
-    S1->>DB: 主動斷開連線 ( Disconnect )
+    Note over S1, DB: Phase 1 : 動態憑證配置與 Just-In-Time 索取
+    S1->>V: 呼叫 API 索取暫時密鑰<br/>( GET /v1/database/creds/dynamic-app-role )
+    V->>DB: 動態執行 CREATE USER<br/>( 建立短效期 v-token-xxx 帶有 TTL 帳號 )
+    DB-->>V: 帳號建立成功 : 回應建立成功
+    V-->>S1: 回傳動態帳號、密碼與 Lease 資訊
+    S1->>DB: 使用動態憑證登入並執行查詢 ( SELECT )
+    S1->>DB: 業務操作結束，主動斷開連線 ( Disconnect )
 
-    Note over S1, DB: Phase 2 : 即時角色稽核與監控
-    S2->>DB: 輪詢檢視 ( SELECT pg_roles WHERE v-token-% )
-    DB-->>S2: 捕捉新增記錄：顯示 v-token-xxx 存在
-    Note over V, DB: TTL 逾時或租約到期
-    V->>DB: 自動執行 DROP USER 清理帳號
-    DB-->>S2: 捕捉刪除記錄：v-token-xxx 自 pg_roles 徹底消失
+    Note over S1, DB: Phase 2 : 背景稽核輪詢與自動回收生命週期
+    S2->>DB: 查詢系統表<br/>( SELECT * FROM pg_roles WHERE rolname LIKE v-token-% )
+    DB-->>S2: 即時捕捉 ：回傳目前存在的動態帳號紀錄
+    Note over V, DB: TTL 逾時 / 租約到期
+    V->>DB: 觸發自動回收機制 ：執行 DROP USER 徹底清除該帳號
+    DB-->>S2: 捕捉刪除記錄 ：帳號已自 pg_roles 徹底消失 ( 0 殘留 )
 ```
 
 <br><br>
@@ -91,7 +91,7 @@ sequenceDiagram
    
  • 運作行為
    - 腳本呼叫 Vault API 取得 v1/database/creds/dynamic-app-role
-   - 取得一組隨機產生的 username (如 v-token-dynamic-app-role-xxx) 與 password
+   - 取得一組隨機產生的 username (ex: v-token-xxx) 與 password
    - 立即使用該組帳密登入 PostgreSQL 進行簡單查詢，隨即主動斷開連線
 ```
 
