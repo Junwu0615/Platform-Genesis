@@ -1,7 +1,10 @@
 > “*A Quantitatively Validated Production-Ready Platform Engineering Blueprint.*
 > *Demonstrating automated infrastructure, GitOps delivery, end-to-end resiliency, and zero-trust security validation in a controlled environment.*”
 
-![PNG](./assets/png/Architecture-Diagram-v4.1.png)
+[//]: # (![PNG]&#40;./assets/png/Architecture-Diagram-v4.1.png&#41;)
+<p align="center">
+  <img src="./assets/svg/Architecture-Diagram-v4.1.svg" style="background-color: #ffffff; padding: 1px; border-radius: 4px;" />
+</p>
 
 <br><br>
 
@@ -79,7 +82,6 @@
 | _**[PG - Synapse](https://github.com/Junwu0615/PG-Synapse)**_ | _v2.0 : Future Work_ | _Data_ | `Airflow` `Kafka` `CDC`<br>`Iceberg` `Lakehouse` |
 | _**[PG - Cortex](https://github.com/Junwu0615/PG-Cortex)**_ | _v3.0 : Future Work_ | _AI_ | `MLflow` `Kubeflow` `Ray`<br>`LLMOps` `Model Serving` |
 | _**[PG - Sentinel](https://github.com/Junwu0615/PG-Sentinel)**_ | _v4.0 : Future Work_ | _Intelligent Operations_ | `AIOps` `Chaos Engineering`<br>`Reliability`<br>`Auto Remediation` |
-| _**[PG - Analytics](https://github.com/Junwu0615/PG-Analytics)**_ | _Hot Update_ | _Repository Analytics_ | `GitHub Traffic`<br>`Repository Metrics`<br>`Growth Trend`<br>`Historical Statistics` |
 
 <br><br>
 
@@ -90,11 +92,12 @@
 
 | _Repository_ | _Purpose_ |
 |:--|:--|
-| _**[PG - Infrastructure](https://github.com/Junwu0615/PG-Infrastructure)**_ |  _Infrastructure as Code & Platform Automation_ |
-| _**[PG - APP-Core](https://github.com/Junwu0615/PG-APP-Core)**_ |  _Application Services & Workload Simulation_  |
+| _**[PG - Infrastructure](https://github.com/Junwu0615/PG-Infrastructure)**_ | _Infrastructure as Code & Platform Automation_  |
+| _**[PG - APP-Core](https://github.com/Junwu0615/PG-APP-Core)**_ |  _Application Services & Workload Simulation_ |
 | _**[PG - Shared-Lib](https://github.com/Junwu0615/PG-Shared-Lib)**_ |  _Shared Components & Framework Utilities_ |
 | _**[PG - Edge-Container](https://github.com/Junwu0615/PG-Edge-Container)**_ |  _Edge Runtime Deployment_ |
 | _**[PG - Airflow-DAGs](https://github.com/Junwu0615/PG-Airflow-DAGs)**_ |  _Data Orchestration Workflows_ |
+| _**[PG - Analytics](https://github.com/Junwu0615/PG-Analytics)**_ | _Repository Analytics : Hot Update_ |
 
 <br><br>
 
