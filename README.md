@@ -1,15 +1,14 @@
 > “*A Quantitatively Validated Production-Ready Platform Engineering Blueprint.*
 > *Demonstrating automated infrastructure, GitOps delivery, end-to-end resiliency, and zero-trust security validation in a controlled environment.*”
 
-[//]: # (![PNG]&#40;./assets/png/Architecture-Diagram-v4.1.png&#41;)
 <p align="center">
-  <img src="./assets/svg/Architecture-Diagram-v4.1.svg" style="background-color: #ffffff; padding: 1px; border-radius: 4px;" />
+  <img src="./assets/svg/Architecture-Diagram-v4.2.svg" style="background-color: #ffffff; padding: 1px; border-radius: 4px;" />
 </p>
 
 <br><br>
 
 ## *🚀　Key Achievements*
-> _Implemented in **PG-Core ( v1.0 )**_
+> _Implemented in **PG-Core ( v1.0.0 )**_
 
 - ### *Infrastructure Automation*
   * #### *Built Repeatable Infrastructure Provisioning Using Terraform and Ansible*
@@ -43,7 +42,7 @@
 <br><br>
 
 ## *📊　Selected Engineering Evidence*
-> _Implemented in **PG-Core ( v1.0 )**_
+> _Implemented in **PG-Core ( v1.0.0 )**_
 
 | _Engineering Capability_ | _Type_ | _Documentation_ |
 |:--|:--|:--|
@@ -57,7 +56,7 @@
 <br><br>
 
 ## *🏗　Core Platform Capabilities*
-> _Implemented in **PG-Core ( v1.0 )**_
+> _Implemented in **PG-Core ( v1.0.0 )**_
 
 | _Domain_ | _Capabilities_ |
 |:--|:--|
@@ -78,10 +77,10 @@
 
 | _Module_ | _Status_ | _Domain Platform_ | _Core Technologies_ |
 |:--|:--|:--|:--|
-| _**[PG - Core](https://github.com/Junwu0615/PG-Core)**_ | _v1.0 : Release 2026-07-23_ | _Cloud Native_ | `Kubernetes` `GitOps`<br>`Observability`<br>`Infrastructure as Code`<br>`Secrets Management` |
-| _**[PG - Synapse](https://github.com/Junwu0615/PG-Synapse)**_ | _v2.0 : Future Work_ | _Data_ | `Airflow` `Kafka` `CDC`<br>`Iceberg` `Lakehouse` |
-| _**[PG - Cortex](https://github.com/Junwu0615/PG-Cortex)**_ | _v3.0 : Future Work_ | _AI_ | `MLflow` `Kubeflow` `Ray`<br>`LLMOps` `Model Serving` |
-| _**[PG - Sentinel](https://github.com/Junwu0615/PG-Sentinel)**_ | _v4.0 : Future Work_ | _Intelligent Operations_ | `AIOps` `Chaos Engineering`<br>`Reliability`<br>`Auto Remediation` |
+| _**[PG - Core](https://github.com/Junwu0615/PG-Core)**_ | _v1.0.0 : Release 2026-07-23_ | _Cloud Native_ | `Kubernetes` `GitOps`<br>`Observability`<br>`Infrastructure as Code`<br>`Secrets Management` |
+| _**[PG - Synapse](https://github.com/Junwu0615/PG-Synapse)**_ | _v2.0.0 : Future Work_ | _Data_ | `Airflow` `Kafka` `CDC`<br>`Iceberg` `Lakehouse` |
+| _**[PG - Cortex](https://github.com/Junwu0615/PG-Cortex)**_ | _v3.0.0 : Future Work_ | _AI_ | `MLflow` `Kubeflow` `Ray`<br>`LLMOps` `Model Serving` |
+| _**[PG - Sentinel](https://github.com/Junwu0615/PG-Sentinel)**_ | _v4.0.0 : Future Work_ | _Intelligent Operations_ | `AIOps` `Chaos Engineering`<br>`Reliability`<br>`Auto Remediation` |
 
 <br><br>
 
